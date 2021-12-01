@@ -1,0 +1,20 @@
+node("master") {
+
+    /*
+     *  Services
+     */
+    SolArModulePipeline {
+        moduleName="SolARService_Relocalization"
+        dirName="SolARBuild"
+        buildDir= \
+        "SolARService_Relocalization,\
+		 SolARService_Relocalization/tests/SolARServiceTest_Relocalization"
+        makeTarget="install install_deps"
+        android=false
+		win=false
+        packageScripts="bundleServices"
+    }
+
+} // node('master')
+
+

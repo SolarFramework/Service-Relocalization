@@ -1,5 +1,5 @@
 ## global defintions : target lib name, version
-TARGET = SolARService_Relocalization
+TARGET = SolARService_MappingAndRelocalizationFrontend
 VERSION=0.11.0
 
 QMAKE_PROJECT_DEPTH = 0
@@ -46,7 +46,7 @@ HEADERS += \
 
 SOURCES += \
     GrpcServerManager.cpp\
-    SolARService_Relocalization.cpp
+    SolARService_MappingAndRelocalizationFrontend.cpp
 
 unix {
     LIBS += -ldl
@@ -82,32 +82,32 @@ win32 {
 
 linux {
     run_install.path = $${TARGETDEPLOYDIR}
-    run_install.files = $${PWD}/start_relocalization_service.sh
+    run_install.files = $${PWD}/start_mappingandrelocalizationfrontend_service.sh
     CONFIG(release,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_relocalization_service_release.sh) $${PWD}/start_relocalization_service.sh
+        run_install.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_release.sh) $${PWD}/start_mappingandrelocalizationfrontend_service.sh
     }
     CONFIG(debug,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_relocalization_service_debug.sh) $${PWD}/start_relocalization_service.sh
+        run_install.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_debug.sh) $${PWD}/start_mappingandrelocalizationfrontend_service.sh
     }
     INSTALLS += run_install
 }
 
 DISTFILES += \
-    SolARService_Relocalization_modules.xml \
-    SolARService_Relocalization_properties.xml \
+    SolARService_MappingAndRelocalizationFrontend_modules.xml \
+    SolARService_MappingAndRelocalizationFrontend_properties.xml \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/relocalization-service-manifest.yaml \
-    docker/SolARServiceRelocalization.dockerfile \
+    docker/mappingandrelocalizationfrontend-service-manifest.yaml \
+    docker/SolARServiceMappingAndRelocalizationFrontend.dockerfile \
     docker/start_server.sh \
-    start_relocalization_service_debug.sh \
-    start_relocalization_service_release.sh
+    start_mappingandrelocalizationfrontend_service_debug.sh \
+    start_mappingandrelocalizationfrontend_service_release.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  SolARService_Relocalization_modules.xml \
-                   SolARService_Relocalization_properties.xml
+xml_files.files =  SolARService_MappingAndRelocalizationFrontend_modules.xml \
+                   SolARService_MappingAndRelocalizationFrontend_properties.xml
 
 INSTALLS += xml_files
 

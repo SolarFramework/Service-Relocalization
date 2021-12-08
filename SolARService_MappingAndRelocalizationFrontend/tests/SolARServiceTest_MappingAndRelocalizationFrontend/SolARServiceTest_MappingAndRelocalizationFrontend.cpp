@@ -1,0 +1,215 @@
+// Copyright (C) 2017-2019 Jonathan Müller <jonathanmueller.dev@gmail.com>
+// This file is subject to the license terms in the LICENSE file
+// found in the top-level directory of this distribution.
+
+#include <iostream>
+
+#include <unistd.h>
+#include <cxxopts.hpp>
+
+#include <xpcf/xpcf.h>
+#include <xpcf/api/IComponentManager.h>
+#include <xpcf/core/helpers.h>
+#include <boost/log/core.hpp>
+#include <signal.h>
+
+#include "core/Log.h"
+#include "api/pipeline/IAsyncRelocalizationPipeline.h"
+#include "api/input/devices/IARDevice.h"
+#include "api/display/IImageViewer.h"
+
+using namespace std;
+using namespace SolAR;
+using namespace SolAR::api;
+using namespace SolAR::datastructure;
+namespace xpcf=org::bcom::xpcf;
+
+#define INDEX_USE_CAMERA 0
+
+// Global relocalization and mapping front end Service instance
+SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
+
+// print help options
+void print_help(const cxxopts::Options& options)
+{
+    cout << options.help({""}) << '\n';
+}
+
+// print error message
+void print_error(const string& msg)
+{
+    cerr << msg << '\n';
+}
+
+// Function called when interruption signal is triggered
+static void SigInt(int signo) {
+
+    LOG_INFO("\n\n===> Program interruption\n");
+
+    LOG_INFO("Stop mapping and relocalization front end service");
+
+    if (gRelocalizationAndMappingFrontendService != 0)
+        gRelocalizationAndMappingFrontendService->stop();
+
+    LOG_INFO("End of test");
+
+    exit(0);
+}
+
+int main(int argc, char* argv[])
+{
+    #if NDEBUG
+        boost::log::core::get()->set_logging_enabled(false);
+    #endif
+
+    LOG_ADD_LOG_TO_CONSOLE();
+
+    // Signal interruption function (Ctrl + C)
+    signal(SIGINT, SigInt);
+
+    cxxopts::Options option_list("SolARServiceTest_MappingAndRelocalizationFrontend",
+                                 "SolARServiceTest_MappingAndRelocalizationFrontend - The commandline interface to the xpcf grpc client test application.\n");
+    option_list.add_options()
+            ("h,help", "display this help and exit")
+            ("v,version", "display version information and exit")
+            ("f,file", "xpcf grpc client configuration file",
+             cxxopts::value<string>());
+
+    auto options = option_list.parse(argc, argv);
+    if (options.count("help")) {
+        print_help(option_list);
+        return 0;
+    }
+    else if (options.count("version"))
+    {
+        cout << "SolARServiceTest_MappingAndRelocalizationFrontend version " << MYVERSION << std::endl << std::endl;
+        return 0;
+    }
+    else if (!options.count("file") || options["file"].as<string>().empty()) {
+        print_error("missing one of file or database dir argument");
+        return 1;
+    }
+
+    try {
+        LOG_INFO("Get component manager instance");
+        SRef<xpcf::IComponentManager> componentMgr = xpcf::getComponentManagerInstance();
+
+        // Components used by test app
+        SRef<input::devices::IARDevice> arDevice = 0;
+        SRef<display::IImageViewer> imageViewer = 0;
+
+        string file = options["file"].as<string>();
+        LOG_INFO("Load Client Remote Service configuration file: {}", file);
+
+        if (componentMgr->load(file.c_str()) == org::bcom::xpcf::_SUCCESS)
+        {
+            // Create Service component
+            gRelocalizationAndMappingFrontendService = componentMgr->resolve<pipeline::IAsyncRelocalizationPipeline>();
+
+            LOG_INFO("Mapping and relocalization front end service component created");
+        }
+        else {
+            LOG_INFO("Failed to load Client Remote Service configuration file: {}", file);
+            return -1;
+        }
+
+        LOG_INFO("Initialize the service");
+
+        if (gRelocalizationAndMappingFrontendService->init() != FrameworkReturnCode::_SUCCESS) {
+            LOG_ERROR("Error while initializing the mapping and relocalization front end service");
+            return -1;
+        }
+
+        arDevice = componentMgr->resolve<input::devices::IARDevice>();
+        LOG_INFO("Producer client: AR device component created");
+
+        imageViewer = componentMgr->resolve<SolAR::api::display::IImageViewer>();
+        LOG_INFO("Remote producer client: AR device component created");
+
+        if (arDevice->start() == FrameworkReturnCode::_SUCCESS) {
+
+            // Load camera intrinsics parameters
+            CameraRigParameters camRigParams = arDevice->getCameraParameters();
+            CameraParameters camParams = camRigParams.cameraParams[INDEX_USE_CAMERA];
+
+            LOG_INFO("Set camera paremeters for the service");
+
+            if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams) != FrameworkReturnCode::_SUCCESS) {
+                LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
+                return -1;
+            }
+
+            LOG_INFO("Start the service");
+
+            if (gRelocalizationAndMappingFrontendService->start() != FrameworkReturnCode::_SUCCESS) {
+                LOG_ERROR("Error while initializing the mapping and relocalization front end service");
+                return -1;
+            }
+
+            LOG_INFO("Read images and poses from hololens files");
+            LOG_INFO("\n\n***** Control+C to stop *****\n");
+
+            // Wait for interruption or and of images
+            while (true) {
+                std::vector<SRef<Image>> images;
+                std::vector<Transform3Df> poses;
+                std::chrono::system_clock::time_point timestamp;
+
+                // Read next image and pose
+                if (arDevice->getData(images, poses, timestamp) == FrameworkReturnCode::_SUCCESS) {
+
+                    SRef<Image> image = images[INDEX_USE_CAMERA];
+                    Transform3Df pose = poses[INDEX_USE_CAMERA];
+                    api::pipeline::TransformStatus transform3DStatus;
+                    Transform3Df transform3D;
+                    float_t confidence;
+
+                    LOG_INFO("Send image and pose to service");
+
+//                    image->setImageEncoding(Image::ENCODING_JPEG);
+//                    image->setImageEncodingQuality(80);
+
+                    // Send data to mapping and relocalization front end service
+                    gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
+                                image, pose, timestamp, transform3DStatus, transform3D, confidence);
+
+                    if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
+                        LOG_INFO("New 3D transformation = {}", transform3D.matrix());
+                    }
+                    else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
+                        LOG_INFO("Previous 3D transformation = {}", transform3D.matrix());
+                    }
+                    else {
+                        LOG_INFO("No 3D transformation matrix");
+                    }
+
+                    // Display image sent
+                    imageViewer->display(image);
+                }
+                else {
+                    LOG_INFO("No more images to send");
+
+                    LOG_INFO("Stop relocalization and mapping front end service");
+
+                    if (gRelocalizationAndMappingFrontendService != 0)
+                        gRelocalizationAndMappingFrontendService->stop();
+
+                    LOG_INFO("End of test");
+
+                    exit(0);
+                }
+            }
+
+        }
+        else {
+            LOG_INFO("Cannot start AR device loader");
+            return -1;
+        }
+    }
+    catch (xpcf::Exception & e) {
+        LOG_INFO("The following exception has been caught: {}", e.what());
+        return -1;
+    }
+
+    return 0;
+}

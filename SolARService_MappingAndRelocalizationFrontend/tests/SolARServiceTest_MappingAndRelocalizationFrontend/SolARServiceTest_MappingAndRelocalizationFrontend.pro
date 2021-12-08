@@ -1,15 +1,9 @@
 ## global defintions : target lib name, version
-TARGET = SolARService_Relocalization
+TARGET = SolARServiceTest_MappingAndRelocalizationFrontend
 VERSION=0.11.0
 
-QMAKE_PROJECT_DEPTH = 0
-
-## remove Qt dependencies
-QT     -= core gui
-CONFIG -= app_bundle qt
 CONFIG += c++1z
 CONFIG += console
-CONFIG += verbose
 CONFIG -= qt
 
 DEFINES += MYVERSION=\"\\\"$${VERSION}\\\"\"
@@ -18,35 +12,33 @@ DEFINES += WITHREMOTING
 include(findremakenrules.pri)
 
 CONFIG(debug,debug|release) {
-    TARGETDEPLOYDIR = $${PWD}/../bin/Debug
+    TARGETDEPLOYDIR = $${PWD}/../../../bin/Debug
     DEFINES += _DEBUG=1
     DEFINES += DEBUG=1
 }
 
 CONFIG(release,debug|release) {
-    TARGETDEPLOYDIR = $${PWD}/../bin/Release
+    TARGETDEPLOYDIR = $${PWD}/../../../bin/Release
     DEFINES += _NDEBUG=1
     DEFINES += NDEBUG=1
 }
 
 win32:CONFIG -= static
 win32:CONFIG += shared
+
 QMAKE_TARGET.arch = x86_64 #must be defined prior to include
+
 DEPENDENCIESCONFIG = shared install_recurse
+
 PROJECTCONFIG = QTVS
 
-#NOTE : CONFIG as staticlib or sharedlib,  DEPENDENCIESCONFIG as staticlib or sharedlib, QMAKE_TARGET.arch and PROJECTDEPLOYDIR MUST BE DEFINED BEFORE templatelibconfig.pri inclusion
+#NOTE : CONFIG as staticlib or sharedlib, DEPENDENCIESCONFIG as staticlib or sharedlib, QMAKE_TARGET.arch and PROJECTDEPLOYDIR MUST BE DEFINED BEFORE templatelibconfig.pri inclusion
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/templateappconfig.pri)))  # Shell_quote & shell_path required for visual on windows
 
 include(/home/christophe/Dev/SolAR/manualincludepath.pri)
 
-HEADERS += \
-    GrpcServerManager.h
-
-
 SOURCES += \
-    GrpcServerManager.cpp\
-    SolARService_Relocalization.cpp
+    SolARServiceTest_MappingAndRelocalizationFrontend.cpp
 
 unix {
     LIBS += -ldl
@@ -55,9 +47,7 @@ unix {
 
 linux {
     LIBS += -ldl
-    LIBS += -L/home/linuxbrew/.linuxbrew/lib # temporary fix caused by grpc with -lre2 ... without -L in grpc.pc
 }
-
 
 macx {
     DEFINES += _MACOS_TARGET_
@@ -65,9 +55,9 @@ macx {
     QMAKE_CFLAGS += -mmacosx-version-min=10.7 #-x objective-c++
     QMAKE_CXXFLAGS += -mmacosx-version-min=10.7  -std=c++17 -fPIC#-x objective-c++
     QMAKE_LFLAGS += -mmacosx-version-min=10.7 -v -lstdc++
-    INCLUDEPATH += ../../libs/cppast/external/cxxopts/include
     LIBS += -lstdc++ -lc -lpthread
     LIBS += -L/usr/local/lib
+    INCLUDEPATH += $${REMAKENDEPSFOLDER}/$${BCOM_TARGET_PLATFORM}/xpcfSampleComponent/$$VERSION/interfaces
 }
 
 win32 {
@@ -81,33 +71,30 @@ win32 {
 }
 
 linux {
-    run_install.path = $${TARGETDEPLOYDIR}
-    run_install.files = $${PWD}/start_relocalization_service.sh
-    CONFIG(release,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_relocalization_service_release.sh) $${PWD}/start_relocalization_service.sh
-    }
-    CONFIG(debug,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_relocalization_service_debug.sh) $${PWD}/start_relocalization_service.sh
-    }
-    INSTALLS += run_install
+  run_install.path = $${TARGETDEPLOYDIR}
+  run_install.files = $${PWD}/../../../run.sh
+  CONFIG(release,debug|release) {
+    run_install.extra = cp $$files($${PWD}/../../../runRelease.sh) $${PWD}/../../../run.sh
+  }
+  CONFIG(debug,debug|release) {
+    run_install.extra = cp $$files($${PWD}/../../../runDebug.sh) $${PWD}/../../../run.sh
+  }
+  INSTALLS += run_install
 }
 
 DISTFILES += \
-    SolARService_Relocalization_modules.xml \
-    SolARService_Relocalization_properties.xml \
+    SolARServiceTest_MappingAndRelocalizationFrontend_conf.xml \
+    docker/SolARServiceMappingAndRelocalizationFrontendClt.dockerfile \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/relocalization-service-manifest.yaml \
-    docker/SolARServiceRelocalization.dockerfile \
-    docker/start_server.sh \
-    start_relocalization_service_debug.sh \
-    start_relocalization_service_release.sh
+    docker/launch_vm.sh \
+    docker/start_client.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  SolARService_Relocalization_modules.xml \
-                   SolARService_Relocalization_properties.xml
+xml_files.files =  SolARServiceTest_MappingAndRelocalizationFrontend_conf.xml
 
 INSTALLS += xml_files
+
 

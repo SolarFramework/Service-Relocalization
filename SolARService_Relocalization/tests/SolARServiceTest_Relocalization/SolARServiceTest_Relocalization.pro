@@ -6,7 +6,7 @@ CONFIG += c++1z
 CONFIG += console
 CONFIG -= qt
 
-DEFINES += MYVERSION=$${VERSION}
+DEFINES += MYVERSION=\"\\\"$${VERSION}\\\"\"
 DEFINES += WITHREMOTING
 
 include(findremakenrules.pri)
@@ -34,6 +34,8 @@ PROJECTCONFIG = QTVS
 
 #NOTE : CONFIG as staticlib or sharedlib, DEPENDENCIESCONFIG as staticlib or sharedlib, QMAKE_TARGET.arch and PROJECTDEPLOYDIR MUST BE DEFINED BEFORE templatelibconfig.pri inclusion
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/templateappconfig.pri)))  # Shell_quote & shell_path required for visual on windows
+
+include(/home/christophe/Dev/SolAR/manualincludepath.pri)
 
 SOURCES += \
     SolARServiceTest_Relocalization.cpp

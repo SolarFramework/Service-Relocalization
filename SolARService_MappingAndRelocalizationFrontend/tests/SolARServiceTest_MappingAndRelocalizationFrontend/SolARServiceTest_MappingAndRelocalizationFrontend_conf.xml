@@ -25,7 +25,7 @@
 	
         <properties>
                 <!-- gRPC proxy configuration-->
-                <configure component="91a569da-5695-11ec-bf63-0242ac130002">
+                <configure component="IAsyncRelocalizationPipeline_grpcProxy">
                         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50055"/>
                         <property name="channelCredentials" access="rw" type="uint" value="0"/>
                 </configure>

@@ -188,12 +188,6 @@ int main(int argc, char* argv[])
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_INFO("New 3D transformation = {}", transform3D.matrix());
                     }
-                    else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
-                        LOG_INFO("Previous 3D transformation = {}", transform3D.matrix());
-                    }
-                    else {
-                        LOG_INFO("No 3D transformation matrix");
-                    }
 
                     // Display image sent
                     imageViewer->display(image);

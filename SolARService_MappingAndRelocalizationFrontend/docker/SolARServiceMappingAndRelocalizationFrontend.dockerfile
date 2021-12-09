@@ -10,6 +10,11 @@ RUN apt-get install -y libvdpau-dev
 ## Copy SolARServiceMappingAndRelocalizationFrontend app files
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend
 
+## Data files (marker definition)
+RUN mkdir SolARServiceMappingAndRelocalizationFrontend/data
+RUN mkdir SolARServiceMappingAndRelocalizationFrontend/data/data_hololens
+ADD data/data_hololens/* /SolARServiceMappingAndRelocalizationFrontend/data/data_hololens/
+
 ## Libraries and modules
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend/modules
 ADD modules/* /SolARServiceMappingAndRelocalizationFrontend/modules/

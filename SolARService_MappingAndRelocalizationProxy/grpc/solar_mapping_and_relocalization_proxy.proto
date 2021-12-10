@@ -1,0 +1,125 @@
+// Copyright (c) 2021 All Right Reserved, B-com http://www.b-com.com/
+//
+// This file is subject to the B<>Com License.
+// All other rights reserved.
+//
+// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+// KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+// PARTICULAR PURPOSE.
+
+syntax = "proto3";
+
+package com.bcom.solar.gprc;
+
+// Not yet available in gRPC 1.37
+// import "google/protobuf/empty.proto";
+
+service SolARMappingAndRelocalizationProxy
+{
+    rpc Init(Empty) returns (Empty);
+    rpc Start(Empty) returns (Empty);
+    rpc Stop(Empty) returns (Empty);
+    rpc SetCameraParameters(CameraParameters) returns (Empty);
+    rpc RelocalizeAndMap(Frame) returns (RelocalizationResult);
+    rpc Get3DTransform(Empty) returns (RelocalizationResult);
+}
+
+message Empty
+{}
+
+message CameraParameters
+{
+    string name = 1;
+    uint32 id = 2;
+    CameraType camera_type = 3;
+    uint32 width = 4;
+    uint32 height = 5;
+    Matrix3x3 intrinsics = 6;
+    CameraDistortion distortion = 7;
+}
+
+enum CameraType
+{
+    RGB = 0;
+    GRAY = 1;
+}
+
+message CameraDistortion
+{
+    float K_1 = 1;
+    float K_2 = 2;
+    float P_1 = 3;
+    float P_2 = 4;
+    float K_3 = 5;
+}
+
+message RelocalizationResult
+{
+    RelocalizationPoseStatus pose_status = 1;
+    Matrix4x4 pose = 2;
+    float confidence = 3;
+}
+
+enum RelocalizationPoseStatus
+{
+    NO_POSE = 0;
+    NEW_POSE = 1;
+    LATEST_POSE = 2;
+}
+
+enum ImageLayout
+{
+    RGB_24 = 0;
+    GREY_8 = 1;
+    GREY_16 = 2;
+}
+
+message Image
+{
+    uint32 width = 1;
+    uint32 height = 2;
+    bytes data = 3;
+    ImageLayout layout = 4;
+}
+
+message Frame
+{
+    int32 sensor_id = 1;
+    Image image = 2;
+    uint64 timestamp = 3;
+    Matrix4x4 pose = 4;
+}
+
+message Matrix4x4
+{
+    float m11 = 1;
+    float m12 = 2;
+    float m13 = 3;
+    float m14 = 4;
+    float m21 = 5;
+    float m22 = 6;
+    float m23 = 7;
+    float m24 = 8;
+    float m31 = 9;
+    float m32 = 10;
+    float m33 = 11;
+    float m34 = 12;
+    float m41 = 13;
+    float m42 = 14;
+    float m43 = 15;
+    float m44 = 16;
+}
+
+message Matrix3x3
+{
+    float m11 = 1;
+    float m12 = 2;
+    float m13 = 3;
+    float m21 = 4;
+    float m22 = 5;
+    float m23 = 6;
+    float m31 = 7;
+    float m32 = 8;
+    float m33 = 9;
+}

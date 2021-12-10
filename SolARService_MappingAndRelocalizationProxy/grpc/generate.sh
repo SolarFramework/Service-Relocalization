@@ -29,8 +29,6 @@ function log_verbose()
 DEFAULT_PROTO_FILE=solar_mapping_and_relocalization_proxy.proto
 
 log_verbose "Default proto file: "$DEFAULT_PROTO_FILE
-log_verbose "cpp output dir: "$CPP_OUT_DIR
-log_verbose "csharp output dir: "$CSHARP_OUT_DIR
 
 if [[ $OSTYPE == *"linux"* ]]; then
     XPCF_MODULE_ROOT_OS="linux-gcc"
@@ -131,6 +129,9 @@ GEN_OUT_DIR=$PROTO_FILE-gen
 CPP_OUT_DIR=$GEN_OUT_DIR/cpp
 CSHARP_OUT_DIR=$GEN_OUT_DIR/csharp
 
+log_verbose "cpp output dir: "$CPP_OUT_DIR
+log_verbose "csharp output dir: "$CSHARP_OUT_DIR
+
 GRPC_INSTALL_DIR=$DEFAULT_GRPC_INSTALL_DIR
 if [ "$USER_GRPC_INSTALL_DIR" != "" ]
 then
@@ -162,7 +163,7 @@ else
     exit 1
 fi
 
-log_verbose "PROTO_FILE=$USER_PROTO_FILE"
+log_verbose "PROTO_FILE=$PROTO_FILE"
 log_verbose "GRPC_INSTALL_TYPE=$GRPC_INSTALL_TYPE"
 log_verbose "GRPC_BIN_DIR=$GRPC_BIN_DIR"
 log_verbose "GRPC_LIB_DIR=$GRPC_LIB_DIR"

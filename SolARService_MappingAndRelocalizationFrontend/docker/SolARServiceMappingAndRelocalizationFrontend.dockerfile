@@ -7,6 +7,17 @@ RUN apt-get install -y libgtk-3-0
 RUN apt-get install -y libva-dev
 RUN apt-get install -y libvdpau-dev
 
+## Envoy installation
+RUN apt-get install apt-transport-https gnupg2 curl lsb-release -y
+RUN curl -sL 'https://deb.dl.getenvoy.io/public/gpg.8115BA8E629CC074.key' | gpg --dearmor -o /usr/share/keyrings/getenvoy-keyring.gpg
+## Verify the keyring - this should yield "OK"
+RUN echo a077cb587a1b622e03aa4bf2f3689de14658a9497a9af2c427bba5f4cc3c4723 /usr/share/keyrings/getenvoy-keyring.gpg | sha256sum --check
+RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/getenvoy-keyring.gpg] https://deb.dl.getenvoy.io/public/deb/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/getenvoy.list
+RUN apt-get update
+RUN apt-get install -y getenvoy-envoy
+
+## Front End part
+
 ## Copy SolARServiceMappingAndRelocalizationFrontend app files
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend
 
@@ -26,6 +37,12 @@ RUN mkdir .xpcf
 ADD *.xml /.xpcf/
 ADD docker/start_server.sh .
 RUN chmod +x start_server.sh
+
+## Proxy part
+ADD SolARService_MappingAndRelocalizationProxy /SolARServiceMappingAndRelocalizationFrontend/
+RUN chmod +x /SolARServiceMappingAndRelocalizationFrontend/SolARService_MappingAndRelocalizationProxy
+## Envoy configuration files
+ADD envoy_config.yaml /SolARServiceMappingAndRelocalizationFrontend/
 
 ## Set application gRPC server url
 ENV XPCF_GRPC_SERVER_URL=0.0.0.0:8080

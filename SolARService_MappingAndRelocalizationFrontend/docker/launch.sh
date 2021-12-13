@@ -29,4 +29,4 @@ export MAPPING_SERVICE_URL=$2
 export SOLAR_LOG_LEVEL=INFO
 
 docker rm -f solarservicemappingandrelocalizationfrontend
-docker run -d -p 50055:8080 -e SOLAR_LOG_LEVEL -e RELOCALIZATION_SERVICE_URL -e MAPPING_SERVICE_URL -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
+docker run -d -p 50055:8080 -p 50056:5001 -e SOLAR_LOG_LEVEL -e RELOCALIZATION_SERVICE_URL -e MAPPING_SERVICE_URL -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest

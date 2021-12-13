@@ -59,6 +59,11 @@ public:
                                 const Empty* request,
                                 RelocalizationResult* response)  override;
 
+    grpc::Status SendMessage(grpc::ServerContext* context,
+                             const Message* request,
+                             Empty* response) override;
+
+
 private:
     SolAR::api::pipeline::IAsyncRelocalizationPipeline* m_pipeline;
 

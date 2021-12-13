@@ -179,6 +179,14 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
                     request relocalization to get the latest pose");
 }
 
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::SendMessage(grpc::ServerContext* context,
+                                                     const Message* request,
+                                                     Empty* response)
+{
+    LOG_INFO("[RelocAndMapping] message: ", request->message());
+    return Status::OK;
+}
 
 std::string
 RelocalizationAndMappingGrpcServiceImpl::to_string(CameraType type)

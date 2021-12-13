@@ -95,6 +95,7 @@ linux {
 DISTFILES += \
     SolARService_MappingAndRelocalizationFrontend_modules.xml \
     SolARService_MappingAndRelocalizationFrontend_properties.xml \
+    docker/launch.bat \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \

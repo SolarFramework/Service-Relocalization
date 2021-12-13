@@ -31,6 +31,18 @@ struct EmptyDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT EmptyDefaultTypeInternal _Empty_default_instance_;
+constexpr Message::Message(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : message_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string){}
+struct MessageDefaultTypeInternal {
+  constexpr MessageDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~MessageDefaultTypeInternal() {}
+  union {
+    Message _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MessageDefaultTypeInternal _Message_default_instance_;
 constexpr CameraParameters::CameraParameters(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : name_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
@@ -163,7 +175,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Matrix3x3DefaultTypeInternal _M
 }  // namespace solar
 }  // namespace bcom
 }  // namespace com
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[8];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[9];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[3];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = nullptr;
 
@@ -173,6 +185,12 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Message, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Message, message_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -259,17 +277,19 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::com::bcom::solar::gprc::Empty)},
-  { 5, -1, sizeof(::com::bcom::solar::gprc::CameraParameters)},
-  { 17, -1, sizeof(::com::bcom::solar::gprc::CameraDistortion)},
-  { 27, -1, sizeof(::com::bcom::solar::gprc::RelocalizationResult)},
-  { 35, -1, sizeof(::com::bcom::solar::gprc::Image)},
-  { 44, -1, sizeof(::com::bcom::solar::gprc::Frame)},
-  { 53, -1, sizeof(::com::bcom::solar::gprc::Matrix4x4)},
-  { 74, -1, sizeof(::com::bcom::solar::gprc::Matrix3x3)},
+  { 5, -1, sizeof(::com::bcom::solar::gprc::Message)},
+  { 11, -1, sizeof(::com::bcom::solar::gprc::CameraParameters)},
+  { 23, -1, sizeof(::com::bcom::solar::gprc::CameraDistortion)},
+  { 33, -1, sizeof(::com::bcom::solar::gprc::RelocalizationResult)},
+  { 41, -1, sizeof(::com::bcom::solar::gprc::Image)},
+  { 50, -1, sizeof(::com::bcom::solar::gprc::Frame)},
+  { 59, -1, sizeof(::com::bcom::solar::gprc::Matrix4x4)},
+  { 80, -1, sizeof(::com::bcom::solar::gprc::Matrix3x3)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Empty_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Message_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraParameters_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraDistortion_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_RelocalizationResult_default_instance_),
@@ -281,56 +301,59 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n,solar_mapping_and_relocalization_proxy"
-  ".proto\022\023com.bcom.solar.gprc\"\007\n\005Empty\"\360\001\n"
-  "\020CameraParameters\022\014\n\004name\030\001 \001(\t\022\n\n\002id\030\002 "
-  "\001(\r\0224\n\013camera_type\030\003 \001(\0162\037.com.bcom.sola"
-  "r.gprc.CameraType\022\r\n\005width\030\004 \001(\r\022\016\n\006heig"
-  "ht\030\005 \001(\r\0222\n\nintrinsics\030\006 \001(\0132\036.com.bcom."
-  "solar.gprc.Matrix3x3\0229\n\ndistortion\030\007 \001(\013"
-  "2%.com.bcom.solar.gprc.CameraDistortion\""
-  "S\n\020CameraDistortion\022\013\n\003K_1\030\001 \001(\002\022\013\n\003K_2\030"
-  "\002 \001(\002\022\013\n\003P_1\030\003 \001(\002\022\013\n\003P_2\030\004 \001(\002\022\013\n\003K_3\030\005"
-  " \001(\002\"\234\001\n\024RelocalizationResult\022B\n\013pose_st"
-  "atus\030\001 \001(\0162-.com.bcom.solar.gprc.Relocal"
-  "izationPoseStatus\022,\n\004pose\030\002 \001(\0132\036.com.bc"
-  "om.solar.gprc.Matrix4x4\022\022\n\nconfidence\030\003 "
-  "\001(\002\"f\n\005Image\022\r\n\005width\030\001 \001(\r\022\016\n\006height\030\002 "
-  "\001(\r\022\014\n\004data\030\003 \001(\014\0220\n\006layout\030\004 \001(\0162 .com."
-  "bcom.solar.gprc.ImageLayout\"\206\001\n\005Frame\022\021\n"
-  "\tsensor_id\030\001 \001(\005\022)\n\005image\030\002 \001(\0132\032.com.bc"
-  "om.solar.gprc.Image\022\021\n\ttimestamp\030\003 \001(\004\022,"
-  "\n\004pose\030\004 \001(\0132\036.com.bcom.solar.gprc.Matri"
-  "x4x4\"\333\001\n\tMatrix4x4\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002"
-  " \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m14\030\004 \001(\002\022\013\n\003m21\030\005 "
-  "\001(\002\022\013\n\003m22\030\006 \001(\002\022\013\n\003m23\030\007 \001(\002\022\013\n\003m24\030\010 \001"
-  "(\002\022\013\n\003m31\030\t \001(\002\022\013\n\003m32\030\n \001(\002\022\013\n\003m33\030\013 \001("
-  "\002\022\013\n\003m34\030\014 \001(\002\022\013\n\003m41\030\r \001(\002\022\013\n\003m42\030\016 \001(\002"
-  "\022\013\n\003m43\030\017 \001(\002\022\013\n\003m44\030\020 \001(\002\"\200\001\n\tMatrix3x3"
-  "\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022"
-  "\013\n\003m21\030\004 \001(\002\022\013\n\003m22\030\005 \001(\002\022\013\n\003m23\030\006 \001(\002\022\013"
-  "\n\003m31\030\007 \001(\002\022\013\n\003m32\030\010 \001(\002\022\013\n\003m33\030\t \001(\002*\037\n"
-  "\nCameraType\022\007\n\003RGB\020\000\022\010\n\004GRAY\020\001*F\n\030Reloca"
-  "lizationPoseStatus\022\013\n\007NO_POSE\020\000\022\014\n\010NEW_P"
-  "OSE\020\001\022\017\n\013LATEST_POSE\020\002*2\n\013ImageLayout\022\n\n"
-  "\006RGB_24\020\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\0022\363\003\n\"S"
-  "olARMappingAndRelocalizationProxy\022>\n\004Ini"
-  "t\022\032.com.bcom.solar.gprc.Empty\032\032.com.bcom"
-  ".solar.gprc.Empty\022\?\n\005Start\022\032.com.bcom.so"
-  "lar.gprc.Empty\032\032.com.bcom.solar.gprc.Emp"
-  "ty\022>\n\004Stop\022\032.com.bcom.solar.gprc.Empty\032\032"
-  ".com.bcom.solar.gprc.Empty\022X\n\023SetCameraP"
-  "arameters\022%.com.bcom.solar.gprc.CameraPa"
-  "rameters\032\032.com.bcom.solar.gprc.Empty\022Y\n\020"
-  "RelocalizeAndMap\022\032.com.bcom.solar.gprc.F"
-  "rame\032).com.bcom.solar.gprc.Relocalizatio"
-  "nResult\022W\n\016Get3DTransform\022\032.com.bcom.sol"
-  "ar.gprc.Empty\032).com.bcom.solar.gprc.Relo"
-  "calizationResultb\006proto3"
+  ".proto\022\023com.bcom.solar.gprc\"\007\n\005Empty\"\032\n\007"
+  "Message\022\017\n\007message\030\001 \001(\t\"\360\001\n\020CameraParam"
+  "eters\022\014\n\004name\030\001 \001(\t\022\n\n\002id\030\002 \001(\r\0224\n\013camer"
+  "a_type\030\003 \001(\0162\037.com.bcom.solar.gprc.Camer"
+  "aType\022\r\n\005width\030\004 \001(\r\022\016\n\006height\030\005 \001(\r\0222\n\n"
+  "intrinsics\030\006 \001(\0132\036.com.bcom.solar.gprc.M"
+  "atrix3x3\0229\n\ndistortion\030\007 \001(\0132%.com.bcom."
+  "solar.gprc.CameraDistortion\"S\n\020CameraDis"
+  "tortion\022\013\n\003K_1\030\001 \001(\002\022\013\n\003K_2\030\002 \001(\002\022\013\n\003P_1"
+  "\030\003 \001(\002\022\013\n\003P_2\030\004 \001(\002\022\013\n\003K_3\030\005 \001(\002\"\234\001\n\024Rel"
+  "ocalizationResult\022B\n\013pose_status\030\001 \001(\0162-"
+  ".com.bcom.solar.gprc.RelocalizationPoseS"
+  "tatus\022,\n\004pose\030\002 \001(\0132\036.com.bcom.solar.gpr"
+  "c.Matrix4x4\022\022\n\nconfidence\030\003 \001(\002\"f\n\005Image"
+  "\022\r\n\005width\030\001 \001(\r\022\016\n\006height\030\002 \001(\r\022\014\n\004data\030"
+  "\003 \001(\014\0220\n\006layout\030\004 \001(\0162 .com.bcom.solar.g"
+  "prc.ImageLayout\"\206\001\n\005Frame\022\021\n\tsensor_id\030\001"
+  " \001(\005\022)\n\005image\030\002 \001(\0132\032.com.bcom.solar.gpr"
+  "c.Image\022\021\n\ttimestamp\030\003 \001(\004\022,\n\004pose\030\004 \001(\013"
+  "2\036.com.bcom.solar.gprc.Matrix4x4\"\333\001\n\tMat"
+  "rix4x4\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030"
+  "\003 \001(\002\022\013\n\003m14\030\004 \001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006"
+  " \001(\002\022\013\n\003m23\030\007 \001(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m31\030\t "
+  "\001(\002\022\013\n\003m32\030\n \001(\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m34\030\014 \001"
+  "(\002\022\013\n\003m41\030\r \001(\002\022\013\n\003m42\030\016 \001(\002\022\013\n\003m43\030\017 \001("
+  "\002\022\013\n\003m44\030\020 \001(\002\"\200\001\n\tMatrix3x3\022\013\n\003m11\030\001 \001("
+  "\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m21\030\004 \001(\002"
+  "\022\013\n\003m22\030\005 \001(\002\022\013\n\003m23\030\006 \001(\002\022\013\n\003m31\030\007 \001(\002\022"
+  "\013\n\003m32\030\010 \001(\002\022\013\n\003m33\030\t \001(\002*\037\n\nCameraType\022"
+  "\007\n\003RGB\020\000\022\010\n\004GRAY\020\001*F\n\030RelocalizationPose"
+  "Status\022\013\n\007NO_POSE\020\000\022\014\n\010NEW_POSE\020\001\022\017\n\013LAT"
+  "EST_POSE\020\002*2\n\013ImageLayout\022\n\n\006RGB_24\020\000\022\n\n"
+  "\006GREY_8\020\001\022\013\n\007GREY_16\020\0022\274\004\n\"SolARMappingA"
+  "ndRelocalizationProxy\022>\n\004Init\022\032.com.bcom"
+  ".solar.gprc.Empty\032\032.com.bcom.solar.gprc."
+  "Empty\022\?\n\005Start\022\032.com.bcom.solar.gprc.Emp"
+  "ty\032\032.com.bcom.solar.gprc.Empty\022>\n\004Stop\022\032"
+  ".com.bcom.solar.gprc.Empty\032\032.com.bcom.so"
+  "lar.gprc.Empty\022X\n\023SetCameraParameters\022%."
+  "com.bcom.solar.gprc.CameraParameters\032\032.c"
+  "om.bcom.solar.gprc.Empty\022Y\n\020RelocalizeAn"
+  "dMap\022\032.com.bcom.solar.gprc.Frame\032).com.b"
+  "com.solar.gprc.RelocalizationResult\022W\n\016G"
+  "et3DTransform\022\032.com.bcom.solar.gprc.Empt"
+  "y\032).com.bcom.solar.gprc.RelocalizationRe"
+  "sult\022G\n\013SendMessage\022\034.com.bcom.solar.gpr"
+  "c.Message\032\032.com.bcom.solar.gprc.Emptyb\006p"
+  "roto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = {
-  false, false, 1824, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
-  &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 8,
+  false, false, 1925, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
+  &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 9,
   schemas, file_default_instances, TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto::offsets,
   file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto,
 };
@@ -544,6 +567,206 @@ void Empty::InternalSwap(Empty* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Empty::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class Message::_Internal {
+ public:
+};
+
+Message::Message(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.Message)
+}
+Message::Message(const Message& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_message().empty()) {
+    message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_message(), 
+      GetArena());
+  }
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.Message)
+}
+
+void Message::SharedCtor() {
+message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+Message::~Message() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.Message)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void Message::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  message_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void Message::ArenaDtor(void* object) {
+  Message* _this = reinterpret_cast< Message* >(object);
+  (void)_this;
+}
+void Message::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void Message::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void Message::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.Message)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  message_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Message::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string message = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_message();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.Message.message"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* Message::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.Message)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string message = 1;
+  if (this->message().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.Message.message");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.Message)
+  return target;
+}
+
+size_t Message::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.Message)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string message = 1;
+  if (this->message().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_message());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void Message::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.Message)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Message* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Message>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.Message)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.Message)
+    MergeFrom(*source);
+  }
+}
+
+void Message::MergeFrom(const Message& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.Message)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.message().size() > 0) {
+    _internal_set_message(from._internal_message());
+  }
+}
+
+void Message::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.Message)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Message::CopyFrom(const Message& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.Message)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Message::IsInitialized() const {
+  return true;
+}
+
+void Message::InternalSwap(Message* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Message::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -2957,6 +3180,9 @@ void Matrix3x3::InternalSwap(Matrix3x3* other) {
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Empty* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Empty >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Empty >(arena);
+}
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Message* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Message >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Message >(arena);
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::CameraParameters* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::CameraParameters >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::CameraParameters >(arena);

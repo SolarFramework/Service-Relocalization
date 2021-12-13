@@ -47,7 +47,7 @@ struct TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -80,6 +80,9 @@ extern Matrix3x3DefaultTypeInternal _Matrix3x3_default_instance_;
 class Matrix4x4;
 struct Matrix4x4DefaultTypeInternal;
 extern Matrix4x4DefaultTypeInternal _Matrix4x4_default_instance_;
+class Message;
+struct MessageDefaultTypeInternal;
+extern MessageDefaultTypeInternal _Message_default_instance_;
 class RelocalizationResult;
 struct RelocalizationResultDefaultTypeInternal;
 extern RelocalizationResultDefaultTypeInternal _RelocalizationResult_default_instance_;
@@ -95,6 +98,7 @@ template<> ::com::bcom::solar::gprc::Frame* Arena::CreateMaybeMessage<::com::bco
 template<> ::com::bcom::solar::gprc::Image* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Image>(Arena*);
 template<> ::com::bcom::solar::gprc::Matrix3x3* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Matrix3x3>(Arena*);
 template<> ::com::bcom::solar::gprc::Matrix4x4* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Matrix4x4>(Arena*);
+template<> ::com::bcom::solar::gprc::Message* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Message>(Arena*);
 template<> ::com::bcom::solar::gprc::RelocalizationResult* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::RelocalizationResult>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
@@ -305,6 +309,150 @@ class Empty PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class Message PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.Message) */ {
+ public:
+  inline Message() : Message(nullptr) {}
+  virtual ~Message();
+  explicit constexpr Message(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Message(const Message& from);
+  Message(Message&& from) noexcept
+    : Message() {
+    *this = ::std::move(from);
+  }
+
+  inline Message& operator=(const Message& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Message& operator=(Message&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const Message& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Message* internal_default_instance() {
+    return reinterpret_cast<const Message*>(
+               &_Message_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(Message& a, Message& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Message* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Message* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Message* New() const final {
+    return CreateMaybeMessage<Message>(nullptr);
+  }
+
+  Message* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Message>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const Message& from);
+  void MergeFrom(const Message& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Message* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.Message";
+  }
+  protected:
+  explicit Message(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMessageFieldNumber = 1,
+  };
+  // string message = 1;
+  void clear_message();
+  const std::string& message() const;
+  void set_message(const std::string& value);
+  void set_message(std::string&& value);
+  void set_message(const char* value);
+  void set_message(const char* value, size_t size);
+  std::string* mutable_message();
+  std::string* release_message();
+  void set_allocated_message(std::string* message);
+  private:
+  const std::string& _internal_message() const;
+  void _internal_set_message(const std::string& value);
+  std::string* _internal_mutable_message();
+  public:
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.Message)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CameraParameters PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.CameraParameters) */ {
  public:
@@ -348,7 +496,7 @@ class CameraParameters PROTOBUF_FINAL :
                &_CameraParameters_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(CameraParameters& a, CameraParameters& b) {
     a.Swap(&b);
@@ -576,7 +724,7 @@ class CameraDistortion PROTOBUF_FINAL :
                &_CameraDistortion_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(CameraDistortion& a, CameraDistortion& b) {
     a.Swap(&b);
@@ -757,7 +905,7 @@ class RelocalizationResult PROTOBUF_FINAL :
                &_RelocalizationResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(RelocalizationResult& a, RelocalizationResult& b) {
     a.Swap(&b);
@@ -925,7 +1073,7 @@ class Image PROTOBUF_FINAL :
                &_Image_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(Image& a, Image& b) {
     a.Swap(&b);
@@ -1102,7 +1250,7 @@ class Frame PROTOBUF_FINAL :
                &_Frame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(Frame& a, Frame& b) {
     a.Swap(&b);
@@ -1290,7 +1438,7 @@ class Matrix4x4 PROTOBUF_FINAL :
                &_Matrix4x4_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(Matrix4x4& a, Matrix4x4& b) {
     a.Swap(&b);
@@ -1592,7 +1740,7 @@ class Matrix3x3 PROTOBUF_FINAL :
                &_Matrix3x3_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(Matrix3x3& a, Matrix3x3& b) {
     a.Swap(&b);
@@ -1782,6 +1930,71 @@ class Matrix3x3 PROTOBUF_FINAL :
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 // Empty
+
+// -------------------------------------------------------------------
+
+// Message
+
+// string message = 1;
+inline void Message::clear_message() {
+  message_.ClearToEmpty();
+}
+inline const std::string& Message::message() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Message.message)
+  return _internal_message();
+}
+inline void Message::set_message(const std::string& value) {
+  _internal_set_message(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Message.message)
+}
+inline std::string* Message::mutable_message() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.Message.message)
+  return _internal_mutable_message();
+}
+inline const std::string& Message::_internal_message() const {
+  return message_.Get();
+}
+inline void Message::_internal_set_message(const std::string& value) {
+  
+  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void Message::set_message(std::string&& value) {
+  
+  message_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.Message.message)
+}
+inline void Message::set_message(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.Message.message)
+}
+inline void Message::set_message(const char* value,
+    size_t size) {
+  
+  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.Message.message)
+}
+inline std::string* Message::_internal_mutable_message() {
+  
+  return message_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* Message::release_message() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.Message.message)
+  return message_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void Message::set_allocated_message(std::string* message) {
+  if (message != nullptr) {
+    
+  } else {
+    
+  }
+  message_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), message,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.Message.message)
+}
 
 // -------------------------------------------------------------------
 
@@ -3171,6 +3384,8 @@ inline void Matrix3x3::set_m33(float value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

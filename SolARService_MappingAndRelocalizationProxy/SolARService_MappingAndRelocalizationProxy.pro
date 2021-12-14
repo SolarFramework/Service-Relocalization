@@ -70,19 +70,19 @@ win32 {
 }
 
 linux {
-  run_install.path = $${TARGETDEPLOYDIR}
-  run_install.files = $${PWD}/run.sh
-  CONFIG(release,debug|release) {
-    run_install.extra = cp $$files($${PWD}/runRelease.sh) $${PWD}/run.sh
-  }
-  CONFIG(debug,debug|release) {
-    run_install.extra = cp $$files($${PWD}/runDebug.sh) $${PWD}/run.sh
-  }
-  INSTALLS += run_install
+    run_install.path = $${TARGETDEPLOYDIR}
+    run_install.files = $${PWD}/../run.sh
+    CONFIG(release,debug|release) {
+        run_install.extra = cp $$files($${PWD}/../runRelease.sh) $${PWD}/../run.sh
+    }
+    CONFIG(debug,debug|release) {
+        run_install.extra = cp $$files($${PWD}/../runDebug.sh) $${PWD}/../run.sh
+    }
+    INSTALLS += run_install
 }
 
 DISTFILES += \
-    SolARServiceTest_MappingAndRelocalizationFrontend_conf.xml \
+    SolARService_MappingAndRelocalizationProxy_conf.xml \
     docker/SolARServiceMappingAndRelocalizationFrontendClt.dockerfile \
     packagedependencies.txt \
     docker/build.sh \
@@ -92,7 +92,7 @@ DISTFILES += \
     docker/start_client.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  SolARServiceTest_MappingAndRelocalizationFrontend_conf.xml
+xml_files.files =  SolARService_MappingAndRelocalizationProxy_conf.xml
 
 INSTALLS += xml_files
 

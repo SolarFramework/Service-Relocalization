@@ -83,13 +83,7 @@ linux {
 
 DISTFILES += \
     SolARService_MappingAndRelocalizationProxy_conf.xml \
-    docker/SolARServiceMappingAndRelocalizationFrontendClt.dockerfile \
-    packagedependencies.txt \
-    docker/build.sh \
-    docker/launch.bat \
-    docker/launch.sh \
-    docker/launch_vm.sh \
-    docker/start_client.sh
+    packagedependencies.txt
 
 xml_files.path = $${TARGETDEPLOYDIR}
 xml_files.files =  SolARService_MappingAndRelocalizationProxy_conf.xml

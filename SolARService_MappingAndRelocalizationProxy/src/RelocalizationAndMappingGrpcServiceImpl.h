@@ -59,6 +59,11 @@ public:
                                 const Empty* request,
                                 RelocalizationResult* response)  override;
 
+    grpc::Status SendMessage(grpc::ServerContext* context,
+                             const Message* request,
+                             Empty* response) override;
+
+
 private:
     SolAR::api::pipeline::IAsyncRelocalizationPipeline* m_pipeline;
 
@@ -66,6 +71,8 @@ private:
     static std::string to_string(CameraType type);
     static std::string to_string(Matrix3x3 mat);
     static std::string to_string(Matrix4x4 mat);
+    static std::string to_string(ImageLayout layout);
+    static std::string to_string(SolAR::api::pipeline::TransformStatus transformStatus);
 
     static SolAR::datastructure::CameraType toSolAR(CameraType type);
     static SolAR::datastructure::Transform3Df toSolAR(const Matrix4x4& gRpcPose);

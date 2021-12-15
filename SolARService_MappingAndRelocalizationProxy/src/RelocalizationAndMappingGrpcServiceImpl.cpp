@@ -44,6 +44,8 @@ RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
                                               const Empty* request,
                                               Empty* response)
 {
+        LOG_INFO("Init mapping and relocalization service");
+
     if (m_pipeline->init() != SolAR::FrameworkReturnCode::_SUCCESS) {
         return gRpcError("Error while initializing the mapping and relocalization front end service");
     }
@@ -56,7 +58,7 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
                                                const Empty* request,
                                                Empty* response)
 {
-    LOG_INFO("Start the service");
+    LOG_INFO("Start mapping and relocalization service");
 
     if (m_pipeline->start() != SolAR::FrameworkReturnCode::_SUCCESS) {
         return gRpcError("Error while initializing the mapping and relocalization front end service");
@@ -70,6 +72,8 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
                                               const Empty* request,
                                               Empty* response)
 {
+    LOG_INFO("Stop mapping and relocalization service");
+
     if (m_pipeline->stop() != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while stopping the mapping and relocalization front end service");
@@ -134,37 +138,60 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                                                           RelocalizationResult* response)
 {
     LOG_INFO("Relocalize and map");
+    LOG_DEBUG("Input");
+    LOG_DEBUG("  image: {}x{}, {}",
+              request->image().width(),
+              request->image().height(),
+              to_string(request->image().layout()));
+    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
+    LOG_DEBUG("  timestamp: {}", request->timestamp());
+
 
     SRef<SolARImage> image;
     auto status  = buildSolARImage(request, image);
     if (!status.ok())
     {
+        LOG_ERROR("Error while converting received image to SolAR datastructure");
         return status;
     }
 
     SolAR::api::pipeline::TransformStatus transform3DStatus;
     SolAR::datastructure::Transform3Df transform3D;
     float_t confidence;
-    m_pipeline->relocalizeProcessRequest(
-                image,
-                toSolAR(request->pose()),
-                std::chrono::time_point<std::chrono::system_clock>(
-                    std::chrono::milliseconds(request->timestamp())),
-                transform3DStatus,
-                transform3D,
-                confidence);
+
+    try {
+        m_pipeline->relocalizeProcessRequest(
+                    image,
+                    toSolAR(request->pose()),
+                    std::chrono::time_point<std::chrono::system_clock>(
+                        std::chrono::milliseconds(request->timestamp())),
+                    transform3DStatus,
+                    transform3D,
+                    confidence);
+    }
+    catch (const std::exception& e)
+    {
+        return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
+                         + std::string(e.what()));
+    }
 
     RelocalizationPoseStatus gRpcPoseStatus;
     status = toGrpc(transform3DStatus, gRpcPoseStatus);
     if (!status.ok())
     {
+        LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
         return status;
     }
-
 
     response->set_confidence(confidence);
     response->set_pose_status(gRpcPoseStatus);
     toGrpc(transform3D, *response->mutable_pose());
+
+    LOG_DEBUG("Output");
+    LOG_DEBUG("  confidence: {}", confidence);
+    LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
+    LOG_DEBUG("  transform:\n{}", to_string(response->pose()));
+    LOG_DEBUG("  transform:\n{}", transform3D.matrix());
 
     return Status::OK;
 }
@@ -174,11 +201,21 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
                                                         const Empty* request,
                                                         RelocalizationResult* response)
 {
+    LOG_INFO("Get3DTransform");
+
     return Status(grpc::StatusCode::UNIMPLEMENTED,
                   "Get3DTransform() is not yet implemented: \
                     request relocalization to get the latest pose");
 }
 
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::SendMessage(grpc::ServerContext* context,
+                                                     const Message* request,
+                                                     Empty* response)
+{
+    LOG_INFO("[RelocAndMapping] message: '{}'", request->message());
+    return Status::OK;
+}
 
 std::string
 RelocalizationAndMappingGrpcServiceImpl::to_string(CameraType type)
@@ -210,6 +247,30 @@ RelocalizationAndMappingGrpcServiceImpl::to_string(Matrix4x4 mat)
        << mat.m31() << mat.m32() << mat.m33() << mat.m34() <<std::endl
        << mat.m41() << mat.m42() << mat.m43() << mat.m44() <<std::endl;
     return ss.str();
+}
+
+std::string
+RelocalizationAndMappingGrpcServiceImpl::to_string(ImageLayout layout)
+{
+    switch(layout)
+    {
+    case ImageLayout::RGB_24: return "RGB24";
+    case ImageLayout::GREY_8: return "GREY_8";
+    case ImageLayout::GREY_16: return "GREY_16";
+    default: throw std::runtime_error("Unkown layout type");
+    };
+}
+
+std::string
+RelocalizationAndMappingGrpcServiceImpl::to_string(SolAR::api::pipeline::TransformStatus transformStatus)
+{
+    switch(transformStatus)
+    {
+    case SolAR::api::pipeline::TransformStatus::NO_3DTRANSFORM: return "NO_3DTRANSFORM";
+    case SolAR::api::pipeline::TransformStatus::NEW_3DTRANSFORM: return "NEW_3DTRANSFORM";
+    case SolAR::api::pipeline::TransformStatus::PREVIOUS_3DTRANSFORM: return "PREVIOUS_3DTRANSFORM";
+    default: throw std::runtime_error("Unkown transform status");
+    };
 }
 
 SolAR::datastructure::CameraType

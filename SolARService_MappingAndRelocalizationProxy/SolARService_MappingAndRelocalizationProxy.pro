@@ -9,7 +9,7 @@ CONFIG -= qt
 DEFINES += MYVERSION=\"\\\"$${VERSION}\\\"\"
 DEFINES += WITHREMOTING
 
-include(/home/christophe/Dev/SolAR/manualincludepath.pri)
+include(manualincludepath.pri)
 
 include(findremakenrules.pri)
 
@@ -70,26 +70,20 @@ win32 {
 }
 
 linux {
-run_install.path = $${TARGETDEPLOYDIR}
-run_install.files = $${PWD}/../run.sh
-CONFIG(release,debug|release) {
-  run_install.extra = cp $$files($${PWD}/../runRelease.sh) $${PWD}/../run.sh
-}
-CONFIG(debug,debug|release) {
-  run_install.extra = cp $$files($${PWD}/../runDebug.sh) $${PWD}/../run.sh
-}
-INSTALLS += run_install
+    run_install.path = $${TARGETDEPLOYDIR}
+    run_install.files = $${PWD}/../run.sh
+    CONFIG(release,debug|release) {
+        run_install.extra = cp $$files($${PWD}/../runRelease.sh) $${PWD}/../run.sh
+    }
+    CONFIG(debug,debug|release) {
+        run_install.extra = cp $$files($${PWD}/../runDebug.sh) $${PWD}/../run.sh
+    }
+    INSTALLS += run_install
 }
 
 DISTFILES += \
     SolARService_MappingAndRelocalizationProxy_conf.xml \
-    docker/SolARServiceMappingAndRelocalizationFrontendClt.dockerfile \
-    packagedependencies.txt \
-    docker/build.sh \
-    docker/launch.bat \
-    docker/launch.sh \
-    docker/launch_vm.sh \
-    docker/start_client.sh
+    packagedependencies.txt
 
 xml_files.path = $${TARGETDEPLOYDIR}
 xml_files.files =  SolARService_MappingAndRelocalizationProxy_conf.xml

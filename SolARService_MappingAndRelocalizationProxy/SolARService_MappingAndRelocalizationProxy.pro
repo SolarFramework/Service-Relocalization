@@ -9,9 +9,9 @@ CONFIG -= qt
 DEFINES += MYVERSION=\"\\\"$${VERSION}\\\"\"
 DEFINES += WITHREMOTING
 
-include(manualincludepath.pri)
-
 include(findremakenrules.pri)
+
+include(../manualincludepath.pri)
 
 CONFIG(debug,debug|release) {
     TARGETDEPLOYDIR = $${PWD}/../bin/Debug

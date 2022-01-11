@@ -34,6 +34,14 @@ echo "XML configuration file ready"
 
 export LD_LIBRARY_PATH=/SolARServiceMappingAndRelocalizationFrontend:/SolARServiceMappingAndRelocalizationFrontend/modules/
 
-## Start client
 cd /SolARServiceMappingAndRelocalizationFrontend
+
+## Start Envoy
+envoy -c envoy_config.yaml --log-path ./envoy_output.log &
+
+## Start proxy
+./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >> proxy_output.log &
+
+## Start front end
 ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+

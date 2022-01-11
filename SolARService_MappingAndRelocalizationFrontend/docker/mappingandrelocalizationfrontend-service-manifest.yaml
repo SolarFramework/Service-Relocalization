@@ -45,6 +45,10 @@ spec:
     port: 80
     targetPort: 8080
     nodePort: 31891
+  - name: proxy
+    port: 5001
+    targetPort: 5001
+    nodePort: 31892
 
 ---
 

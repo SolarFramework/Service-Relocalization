@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2020 B-com http://www.b-com.com/
+ * @copyright Copyright (c) 2021 B-com http://www.b-com.com/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -187,12 +187,6 @@ int main(int argc, char* argv[])
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_INFO("New 3D transformation = {}", transform3D.matrix());
-                    }
-                    else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
-                        LOG_INFO("Previous 3D transformation = {}", transform3D.matrix());
-                    }
-                    else {
-                        LOG_INFO("No 3D transformation matrix");
                     }
 
                     // Display image sent

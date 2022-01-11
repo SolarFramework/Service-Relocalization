@@ -1,5 +1,5 @@
 ## global defintions : target lib name, version
-TARGET = SolARServiceTest_Relocalization
+TARGET = SolARService_MappingAndRelocalizationProxy
 VERSION=0.11.0
 
 CONFIG += c++1z
@@ -11,16 +11,16 @@ DEFINES += WITHREMOTING
 
 include(findremakenrules.pri)
 
-include(../../../manualincludepath.pri)
+include(../manualincludepath.pri)
 
 CONFIG(debug,debug|release) {
-    TARGETDEPLOYDIR = $${PWD}/../../../bin/Debug
+    TARGETDEPLOYDIR = $${PWD}/../bin/Debug
     DEFINES += _DEBUG=1
     DEFINES += DEBUG=1
 }
 
 CONFIG(release,debug|release) {
-    TARGETDEPLOYDIR = $${PWD}/../../../bin/Release
+    TARGETDEPLOYDIR = $${PWD}/../bin/Release
     DEFINES += _NDEBUG=1
     DEFINES += NDEBUG=1
 }
@@ -37,8 +37,7 @@ PROJECTCONFIG = QTVS
 #NOTE : CONFIG as staticlib or sharedlib, DEPENDENCIESCONFIG as staticlib or sharedlib, QMAKE_TARGET.arch and PROJECTDEPLOYDIR MUST BE DEFINED BEFORE templatelibconfig.pri inclusion
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/templateappconfig.pri)))  # Shell_quote & shell_path required for visual on windows
 
-SOURCES += \
-    SolARServiceTest_Relocalization.cpp
+include(SolARService_MappingAndRelocalizationProxy.pri)
 
 unix {
     LIBS += -ldl
@@ -71,29 +70,23 @@ win32 {
 }
 
 linux {
-  run_install.path = $${TARGETDEPLOYDIR}
-  run_install.files = $${PWD}/../../../run.sh
-  CONFIG(release,debug|release) {
-    run_install.extra = cp $$files($${PWD}/../../../runRelease.sh) $${PWD}/../../../run.sh
-  }
-  CONFIG(debug,debug|release) {
-    run_install.extra = cp $$files($${PWD}/../../../runDebug.sh) $${PWD}/../../../run.sh
-  }
-  INSTALLS += run_install
+    run_install.path = $${TARGETDEPLOYDIR}
+    run_install.files = $${PWD}/../run.sh
+    CONFIG(release,debug|release) {
+        run_install.extra = cp $$files($${PWD}/../runRelease.sh) $${PWD}/../run.sh
+    }
+    CONFIG(debug,debug|release) {
+        run_install.extra = cp $$files($${PWD}/../runDebug.sh) $${PWD}/../run.sh
+    }
+    INSTALLS += run_install
 }
 
 DISTFILES += \
-    SolARServiceTest_Relocalization_conf.xml \
-    packagedependencies.txt \
-    docker/build.sh \
-    docker/launch.bat \
-    docker/launch.sh \
-    docker/launch_vm.sh \
-    docker/SolARServiceRelocalizationClient.dockerfile \
-    docker/start_client.sh
+    SolARService_MappingAndRelocalizationProxy_conf.xml \
+    packagedependencies.txt
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  SolARServiceTest_Relocalization_conf.xml
+xml_files.files =  SolARService_MappingAndRelocalizationProxy_conf.xml
 
 INSTALLS += xml_files
 

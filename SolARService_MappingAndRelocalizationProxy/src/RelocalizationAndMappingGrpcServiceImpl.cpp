@@ -36,7 +36,8 @@ namespace com::bcom::solar::gprc
 {
 
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
-        SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline): m_pipeline{ pipeline }
+        SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+        SRef<SolAR::api::display::IImageViewer> image_viewer): m_pipeline{ pipeline }, m_image_viewer {image_viewer}
 {}
 
 grpc::Status
@@ -143,7 +144,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
               request->image().width(),
               request->image().height(),
               to_string(request->image().layout()));
-    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
+//    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
     LOG_DEBUG("  timestamp: {}", request->timestamp());
 
 
@@ -154,6 +155,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         LOG_ERROR("Error while converting received image to SolAR datastructure");
         return status;
     }
+
+    m_image_viewer->display(image);
 
     SolAR::api::pipeline::TransformStatus transform3DStatus;
     SolAR::datastructure::Transform3Df transform3D;
@@ -190,7 +193,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     LOG_DEBUG("Output");
     LOG_DEBUG("  confidence: {}", confidence);
     LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
-    LOG_DEBUG("  transform:\n{}", to_string(response->pose()));
+//    LOG_DEBUG("  transform:\n{}", to_string(response->pose()));
     LOG_DEBUG("  transform:\n{}", transform3D.matrix());
 
     return Status::OK;
@@ -305,6 +308,7 @@ RelocalizationAndMappingGrpcServiceImpl::toSolAR(const Matrix4x4& gRpcPose)
     solARPose(3,2) = gRpcPose.m43();
     solARPose(3,3) = gRpcPose.m44();
 
+    LOG_DEBUG("==> Hololens pose = {}", solARPose.matrix());
     return solARPose;
 }
 
@@ -334,6 +338,8 @@ grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
                                                          SRef<SolAR::datastructure::Image>& image)
 {
+
+/*
     int image_layout = -1;
     std::string image_layout_string;
     switch(frame->image().layout())
@@ -394,6 +400,40 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
     }
 
     return toSolAR(ocvImg, image);
+*/
+
+    // Decode PNG image
+
+    // Copy PNG image buffer
+    std::vector<uchar> decodingBuffer(frame->image().data().c_str(),
+                                      frame->image().data().c_str() + frame->image().data().size());
+    cv::Mat imageDecoded;
+
+    // Decode PNG image
+    switch(frame->image().layout())
+    {
+        case ImageLayout::RGB_24:
+        {
+            imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_COLOR);
+            break;
+        }
+        case ImageLayout::GREY_8:
+        {
+            imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+            break;
+        }
+        case ImageLayout::GREY_16:
+        {
+            imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+            break;
+        }
+        default:
+        {
+            return gRpcError("Unkown image layout");
+        }
+    }
+
+    return toSolAR(imageDecoded, image);
 }
 
 grpc::Status
@@ -429,6 +469,7 @@ RelocalizationAndMappingGrpcServiceImpl::toSolAR(/* const */ cv::Mat& imgSrc,
         return gRpcError("Cannot convert OpenCV image type to SolAR");
     }
     };
+
     image = org::bcom::xpcf::utils::make_shared<SolARImage>(
                 imgSrc.ptr(),
                 imgSrc.cols,

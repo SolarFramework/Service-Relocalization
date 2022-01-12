@@ -32,10 +32,11 @@
 #include <xpcf/core/helpers.h>
 #include <boost/log/core.hpp>
 
-
 #include <core/Log.h>
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
+
 #include <api/display/IImageViewer.h>
+SRef<SolAR::api::display::IImageViewer> gImageViewer;
 
 using namespace std;
 using namespace SolAR;
@@ -58,6 +59,7 @@ int main(int argc, char* argv[])
 #endif
 
 LOG_ADD_LOG_TO_CONSOLE();
+LOG_SET_DEBUG_LEVEL();
 
     cxxopts::Options option_list("SolARService_MappingAndRelocalizationProxy",
                                  "SolARService_MappingAndRelocalizationProxy - The CLI of the mapping and relocalization gRPC proxy.\n");
@@ -129,6 +131,8 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
         return nullptr;
     }
 
+    gImageViewer = componentMgr->resolve<api::display::IImageViewer>();
+
     return componentMgr->resolve<pipeline::IAsyncRelocalizationPipeline>();
 }
 
@@ -140,7 +144,7 @@ void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serve
 
     builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());
 
-    RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline);
+    RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, gImageViewer);
     builder.RegisterService(&grpcServices);
 
     LOG_INFO("Starting proxy gRPC service");

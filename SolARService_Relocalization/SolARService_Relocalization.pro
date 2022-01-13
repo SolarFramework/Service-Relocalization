@@ -1,23 +1,22 @@
+## remove Qt dependencies
+QT       -= core gui
+CONFIG -= qt
+
+QMAKE_PROJECT_DEPTH = 0
+
 ## global defintions : target lib name, version
 TARGET = SolARService_Relocalization
 VERSION=0.11.0
 
-QMAKE_PROJECT_DEPTH = 0
-
 ## remove Qt dependencies
-QT     -= core gui
-CONFIG -= app_bundle qt
 CONFIG += c++1z
 CONFIG += console
 CONFIG += verbose
-CONFIG -= qt
 
 DEFINES += MYVERSION=\"\\\"$${VERSION}\\\"\"
 DEFINES += WITHREMOTING
 
 include(findremakenrules.pri)
-
-include(../manualincludepath.pri)
 
 CONFIG(debug,debug|release) {
     TARGETDEPLOYDIR = $${PWD}/../bin/Debug
@@ -107,8 +106,11 @@ DISTFILES += \
     start_relocalization_service_release.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  SolARService_Relocalization_modules.xml \
-                   SolARService_Relocalization_properties.xml
+xml_files.files =  $$files($${PWD}/SolARService_Relocalization_modules.xml) \
+                   $$files($${PWD}/SolARService_Relocalization_properties.xml)
 
 INSTALLS += xml_files
+
+#NOTE : Must be placed at the end of the .pro
+include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/remaken_install_target.pri)))) # Shell_quote & shell_path required for visual on windows
 

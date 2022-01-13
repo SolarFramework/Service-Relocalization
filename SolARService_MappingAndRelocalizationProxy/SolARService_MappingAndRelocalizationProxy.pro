@@ -1,17 +1,20 @@
+# remove Qt dependencies
+QT       -= core gui
+CONFIG -= qt
+
+QMAKE_PROJECT_DEPTH = 0
+
 ## global defintions : target lib name, version
 TARGET = SolARService_MappingAndRelocalizationProxy
 VERSION=0.11.0
 
 CONFIG += c++1z
 CONFIG += console
-CONFIG -= qt
 
 DEFINES += MYVERSION=\"\\\"$${VERSION}\\\"\"
 DEFINES += WITHREMOTING
 
 include(findremakenrules.pri)
-
-include(../manualincludepath.pri)
 
 CONFIG(debug,debug|release) {
     TARGETDEPLOYDIR = $${PWD}/../bin/Debug
@@ -86,8 +89,10 @@ DISTFILES += \
     packagedependencies.txt
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  SolARService_MappingAndRelocalizationProxy_conf.xml
+xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocalizationProxy_conf.xml)
 
 INSTALLS += xml_files
 
+#NOTE : Must be placed at the end of the .pro
+include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/remaken_install_target.pri)))) # Shell_quote & shell_path required for visual on windows
 

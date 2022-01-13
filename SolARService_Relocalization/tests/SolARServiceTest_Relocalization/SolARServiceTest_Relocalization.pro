@@ -67,6 +67,7 @@ win32 {
     QMAKE_LFLAGS += /MACHINE:X64
     DEFINES += WIN64 UNICODE _UNICODE
     QMAKE_COMPILER_DEFINES += _WIN64
+    QMAKE_CXXFLAGS += -wd4250 -wd4251 -wd4244 -wd4275
 
     # Windows Kit (msvc2013 64)
     LIBS += -L$$(WINDOWSSDKDIR)lib/winv6.3/um/x64 -lshell32 -lgdi32 -lComdlg32
@@ -85,6 +86,11 @@ linux {
   INSTALLS += run_install
 }
 
+config_files.path = $${TARGETDEPLOYDIR}
+config_files.files =  $$files($${PWD}/SolARServiceTest_Relocalization_conf.xml)
+
+INSTALLS += config_files
+
 DISTFILES += \
     SolARServiceTest_Relocalization_conf.xml \
     packagedependencies.txt \
@@ -94,11 +100,6 @@ DISTFILES += \
     docker/launch_vm.sh \
     docker/SolARServiceRelocalizationClient.dockerfile \
     docker/start_client.sh
-
-xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  $$files($${PWD}/SolARServiceTest_Relocalization_conf.xml)
-
-INSTALLS += xml_files
 
 #NOTE : Must be placed at the end of the .pro
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/remaken_install_target.pri)))) # Shell_quote & shell_path required for visual on windows

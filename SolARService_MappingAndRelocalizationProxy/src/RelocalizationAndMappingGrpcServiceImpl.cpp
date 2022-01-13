@@ -190,7 +190,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     LOG_DEBUG("Output");
     LOG_DEBUG("  confidence: {}", confidence);
     LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
-    LOG_DEBUG("  transform:\n{}", to_string(response->pose()));
     LOG_DEBUG("  transform:\n{}", transform3D.matrix());
 
     return Status::OK;
@@ -242,10 +241,10 @@ std::string
 RelocalizationAndMappingGrpcServiceImpl::to_string(Matrix4x4 mat)
 {
     std::stringstream ss;
-    ss << mat.m11() << mat.m12() << mat.m13() << mat.m14() <<std::endl
-       << mat.m21() << mat.m22() << mat.m23() << mat.m24() <<std::endl
-       << mat.m31() << mat.m32() << mat.m33() << mat.m34() <<std::endl
-       << mat.m41() << mat.m42() << mat.m43() << mat.m44() <<std::endl;
+    ss << mat.m11() << ", " << mat.m12() << ", " <<  mat.m13() << ", " <<  mat.m14() <<std::endl
+       << mat.m21() << ", " <<  mat.m22() << ", " <<  mat.m23() << ", " <<  mat.m24() <<std::endl
+       << mat.m31() << ", " <<  mat.m32() << ", " <<  mat.m33() << ", " <<  mat.m34() <<std::endl
+       << mat.m41() << ", " <<  mat.m42() << ", " <<  mat.m43() << ", " <<  mat.m44() <<std::endl;
     return ss.str();
 }
 

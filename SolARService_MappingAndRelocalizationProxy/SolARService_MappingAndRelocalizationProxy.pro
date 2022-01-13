@@ -86,6 +86,7 @@ linux {
 
 DISTFILES += \
     SolARService_MappingAndRelocalizationProxy_conf.xml \
+    packagedependencies-linux.txt \
     packagedependencies.txt
 
 xml_files.path = $${TARGETDEPLOYDIR}

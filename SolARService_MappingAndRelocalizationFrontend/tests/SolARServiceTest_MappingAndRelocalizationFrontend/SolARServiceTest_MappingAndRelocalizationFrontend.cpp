@@ -16,7 +16,6 @@
 
 #include <iostream>
 
-#include <unistd.h>
 #include <cxxopts.hpp>
 
 #include <xpcf/xpcf.h>

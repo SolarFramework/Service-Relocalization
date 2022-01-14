@@ -11,7 +11,7 @@ DEFINES += WITHREMOTING
 
 include(findremakenrules.pri)
 
-include(../manualincludepath.pri)
+include(manualincludepath.pri)
 
 CONFIG(debug,debug|release) {
     TARGETDEPLOYDIR = $${PWD}/../bin/Debug

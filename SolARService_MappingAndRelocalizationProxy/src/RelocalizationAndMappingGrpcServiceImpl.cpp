@@ -338,102 +338,111 @@ grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
                                                          SRef<SolAR::datastructure::Image>& image)
 {
-
-/*
-    int image_layout = -1;
-    std::string image_layout_string;
-    switch(frame->image().layout())
+    switch(frame->image().imagecompression())
     {
-    case ImageLayout::RGB_24:
+    case ImageCompression::NONE:
     {
-        image_layout = CV_8UC4;
-        image_layout_string = "RGB_24";
-        break;
-    }
-    case ImageLayout::GREY_8:
-    {
-        image_layout = CV_8UC1;
-        image_layout_string = "GREY_8";
-        break;
-    }
-    case ImageLayout::GREY_16:
-    {
-        image_layout = CV_16UC1;
-        image_layout_string = "GREY_16";
-        break;
-    }
-    default:
-    {
-        return gRpcError("Unkown image layout");
-    }
-    };
-
-    cv::Mat ocvImg;
-    if ( image_layout == CV_8UC4 )
-    {
-        // Convert to CV_8UC3 because otherwise convertToSolar() will fail
-        const char* bgra_buffer = frame->image().data().c_str();
-        long destBufferSize = frame->image().data().size() - (frame->image().data().size() / 4);
-        char bgr_buffer[destBufferSize];
-        for (long j = 0, k = 0; j < frame->image().data().size(); j += 4, k += 3)
+        int image_layout = -1;
+        std::string image_layout_string;
+        switch(frame->image().layout())
         {
-          bgr_buffer[k] = bgra_buffer[j];
-          bgr_buffer[k + 1] = bgra_buffer[j + 1];
-          bgr_buffer[k + 2] = bgra_buffer[j + 2];
-        }
-        ocvImg.create(
-                    static_cast<int>(frame->image().height()),
-                    static_cast<int>(frame->image().width()),
-                    CV_8UC3);
-        memcpy(ocvImg.data, bgr_buffer, ocvImg.rows * ocvImg.cols * 3);
-    }
-    else
-    {
-        ocvImg.create(
-          static_cast<int>(frame->image().height()),
-          static_cast<int>(frame->image().width()),
-          image_layout
-          );
-        memcpy(ocvImg.data,
-               const_cast<void*>(static_cast<const void*>(frame->image().data().c_str())),
-               ocvImg.rows * ocvImg.cols * (image_layout == CV_8UC1 ? 1 : 2 ));
-    }
-
-    return toSolAR(ocvImg, image);
-*/
-
-    // Decode PNG image
-
-    // Copy PNG image buffer
-    std::vector<uchar> decodingBuffer(frame->image().data().c_str(),
-                                      frame->image().data().c_str() + frame->image().data().size());
-    cv::Mat imageDecoded;
-
-    // Decode PNG image
-    switch(frame->image().layout())
-    {
         case ImageLayout::RGB_24:
         {
-            imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_COLOR);
+            image_layout = CV_8UC4;
+            image_layout_string = "RGB_24";
             break;
         }
         case ImageLayout::GREY_8:
         {
-            imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+            image_layout = CV_8UC1;
+            image_layout_string = "GREY_8";
             break;
         }
         case ImageLayout::GREY_16:
         {
-            imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+            image_layout = CV_16UC1;
+            image_layout_string = "GREY_16";
             break;
         }
         default:
         {
             return gRpcError("Unkown image layout");
         }
-    }
+        };
 
-    return toSolAR(imageDecoded, image);
+        cv::Mat ocvImg;
+        if ( image_layout == CV_8UC4 )
+        {
+            // Convert to CV_8UC3 because otherwise convertToSolar() will fail
+            const char* bgra_buffer = frame->image().data().c_str();
+            long destBufferSize = frame->image().data().size() - (frame->image().data().size() / 4);
+            char bgr_buffer[destBufferSize];
+            for (long j = 0, k = 0; j < frame->image().data().size(); j += 4, k += 3)
+            {
+              bgr_buffer[k] = bgra_buffer[j];
+              bgr_buffer[k + 1] = bgra_buffer[j + 1];
+              bgr_buffer[k + 2] = bgra_buffer[j + 2];
+            }
+            ocvImg.create(
+                        static_cast<int>(frame->image().height()),
+                        static_cast<int>(frame->image().width()),
+                        CV_8UC3);
+            memcpy(ocvImg.data, bgr_buffer, ocvImg.rows * ocvImg.cols * 3);
+        }
+        else
+        {
+            ocvImg.create(
+              static_cast<int>(frame->image().height()),
+              static_cast<int>(frame->image().width()),
+              image_layout
+              );
+            memcpy(ocvImg.data,
+                   const_cast<void*>(static_cast<const void*>(frame->image().data().c_str())),
+                   ocvImg.rows * ocvImg.cols * (image_layout == CV_8UC1 ? 1 : 2 ));
+        }
+
+        return toSolAR(ocvImg, image);
+    }
+    case ImageCompression::PNG:
+    {
+        // Decode PNG image
+
+        // Copy PNG image buffer
+        std::vector<uchar> decodingBuffer(frame->image().data().c_str(),
+                                          frame->image().data().c_str() + frame->image().data().size());
+        cv::Mat imageDecoded;
+
+        // Decode PNG image
+        switch(frame->image().layout())
+        {
+            case ImageLayout::RGB_24:
+            {
+                imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_COLOR);
+                break;
+            }
+            case ImageLayout::GREY_8:
+            {
+                imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+                break;
+            }
+            case ImageLayout::GREY_16:
+            {
+                imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+                break;
+            }
+            default:
+            {
+                return gRpcError("Unkown image layout");
+            }
+        }
+
+            return toSolAR(imageDecoded, image);
+    }
+    default:
+    {
+        return gRpcError("Error: unkown image compression format");
+    }
+    }
 }
 
 grpc::Status

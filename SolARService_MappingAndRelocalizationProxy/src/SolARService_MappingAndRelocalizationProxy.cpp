@@ -59,7 +59,6 @@ int main(int argc, char* argv[])
 #endif
 
 LOG_ADD_LOG_TO_CONSOLE();
-LOG_SET_DEBUG_LEVEL();
 
     cxxopts::Options option_list("SolARService_MappingAndRelocalizationProxy",
                                  "SolARService_MappingAndRelocalizationProxy - The CLI of the mapping and relocalization gRPC proxy.\n");

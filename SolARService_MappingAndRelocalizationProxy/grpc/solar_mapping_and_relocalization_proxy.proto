@@ -82,12 +82,19 @@ enum ImageLayout
     GREY_16 = 2;
 }
 
+enum ImageCompression
+{
+    NONE = 0;
+    PNG = 1;
+}
+
 message Image
 {
     uint32 width = 1;
     uint32 height = 2;
     bytes data = 3;
     ImageLayout layout = 4;
+    ImageCompression imageCompression = 5;
 }
 
 message Frame

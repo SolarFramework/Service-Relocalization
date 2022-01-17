@@ -183,6 +183,31 @@ inline bool ImageLayout_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ImageLayout>(
     ImageLayout_descriptor(), name, value);
 }
+enum ImageCompression : int {
+  NONE = 0,
+  PNG = 1,
+  ImageCompression_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  ImageCompression_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool ImageCompression_IsValid(int value);
+constexpr ImageCompression ImageCompression_MIN = NONE;
+constexpr ImageCompression ImageCompression_MAX = PNG;
+constexpr int ImageCompression_ARRAYSIZE = ImageCompression_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ImageCompression_descriptor();
+template<typename T>
+inline const std::string& ImageCompression_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, ImageCompression>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function ImageCompression_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    ImageCompression_descriptor(), enum_t_value);
+}
+inline bool ImageCompression_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, ImageCompression* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ImageCompression>(
+    ImageCompression_descriptor(), name, value);
+}
 // ===================================================================
 
 class Empty PROTOBUF_FINAL :
@@ -1147,6 +1172,7 @@ class Image PROTOBUF_FINAL :
     kWidthFieldNumber = 1,
     kHeightFieldNumber = 2,
     kLayoutFieldNumber = 4,
+    kImageCompressionFieldNumber = 5,
   };
   // bytes data = 3;
   void clear_data();
@@ -1191,6 +1217,15 @@ class Image PROTOBUF_FINAL :
   void _internal_set_layout(::com::bcom::solar::gprc::ImageLayout value);
   public:
 
+  // .com.bcom.solar.gprc.ImageCompression imageCompression = 5;
+  void clear_imagecompression();
+  ::com::bcom::solar::gprc::ImageCompression imagecompression() const;
+  void set_imagecompression(::com::bcom::solar::gprc::ImageCompression value);
+  private:
+  ::com::bcom::solar::gprc::ImageCompression _internal_imagecompression() const;
+  void _internal_set_imagecompression(::com::bcom::solar::gprc::ImageCompression value);
+  public:
+
   // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.Image)
  private:
   class _Internal;
@@ -1202,6 +1237,7 @@ class Image PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::uint32 width_;
   ::PROTOBUF_NAMESPACE_ID::uint32 height_;
   int layout_;
+  int imagecompression_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
 };
@@ -2663,6 +2699,26 @@ inline void Image::set_layout(::com::bcom::solar::gprc::ImageLayout value) {
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Image.layout)
 }
 
+// .com.bcom.solar.gprc.ImageCompression imageCompression = 5;
+inline void Image::clear_imagecompression() {
+  imagecompression_ = 0;
+}
+inline ::com::bcom::solar::gprc::ImageCompression Image::_internal_imagecompression() const {
+  return static_cast< ::com::bcom::solar::gprc::ImageCompression >(imagecompression_);
+}
+inline ::com::bcom::solar::gprc::ImageCompression Image::imagecompression() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Image.imageCompression)
+  return _internal_imagecompression();
+}
+inline void Image::_internal_set_imagecompression(::com::bcom::solar::gprc::ImageCompression value) {
+  
+  imagecompression_ = value;
+}
+inline void Image::set_imagecompression(::com::bcom::solar::gprc::ImageCompression value) {
+  _internal_set_imagecompression(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Image.imageCompression)
+}
+
 // -------------------------------------------------------------------
 
 // Frame
@@ -3424,6 +3480,11 @@ template <> struct is_proto_enum< ::com::bcom::solar::gprc::ImageLayout> : ::std
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::ImageLayout>() {
   return ::com::bcom::solar::gprc::ImageLayout_descriptor();
+}
+template <> struct is_proto_enum< ::com::bcom::solar::gprc::ImageCompression> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::ImageCompression>() {
+  return ::com::bcom::solar::gprc::ImageCompression_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

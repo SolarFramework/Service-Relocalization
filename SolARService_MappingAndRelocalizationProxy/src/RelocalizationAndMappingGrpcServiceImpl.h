@@ -22,6 +22,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
+#include <api/display/IImageViewer.h>
 
 namespace com::bcom::solar::gprc
 {
@@ -31,7 +32,8 @@ class RelocalizationAndMappingGrpcServiceImpl
 {
 
 public:
-    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline);
+    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+                                            SRef<SolAR::api::display::IImageViewer> image_viewer);
     ~RelocalizationAndMappingGrpcServiceImpl() = default;
 
 public:
@@ -66,6 +68,8 @@ public:
 
 private:
     SolAR::api::pipeline::IAsyncRelocalizationPipeline* m_pipeline;
+
+    SRef<SolAR::api::display::IImageViewer> m_image_viewer;
 
 private:
     static std::string to_string(CameraType type);

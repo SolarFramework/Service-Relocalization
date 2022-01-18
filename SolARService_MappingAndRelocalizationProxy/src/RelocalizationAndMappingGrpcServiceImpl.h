@@ -22,7 +22,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
-#include <api/display/IImageViewer.h>
+//#include <api/display/IImageViewer.h>
 
 namespace com::bcom::solar::gprc
 {
@@ -32,8 +32,11 @@ class RelocalizationAndMappingGrpcServiceImpl
 {
 
 public:
+    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline);
+/*
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
                                             SRef<SolAR::api::display::IImageViewer> image_viewer);
+*/
     ~RelocalizationAndMappingGrpcServiceImpl() = default;
 
 public:
@@ -69,7 +72,7 @@ public:
 private:
     SolAR::api::pipeline::IAsyncRelocalizationPipeline* m_pipeline;
 
-    SRef<SolAR::api::display::IImageViewer> m_image_viewer;
+//    SRef<SolAR::api::display::IImageViewer> m_image_viewer;
 
 private:
     static std::string to_string(CameraType type);
@@ -81,7 +84,7 @@ private:
     static SolAR::datastructure::CameraType toSolAR(CameraType type);
     static SolAR::datastructure::Transform3Df toSolAR(const Matrix4x4& gRpcPose);
     static void toGrpc(const SolAR::datastructure::Transform3Df& solARPose, Matrix4x4& gRpcPose);
-    static grpc::Status buildSolARImage(const Frame*, SRef<SolAR::datastructure::Image>& image);
+    static grpc::Status buildSolARImage(const Frame*, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toSolAR(/* const */ cv::Mat& imgSrc, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toGrpc(SolAR::api::pipeline::TransformStatus solARPoseStatus, RelocalizationPoseStatus& gRpcPoseStatus);
 

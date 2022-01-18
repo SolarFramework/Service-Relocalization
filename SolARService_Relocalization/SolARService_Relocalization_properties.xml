@@ -17,6 +17,12 @@
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 
+    <configure component="IMapUpdatePipeline_grpcProxy">
+      <property name="grpc_compress_proxy" type="string">
+        <value>method|getMapRequest|none|none</value>
+      </property>
+    </configure>
+
     <!-- relocalization pipeline configuration -->
     <configure component="SolARMapManager">
             <property name="directory" type="string" value="../../data/map_hololens/mapA"/>

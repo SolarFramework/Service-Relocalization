@@ -32,12 +32,16 @@ using SolAR::Log;
 
 using SolARImage = SolAR::datastructure::Image;
 
+static long index_image;
+static std::ofstream m_poseFile;
+static std::string file_path = "/home/christophe/images/";
+
 namespace com::bcom::solar::gprc
 {
 
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
-        SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
-        SRef<SolAR::api::display::IImageViewer> image_viewer): m_pipeline{ pipeline }, m_image_viewer {image_viewer}
+        SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline): m_pipeline{ pipeline }
+//        SRef<SolAR::api::display::IImageViewer> image_viewer): m_pipeline{ pipeline }, m_image_viewer {image_viewer}
 {}
 
 grpc::Status
@@ -65,6 +69,9 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
         return gRpcError("Error while initializing the mapping and relocalization front end service");
     }
 
+    index_image = 0;
+    m_poseFile.open(file_path + "pose.txt");
+
     return Status::OK;
 }
 
@@ -79,6 +86,8 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
     {
         return gRpcError("Error while stopping the mapping and relocalization front end service");
     }
+
+    m_poseFile.close();
 
     return Status::OK;
 }
@@ -149,14 +158,14 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
 
     SRef<SolARImage> image;
-    auto status  = buildSolARImage(request, image);
+    auto status  = buildSolARImage(request, toSolAR(request->pose()), image);
     if (!status.ok())
     {
         LOG_ERROR("Error while converting received image to SolAR datastructure");
         return status;
     }
 
-    m_image_viewer->display(image);
+//    m_image_viewer->display(image);
 
     SolAR::api::pipeline::TransformStatus transform3DStatus;
     SolAR::datastructure::Transform3Df transform3D;
@@ -336,6 +345,7 @@ RelocalizationAndMappingGrpcServiceImpl::toGrpc(const SolAR::datastructure::Tran
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
+                                                         const SolAR::datastructure::Transform3Df& solARPose,
                                                          SRef<SolAR::datastructure::Image>& image)
 {
     switch(frame->image().imagecompression())
@@ -403,46 +413,18 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
 
         return toSolAR(ocvImg, image);
     }
-    case ImageCompression::PNG:
-    {
-        // Decode PNG image
+/*
+    char imageName[9];
+    sprintf(imageName, "%0.8d", index_image);
+    cv::imwrite(file_path + imageName + std::string(".jpg"), imageDecoded);
+    index_image++;
 
-        // Copy PNG image buffer
-        std::vector<uchar> decodingBuffer(frame->image().data().c_str(),
-                                          frame->image().data().c_str() + frame->image().data().size());
-        cv::Mat imageDecoded;
-
-        // Decode PNG image
-        switch(frame->image().layout())
-        {
-            case ImageLayout::RGB_24:
-            {
-                imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_COLOR);
-                break;
-            }
-            case ImageLayout::GREY_8:
-            {
-                imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
-                break;
-            }
-            case ImageLayout::GREY_16:
-            {
-                imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
-                break;
-            }
-            default:
-            {
-                return gRpcError("Unkown image layout");
-            }
-        }
-
-            return toSolAR(imageDecoded, image);
-    }
-    default:
-    {
-        return gRpcError("Error: unkown image compression format");
-    }
-    }
+    for (int i = 0; i < 4; ++i)
+    for (int j = 0; j < 4; j++)
+        m_poseFile << solARPose(i, j) << " ";
+    m_poseFile << "\n";
+*/
+    return toSolAR(imageDecoded, image);
 }
 
 grpc::Status

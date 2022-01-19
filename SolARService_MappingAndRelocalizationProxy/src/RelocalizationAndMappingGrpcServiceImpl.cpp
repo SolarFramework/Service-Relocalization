@@ -199,6 +199,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 //    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
     LOG_DEBUG("  timestamp: {}", request->timestamp());
 
+    if ( request->timestamp() < m_last_timestamp )
+    {
+        LOG_DEBUG("Skipping frame older than the last one received");
+        return Status::OK;
+    }
 
     SRef<SolARImage> image;
     auto status  = buildSolARImage(request, image);

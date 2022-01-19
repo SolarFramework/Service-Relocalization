@@ -71,6 +71,8 @@ private:
 
     SRef<SolAR::api::display::IImageViewer> m_image_viewer;
 
+    long m_last_timestamp{0};
+
 private:
     static std::string to_string(CameraType type);
     static std::string to_string(Matrix3x3 mat);

@@ -349,81 +349,122 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
 {
     switch(frame->image().imagecompression())
     {
-    case ImageCompression::NONE:
-    {
-        int image_layout = -1;
-        std::string image_layout_string;
-        switch(frame->image().layout())
+        case ImageCompression::NONE:
         {
-        case ImageLayout::RGB_24:
-        {
-            image_layout = CV_8UC4;
-            image_layout_string = "RGB_24";
-            break;
+            int image_layout = -1;
+            std::string image_layout_string;
+            switch(frame->image().layout())
+            {
+                case ImageLayout::RGB_24:
+                {
+                    image_layout = CV_8UC4;
+                    image_layout_string = "RGB_24";
+                    break;
+                }
+                case ImageLayout::GREY_8:
+                {
+                    image_layout = CV_8UC1;
+                    image_layout_string = "GREY_8";
+                    break;
+                }
+                case ImageLayout::GREY_16:
+                {
+                    image_layout = CV_16UC1;
+                    image_layout_string = "GREY_16";
+                    break;
+                }
+                default:
+                {
+                    return gRpcError("Unkown image layout");
+                }
+            }
+
+            cv::Mat ocvImg;
+
+            if ( image_layout == CV_8UC4 )
+            {
+                // Convert to CV_8UC3 because otherwise convertToSolar() will fail
+                const char* bgra_buffer = frame->image().data().c_str();
+                long destBufferSize = frame->image().data().size() - (frame->image().data().size() / 4);
+                char bgr_buffer[destBufferSize];
+                for (long j = 0, k = 0; j < frame->image().data().size(); j += 4, k += 3)
+                {
+                  bgr_buffer[k] = bgra_buffer[j];
+                  bgr_buffer[k + 1] = bgra_buffer[j + 1];
+                  bgr_buffer[k + 2] = bgra_buffer[j + 2];
+                }
+                ocvImg.create(
+                            static_cast<int>(frame->image().height()),
+                            static_cast<int>(frame->image().width()),
+                            CV_8UC3);
+                memcpy(ocvImg.data, bgr_buffer, ocvImg.rows * ocvImg.cols * 3);
+            }
+            else
+            {
+                ocvImg.create(
+                  static_cast<int>(frame->image().height()),
+                  static_cast<int>(frame->image().width()),
+                  image_layout
+                  );
+                memcpy(ocvImg.data,
+                       const_cast<void*>(static_cast<const void*>(frame->image().data().c_str())),
+                       ocvImg.rows * ocvImg.cols * (image_layout == CV_8UC1 ? 1 : 2 ));
+            }
+
+            return toSolAR(ocvImg, image);
         }
-        case ImageLayout::GREY_8:
+
+        case ImageCompression::PNG:
         {
-            image_layout = CV_8UC1;
-            image_layout_string = "GREY_8";
-            break;
+            // Decode PNG image
+
+            // Copy PNG image buffer
+            std::vector<uchar> decodingBuffer(frame->image().data().c_str(),
+                                              frame->image().data().c_str() + frame->image().data().size());
+            cv::Mat imageDecoded;
+
+            // Decode PNG image
+            switch(frame->image().layout())
+            {
+                case ImageLayout::RGB_24:
+                {
+                    imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_COLOR);
+                    break;
+                }
+                case ImageLayout::GREY_8:
+                {
+                    imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+                    break;
+                }
+                case ImageLayout::GREY_16:
+                {
+                    imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
+                    break;
+                }
+                default:
+                {
+                    return gRpcError("Unkown image layout");
+                }
+            }
+/*
+            char imageName[9];
+            sprintf(imageName, "%0.8d", index_image);
+            cv::imwrite(file_path + imageName + std::string(".jpg"), imageDecoded);
+            index_image++;
+
+            for (int i = 0; i < 4; ++i)
+            for (int j = 0; j < 4; j++)
+                m_poseFile << solARPose(i, j) << " ";
+            m_poseFile << "\n";
+*/
+            return toSolAR(imageDecoded, image);
         }
-        case ImageLayout::GREY_16:
-        {
-            image_layout = CV_16UC1;
-            image_layout_string = "GREY_16";
-            break;
-        }
+
         default:
         {
-            return gRpcError("Unkown image layout");
+            return gRpcError("Error: unkown image compression format");
         }
-        };
-
-        cv::Mat ocvImg;
-        if ( image_layout == CV_8UC4 )
-        {
-            // Convert to CV_8UC3 because otherwise convertToSolar() will fail
-            const char* bgra_buffer = frame->image().data().c_str();
-            long destBufferSize = frame->image().data().size() - (frame->image().data().size() / 4);
-            char bgr_buffer[destBufferSize];
-            for (long j = 0, k = 0; j < frame->image().data().size(); j += 4, k += 3)
-            {
-              bgr_buffer[k] = bgra_buffer[j];
-              bgr_buffer[k + 1] = bgra_buffer[j + 1];
-              bgr_buffer[k + 2] = bgra_buffer[j + 2];
-            }
-            ocvImg.create(
-                        static_cast<int>(frame->image().height()),
-                        static_cast<int>(frame->image().width()),
-                        CV_8UC3);
-            memcpy(ocvImg.data, bgr_buffer, ocvImg.rows * ocvImg.cols * 3);
-        }
-        else
-        {
-            ocvImg.create(
-              static_cast<int>(frame->image().height()),
-              static_cast<int>(frame->image().width()),
-              image_layout
-              );
-            memcpy(ocvImg.data,
-                   const_cast<void*>(static_cast<const void*>(frame->image().data().c_str())),
-                   ocvImg.rows * ocvImg.cols * (image_layout == CV_8UC1 ? 1 : 2 ));
-        }
-
-        return toSolAR(ocvImg, image);
     }
-/*
-    char imageName[9];
-    sprintf(imageName, "%0.8d", index_image);
-    cv::imwrite(file_path + imageName + std::string(".jpg"), imageDecoded);
-    index_image++;
-
-    for (int i = 0; i < 4; ++i)
-    for (int j = 0; j < 4; j++)
-        m_poseFile << solARPose(i, j) << " ";
-    m_poseFile << "\n";
-*/
-    return toSolAR(imageDecoded, image);
 }
 
 grpc::Status

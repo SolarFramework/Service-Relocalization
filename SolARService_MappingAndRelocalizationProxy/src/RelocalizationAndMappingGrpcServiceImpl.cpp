@@ -16,6 +16,7 @@
 
 #include "RelocalizationAndMappingGrpcServiceImpl.h"
 
+#include <chrono>
 #include <string>
 
 #include <xpcf/xpcf.h>
@@ -38,6 +39,54 @@ static std::string file_path = "/home/christophe/images/";
 
 namespace com::bcom::solar::gprc
 {
+
+class Fps
+{
+    typedef std::chrono::system_clock Time;
+    typedef std::chrono::milliseconds ms;
+
+public:
+
+    Fps(){}
+    Fps(uint computePeriodMs, uint windowSize)
+        :m_computePeriodMs{computePeriodMs},
+          m_windowSize{windowSize}
+    {}
+
+  float update()
+  {
+    auto now = Time::now();
+    auto timeElapsed = now - m_lastTime;
+    m_lastTime = now;
+
+    m_lastTenDeltas.push_back(std::chrono::duration_cast<ms>(timeElapsed).count());
+
+    if (m_lastTenDeltas.size() > m_windowSize)
+    {
+      m_lastTenDeltas.erase(m_lastTenDeltas.begin());
+    }
+
+    if (now - m_lastTimeComputed > m_computePeriodMs)
+    {
+        m_currentFps = 1000.f / (std::accumulate(m_lastTenDeltas.begin(), m_lastTenDeltas.end(), 0.f) / m_lastTenDeltas.size());
+        m_lastTimeComputed = now;
+    }
+
+    return m_currentFps;
+  }
+
+private:
+  std::chrono::milliseconds m_computePeriodMs{1000};
+  uint m_windowSize{10};
+  float m_currentFps{0};
+
+  std::vector<float> m_lastTenDeltas;
+  std::chrono::time_point<std::chrono::system_clock> m_lastTime;
+  std::chrono::time_point<std::chrono::system_clock> m_lastTimeComputed;
+};
+
+Fps relocAndMapFps;
+
 
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
         SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline): m_pipeline{ pipeline }
@@ -147,8 +196,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                                                           const Frame* request,
                                                           RelocalizationResult* response)
 {
+    auto fps = relocAndMapFps.update();
+
     LOG_INFO("Relocalize and map");
-    LOG_DEBUG("Input");
+    LOG_INFO("{:03.2f} FPS", fps);
+    LOG_INFO("Input");
     LOG_DEBUG("  image: {}x{}, {}",
               request->image().width(),
               request->image().height(),
@@ -156,6 +208,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 //    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
     LOG_DEBUG("  timestamp: {}", request->timestamp());
 
+    if ( request->timestamp() < m_last_timestamp )
+    {
+        LOG_DEBUG("Skipping frame older than the last one received");
+        return Status::OK;
+    }
 
     SRef<SolARImage> image;
     auto status  = buildSolARImage(request, toSolAR(request->pose()), image);

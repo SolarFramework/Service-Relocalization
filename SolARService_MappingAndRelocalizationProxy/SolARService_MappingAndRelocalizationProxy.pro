@@ -50,10 +50,6 @@ unix {
     QMAKE_POST_LINK += "make install install_deps"
 }
 
-linux {
-    LIBS += -ldl
-}
-
 macx {
     DEFINES += _MACOS_TARGET_
     QMAKE_MAC_SDK= macosx
@@ -84,6 +80,7 @@ linux {
     CONFIG(debug,debug|release) {
         run_install.extra = cp $$files($${PWD}/../runDebug.sh) $${PWD}/../run.sh
     }
+    run_install.CONFIG += nostrip
     INSTALLS += run_install
 }
 

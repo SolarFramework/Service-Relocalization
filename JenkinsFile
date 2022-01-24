@@ -9,7 +9,6 @@ node("master") {
         buildDir= \
         "SolARService_Relocalization,\
 		 SolARService_Relocalization/tests/SolARServiceTest_Relocalization"
-        makeTarget="install install_deps"
         android=false
 		win=false
         packageScripts="bundleServices"

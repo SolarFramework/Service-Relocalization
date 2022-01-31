@@ -28,6 +28,7 @@
 #include "api/pipeline/IAsyncRelocalizationPipeline.h"
 #include "api/input/devices/IARDevice.h"
 #include "api/display/IImageViewer.h"
+#include "api/display/I3DOverlay.h"
 
 using namespace std;
 using namespace SolAR;
@@ -35,7 +36,7 @@ using namespace SolAR::api;
 using namespace SolAR::datastructure;
 namespace xpcf=org::bcom::xpcf;
 
-#define INDEX_USE_CAMERA 0
+#define INDEX_USE_CAMERA 1
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
@@ -135,6 +136,7 @@ int main(int argc, char* argv[])
         LOG_INFO("Producer client: AR device component created");
 
         imageViewer = componentMgr->resolve<SolAR::api::display::IImageViewer>();
+        auto overlay3D = componentMgr->resolve<display::I3DOverlay>();
         LOG_INFO("Remote producer client: AR device component created");
 
         if (arDevice->start() == FrameworkReturnCode::_SUCCESS) {
@@ -142,6 +144,7 @@ int main(int argc, char* argv[])
             // Load camera intrinsics parameters
             CameraRigParameters camRigParams = arDevice->getCameraParameters();
             CameraParameters camParams = camRigParams.cameraParams[INDEX_USE_CAMERA];
+            overlay3D->setCameraParameters(camParams.intrinsic, camParams.distortion);
 
             LOG_INFO("Set camera paremeters for the service");
 
@@ -159,6 +162,8 @@ int main(int argc, char* argv[])
 
             LOG_INFO("Read images and poses from hololens files");
             LOG_INFO("\n\n***** Control+C to stop *****\n");
+
+            Transform3Df T_H_W = Transform3Df::Identity();
 
             // Wait for interruption or and of images
             while (true) {
@@ -186,7 +191,11 @@ int main(int argc, char* argv[])
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_INFO("New 3D transformation = {}", transform3D.matrix());
+                        T_H_W = transform3D;
                     }
+
+                    // draw cube
+                    overlay3D->draw(T_H_W * pose, image);
 
                     // Display image sent
                     imageViewer->display(image);

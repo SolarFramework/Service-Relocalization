@@ -42,8 +42,8 @@
                 <configure component="SolARImageViewerOpencv">
                         <property name="title" type="string" value="AR device mapping. Green = inliers, Red = outliers"/>
                         <property name="exitKey" type="int" value="27"/>
-                        <property name="width" type="int" value="700"/>
-                        <property name="height" type="int" value="400"/>
+                        <property name="width" type="int" value="640"/>
+                        <property name="height" type="int" value="480"/>
                 </configure>
 				<configure component="SolAR3DOverlayBoxOpencv">
 				<property name="position" type="float">

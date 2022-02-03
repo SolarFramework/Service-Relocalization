@@ -25,7 +25,7 @@
         <property name="nbThreshold" type="int" value="4"/>
         <property name="minThreshold" type="int" value="-1"/>
         <property name="maxThreshold" type="int" value="220"/>
-        <property name="maxReprojError" type="float" value="3.0"/>
+        <property name="maxReprojError" type="float" value="0.8"/>
     </configure>
     <configure component="SolARFiducialMarkerLoaderOpencv">
         <property name="filePath" type="string" value="../../data/data_hololens/fiducialMarkerA.yml" description="Path of the .yml file describing the fiducial marker."/>

@@ -32,8 +32,17 @@ class RelocalizationAndMappingGrpcServiceImpl
 {
 
 public:
+    RelocalizationAndMappingGrpcServiceImpl() = default;
+
+    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline);
+
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+                                            std::string saveFolder);
+
+    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+                                            std::string saveFolder,
                                             SRef<SolAR::api::display::IImageViewer> image_viewer);
+
     ~RelocalizationAndMappingGrpcServiceImpl() = default;
 
 public:
@@ -69,9 +78,24 @@ public:
 private:
     SolAR::api::pipeline::IAsyncRelocalizationPipeline* m_pipeline;
 
+    bool m_started; // Indicates if the proxy is started or not
+
     SRef<SolAR::api::display::IImageViewer> m_image_viewer;
 
-    long m_last_timestamp{0};
+    // Variables used to save images on disk
+    long m_index_image;
+    std::ofstream m_poseFile;
+    std::string m_file_path;
+
+    // Vector of ordered tuple(image, pose, timestamp)
+    std::vector<std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long>> m_ordered_images;
+    std::mutex m_images_vector_mutex;   // Mutex used to control vector access
+    long m_last_image_timestamp;        // Timestamp of the last image processed
+
+    // Sort vector of tuples according to the third element of tuple
+    static bool sortbythird (
+            const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> a ,
+            const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> b);
 
 private:
     static std::string to_string(CameraType type);
@@ -83,9 +107,10 @@ private:
     static SolAR::datastructure::CameraType toSolAR(CameraType type);
     static SolAR::datastructure::Transform3Df toSolAR(const Matrix4x4& gRpcPose);
     static void toGrpc(const SolAR::datastructure::Transform3Df& solARPose, Matrix4x4& gRpcPose);
-    static grpc::Status buildSolARImage(const Frame*, SRef<SolAR::datastructure::Image>& image);
+    static grpc::Status buildSolARImage(const Frame*, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toSolAR(/* const */ cv::Mat& imgSrc, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toGrpc(SolAR::api::pipeline::TransformStatus solARPoseStatus, RelocalizationPoseStatus& gRpcPoseStatus);
+    static void imageToOpenCV(SRef<SolAR::datastructure::Image> imgSrc, cv::Mat& imgDest);
 
     static grpc::Status gRpcError(std::string message, grpc::StatusCode gRpcStatus = grpc::StatusCode::INTERNAL);
 

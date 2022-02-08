@@ -48,8 +48,9 @@ using com::bcom::solar::gprc::RelocalizationAndMappingGrpcServiceImpl;
 
 const string DEFAULT_GRPC_LISTENING_PORT = "5002";
 
-SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile);
-void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress);
+SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, bool displayImages);
+void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,
+                  string saveFolder, bool displayImages);
 void print_help(const cxxopts::Options& options);
 
 int main(int argc, char* argv[])
@@ -67,7 +68,9 @@ LOG_ADD_LOG_TO_CONSOLE();
             ("v,version", "display version information and exit")
             ("f,file", "configuration file (mandatory)", cxxopts::value<string>())
             ("p,port", "port to which the gRPC service will listen to \
-                (default: " + DEFAULT_GRPC_LISTENING_PORT + ")", cxxopts::value<int>());
+                (default: " + DEFAULT_GRPC_LISTENING_PORT + ")", cxxopts::value<int>())
+            ("s,save", "save images and poses on the given folder", cxxopts::value<string>())
+            ("d,display", "display images on a view screen");
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -96,10 +99,24 @@ LOG_ADD_LOG_TO_CONSOLE();
 
     string configFile = options["file"].as<string>();
 
+    string saveFolder = "";
+
+    if (options.count("save") && !options["save"].as<string>().empty()) {
+        saveFolder = options["save"].as<string>();
+        LOG_INFO("Image/pose folder set to: {}", saveFolder);
+    }
+
+    bool displayImages = false;
+    if (options.count("display"))
+    {
+        displayImages = true;
+        LOG_INFO("Images will be displayed on a view screen");
+    }
+
     try
     {
-        auto pipeline = resolvePipeline(configFile);
-        startService(pipeline.get(), "0.0.0.0:" + port);
+        auto pipeline = resolvePipeline(configFile, displayImages);
+        startService(pipeline.get(), "0.0.0.0:" + port, saveFolder, displayImages);
     }
     catch (const xpcf::Exception& e)
     {
@@ -120,7 +137,7 @@ LOG_ADD_LOG_TO_CONSOLE();
     return 0;
 }
 
-SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile)
+SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, bool displayImages)
 {
     auto componentMgr = xpcf::getComponentManagerInstance();
 
@@ -130,29 +147,45 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
         return nullptr;
     }
 
-    gImageViewer = componentMgr->resolve<api::display::IImageViewer>();
+    if (displayImages)
+        gImageViewer = componentMgr->resolve<api::display::IImageViewer>();
 
     return componentMgr->resolve<pipeline::IAsyncRelocalizationPipeline>();
 }
 
-void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress)
+void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,
+                  string saveFolder, bool displayImages)
 {
     grpc::EnableDefaultHealthCheckService(true);
     // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
     grpc::ServerBuilder builder;
 
-    builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());
+    builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());  
 
-    RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, gImageViewer);
-    builder.RegisterService(&grpcServices);
+    if (displayImages) {
+        RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, saveFolder, gImageViewer);
 
-    LOG_INFO("Starting proxy gRPC service");
-    unique_ptr<grpc::Server> grpcServer = builder.BuildAndStart();
+        builder.RegisterService(&grpcServices);
 
-    cout << "SolARDeviceGrpcService listening on " << serverAddress << std::endl;
+        LOG_INFO("Starting proxy gRPC service with Display option");
+        unique_ptr<grpc::Server> grpcServer = builder.BuildAndStart();
 
-    grpcServer->Wait();
+        cout << "SolARDeviceGrpcService listening on " << serverAddress << std::endl;
 
+        grpcServer->Wait();
+    }
+    else {
+        RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, saveFolder);
+
+        builder.RegisterService(&grpcServices);
+
+        LOG_INFO("Starting proxy gRPC service");
+        unique_ptr<grpc::Server> grpcServer = builder.BuildAndStart();
+
+        cout << "SolARDeviceGrpcService listening on " << serverAddress << std::endl;
+
+        grpcServer->Wait();
+    }
 }
 
 void print_help(const cxxopts::Options& options)

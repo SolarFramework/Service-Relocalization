@@ -103,13 +103,16 @@ RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
                                               const Empty* request,
                                               Empty* response)
 {
-        LOG_INFO("Init mapping and relocalization service");
+    LOG_INFO("Init mapping and relocalization service");
 
     if (m_pipeline->init() != SolAR::FrameworkReturnCode::_SUCCESS) {
+        LOG_ERROR("Error while initializing the mapping and relocalization front end service");
         return gRpcError("Error while initializing the mapping and relocalization front end service");
     }
 
     m_started = false;
+
+    LOG_DEBUG("Init mapping and relocalization service OK");
 
     return Status::OK;
 }
@@ -127,7 +130,8 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
     LOG_INFO("Start mapping and relocalization service");
 
     if (m_pipeline->start() != SolAR::FrameworkReturnCode::_SUCCESS) {
-        return gRpcError("Error while initializing the mapping and relocalization front end service");
+        LOG_ERROR("Error while starting the mapping and relocalization front end service");
+        return gRpcError("Error while starting the mapping and relocalization front end service");
     }
 
     m_ordered_images.clear();
@@ -139,6 +143,8 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
         m_poseFile.open(m_file_path + "pose.txt");
 
     m_started = true;
+
+    LOG_DEBUG("Start mapping and relocalization service OK");
 
     return Status::OK;
 }
@@ -164,6 +170,8 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
 
     if (m_file_path != "")
         m_poseFile.close();
+
+    LOG_DEBUG("Stop mapping and relocalization service OK");
 
     return Status::OK;
 }
@@ -215,6 +223,8 @@ RelocalizationAndMappingGrpcServiceImpl::SetCameraParameters(grpc::ServerContext
         return gRpcError("Error while setting camera parameters for the mapping and relocalization front end service");
     }
 
+    LOG_DEBUG("Set camera parameters for relocalization and mapping OK");
+
     return Status::OK;
 }
 
@@ -238,13 +248,14 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
     auto fps = relocAndMapFps.update();
 
-    LOG_INFO("Relocalize and map");
+//    LOG_INFO("Relocalize and map");
     LOG_INFO("{:03.2f} FPS", fps);
-    LOG_INFO("Input");
-    LOG_DEBUG("  image: {}x{}, {}",
-              request->image().width(),
-              request->image().height(),
-              to_string(request->image().layout()));
+
+//    LOG_INFO("Input");
+//    LOG_DEBUG("  image: {}x{}, {}",
+//              request->image().width(),
+//              request->image().height(),
+//              to_string(request->image().layout()));
 //    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
 //    LOG_DEBUG("  timestamp: {}", request->timestamp());
 
@@ -263,9 +274,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     SolAR::api::pipeline::TransformStatus transform3DStatus;
     SolAR::datastructure::Transform3Df transform3D;
     float_t confidence;
-
-    if (m_image_viewer)
-        m_image_viewer->display(image);
 
     // Drop image if too old (older than last processed image)
     if (timestamp < m_last_image_timestamp) {
@@ -286,7 +294,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     std::sort(m_ordered_images.begin(), m_ordered_images.end(), sortbythird);
 
     // If enough tuples, send the older one to Front End
-    if (m_ordered_images.size() >= 3) {
+    if (m_ordered_images.size() >= 5) {
 
         m_last_image_timestamp = std::get<2>(m_ordered_images[0]);
 
@@ -298,7 +306,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                             std::chrono::milliseconds(std::get<2>(m_ordered_images[0]))),
                         transform3DStatus,
                         transform3D,
-                        confidence);
+                        confidence);            
         }
         catch (const std::exception& e)
         {
@@ -307,6 +315,10 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
                              + std::string(e.what()));
         }
+
+        // Display image if specified
+        if (m_image_viewer)
+            m_image_viewer->display(image);
 
         // Save images and poses on files if specified
         if (m_file_path != "") {
@@ -318,7 +330,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                 m_index_image++;
                 for (int i = 0; i < 4; ++i)
                 for (int j = 0; j < 4; j++)
-                    m_poseFile << pose(i, j) << " ";
+                    m_poseFile << std::get<1>(m_ordered_images[0])(i, j) << " ";
                 m_poseFile << "\n";
             }
         }
@@ -358,7 +370,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         return Status::OK;
     }
 
-        return Status::OK;
+    return Status::OK;
 }
 
 grpc::Status

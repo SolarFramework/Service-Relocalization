@@ -23,7 +23,7 @@
 #include <xpcf/api/IComponentManager.h>
 #include <xpcf/core/helpers.h>
 #include <boost/log/core.hpp>
-
+#include <boost/filesystem.hpp>
 #include <core/Log.h>
 
 using grpc::Status;
@@ -136,11 +136,13 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
 
     m_ordered_images.clear();
 
-    m_last_image_timestamp = 0;
-
     m_index_image = 0;
-    if (m_file_path != "")
-        m_poseFile.open(m_file_path + "pose.txt");
+    if (m_file_path != "") {
+        m_image_path = m_file_path + "/000/";
+        boost::filesystem::create_directories(boost::filesystem::path(m_image_path.c_str()));
+        m_poseFile.open(m_file_path + "/pose_000.txt");
+        m_timestampFile.open(m_file_path + "/timestamps.txt");
+    }
 
     m_started = true;
 
@@ -168,8 +170,10 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
         return gRpcError("Error while stopping the mapping and relocalization front end service");
     }
 
-    if (m_file_path != "")
+    if (m_file_path != "") {
         m_poseFile.close();
+        m_timestampFile.close();
+    }
 
     LOG_DEBUG("Stop mapping and relocalization service OK");
 
@@ -296,14 +300,16 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     // If enough tuples, send the older one to Front End
     if (m_ordered_images.size() >= 5) {
 
+        SRef<SolARImage> imageToSend = std::get<0>(m_ordered_images[0]);
+        SolAR::datastructure::Transform3Df poseToSend = std::get<1>(m_ordered_images[0]);
         m_last_image_timestamp = std::get<2>(m_ordered_images[0]);
 
         try {
             m_pipeline->relocalizeProcessRequest(
-                        std::get<0>(m_ordered_images[0]),
-                        std::get<1>(m_ordered_images[0]),
+                        imageToSend,
+                        poseToSend,
                         std::chrono::time_point<std::chrono::system_clock>(
-                            std::chrono::milliseconds(std::get<2>(m_ordered_images[0]))),
+                            std::chrono::milliseconds(m_last_image_timestamp)),
                         transform3DStatus,
                         transform3D,
                         confidence);            
@@ -318,20 +324,21 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
         // Display image if specified
         if (m_image_viewer)
-            m_image_viewer->display(image);
+            m_image_viewer->display(imageToSend);
 
         // Save images and poses on files if specified
         if (m_file_path != "") {
             char imageName[9];
             sprintf(imageName, "%0.8d", m_index_image);
             cv::Mat imageToSave;
-            imageToOpenCV(std::get<0>(m_ordered_images[0]), imageToSave);
-            if (cv::imwrite(m_file_path + imageName + std::string(".jpg"), imageToSave)) {
+            imageToOpenCV(imageToSend, imageToSave);
+            if (cv::imwrite(m_image_path + imageName + std::string(".jpg"), imageToSave)) {
                 m_index_image++;
                 for (int i = 0; i < 4; ++i)
                 for (int j = 0; j < 4; j++)
-                    m_poseFile << std::get<1>(m_ordered_images[0])(i, j) << " ";
+                    m_poseFile << poseToSend(i, j) << " ";
                 m_poseFile << "\n";
+                m_timestampFile << m_last_image_timestamp << "\n";
             }
         }
 

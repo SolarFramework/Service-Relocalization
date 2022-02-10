@@ -85,7 +85,8 @@ private:
     // Variables used to save images on disk
     long m_index_image;
     std::ofstream m_poseFile;
-    std::string m_file_path;
+    std::ofstream m_timestampFile;
+    std::string m_file_path, m_image_path;
 
     // Vector of ordered tuple(image, pose, timestamp)
     std::vector<std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long>> m_ordered_images;

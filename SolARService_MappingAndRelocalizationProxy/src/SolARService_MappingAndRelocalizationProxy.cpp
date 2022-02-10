@@ -46,7 +46,7 @@ namespace xpcf=org::bcom::xpcf;
 
 using com::bcom::solar::gprc::RelocalizationAndMappingGrpcServiceImpl;
 
-const string DEFAULT_GRPC_LISTENING_PORT = "5002";
+const string DEFAULT_GRPC_LISTENING_PORT = "5010";
 
 SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, bool displayImages);
 void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,

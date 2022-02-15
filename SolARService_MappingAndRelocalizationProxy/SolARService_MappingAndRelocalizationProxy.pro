@@ -45,10 +45,9 @@ include(SolARService_MappingAndRelocalizationProxy.pri)
 unix {
     LIBS += -ldl
     QMAKE_CXXFLAGS += -DBOOST_LOG_DYN_LINK
-}
 
-linux {
-    LIBS += -ldl
+    # Avoids adding install steps manually. To be commented to have a better control over them.
+    QMAKE_POST_LINK += "make install install_deps"
 }
 
 macx {
@@ -81,6 +80,7 @@ linux {
     CONFIG(debug,debug|release) {
         run_install.extra = cp $$files($${PWD}/../runDebug.sh) $${PWD}/../run.sh
     }
+    run_install.CONFIG += nostrip
     INSTALLS += run_install
 }
 

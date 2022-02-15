@@ -8,9 +8,12 @@ node("master") {
         dirName="SolARBuild"
         buildDir= \
         "SolARService_Relocalization,\
-		 SolARService_Relocalization/tests/SolARServiceTest_Relocalization"
+         SolARService_Relocalization/tests/SolARServiceTest_Relocalization,\
+         SolARService_MappingAndRelocalizationProxy,\
+         SolARService_MappingAndRelocalizationFrontend,\
+         SolARService_MappingAndRelocalizationFrontend/tests/SolARServiceTest_MappingAndRelocalizationFrontend"
         android=false
-		win=false
+	win=false
         packageScripts="bundleServices"
     }
 

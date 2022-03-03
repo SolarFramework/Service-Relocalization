@@ -59,13 +59,18 @@ int main(int argc, char* argv[])
     LOG_ADD_LOG_TO_CONSOLE();
     LOG_SET_DEBUG_LEVEL();
 
+    bool display_keyframe_poses = false;
+    bool display_device_poses = false;
+
     cxxopts::Options option_list("SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer",
                                  "SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer - The commandline interface to the xpcf grpc client test application.\n");
     option_list.add_options()
             ("h,help", "display this help and exit")
             ("v,version", "display version information and exit")
             ("f,file", "xpcf grpc client configuration file",
-             cxxopts::value<string>());
+             cxxopts::value<string>())
+            ("display-keyframe-poses", "display keyframe poses from Map Update global map")
+            ("display-device-poses", "display poses sent by the device");
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -77,9 +82,21 @@ int main(int argc, char* argv[])
         std::cout << "SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer version " << MYVERSION << std::endl << std::endl;
         return 0;
     }
-    else if (!options.count("file") || options["file"].as<string>().empty()) {
-        print_error("missing configuration file argument");
-        return -1;
+    else {
+        if (!options.count("file") || options["file"].as<string>().empty()) {
+            print_error("missing configuration file argument");
+            return -1;
+        }
+
+        if (options.count("display-keyframe-poses") && options.count("display-device-poses")) {
+            print_error("\'--display-keyframe-poses\' and \'--display-device-poses\' are exclusive options");
+            return -1;
+        }
+
+        if (options.count("display-keyframe-poses"))
+            display_keyframe_poses = true;
+        else if (options.count("display-device-poses"))
+            display_device_poses = true;
     }
 
     try {
@@ -163,8 +180,7 @@ int main(int argc, char* argv[])
         SRef<Map> globalMap;
         std::vector<SRef<Keyframe>> globalKeyframes;
         std::vector<SRef<CloudPoint>> globalPointCloud;
-        std::vector<Transform3Df> globalKeyframesPoses;
-        std::vector<Transform3Df> devicePoses, solARPoses, newTransfPoses;
+        std::vector<Transform3Df> deviceOrKeyframePoses, solARPoses, newTransfPoses;
 
         auto last_request = std::chrono::high_resolution_clock::now();
 
@@ -180,19 +196,22 @@ int main(int argc, char* argv[])
             }
 
             // Retrieve point cloud and keyFrames from global map
-            globalMap->getConstKeyframeCollection()->getAllKeyframes(globalKeyframes);
             globalMap->getConstPointCloud()->getAllPoints(globalPointCloud);
-            LOG_INFO("Number of keyframes: {}", globalKeyframes.size());
             LOG_INFO("Number of cloud points: {}", globalPointCloud.size());
 
             if (globalPointCloud.size() > 0) {
 
                 LOG_INFO("==> Display current global map: press ESC on the map display window to end test");
 
-                // Retrieve key frames poses
-                if (globalKeyframes.size() > 0) {
-                    for (const auto &it : globalKeyframes)
-                        globalKeyframesPoses.push_back(it->getPose());
+                if (display_keyframe_poses) {
+                    globalMap->getConstKeyframeCollection()->getAllKeyframes(globalKeyframes);
+                    LOG_INFO("Number of keyframes: {}", globalKeyframes.size());
+
+                    // Retrieve key frames poses
+                    if (globalKeyframes.size() > 0) {
+                        for (const auto &it : globalKeyframes)
+                            deviceOrKeyframePoses.push_back(it->getPose());
+                    }
                 }
 
                 datastructure::Transform3Df device_pose, solAR_pose, transform3D;
@@ -209,9 +228,10 @@ int main(int argc, char* argv[])
                     // If delay is reached
                     if (elapsed_time.count() > FRONT_END_REQUEST_DELAY) {
                         // Try to get the Device pose from Front End
-                        if (frontEndService->getLastPose(device_pose, api::pipeline::DEVICE_POSE)
+                        if ((display_device_poses)
+                                && (frontEndService->getLastPose(device_pose, api::pipeline::DEVICE_POSE))
                                 == FrameworkReturnCode::_SUCCESS) {
-                            devicePoses.push_back(device_pose);
+                            deviceOrKeyframePoses.push_back(device_pose);
                         }
                         // Try to get the SolAR pose from Front End
                         if (frontEndService->getLastPose(solAR_pose) == FrameworkReturnCode::_SUCCESS) {
@@ -235,25 +255,14 @@ int main(int argc, char* argv[])
 
                         last_request = std::chrono::high_resolution_clock::now();
                     }
-/*
+
                     if (found_solAR_pose) {
-                        if (gViewer3D->display(globalPointCloud, solAR_pose, solARPoses, devicePoses, {},
+                        if (gViewer3D->display(globalPointCloud, solAR_pose, solARPoses, deviceOrKeyframePoses, {},
                                                newTransfPoses) == FrameworkReturnCode::_STOP)
                             break;
                     }
                     else {
-                        if (gViewer3D->display(globalPointCloud, {}, solARPoses, devicePoses, {},
-                                               newTransfPoses) == FrameworkReturnCode::_STOP)
-                            break;
-                    }
-*/
-                    if (found_solAR_pose) {
-                        if (gViewer3D->display(globalPointCloud, solAR_pose, solARPoses, globalKeyframesPoses, {},
-                                               newTransfPoses) == FrameworkReturnCode::_STOP)
-                            break;
-                    }
-                    else {
-                        if (gViewer3D->display(globalPointCloud, {}, solARPoses, globalKeyframesPoses, {},
+                        if (gViewer3D->display(globalPointCloud, {}, solARPoses, deviceOrKeyframePoses, {},
                                                newTransfPoses) == FrameworkReturnCode::_STOP)
                             break;
                     }

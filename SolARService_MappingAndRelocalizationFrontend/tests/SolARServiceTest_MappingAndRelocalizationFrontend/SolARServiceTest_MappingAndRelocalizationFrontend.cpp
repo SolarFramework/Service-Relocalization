@@ -76,6 +76,8 @@ int main(int argc, char* argv[])
 
     LOG_ADD_LOG_TO_CONSOLE();
 
+    bool relocOnly = false; // Indicate if only relocalization has to be done
+
     // Signal interruption function (Ctrl + C)
     signal(SIGINT, SigInt);
 
@@ -85,7 +87,8 @@ int main(int argc, char* argv[])
             ("h,help", "display this help and exit")
             ("v,version", "display version information and exit")
             ("f,file", "xpcf grpc client configuration file",
-             cxxopts::value<string>());
+             cxxopts::value<string>())
+            ("reloc-only", "do only relocalization (no mapping)");
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -97,9 +100,16 @@ int main(int argc, char* argv[])
         cout << "SolARServiceTest_MappingAndRelocalizationFrontend version " << MYVERSION << std::endl << std::endl;
         return 0;
     }
-    else if (!options.count("file") || options["file"].as<string>().empty()) {
-        print_error("missing one of file or database dir argument");
-        return 1;
+    else {
+        if (!options.count("file") || options["file"].as<string>().empty()) {
+            print_error("missing configuration file argument");
+            return 1;
+        }
+
+        if (options.count("reloc-only")) {
+            LOG_INFO("Relocalization only option specified");
+            relocOnly = true;
+        }
     }
 
     try {
@@ -123,6 +133,16 @@ int main(int argc, char* argv[])
         else {
             LOG_INFO("Failed to load Client Remote Service configuration file: {}", file);
             return -1;
+        }
+
+        if (relocOnly) {
+            LOG_INFO("Set \'Relocalization only\' mode");
+
+            if (gRelocalizationAndMappingFrontendService->initProcessingMode(
+                        api::pipeline::RELOCALIZATION_ONLY) != FrameworkReturnCode::_SUCCESS) {
+                LOG_ERROR("Error while initializing the mode for mapping and relocalization front end service");
+                return -1;
+            }
         }
 
         LOG_INFO("Initialize the service");
@@ -182,20 +202,31 @@ int main(int argc, char* argv[])
 
                     LOG_INFO("Send image and pose to service");
 
-//                    image->setImageEncoding(Image::ENCODING_JPEG);
-//                    image->setImageEncodingQuality(80);
+                    image->setImageEncoding(Image::ENCODING_JPEG);
+                    image->setImageEncodingQuality(80);
 
                     // Send data to mapping and relocalization front end service
                     gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
                                 image, pose, timestamp, transform3DStatus, transform3D, confidence);
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
-                        LOG_INFO("New 3D transformation = {}", transform3D.matrix());
+                        LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
                         T_H_W = transform3D;
-                    }
 
-                    // draw cube
-                    overlay3D->draw(T_H_W * pose, image);
+                        // draw cube
+                        if (!relocOnly)
+                            overlay3D->draw(T_H_W * pose, image);
+                    }
+                    else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
+                        LOG_DEBUG("Previous 3D transformation = {}", transform3D.matrix());
+
+                        // draw cube
+                        if (!relocOnly)
+                            overlay3D->draw(T_H_W * pose, image);
+                    }
+                    else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
+                        LOG_DEBUG("No 3D transformation");
+                    }
 
                     // Display image sent
                     imageViewer->display(image);

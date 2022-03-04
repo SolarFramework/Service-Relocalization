@@ -364,27 +364,25 @@ const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fpr
   "\010NEW_POSE\020\001\022\017\n\013LATEST_POSE\020\002*2\n\013ImageLay"
   "out\022\n\n\006RGB_24\020\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\002"
   "*%\n\020ImageCompression\022\010\n\004NONE\020\000\022\007\n\003PNG\020\0012"
-  "\226\005\n\"SolARMappingAndRelocalizationProxy\022X"
-  "\n\022InitProcessingMode\022&.com.bcom.solar.gp"
-  "rc.PipelineModeValue\032\032.com.bcom.solar.gp"
-  "rc.Empty\022>\n\004Init\022\032.com.bcom.solar.gprc.E"
-  "mpty\032\032.com.bcom.solar.gprc.Empty\022\?\n\005Star"
-  "t\022\032.com.bcom.solar.gprc.Empty\032\032.com.bcom"
-  ".solar.gprc.Empty\022>\n\004Stop\022\032.com.bcom.sol"
-  "ar.gprc.Empty\032\032.com.bcom.solar.gprc.Empt"
-  "y\022X\n\023SetCameraParameters\022%.com.bcom.sola"
-  "r.gprc.CameraParameters\032\032.com.bcom.solar"
-  ".gprc.Empty\022Y\n\020RelocalizeAndMap\022\032.com.bc"
-  "om.solar.gprc.Frame\032).com.bcom.solar.gpr"
-  "c.RelocalizationResult\022W\n\016Get3DTransform"
-  "\022\032.com.bcom.solar.gprc.Empty\032).com.bcom."
-  "solar.gprc.RelocalizationResult\022G\n\013SendM"
-  "essage\022\034.com.bcom.solar.gprc.Message\032\032.c"
-  "om.bcom.solar.gprc.Emptyb\006proto3"
+  "\310\004\n\"SolARMappingAndRelocalizationProxy\022J"
+  "\n\004Init\022&.com.bcom.solar.gprc.PipelineMod"
+  "eValue\032\032.com.bcom.solar.gprc.Empty\022\?\n\005St"
+  "art\022\032.com.bcom.solar.gprc.Empty\032\032.com.bc"
+  "om.solar.gprc.Empty\022>\n\004Stop\022\032.com.bcom.s"
+  "olar.gprc.Empty\032\032.com.bcom.solar.gprc.Em"
+  "pty\022X\n\023SetCameraParameters\022%.com.bcom.so"
+  "lar.gprc.CameraParameters\032\032.com.bcom.sol"
+  "ar.gprc.Empty\022Y\n\020RelocalizeAndMap\022\032.com."
+  "bcom.solar.gprc.Frame\032).com.bcom.solar.g"
+  "prc.RelocalizationResult\022W\n\016Get3DTransfo"
+  "rm\022\032.com.bcom.solar.gprc.Empty\032).com.bco"
+  "m.solar.gprc.RelocalizationResult\022G\n\013Sen"
+  "dMessage\022\034.com.bcom.solar.gprc.Message\032\032"
+  ".com.bcom.solar.gprc.Emptyb\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = {
-  false, false, 2272, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
+  false, false, 2194, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
   &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 10,
   schemas, file_default_instances, TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto::offsets,
   file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto,

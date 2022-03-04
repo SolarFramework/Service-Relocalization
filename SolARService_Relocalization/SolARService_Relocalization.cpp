@@ -90,10 +90,9 @@ int main(int argc, char* argv[])
     option_list.add_options()
             ("h,help", "display this help and exit")
             ("v,version", "display version information and exit")
-            ("m,modules", "XPCF modules configuration file",
-             cxxopts::value<std::string>())
-            ("p,properties", "XPCF properties configuration file",
-             cxxopts::value<std::string>());
+            ("m,modules", "XPCF modules configuration file", cxxopts::value<std::string>())
+            ("p,properties", "XPCF properties configuration file", cxxopts::value<std::string>())
+            ("t,target", "target devices for computations (cpu/cuda)", cxxopts::value<std::string>()->default_value("cpu"));
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -144,7 +143,14 @@ int main(int argc, char* argv[])
         LOG_DEBUG("Environment variable SOLAR_LOG_LEVEL={}", str_log_level);
     }
 
+    // check using cuda target
+    bool bUseCuda = options["target"].as<std::string>() == "cuda" ? 1 : 0;
+
     configSrc = options["modules"].as<std::string>();
+    if (bUseCuda){
+        LOG_INFO("Use cuda target");
+        configSrc.insert(configSrc.length()-4,"_cuda");
+    }
 
     LOG_INFO("Load modules configuration file: {}", configSrc);
 
@@ -154,6 +160,7 @@ int main(int argc, char* argv[])
     }
 
     configSrc = options["properties"].as<std::string>();
+    if (bUseCuda) configSrc.insert(configSrc.length()-4,"_cuda");
 
     LOG_INFO("Load properties configuration file: {}", configSrc);
 

@@ -23,7 +23,7 @@
         </component>
 </module>
 
-<module uuid="15e1990b-86b2-445c-8194-0cbe80ede970" name="SolARModuleOpenCV" description="SolARModuleOpenCV" path="$XPCF_MODULE_ROOT/SolARBuild/SolARModuleOpenCV/0.11.0/lib/x86_64/shared">
+<module uuid="fde83ee6-3e22-4531-9e1c-54cb0a3bf3fa" name="SolARModuleOpenCVCuda" description="SolARModuleOpenCVCuda" path="$XPCF_MODULE_ROOT/SolARBuild/SolARModuleOpenCVCuda/0.11.0/lib/x86_64/shared">
         <component uuid="e81c7e4e-7da6-476a-8eba-078b43071272" name="SolARKeypointDetectorOpencv" description="SolARKeypointDetectorOpencv">
                 <interface uuid="125f2007-1bf9-421d-9367-fbdc1210d006" name="IComponentIntrospect" description="IComponentIntrospect"/>
                 <interface uuid="0eadc8b7-1265-434c-a4c6-6da8a028e06e" name="IKeypointDetector" description="IKeypointDetector"/>
@@ -76,6 +76,10 @@
 				<interface uuid="125f2007-1bf9-421d-9367-fbdc1210d006" name="IComponentIntrospect" description="IComponentIntrospect"/>
 				<interface uuid="a345a1d2-c3f3-497f-948b-cd1a199e6657" name="IUndistortPoints" description="IUndistortPoints"/>
 		</component>
+		<component uuid="fd7fb607-144f-418c-bcf2-f7cf71532c22" name="SolARImageConvertorOpencv" description="SolARImageConvertorOpencv">
+				<interface uuid="125f2007-1bf9-421d-9367-fbdc1210d006" name="IComponentIntrospect" description="IComponentIntrospect"/>
+				<interface uuid="9c982719-6cb4-4831-aa88-9e01afacbd16" name="IImageConvertor" description="IImageConvertor"/>
+		</component>
 </module>
 
 <module uuid="28b89d39-41bd-451d-b19e-d25a3d7c5797" name="SolARModuleTools"  description="SolARModuleTools"  path="$XPCF_MODULE_ROOT/SolARBuild/SolARModuleTools/0.11.0/lib/x86_64/shared">
@@ -108,6 +112,13 @@
         </component>
 </module>
 
+<module uuid="4a43732c-a1b2-11eb-bcbc-0242ac130002" name="SolARModulePopSift" description="SolARModulePopSift" path="$XPCF_MODULE_ROOT/SolARBuild/SolARModulePopSift/0.11.0/lib/x86_64/shared">
+		<component uuid="7fb2aace-a1b1-11eb-bcbc-0242ac130002" name="SolARDescritorsExtractorFromImagePopSift" description="SolARDescritorsExtractorFromImagePopSift">
+				<interface uuid="125f2007-1bf9-421d-9367-fbdc1210d006" name="IComponentIntrospect" description="IComponentIntrospect"/>
+				<interface uuid="1cd4f5f1-6b74-413b-9725-69653aee48ef" name="IDescriptorsExtractorFromImage" description="IDescriptorsExtractorFromImage"/>
+		</component>
+</module>
+
 <factory>
     <bindings>
         <!-- bindings for the gRPC Service: exposed interfaces -->
@@ -115,7 +126,7 @@
           <component to="IRelocalizationPipeline_grpcServer"/>
         </bind>
         <!-- bindings for the relocalization pipeline -->
-        <bind interface="IDescriptorsExtractorFromImage" to="SolARDescriptorsExtractorFromImageOpencv" />
+        <bind interface="IDescriptorsExtractorFromImage" to="SolARDescritorsExtractorFromImagePopSift" range="default|all"/>
         <bind interface="IDescriptorMatcher" to="SolARDescriptorMatcherKNNOpencv" />
         <bind interface="IMapManager" to="SolARMapManager" scope="Singleton"/>
         <bind interface="IPointCloudManager" to="SolARPointCloudManager" scope="Singleton"/>
@@ -123,12 +134,6 @@
         <bind interface="ICovisibilityGraphManager" to="SolARCovisibilityGraphManager" scope="Singleton"/>
         <bind interface="IKeyframeRetriever" to="SolARKeyframeRetrieverFBOW" scope="Singleton"/>
     </bindings>
-	<injects>		
-		<inject to="SolARDescriptorsExtractorFromImageOpencv">
-			<bind interface="IKeypointDetector" to="SolARKeypointDetectorOpencv"/>
-			<bind interface="IDescriptorsExtractor" to="SolARDescriptorsExtractorAKAZE2Opencv"/>
-		</inject>			
-	</injects>
 </factory>
 
 </xpcf-registry>

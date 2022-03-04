@@ -47,7 +47,7 @@ struct TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[10]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -83,6 +83,9 @@ extern Matrix4x4DefaultTypeInternal _Matrix4x4_default_instance_;
 class Message;
 struct MessageDefaultTypeInternal;
 extern MessageDefaultTypeInternal _Message_default_instance_;
+class PipelineModeValue;
+struct PipelineModeValueDefaultTypeInternal;
+extern PipelineModeValueDefaultTypeInternal _PipelineModeValue_default_instance_;
 class RelocalizationResult;
 struct RelocalizationResultDefaultTypeInternal;
 extern RelocalizationResultDefaultTypeInternal _RelocalizationResult_default_instance_;
@@ -99,6 +102,7 @@ template<> ::com::bcom::solar::gprc::Image* Arena::CreateMaybeMessage<::com::bco
 template<> ::com::bcom::solar::gprc::Matrix3x3* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Matrix3x3>(Arena*);
 template<> ::com::bcom::solar::gprc::Matrix4x4* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Matrix4x4>(Arena*);
 template<> ::com::bcom::solar::gprc::Message* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Message>(Arena*);
+template<> ::com::bcom::solar::gprc::PipelineModeValue* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::PipelineModeValue>(Arena*);
 template<> ::com::bcom::solar::gprc::RelocalizationResult* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::RelocalizationResult>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
@@ -106,6 +110,31 @@ namespace bcom {
 namespace solar {
 namespace gprc {
 
+enum PipelineMode : int {
+  RELOCALIZATION_AND_MAPPING = 0,
+  RELOCALIZATION_ONLY = 1,
+  PipelineMode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  PipelineMode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool PipelineMode_IsValid(int value);
+constexpr PipelineMode PipelineMode_MIN = RELOCALIZATION_AND_MAPPING;
+constexpr PipelineMode PipelineMode_MAX = RELOCALIZATION_ONLY;
+constexpr int PipelineMode_ARRAYSIZE = PipelineMode_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PipelineMode_descriptor();
+template<typename T>
+inline const std::string& PipelineMode_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, PipelineMode>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function PipelineMode_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    PipelineMode_descriptor(), enum_t_value);
+}
+inline bool PipelineMode_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PipelineMode* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PipelineMode>(
+    PipelineMode_descriptor(), name, value);
+}
 enum CameraType : int {
   RGB = 0,
   GRAY = 1,
@@ -334,6 +363,143 @@ class Empty PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class PipelineModeValue PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.PipelineModeValue) */ {
+ public:
+  inline PipelineModeValue() : PipelineModeValue(nullptr) {}
+  virtual ~PipelineModeValue();
+  explicit constexpr PipelineModeValue(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PipelineModeValue(const PipelineModeValue& from);
+  PipelineModeValue(PipelineModeValue&& from) noexcept
+    : PipelineModeValue() {
+    *this = ::std::move(from);
+  }
+
+  inline PipelineModeValue& operator=(const PipelineModeValue& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PipelineModeValue& operator=(PipelineModeValue&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const PipelineModeValue& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PipelineModeValue* internal_default_instance() {
+    return reinterpret_cast<const PipelineModeValue*>(
+               &_PipelineModeValue_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(PipelineModeValue& a, PipelineModeValue& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PipelineModeValue* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PipelineModeValue* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PipelineModeValue* New() const final {
+    return CreateMaybeMessage<PipelineModeValue>(nullptr);
+  }
+
+  PipelineModeValue* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PipelineModeValue>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const PipelineModeValue& from);
+  void MergeFrom(const PipelineModeValue& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PipelineModeValue* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.PipelineModeValue";
+  }
+  protected:
+  explicit PipelineModeValue(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPipelineModeFieldNumber = 1,
+  };
+  // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 1;
+  void clear_pipeline_mode();
+  ::com::bcom::solar::gprc::PipelineMode pipeline_mode() const;
+  void set_pipeline_mode(::com::bcom::solar::gprc::PipelineMode value);
+  private:
+  ::com::bcom::solar::gprc::PipelineMode _internal_pipeline_mode() const;
+  void _internal_set_pipeline_mode(::com::bcom::solar::gprc::PipelineMode value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.PipelineModeValue)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  int pipeline_mode_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Message PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.Message) */ {
  public:
@@ -377,7 +543,7 @@ class Message PROTOBUF_FINAL :
                &_Message_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(Message& a, Message& b) {
     a.Swap(&b);
@@ -521,7 +687,7 @@ class CameraParameters PROTOBUF_FINAL :
                &_CameraParameters_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(CameraParameters& a, CameraParameters& b) {
     a.Swap(&b);
@@ -749,7 +915,7 @@ class CameraDistortion PROTOBUF_FINAL :
                &_CameraDistortion_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(CameraDistortion& a, CameraDistortion& b) {
     a.Swap(&b);
@@ -930,7 +1096,7 @@ class RelocalizationResult PROTOBUF_FINAL :
                &_RelocalizationResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(RelocalizationResult& a, RelocalizationResult& b) {
     a.Swap(&b);
@@ -1098,7 +1264,7 @@ class Image PROTOBUF_FINAL :
                &_Image_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(Image& a, Image& b) {
     a.Swap(&b);
@@ -1286,7 +1452,7 @@ class Frame PROTOBUF_FINAL :
                &_Frame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(Frame& a, Frame& b) {
     a.Swap(&b);
@@ -1474,7 +1640,7 @@ class Matrix4x4 PROTOBUF_FINAL :
                &_Matrix4x4_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(Matrix4x4& a, Matrix4x4& b) {
     a.Swap(&b);
@@ -1776,7 +1942,7 @@ class Matrix3x3 PROTOBUF_FINAL :
                &_Matrix3x3_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(Matrix3x3& a, Matrix3x3& b) {
     a.Swap(&b);
@@ -1966,6 +2132,30 @@ class Matrix3x3 PROTOBUF_FINAL :
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 // Empty
+
+// -------------------------------------------------------------------
+
+// PipelineModeValue
+
+// .com.bcom.solar.gprc.PipelineMode pipeline_mode = 1;
+inline void PipelineModeValue::clear_pipeline_mode() {
+  pipeline_mode_ = 0;
+}
+inline ::com::bcom::solar::gprc::PipelineMode PipelineModeValue::_internal_pipeline_mode() const {
+  return static_cast< ::com::bcom::solar::gprc::PipelineMode >(pipeline_mode_);
+}
+inline ::com::bcom::solar::gprc::PipelineMode PipelineModeValue::pipeline_mode() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.PipelineModeValue.pipeline_mode)
+  return _internal_pipeline_mode();
+}
+inline void PipelineModeValue::_internal_set_pipeline_mode(::com::bcom::solar::gprc::PipelineMode value) {
+  
+  pipeline_mode_ = value;
+}
+inline void PipelineModeValue::set_pipeline_mode(::com::bcom::solar::gprc::PipelineMode value) {
+  _internal_set_pipeline_mode(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.PipelineModeValue.pipeline_mode)
+}
 
 // -------------------------------------------------------------------
 
@@ -3456,6 +3646,8 @@ inline void Matrix3x3::set_m33(float value) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -3466,6 +3658,11 @@ inline void Matrix3x3::set_m33(float value) {
 
 PROTOBUF_NAMESPACE_OPEN
 
+template <> struct is_proto_enum< ::com::bcom::solar::gprc::PipelineMode> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::PipelineMode>() {
+  return ::com::bcom::solar::gprc::PipelineMode_descriptor();
+}
 template <> struct is_proto_enum< ::com::bcom::solar::gprc::CameraType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::CameraType>() {

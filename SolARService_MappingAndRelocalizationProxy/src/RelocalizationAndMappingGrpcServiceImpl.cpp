@@ -105,7 +105,7 @@ RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
 {
     LOG_INFO("Init mapping and relocalization service");
 
-    if (m_pipeline->init() != SolAR::FrameworkReturnCode::_SUCCESS) {
+    if (m_pipeline->init(toSolAR(request->pipeline_mode())) != SolAR::FrameworkReturnCode::_SUCCESS) {
         LOG_ERROR("Error while initializing the mapping and relocalization front end service");
         return gRpcError("Error while initializing the mapping and relocalization front end service");
     }
@@ -713,6 +713,17 @@ void RelocalizationAndMappingGrpcServiceImpl::imageToOpenCV(SRef<SolAR::datastru
     int type = solar2cvTypeConvertMap.at(std::forward_as_tuple(imgSrc->getNbBitsPerComponent(),1,imgSrc->getNbChannels()));
     cv::Mat imgCV(imgSrc->getHeight(),imgSrc->getWidth(),type, imgSrc->data());
     imgDest = imgCV;
+}
+
+SolAR::api::pipeline::PipelineMode
+RelocalizationAndMappingGrpcServiceImpl::toSolAR(PipelineMode pipelineMode)
+{
+    switch(pipelineMode)
+    {
+        case RELOCALIZATION_AND_MAPPING: return SolAR::api::pipeline::PipelineMode::RELOCALIZATION_AND_MAPPING;
+        case RELOCALIZATION_ONLY: return SolAR::api::pipeline::PipelineMode::RELOCALIZATION_ONLY;
+        default: throw std::runtime_error("Unkown pipeline mode");
+    }
 }
 
 grpc::Status

@@ -99,8 +99,7 @@ DISTFILES += \
     docker/launch.bat \
     docker/launch.sh \
     docker/launch_vm.sh \
-    docker/SolARServiceMapUpdateDisplayMapClient.dockerfile \
-    docker/SolARServiceFrontendRelocViewer.dockerfile \
+    docker/SolARServiceFrontEndRelocViewer.dockerfile \
     docker/start_client.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}

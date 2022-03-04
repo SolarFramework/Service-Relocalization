@@ -11,21 +11,16 @@ RUN apt-get install -y libvdpau-dev
 RUN apt-get install -y xterm
 RUN useradd -ms /bin/bash xterm
 
-## Copy SolARServiceMapUpdateDisplayMapClient app files
-RUN mkdir SolARServiceMapUpdateDisplayMapClient
-
-## Data files (hololens configuration)
-RUN mkdir SolARServiceMapUpdateDisplayMapClient/data
-RUN mkdir SolARServiceMapUpdateDisplayMapClient/data/calibrations
-ADD data/calibrations/* /SolARServiceMapUpdateDisplayMapClient/data/calibrations/
+## Copy SolARServiceMappingAndRelocalizationFrontendRelocViewer app files
+RUN mkdir SolARServiceMappingAndRelocalizationFrontendRelocViewer
 
 ## Libraries and modules
-RUN mkdir SolARServiceMapUpdateDisplayMapClient/modules
-ADD modules/* /SolARServiceMapUpdateDisplayMapClient/modules/
+RUN mkdir SolARServiceMappingAndRelocalizationFrontendRelocViewer/modules
+ADD modules/* /SolARServiceMappingAndRelocalizationFrontendRelocViewer/modules/
 
 ## Project files
-ADD SolARServiceTest_MapUpdate_DisplayMap /SolARServiceMapUpdateDisplayMapClient/
-RUN chmod +x /SolARServiceMapUpdateDisplayMapClient/SolARServiceTest_MapUpdate_DisplayMap
+ADD SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer /SolARServiceMappingAndRelocalizationFrontendRelocViewer/
+RUN chmod +x /SolARServiceMappingAndRelocalizationFrontendRelocViewer/SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer
 RUN mkdir .xpcf
 ADD *.xml /.xpcf/
 ADD docker/start_client.sh .

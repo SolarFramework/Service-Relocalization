@@ -100,7 +100,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
-                                              const Empty* request,
+                                              const PipelineModeValue* request,
                                               Empty* response)
 {
     LOG_INFO("Init mapping and relocalization service");

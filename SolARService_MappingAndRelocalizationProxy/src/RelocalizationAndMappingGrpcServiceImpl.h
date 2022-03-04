@@ -47,7 +47,7 @@ public:
 
 public:
     grpc::Status Init(grpc::ServerContext* context,
-                      const Empty* request,
+                      const PipelineModeValue* request,
                       Empty* response)  override;
 
     grpc::Status Start(grpc::ServerContext* context,

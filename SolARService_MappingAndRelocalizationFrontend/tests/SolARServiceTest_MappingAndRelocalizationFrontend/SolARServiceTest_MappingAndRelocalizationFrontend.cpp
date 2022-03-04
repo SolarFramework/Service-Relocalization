@@ -135,19 +135,18 @@ int main(int argc, char* argv[])
             return -1;
         }
 
+        LOG_INFO("Initialize the service");
+
         if (relocOnly) {
             LOG_INFO("Set \'Relocalization only\' mode");
 
-            if (gRelocalizationAndMappingFrontendService->initProcessingMode(
-                        api::pipeline::RELOCALIZATION_ONLY) != FrameworkReturnCode::_SUCCESS) {
+            if (gRelocalizationAndMappingFrontendService->init(api::pipeline::RELOCALIZATION_ONLY)
+                    != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while initializing the mode for mapping and relocalization front end service");
                 return -1;
             }
         }
-
-        LOG_INFO("Initialize the service");
-
-        if (gRelocalizationAndMappingFrontendService->init() != FrameworkReturnCode::_SUCCESS) {
+        else if (gRelocalizationAndMappingFrontendService->init() != FrameworkReturnCode::_SUCCESS) {
             LOG_ERROR("Error while initializing the mapping and relocalization front end service");
             return -1;
         }

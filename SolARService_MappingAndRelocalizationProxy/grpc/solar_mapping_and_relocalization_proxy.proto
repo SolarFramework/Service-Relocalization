@@ -17,6 +17,7 @@ package com.bcom.solar.gprc;
 
 service SolARMappingAndRelocalizationProxy
 {
+    rpc InitProcessingMode(PipelineModeValue) returns (Empty);
     rpc Init(Empty) returns (Empty);
     rpc Start(Empty) returns (Empty);
     rpc Stop(Empty) returns (Empty);
@@ -29,6 +30,17 @@ service SolARMappingAndRelocalizationProxy
 
 message Empty
 {}
+
+enum PipelineMode
+{
+    RELOCALIZATION_AND_MAPPING = 0;
+    RELOCALIZATION_ONLY = 1;
+}
+
+message PipelineModeValue
+{
+    PipelineMode pipeline_mode = 1;
+}
 
 message Message
 {

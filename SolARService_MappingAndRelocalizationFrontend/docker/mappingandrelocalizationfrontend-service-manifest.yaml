@@ -25,9 +25,9 @@ spec:
         - name: XPCF_GRPC_MAX_SEND_MSG_SIZE
           value: "20000"
         - name: RELOCALIZATION_SERVICE_URL
-          value: relocalization-service.artwin.svc.cluster.local:80
+          value: relocalization-service:80
         - name: MAPPING_SERVICE_URL
-          value: mapping-service.artwin.svc.cluster.local:80
+          value: mapping-service:80
 ---
 
 kind: Service

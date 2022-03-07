@@ -25,7 +25,7 @@ spec:
         - name: XPCF_GRPC_MAX_SEND_MSG_SIZE
           value: "2000000"
         - name: MAPUPDATE_SERVICE_URL
-          value: map-update-service.artwin.svc.cluster.local:80          
+          value: map-update-service:80
 ---
 
 kind: Service

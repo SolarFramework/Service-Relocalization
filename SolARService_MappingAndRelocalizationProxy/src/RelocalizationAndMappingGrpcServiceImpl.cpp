@@ -135,6 +135,7 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
     }
 
     m_ordered_images.clear();
+    m_last_image_timestamp = 0;
 
     m_index_image = 0;
     if (m_file_path != "") {

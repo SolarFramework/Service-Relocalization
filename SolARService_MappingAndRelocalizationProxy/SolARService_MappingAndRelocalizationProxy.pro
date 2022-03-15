@@ -87,7 +87,12 @@ linux {
 DISTFILES += \
     SolARService_MappingAndRelocalizationProxy_conf.xml \
     packagedependencies-linux.txt \
-    packagedependencies.txt
+    packagedependencies-win.txt \
+    packagedependencies-android.txt \
+    packagedependencies-mac.txt \
+    packagedependencies.txt \
+    extra-packages.txt \
+    extra-packages-linux.txt
 
 xml_files.path = $${TARGETDEPLOYDIR}
 xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocalizationProxy_conf.xml)

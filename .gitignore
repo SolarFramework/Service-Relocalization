@@ -44,6 +44,7 @@ build/
 *.exe
 *.out
 *.app
+bin/
 
 #others
 
@@ -107,4 +108,3 @@ data/
 
 SolARService_Relocalization/start_relocalization_service.sh
 
-run.sh

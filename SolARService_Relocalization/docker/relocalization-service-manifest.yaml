@@ -21,11 +21,11 @@ spec:
         - name: SOLAR_LOG_LEVEL
           value: INFO
         - name: XPCF_GRPC_MAX_RECV_MSG_SIZE
-          value: "7000000"
+          value: "-1"
         - name: XPCF_GRPC_MAX_SEND_MSG_SIZE
-          value: "2000000"
+          value: "-1"
         - name: MAPUPDATE_SERVICE_URL
-          value: map-update-service.artwin.svc.cluster.local:80          
+          value: map-update-service:80
 ---
 
 kind: Service

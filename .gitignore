@@ -1,16 +1,15 @@
 build/
+bin/
 
 *.pro.user
 
 *-Debug
-
 *-Release
-
 *-debug.bat
 *-release.bat
 *_debug.bat
 *_release.bat
-
+**/build*/
 
 # Prerequisites
 *.d
@@ -87,22 +86,24 @@ Release/
 *.vcxproj
 *.vcxproj.filters
 *.sln
-*/debug/
-*/release/
+**/debug/
+**/release/
+*/debug/*
+*/release/*
 *.vcxproj
 *.vcxproj.filters
 *-packagedependencies.txt
+data*
 *-packagedependencies-win.txt
 *.pc
 *.sln
 *aps
-./run.sh
+bin/*
+*/build*/
+run.sh
 start_service.sh
-data/map*
-data/data_hololens*
-data/*.avi
-data/fbow_voc
 
+SolARService_MapUpdate/start_mapupdate_service.sh
 
 data/
 

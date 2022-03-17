@@ -52,9 +52,9 @@ ENV XPCF_GRPC_MAX_RECV_MSG_SIZE=7000000
 ENV XPCF_GRPC_MAX_SEND_MSG_SIZE=20000
 
 ## Set url to Relocalization Service
-ENV RELOCALIZATION_SERVICE_URL=relocalization-service.artwin.svc.cluster.local:80
+ENV RELOCALIZATION_SERVICE_URL=relocalization-service:80
 ## Set url to Mapping Service
-ENV MAPPING_SERVICE_URL=mapping-service.artwin.svc.cluster.local:80
+ENV MAPPING_SERVICE_URL=mapping-service:80
 
 ## Set application log level
 ## Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING

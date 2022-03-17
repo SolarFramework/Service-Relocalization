@@ -50,23 +50,23 @@ SolARMappingAndRelocalizationProxy::Stub::Stub(const std::shared_ptr< ::grpc::Ch
   , rpcmethod_SendMessage_(SolARMappingAndRelocalizationProxy_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status SolARMappingAndRelocalizationProxy::Stub::Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::Empty* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Init_, context, request, response);
+::grpc::Status SolARMappingAndRelocalizationProxy::Stub::Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::com::bcom::solar::gprc::Empty* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Init_, context, request, response);
 }
 
-void SolARMappingAndRelocalizationProxy::Stub::experimental_async::Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Init_, context, request, response, std::move(f));
+void SolARMappingAndRelocalizationProxy::Stub::experimental_async::Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Init_, context, request, response, std::move(f));
 }
 
-void SolARMappingAndRelocalizationProxy::Stub::experimental_async::Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+void SolARMappingAndRelocalizationProxy::Stub::experimental_async::Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Init_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* SolARMappingAndRelocalizationProxy::Stub::PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Init_, context, request);
+::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* SolARMappingAndRelocalizationProxy::Stub::PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::PipelineModeValue, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Init_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* SolARMappingAndRelocalizationProxy::Stub::AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* SolARMappingAndRelocalizationProxy::Stub::AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncInitRaw(context, request, cq);
   result->StartCall();
@@ -215,10 +215,10 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       SolARMappingAndRelocalizationProxy_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::com::bcom::solar::gprc::Empty* req,
+             const ::com::bcom::solar::gprc::PipelineModeValue* req,
              ::com::bcom::solar::gprc::Empty* resp) {
                return service->Init(ctx, req, resp);
              }, this)));
@@ -287,7 +287,7 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
 SolARMappingAndRelocalizationProxy::Service::~Service() {
 }
 
-::grpc::Status SolARMappingAndRelocalizationProxy::Service::Init(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) {
+::grpc::Status SolARMappingAndRelocalizationProxy::Service::Init(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response) {
   (void) context;
   (void) request;
   (void) response;

@@ -108,8 +108,10 @@
         <bind interface="org::bcom::xpcf::IGrpcService">
             <component to="IAsyncRelocalizationPipeline_grpcServer"/>
         </bind>
-        <bind interface="ITrackableLoader" to="SolARFiducialMarkerLoaderOpencv" />
-        <bind interface="ITrackablePose" to="SolARFiducialMarkerPoseEstimator" range="default|all"/>
+        <bind name="FiducialMarkerLoader" interface="ITrackableLoader" to="SolARFiducialMarkerLoaderOpencv"/>
+        <bind name="FiducialMarkerPose" interface="ITrackablePose" to="SolARFiducialMarkerPoseEstimator" range="default|all"/>
+        <bind name="QRCodeLoader" interface="ITrackableLoader" to="SolARQRCodeLoaderOpencv"/>
+        <bind name="QRCodePose" interface="ITrackablePose" to="SolARQRCodePoseEstimatorOpencv" range="default|all"/>
     </bindings>
 </factory>
 

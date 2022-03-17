@@ -53,11 +53,11 @@ class SolARMappingAndRelocalizationProxy final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::Empty* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> AsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
+    virtual ::grpc::Status Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::com::bcom::solar::gprc::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> AsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>>(AsyncInitRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> PrepareAsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> PrepareAsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncInitRaw(context, request, cq));
     }
     virtual ::grpc::Status Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::Empty* response) = 0;
@@ -105,11 +105,11 @@ class SolARMappingAndRelocalizationProxy final {
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
-      virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
       virtual void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -156,8 +156,8 @@ class SolARMappingAndRelocalizationProxy final {
     #endif
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncStartRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* PrepareAsyncStartRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncStopRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
@@ -174,11 +174,11 @@ class SolARMappingAndRelocalizationProxy final {
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::Empty* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> AsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
+    ::grpc::Status Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::com::bcom::solar::gprc::Empty* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> AsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>>(AsyncInitRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> PrepareAsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> PrepareAsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncInitRaw(context, request, cq));
     }
     ::grpc::Status Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::Empty* response) override;
@@ -226,11 +226,11 @@ class SolARMappingAndRelocalizationProxy final {
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
-      void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
+      void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
-      void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
       void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -279,8 +279,8 @@ class SolARMappingAndRelocalizationProxy final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class experimental_async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncStartRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* PrepareAsyncStartRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncStopRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
@@ -307,7 +307,7 @@ class SolARMappingAndRelocalizationProxy final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status Init(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response);
+    virtual ::grpc::Status Init(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response);
     virtual ::grpc::Status Start(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response);
     virtual ::grpc::Status Stop(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response);
     virtual ::grpc::Status SetCameraParameters(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response);
@@ -327,11 +327,11 @@ class SolARMappingAndRelocalizationProxy final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestInit(::grpc::ServerContext* context, ::com::bcom::solar::gprc::Empty* request, ::grpc::ServerAsyncResponseWriter< ::com::bcom::solar::gprc::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestInit(::grpc::ServerContext* context, ::com::bcom::solar::gprc::PipelineModeValue* request, ::grpc::ServerAsyncResponseWriter< ::com::bcom::solar::gprc::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -468,38 +468,38 @@ class SolARMappingAndRelocalizationProxy final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>(
+          new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) { return this->Init(context, request, response); }));}
+                     context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response) { return this->Init(context, request, response); }));}
     void SetMessageAllocatorFor_Init(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* allocator) {
+        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
     #else
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
     #endif
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_Init() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Init(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
     #else
     virtual ::grpc::experimental::ServerUnaryReactor* Init(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
     #endif
       { return nullptr; }
   };
@@ -802,7 +802,7 @@ class SolARMappingAndRelocalizationProxy final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -921,7 +921,7 @@ class SolARMappingAndRelocalizationProxy final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1074,7 +1074,7 @@ class SolARMappingAndRelocalizationProxy final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1323,10 +1323,10 @@ class SolARMappingAndRelocalizationProxy final {
     WithStreamedUnaryMethod_Init() {
       ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>(
+          ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* streamer) {
+                     ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>* streamer) {
                        return this->StreamedInit(context,
                          streamer);
                   }));
@@ -1335,12 +1335,12 @@ class SolARMappingAndRelocalizationProxy final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedInit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::com::bcom::solar::gprc::Empty,::com::bcom::solar::gprc::Empty>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedInit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::com::bcom::solar::gprc::PipelineModeValue,::com::bcom::solar::gprc::Empty>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_Start : public BaseClass {

@@ -22,11 +22,20 @@ SET RELOCALIZATION_SERVICE_URL=%1
 REM Set Mapping Service URL
 SET MAPPING_SERVICE_URL=%2
 
+REM Get output logs to display (if specified)
+IF "%3"=="" (
+	ECHO You can specify the logs to display on console using ENVOY/PROXY/FRONTEND as 3rd parameter (FRONTEND by default)
+) ELSE (
+	ECHO Logs to display = %3
+)
+
+SET DISPLAY_LOG=%3
+
 REM Set application log level
 REM Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 SET SOLAR_LOG_LEVEL=INFO
 
 docker rm -f solarservicemappingandrelocalizationfrontend
-docker run -d -p 50055:8080 -p 5001:5001 -e SOLAR_LOG_LEVEL -e RELOCALIZATION_SERVICE_URL -e MAPPING_SERVICE_URL -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
+docker run -d -p 50055:8080 -p 5000:5000 -p 5001:5001 -p 5002:5002 -p 5003:5003 -p 5004:5004 -p 5005:5005 -p 5006:5006 -p 5007:5007 -p 5008:5008 -p 5009:5009 -e SOLAR_LOG_LEVEL -e RELOCALIZATION_SERVICE_URL -e MAPPING_SERVICE_URL -e DISPLAY_LOG -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
 
 :end

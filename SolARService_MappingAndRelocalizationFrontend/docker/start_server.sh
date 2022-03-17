@@ -55,11 +55,35 @@ export LD_LIBRARY_PATH=/SolARServiceMappingAndRelocalizationFrontend:/SolARServi
 cd /SolARServiceMappingAndRelocalizationFrontend
 
 ## Start Envoy
-envoy -c envoy_config.yaml --log-path ./envoy_output.log &
+if echo $DISPLAY_LOG | grep -q "ENVOY"
+then
+	echo "Display envoy logs"
+	envoy -c envoy_config.yaml &
+else
+	envoy -c envoy_config.yaml --log-path ./envoy_output.log >> envoy_display.log &
+fi
 
 ## Start proxy
-./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >> proxy_output.log &
+if echo $DISPLAY_LOG | grep -q "PROXY"
+then
+	echo "Display proxy logs"
+	./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
+else
+	./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >> proxy_display.log &
+fi
 
 ## Start front end
-./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+if echo $DISPLAY_LOG | grep -q "FRONTEND"
+then
+	echo "Display frontend logs"
+	./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+else
+	if [ "$DISPLAY_LOG" ]
+	then
+		./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >> frontend_display.log
+	else
+		echo "Display frontend logs (by default)"
+		./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+	fi
+fi
 

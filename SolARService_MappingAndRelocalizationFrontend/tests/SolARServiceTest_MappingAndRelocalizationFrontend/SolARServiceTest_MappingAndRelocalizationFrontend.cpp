@@ -180,9 +180,7 @@ int main(int argc, char* argv[])
             }
 
             LOG_INFO("Read images and poses from hololens files");
-            LOG_INFO("\n\n***** Control+C to stop *****\n");
-
-            Transform3Df T_H_W = Transform3Df::Identity();
+            LOG_INFO("\n\n***** Control+C to stop *****\n");          
 
             // Wait for interruption or and of images
             while (true) {
@@ -210,18 +208,16 @@ int main(int argc, char* argv[])
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
-                        T_H_W = transform3D;
-
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(T_H_W * pose, image);
+                            overlay3D->draw(transform3D * pose, image);
                     }
                     else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
                         LOG_DEBUG("Previous 3D transformation = {}", transform3D.matrix());
 
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(T_H_W * pose, image);
+                            overlay3D->draw(transform3D * pose, image);
                     }
                     else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
                         LOG_DEBUG("No 3D transformation");

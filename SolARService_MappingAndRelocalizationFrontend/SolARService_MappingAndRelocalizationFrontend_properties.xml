@@ -33,13 +33,13 @@
         <property name="maxReprojError" type="float" value="0.8"/>
     </configure>
     <configure component="SolARFiducialMarkerLoaderOpencv">
-        <property name="filePath" type="string" value="../../data/marker/fiducialMarkerA.yml" description="Path of the .yml file describing the fiducial marker."/>
+        <property name="filePath" type="string" value="../../../../data/marker/fiducialMarkerA.yml" description="Path of the .yml file describing the fiducial marker."/>
     </configure>
     <configure component="SolARQRCodePoseEstimatorOpencv">
         <property name="maxReprojError" type="float" value="2.5"/>
     </configure>
     <configure component="SolARQRCodeLoaderOpencv">
-        <property name="filePath" type="string" value="../../data/marker/qrcode_artwin.yml"  description="Path of the .yml file describing the QRCode marker."/>
+        <property name="filePath" type="string" value="../../../../data/marker/qrcode_artwin.yml"  description="Path of the .yml file describing the QRCode marker."/>
     </configure>
     <configure component="SolARImageFilterBinaryOpencv">
         <property name="min" type="int" value="-1" description="minimum threshold (-1 to automatically compute it on the global image"/>

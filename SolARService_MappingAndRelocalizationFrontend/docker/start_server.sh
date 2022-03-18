@@ -59,31 +59,33 @@ if echo $DISPLAY_LOG | grep -q "ENVOY"
 then
 	echo "Display envoy logs"
 	envoy -c envoy_config.yaml &
-else
-	envoy -c envoy_config.yaml --log-path ./envoy_output.log >> envoy_display.log &
+        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >/dev/null &
+        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >/dev/null
+        exit 0
 fi
 
 ## Start proxy
 if echo $DISPLAY_LOG | grep -q "PROXY"
 then
 	echo "Display proxy logs"
-	./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
-else
-	./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >> proxy_display.log &
+        envoy -c envoy_config.yaml >/dev/null 2>&1 &
+        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
+        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >/dev/null
+        exit 0
 fi
 
 ## Start front end
 if echo $DISPLAY_LOG | grep -q "FRONTEND"
 then
 	echo "Display frontend logs"
-	./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
-else
-	if [ "$DISPLAY_LOG" ]
-	then
-		./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >> frontend_display.log
-	else
-		echo "Display frontend logs (by default)"
-		./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
-	fi
+        envoy -c envoy_config.yaml >/dev/null 2>&1 &
+        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >/dev/null &
+        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+        exit 0
 fi
+
+echo "Display all logs"
+envoy -c envoy_config.yaml &
+./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
+./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
 

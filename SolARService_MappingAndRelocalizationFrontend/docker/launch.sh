@@ -30,8 +30,8 @@ then
 	echo "Logs to display = $3"
 	export DISPLAY_LOG=$3
 else
-	echo "You can specify the logs to display on console using ENVOY/PROXY/FRONTEND as 3rd parameter (FRONTEND by default)"
-	export DISPLAY_LOG=
+        echo "You can specify the logs to display on console using ENVOY/PROXY/FRONTEND as 3rd parameter (all logs by default)"
+        export DISPLAY_LOG=ALL
 fi
 
 # Set application log level

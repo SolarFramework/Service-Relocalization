@@ -109,8 +109,8 @@ DISTFILES += \
     start_mappingandrelocalizationfrontend_service_release.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files = $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_modules.xml) \
-                  $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_properties.xml)
+xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_modules.xml) \
+                   $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_properties.xml)
 
 INSTALLS += xml_files
 

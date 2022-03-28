@@ -3,7 +3,7 @@ MAINTAINER Christophe Cutullic christophe.cutullic@b-com.com
 
 ## Configure Ubuntu environment
 RUN apt-get update -y
-RUN apt-get install -y libgtk-3-0
+RUN apt-get install -y libgtk2.0-dev
 RUN apt-get install -y libva-dev
 RUN apt-get install -y libvdpau-dev
 

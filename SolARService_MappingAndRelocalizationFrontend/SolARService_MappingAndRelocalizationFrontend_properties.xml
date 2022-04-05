@@ -22,8 +22,8 @@
     </configure>
 
     <configure component="SolARMappingAndRelocalizationFrontendPipeline">
-        <property name="nbImagesBetweenRequest" access="rw" type="uint" value="3"/>
-        <property name="nbRelocRequest" access="rw" type="uint" value="5"/>
+        <property name="nbSecondsBetweenRequest" access="rw" type="uint" value="30"/>
+        <property name="nbRelocRequest" access="rw" type="uint" value="3"/>
     </configure>
 
     <configure component="SolARFiducialMarkerPoseEstimator">

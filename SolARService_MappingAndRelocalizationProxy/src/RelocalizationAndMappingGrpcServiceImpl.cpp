@@ -253,16 +253,16 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
     auto fps = relocAndMapFps.update();
 
-//    LOG_INFO("Relocalize and map");
-    LOG_INFO("{:03.2f} FPS", fps);
+    LOG_INFO("Relocalize and map ({:03.2f} FPS)", fps);
 
-//    LOG_INFO("Input");
-//    LOG_DEBUG("  image: {}x{}, {}",
-//              request->image().width(),
-//              request->image().height(),
-//              to_string(request->image().layout()));
-//    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
-//    LOG_DEBUG("  timestamp: {}", request->timestamp());
+    LOG_DEBUG("Input");
+    LOG_DEBUG("  image: {}x{}, {}, compression: {}",
+              request->image().width(),
+              request->image().height(),
+              to_string(request->image().layout()),
+              to_string(request->image().imagecompression()));
+    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
+    LOG_DEBUG("  timestamp: {}", request->timestamp());
 
     // Get data from request
     SRef<SolARImage> image;
@@ -447,6 +447,18 @@ RelocalizationAndMappingGrpcServiceImpl::to_string(ImageLayout layout)
 }
 
 std::string
+RelocalizationAndMappingGrpcServiceImpl::to_string(ImageCompression compression)
+{
+    switch(compression)
+    {
+    case ImageCompression::PNG: return "PNG";
+    case ImageCompression::JPG: return "JPG";
+    case ImageCompression::NONE: return "NONE";
+    default: throw std::runtime_error("Unkown compression type");
+    };
+}
+
+std::string
 RelocalizationAndMappingGrpcServiceImpl::to_string(SolAR::api::pipeline::TransformStatus transformStatus)
 {
     switch(transformStatus)
@@ -589,8 +601,9 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
         }
 
         case ImageCompression::PNG:
+        case ImageCompression::JPG:
         {
-            // Decode PNG image
+            // Decode compressed image
 
             // Copy PNG image buffer
             std::vector<uchar> decodingBuffer(frame->image().data().c_str(),

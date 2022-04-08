@@ -215,12 +215,13 @@ inline bool ImageLayout_Parse(
 enum ImageCompression : int {
   NONE = 0,
   PNG = 1,
+  JPG = 2,
   ImageCompression_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   ImageCompression_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool ImageCompression_IsValid(int value);
 constexpr ImageCompression ImageCompression_MIN = NONE;
-constexpr ImageCompression ImageCompression_MAX = PNG;
+constexpr ImageCompression ImageCompression_MAX = JPG;
 constexpr int ImageCompression_ARRAYSIZE = ImageCompression_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ImageCompression_descriptor();

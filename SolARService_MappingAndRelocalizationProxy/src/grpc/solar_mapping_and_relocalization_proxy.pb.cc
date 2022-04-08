@@ -363,26 +363,27 @@ const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fpr
   "RelocalizationPoseStatus\022\013\n\007NO_POSE\020\000\022\014\n"
   "\010NEW_POSE\020\001\022\017\n\013LATEST_POSE\020\002*2\n\013ImageLay"
   "out\022\n\n\006RGB_24\020\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\002"
-  "*%\n\020ImageCompression\022\010\n\004NONE\020\000\022\007\n\003PNG\020\0012"
-  "\310\004\n\"SolARMappingAndRelocalizationProxy\022J"
-  "\n\004Init\022&.com.bcom.solar.gprc.PipelineMod"
-  "eValue\032\032.com.bcom.solar.gprc.Empty\022\?\n\005St"
-  "art\022\032.com.bcom.solar.gprc.Empty\032\032.com.bc"
-  "om.solar.gprc.Empty\022>\n\004Stop\022\032.com.bcom.s"
-  "olar.gprc.Empty\032\032.com.bcom.solar.gprc.Em"
-  "pty\022X\n\023SetCameraParameters\022%.com.bcom.so"
-  "lar.gprc.CameraParameters\032\032.com.bcom.sol"
-  "ar.gprc.Empty\022Y\n\020RelocalizeAndMap\022\032.com."
-  "bcom.solar.gprc.Frame\032).com.bcom.solar.g"
-  "prc.RelocalizationResult\022W\n\016Get3DTransfo"
-  "rm\022\032.com.bcom.solar.gprc.Empty\032).com.bco"
-  "m.solar.gprc.RelocalizationResult\022G\n\013Sen"
-  "dMessage\022\034.com.bcom.solar.gprc.Message\032\032"
-  ".com.bcom.solar.gprc.Emptyb\006proto3"
+  "*.\n\020ImageCompression\022\010\n\004NONE\020\000\022\007\n\003PNG\020\001\022"
+  "\007\n\003JPG\020\0022\310\004\n\"SolARMappingAndRelocalizati"
+  "onProxy\022J\n\004Init\022&.com.bcom.solar.gprc.Pi"
+  "pelineModeValue\032\032.com.bcom.solar.gprc.Em"
+  "pty\022\?\n\005Start\022\032.com.bcom.solar.gprc.Empty"
+  "\032\032.com.bcom.solar.gprc.Empty\022>\n\004Stop\022\032.c"
+  "om.bcom.solar.gprc.Empty\032\032.com.bcom.sola"
+  "r.gprc.Empty\022X\n\023SetCameraParameters\022%.co"
+  "m.bcom.solar.gprc.CameraParameters\032\032.com"
+  ".bcom.solar.gprc.Empty\022Y\n\020RelocalizeAndM"
+  "ap\022\032.com.bcom.solar.gprc.Frame\032).com.bco"
+  "m.solar.gprc.RelocalizationResult\022W\n\016Get"
+  "3DTransform\022\032.com.bcom.solar.gprc.Empty\032"
+  ").com.bcom.solar.gprc.RelocalizationResu"
+  "lt\022G\n\013SendMessage\022\034.com.bcom.solar.gprc."
+  "Message\032\032.com.bcom.solar.gprc.Emptyb\006pro"
+  "to3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = {
-  false, false, 2194, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
+  false, false, 2203, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
   &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 10,
   schemas, file_default_instances, TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto::offsets,
   file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto,
@@ -465,6 +466,7 @@ bool ImageCompression_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
+    case 2:
       return true;
     default:
       return false;

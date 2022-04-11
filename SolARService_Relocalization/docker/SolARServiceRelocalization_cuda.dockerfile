@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM nvidia/cuda:11.4.0-base-ubuntu18.04
 MAINTAINER Christophe Cutullic christophe.cutullic@b-com.com
 
 ## Configure Ubuntu environment
@@ -11,20 +11,20 @@ RUN apt-get install -y libvdpau-dev
 RUN mkdir SolARServiceRelocalization
 RUN mkdir SolARServiceRelocalization/data
 RUN mkdir SolARServiceRelocalization/data/fbow_voc
-ADD data/fbow_voc/akaze.fbow /SolARServiceRelocalization/data/fbow_voc/
+ADD data/fbow_voc/popsift_uint8.fbow /SolARServiceRelocalization/data/fbow_voc/
 
 ## Libraries and modules
 RUN mkdir SolARServiceRelocalization/modules
 ADD modules/* /SolARServiceRelocalization/modules/
-ADD modules_no_cuda/* /SolARServiceRelocalization/modules/
+ADD modules_cuda/* /SolARServiceRelocalization/modules/
 
 ## Project files
 ADD SolARService_Relocalization /SolARServiceRelocalization/
 RUN chmod +x /SolARServiceRelocalization/SolARService_Relocalization
 RUN mkdir .xpcf
 ADD *.xml /.xpcf/
-ADD docker/start_server.sh .
-RUN chmod +x start_server.sh
+ADD docker/start_server_cuda.sh .
+RUN chmod +x start_server_cuda.sh
 
 ## Set application gRPC server url
 ENV XPCF_GRPC_SERVER_URL=0.0.0.0:8080
@@ -41,4 +41,4 @@ ENV MAPUPDATE_SERVICE_URL=map-update-service
 ENV SOLAR_LOG_LEVEL=INFO
 
 ## Run Server
-CMD [ "./start_server.sh"  ]
+CMD [ "./start_server_cuda.sh"  ]

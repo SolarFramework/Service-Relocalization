@@ -81,12 +81,26 @@ class SolARMappingAndRelocalizationProxy final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> PrepareAsyncSetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncSetCameraParametersRaw(context, request, cq));
     }
+    virtual ::grpc::Status SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::com::bcom::solar::gprc::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> AsyncSetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>>(AsyncSetCameraRigParametersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> PrepareAsyncSetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncSetCameraRigParametersRaw(context, request, cq));
+    }
     virtual ::grpc::Status RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::com::bcom::solar::gprc::RelocalizationResult* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>> AsyncRelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>>(AsyncRelocalizeAndMapRaw(context, request, cq));
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>> PrepareAsyncRelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>>(PrepareAsyncRelocalizeAndMapRaw(context, request, cq));
+    }
+    virtual ::grpc::Status RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::com::bcom::solar::gprc::RelocalizationResult* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>> AsyncRelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>>(AsyncRelocalizeAndMapStereoRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>> PrepareAsyncRelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>>(PrepareAsyncRelocalizeAndMapStereoRaw(context, request, cq));
     }
     virtual ::grpc::Status Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::RelocalizationResult* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>> AsyncGet3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
@@ -129,11 +143,23 @@ class SolARMappingAndRelocalizationProxy final {
       #else
       virtual void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      virtual void SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
       virtual void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      virtual void RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
       virtual void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -164,8 +190,12 @@ class SolARMappingAndRelocalizationProxy final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* PrepareAsyncStopRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncSetCameraParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* PrepareAsyncSetCameraParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncSetCameraRigParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* PrepareAsyncSetCameraRigParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>* AsyncRelocalizeAndMapRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>* PrepareAsyncRelocalizeAndMapRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>* AsyncRelocalizeAndMapStereoRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>* PrepareAsyncRelocalizeAndMapStereoRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>* AsyncGet3DTransformRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::RelocalizationResult>* PrepareAsyncGet3DTransformRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncSendMessageRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message& request, ::grpc::CompletionQueue* cq) = 0;
@@ -202,12 +232,26 @@ class SolARMappingAndRelocalizationProxy final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> PrepareAsyncSetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncSetCameraParametersRaw(context, request, cq));
     }
+    ::grpc::Status SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::com::bcom::solar::gprc::Empty* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> AsyncSetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>>(AsyncSetCameraRigParametersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> PrepareAsyncSetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncSetCameraRigParametersRaw(context, request, cq));
+    }
     ::grpc::Status RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::com::bcom::solar::gprc::RelocalizationResult* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>> AsyncRelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>>(AsyncRelocalizeAndMapRaw(context, request, cq));
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>> PrepareAsyncRelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>>(PrepareAsyncRelocalizeAndMapRaw(context, request, cq));
+    }
+    ::grpc::Status RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::com::bcom::solar::gprc::RelocalizationResult* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>> AsyncRelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>>(AsyncRelocalizeAndMapStereoRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>> PrepareAsyncRelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>>(PrepareAsyncRelocalizeAndMapStereoRaw(context, request, cq));
     }
     ::grpc::Status Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::RelocalizationResult* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>> AsyncGet3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) {
@@ -250,11 +294,23 @@ class SolARMappingAndRelocalizationProxy final {
       #else
       void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
+      void SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SetCameraRigParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
       void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      void RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void RelocalizeAndMapStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
       void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -287,8 +343,12 @@ class SolARMappingAndRelocalizationProxy final {
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* PrepareAsyncStopRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncSetCameraParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* PrepareAsyncSetCameraParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncSetCameraRigParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* PrepareAsyncSetCameraRigParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraRigParameters& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* AsyncRelocalizeAndMapRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* PrepareAsyncRelocalizeAndMapRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frame& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* AsyncRelocalizeAndMapStereoRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* PrepareAsyncRelocalizeAndMapStereoRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* AsyncGet3DTransformRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* PrepareAsyncGet3DTransformRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncSendMessageRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message& request, ::grpc::CompletionQueue* cq) override;
@@ -297,7 +357,9 @@ class SolARMappingAndRelocalizationProxy final {
     const ::grpc::internal::RpcMethod rpcmethod_Start_;
     const ::grpc::internal::RpcMethod rpcmethod_Stop_;
     const ::grpc::internal::RpcMethod rpcmethod_SetCameraParameters_;
+    const ::grpc::internal::RpcMethod rpcmethod_SetCameraRigParameters_;
     const ::grpc::internal::RpcMethod rpcmethod_RelocalizeAndMap_;
+    const ::grpc::internal::RpcMethod rpcmethod_RelocalizeAndMapStereo_;
     const ::grpc::internal::RpcMethod rpcmethod_Get3DTransform_;
     const ::grpc::internal::RpcMethod rpcmethod_SendMessage_;
   };
@@ -311,7 +373,9 @@ class SolARMappingAndRelocalizationProxy final {
     virtual ::grpc::Status Start(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response);
     virtual ::grpc::Status Stop(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response);
     virtual ::grpc::Status SetCameraParameters(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response);
+    virtual ::grpc::Status SetCameraRigParameters(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response);
     virtual ::grpc::Status RelocalizeAndMap(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Frame* request, ::com::bcom::solar::gprc::RelocalizationResult* response);
+    virtual ::grpc::Status RelocalizeAndMapStereo(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response);
     virtual ::grpc::Status Get3DTransform(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response);
     virtual ::grpc::Status SendMessage(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response);
   };
@@ -396,12 +460,32 @@ class SolARMappingAndRelocalizationProxy final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_SetCameraRigParameters : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SetCameraRigParameters() {
+      ::grpc::Service::MarkMethodAsync(4);
+    }
+    ~WithAsyncMethod_SetCameraRigParameters() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetCameraRigParameters(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetCameraRigParameters(::grpc::ServerContext* context, ::com::bcom::solar::gprc::CameraRigParameters* request, ::grpc::ServerAsyncResponseWriter< ::com::bcom::solar::gprc::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_RelocalizeAndMap() {
-      ::grpc::Service::MarkMethodAsync(4);
+      ::grpc::Service::MarkMethodAsync(5);
     }
     ~WithAsyncMethod_RelocalizeAndMap() override {
       BaseClassMustBeDerivedFromService(this);
@@ -412,7 +496,27 @@ class SolARMappingAndRelocalizationProxy final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestRelocalizeAndMap(::grpc::ServerContext* context, ::com::bcom::solar::gprc::Frame* request, ::grpc::ServerAsyncResponseWriter< ::com::bcom::solar::gprc::RelocalizationResult>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RelocalizeAndMapStereo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RelocalizeAndMapStereo() {
+      ::grpc::Service::MarkMethodAsync(6);
+    }
+    ~WithAsyncMethod_RelocalizeAndMapStereo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RelocalizeAndMapStereo(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRelocalizeAndMapStereo(::grpc::ServerContext* context, ::com::bcom::solar::gprc::Frames* request, ::grpc::ServerAsyncResponseWriter< ::com::bcom::solar::gprc::RelocalizationResult>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -421,7 +525,7 @@ class SolARMappingAndRelocalizationProxy final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_Get3DTransform() {
-      ::grpc::Service::MarkMethodAsync(5);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_Get3DTransform() override {
       BaseClassMustBeDerivedFromService(this);
@@ -432,7 +536,7 @@ class SolARMappingAndRelocalizationProxy final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGet3DTransform(::grpc::ServerContext* context, ::com::bcom::solar::gprc::Empty* request, ::grpc::ServerAsyncResponseWriter< ::com::bcom::solar::gprc::RelocalizationResult>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -441,7 +545,7 @@ class SolARMappingAndRelocalizationProxy final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SendMessage() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(8);
     }
     ~WithAsyncMethod_SendMessage() override {
       BaseClassMustBeDerivedFromService(this);
@@ -452,10 +556,10 @@ class SolARMappingAndRelocalizationProxy final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestSendMessage(::grpc::ServerContext* context, ::com::bcom::solar::gprc::Message* request, ::grpc::ServerAsyncResponseWriter< ::com::bcom::solar::gprc::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_Init<WithAsyncMethod_Start<WithAsyncMethod_Stop<WithAsyncMethod_SetCameraParameters<WithAsyncMethod_RelocalizeAndMap<WithAsyncMethod_Get3DTransform<WithAsyncMethod_SendMessage<Service > > > > > > > AsyncService;
+  typedef WithAsyncMethod_Init<WithAsyncMethod_Start<WithAsyncMethod_Stop<WithAsyncMethod_SetCameraParameters<WithAsyncMethod_SetCameraRigParameters<WithAsyncMethod_RelocalizeAndMap<WithAsyncMethod_RelocalizeAndMapStereo<WithAsyncMethod_Get3DTransform<WithAsyncMethod_SendMessage<Service > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_Init : public BaseClass {
    private:
@@ -645,6 +749,53 @@ class SolARMappingAndRelocalizationProxy final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SetCameraRigParameters : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SetCameraRigParameters() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::CameraRigParameters, ::com::bcom::solar::gprc::Empty>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::com::bcom::solar::gprc::CameraRigParameters* request, ::com::bcom::solar::gprc::Empty* response) { return this->SetCameraRigParameters(context, request, response); }));}
+    void SetMessageAllocatorFor_SetCameraRigParameters(
+        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::CameraRigParameters, ::com::bcom::solar::gprc::Empty>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(4);
+    #endif
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::CameraRigParameters, ::com::bcom::solar::gprc::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SetCameraRigParameters() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetCameraRigParameters(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SetCameraRigParameters(
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SetCameraRigParameters(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithCallbackMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -655,7 +806,7 @@ class SolARMappingAndRelocalizationProxy final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(4,
+        MarkMethodCallback(5,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Frame, ::com::bcom::solar::gprc::RelocalizationResult>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -667,9 +818,9 @@ class SolARMappingAndRelocalizationProxy final {
     void SetMessageAllocatorFor_RelocalizeAndMap(
         ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Frame, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(4);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
     #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Frame, ::com::bcom::solar::gprc::RelocalizationResult>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -692,6 +843,53 @@ class SolARMappingAndRelocalizationProxy final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithCallbackMethod_RelocalizeAndMapStereo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_RelocalizeAndMapStereo() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response) { return this->RelocalizeAndMapStereo(context, request, response); }));}
+    void SetMessageAllocatorFor_RelocalizeAndMapStereo(
+        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
+    #endif
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_RelocalizeAndMapStereo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RelocalizeAndMapStereo(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* RelocalizeAndMapStereo(
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* RelocalizeAndMapStereo(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithCallbackMethod_Get3DTransform : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -702,7 +900,7 @@ class SolARMappingAndRelocalizationProxy final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(5,
+        MarkMethodCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -714,9 +912,9 @@ class SolARMappingAndRelocalizationProxy final {
     void SetMessageAllocatorFor_Get3DTransform(
         ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
     #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -749,7 +947,7 @@ class SolARMappingAndRelocalizationProxy final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(6,
+        MarkMethodCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -761,9 +959,9 @@ class SolARMappingAndRelocalizationProxy final {
     void SetMessageAllocatorFor_SendMessage(
         ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(8);
     #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -786,10 +984,10 @@ class SolARMappingAndRelocalizationProxy final {
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_Init<ExperimentalWithCallbackMethod_Start<ExperimentalWithCallbackMethod_Stop<ExperimentalWithCallbackMethod_SetCameraParameters<ExperimentalWithCallbackMethod_RelocalizeAndMap<ExperimentalWithCallbackMethod_Get3DTransform<ExperimentalWithCallbackMethod_SendMessage<Service > > > > > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_Init<ExperimentalWithCallbackMethod_Start<ExperimentalWithCallbackMethod_Stop<ExperimentalWithCallbackMethod_SetCameraParameters<ExperimentalWithCallbackMethod_SetCameraRigParameters<ExperimentalWithCallbackMethod_RelocalizeAndMap<ExperimentalWithCallbackMethod_RelocalizeAndMapStereo<ExperimentalWithCallbackMethod_Get3DTransform<ExperimentalWithCallbackMethod_SendMessage<Service > > > > > > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_Init<ExperimentalWithCallbackMethod_Start<ExperimentalWithCallbackMethod_Stop<ExperimentalWithCallbackMethod_SetCameraParameters<ExperimentalWithCallbackMethod_RelocalizeAndMap<ExperimentalWithCallbackMethod_Get3DTransform<ExperimentalWithCallbackMethod_SendMessage<Service > > > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_Init<ExperimentalWithCallbackMethod_Start<ExperimentalWithCallbackMethod_Stop<ExperimentalWithCallbackMethod_SetCameraParameters<ExperimentalWithCallbackMethod_SetCameraRigParameters<ExperimentalWithCallbackMethod_RelocalizeAndMap<ExperimentalWithCallbackMethod_RelocalizeAndMapStereo<ExperimentalWithCallbackMethod_Get3DTransform<ExperimentalWithCallbackMethod_SendMessage<Service > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_Init : public BaseClass {
    private:
@@ -859,12 +1057,29 @@ class SolARMappingAndRelocalizationProxy final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_SetCameraRigParameters : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SetCameraRigParameters() {
+      ::grpc::Service::MarkMethodGeneric(4);
+    }
+    ~WithGenericMethod_SetCameraRigParameters() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetCameraRigParameters(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_RelocalizeAndMap() {
-      ::grpc::Service::MarkMethodGeneric(4);
+      ::grpc::Service::MarkMethodGeneric(5);
     }
     ~WithGenericMethod_RelocalizeAndMap() override {
       BaseClassMustBeDerivedFromService(this);
@@ -876,12 +1091,29 @@ class SolARMappingAndRelocalizationProxy final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_RelocalizeAndMapStereo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RelocalizeAndMapStereo() {
+      ::grpc::Service::MarkMethodGeneric(6);
+    }
+    ~WithGenericMethod_RelocalizeAndMapStereo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RelocalizeAndMapStereo(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_Get3DTransform : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_Get3DTransform() {
-      ::grpc::Service::MarkMethodGeneric(5);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_Get3DTransform() override {
       BaseClassMustBeDerivedFromService(this);
@@ -898,7 +1130,7 @@ class SolARMappingAndRelocalizationProxy final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SendMessage() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(8);
     }
     ~WithGenericMethod_SendMessage() override {
       BaseClassMustBeDerivedFromService(this);
@@ -990,12 +1222,32 @@ class SolARMappingAndRelocalizationProxy final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_SetCameraRigParameters : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SetCameraRigParameters() {
+      ::grpc::Service::MarkMethodRaw(4);
+    }
+    ~WithRawMethod_SetCameraRigParameters() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetCameraRigParameters(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetCameraRigParameters(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_RelocalizeAndMap() {
-      ::grpc::Service::MarkMethodRaw(4);
+      ::grpc::Service::MarkMethodRaw(5);
     }
     ~WithRawMethod_RelocalizeAndMap() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1006,7 +1258,27 @@ class SolARMappingAndRelocalizationProxy final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestRelocalizeAndMap(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RelocalizeAndMapStereo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RelocalizeAndMapStereo() {
+      ::grpc::Service::MarkMethodRaw(6);
+    }
+    ~WithRawMethod_RelocalizeAndMapStereo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RelocalizeAndMapStereo(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRelocalizeAndMapStereo(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1015,7 +1287,7 @@ class SolARMappingAndRelocalizationProxy final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_Get3DTransform() {
-      ::grpc::Service::MarkMethodRaw(5);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_Get3DTransform() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1026,7 +1298,7 @@ class SolARMappingAndRelocalizationProxy final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGet3DTransform(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1035,7 +1307,7 @@ class SolARMappingAndRelocalizationProxy final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SendMessage() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(8);
     }
     ~WithRawMethod_SendMessage() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1046,7 +1318,7 @@ class SolARMappingAndRelocalizationProxy final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestSendMessage(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1202,6 +1474,44 @@ class SolARMappingAndRelocalizationProxy final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SetCameraRigParameters : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SetCameraRigParameters() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetCameraRigParameters(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SetCameraRigParameters() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetCameraRigParameters(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SetCameraRigParameters(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SetCameraRigParameters(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -1212,7 +1522,7 @@ class SolARMappingAndRelocalizationProxy final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(4,
+        MarkMethodRawCallback(5,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -1240,6 +1550,44 @@ class SolARMappingAndRelocalizationProxy final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_RelocalizeAndMapStereo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_RelocalizeAndMapStereo() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RelocalizeAndMapStereo(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_RelocalizeAndMapStereo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RelocalizeAndMapStereo(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* RelocalizeAndMapStereo(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* RelocalizeAndMapStereo(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_Get3DTransform : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -1250,7 +1598,7 @@ class SolARMappingAndRelocalizationProxy final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(5,
+        MarkMethodRawCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -1288,7 +1636,7 @@ class SolARMappingAndRelocalizationProxy final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(6,
+        MarkMethodRawCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -1424,12 +1772,39 @@ class SolARMappingAndRelocalizationProxy final {
     virtual ::grpc::Status StreamedSetCameraParameters(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::com::bcom::solar::gprc::CameraParameters,::com::bcom::solar::gprc::Empty>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_SetCameraRigParameters : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SetCameraRigParameters() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::com::bcom::solar::gprc::CameraRigParameters, ::com::bcom::solar::gprc::Empty>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::com::bcom::solar::gprc::CameraRigParameters, ::com::bcom::solar::gprc::Empty>* streamer) {
+                       return this->StreamedSetCameraRigParameters(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SetCameraRigParameters() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SetCameraRigParameters(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraRigParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSetCameraRigParameters(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::com::bcom::solar::gprc::CameraRigParameters,::com::bcom::solar::gprc::Empty>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_RelocalizeAndMap() {
-      ::grpc::Service::MarkMethodStreamed(4,
+      ::grpc::Service::MarkMethodStreamed(5,
         new ::grpc::internal::StreamedUnaryHandler<
           ::com::bcom::solar::gprc::Frame, ::com::bcom::solar::gprc::RelocalizationResult>(
             [this](::grpc::ServerContext* context,
@@ -1451,12 +1826,39 @@ class SolARMappingAndRelocalizationProxy final {
     virtual ::grpc::Status StreamedRelocalizeAndMap(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::com::bcom::solar::gprc::Frame,::com::bcom::solar::gprc::RelocalizationResult>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_RelocalizeAndMapStereo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_RelocalizeAndMapStereo() {
+      ::grpc::Service::MarkMethodStreamed(6,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>* streamer) {
+                       return this->StreamedRelocalizeAndMapStereo(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_RelocalizeAndMapStereo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RelocalizeAndMapStereo(::grpc::ServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedRelocalizeAndMapStereo(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::com::bcom::solar::gprc::Frames,::com::bcom::solar::gprc::RelocalizationResult>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_Get3DTransform : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_Get3DTransform() {
-      ::grpc::Service::MarkMethodStreamed(5,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler<
           ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>(
             [this](::grpc::ServerContext* context,
@@ -1483,7 +1885,7 @@ class SolARMappingAndRelocalizationProxy final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SendMessage() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(8,
         new ::grpc::internal::StreamedUnaryHandler<
           ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>(
             [this](::grpc::ServerContext* context,
@@ -1504,9 +1906,9 @@ class SolARMappingAndRelocalizationProxy final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedSendMessage(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::com::bcom::solar::gprc::Message,::com::bcom::solar::gprc::Empty>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Start<WithStreamedUnaryMethod_Stop<WithStreamedUnaryMethod_SetCameraParameters<WithStreamedUnaryMethod_RelocalizeAndMap<WithStreamedUnaryMethod_Get3DTransform<WithStreamedUnaryMethod_SendMessage<Service > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Start<WithStreamedUnaryMethod_Stop<WithStreamedUnaryMethod_SetCameraParameters<WithStreamedUnaryMethod_SetCameraRigParameters<WithStreamedUnaryMethod_RelocalizeAndMap<WithStreamedUnaryMethod_RelocalizeAndMapStereo<WithStreamedUnaryMethod_Get3DTransform<WithStreamedUnaryMethod_SendMessage<Service > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Start<WithStreamedUnaryMethod_Stop<WithStreamedUnaryMethod_SetCameraParameters<WithStreamedUnaryMethod_RelocalizeAndMap<WithStreamedUnaryMethod_Get3DTransform<WithStreamedUnaryMethod_SendMessage<Service > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Start<WithStreamedUnaryMethod_Stop<WithStreamedUnaryMethod_SetCameraParameters<WithStreamedUnaryMethod_SetCameraRigParameters<WithStreamedUnaryMethod_RelocalizeAndMap<WithStreamedUnaryMethod_RelocalizeAndMapStereo<WithStreamedUnaryMethod_Get3DTransform<WithStreamedUnaryMethod_SendMessage<Service > > > > > > > > > StreamedService;
 };
 
 }  // namespace gprc

@@ -233,6 +233,38 @@ RelocalizationAndMappingGrpcServiceImpl::SetCameraParameters(grpc::ServerContext
     return Status::OK;
 }
 
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::SetCameraRigParameters(::grpc::ServerContext* context,
+                                                                const CameraRigParameters* request,
+                                                                Empty* response)
+{
+    LOG_INFO("SetCameraRigParameters");
+    auto camParamsMap = request->camera_parameters();
+    int i = 0;
+    for (const auto& mapEntry : camParamsMap)
+    {
+        LOG_DEBUG("Camera #{}:", i++);
+        auto params = mapEntry.second;
+        LOG_DEBUG("   name: {}", params.name());
+        LOG_DEBUG("   id: {}", params.id());
+        LOG_DEBUG("   type: {}", to_string(params.camera_type()));
+        LOG_DEBUG("   resolution: {}x{}", params.width(), params.height());
+        LOG_DEBUG("   intrinsics:");
+        LOG_DEBUG("{}", to_string(params.intrinsics()));
+        LOG_DEBUG("   distortion: K_1={}, K_2={}, P_1={}, P_2={}, K_3={}",
+                  params.distortion().k_1(),
+                  params.distortion().k_2(),
+                  params.distortion().p_1(),
+                  params.distortion().p_2(),
+                  params.distortion().k_3());
+        LOG_DEBUG("");
+    }
+
+
+
+
+}
+
 bool RelocalizationAndMappingGrpcServiceImpl::sortbythird (
         const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> a,
         const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> b)
@@ -379,6 +411,35 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     }
 
     return Status::OK;
+}
+
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapStereo(grpc::ServerContext* context,
+                                                                const Frames* request,
+                                                                RelocalizationResult* response)
+{
+    if (!m_started) {
+        LOG_INFO("Proxy is not started");
+        return Status::OK;
+    }
+
+    auto fps = relocAndMapFps.update();
+
+    LOG_INFO("Relocalize and map stereo ({:03.2f} FPS)", fps);
+
+    LOG_DEBUG("Input");
+    for (const auto& frame : request->frames())
+    {
+        LOG_DEBUG("  image: {}x{}, {}, compression: {}",
+                  frame.image().width(),
+                  frame.image().height(),
+                  to_string(frame.image().layout()),
+                  to_string(frame.image().imagecompression()));
+        LOG_DEBUG("  pose:\n{}", to_string(frame.pose()));
+        LOG_DEBUG("  timestamp: {}", frame.timestamp());
+        LOG_DEBUG("");
+    }
+
 }
 
 grpc::Status

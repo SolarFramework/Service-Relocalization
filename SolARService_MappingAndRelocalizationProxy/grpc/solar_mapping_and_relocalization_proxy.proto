@@ -21,7 +21,9 @@ service SolARMappingAndRelocalizationProxy
     rpc Start(Empty) returns (Empty);
     rpc Stop(Empty) returns (Empty);
     rpc SetCameraParameters(CameraParameters) returns (Empty);
+    rpc SetCameraRigParameters(CameraRigParameters) returns (Empty);
     rpc RelocalizeAndMap(Frame) returns (RelocalizationResult);
+    rpc RelocalizeAndMapStereo(Frames) returns (RelocalizationResult);
     rpc Get3DTransform(Empty) returns (RelocalizationResult);
 
     rpc SendMessage(Message) returns (Empty);
@@ -55,6 +57,40 @@ message CameraParameters
     uint32 height = 5;
     Matrix3x3 intrinsics = 6;
     CameraDistortion distortion = 7;
+}
+
+message CameraIdPair
+{
+    uint32 camera_1 = 1;
+    uint32 camera_2 = 2;
+}
+
+enum StereoType
+{
+    HORIZONTAL = 0;
+    VERTICAL = 1;
+}
+
+message RectificationParameters
+{
+    Matrix3x3 rotation = 1;
+    Matrix3x4 projection = 2;
+    StereoType stereo_type = 3;
+    float baselise = 4;
+}
+
+message RectificationParametersPair
+{
+    RectificationParameters rectification_parameters_1 = 1;
+    RectificationParameters rectification_parameters_2 = 2;
+}
+
+message CameraRigParameters
+{
+    map<uint32, CameraParameters> camera_parameters = 1;
+    map<uint32, CameraIdPair> camera_ids_pair = 2;
+    map<uint32, Matrix4x4> transformations_3d = 3;
+    map<uint32, RectificationParametersPair> rectification_parameters = 4;
 }
 
 enum CameraType
@@ -117,6 +153,11 @@ message Frame
     Matrix4x4 pose = 4;
 }
 
+message Frames
+{
+    repeated Frame frames = 1;
+}
+
 message Matrix4x4
 {
     float m11 = 1;
@@ -148,4 +189,20 @@ message Matrix3x3
     float m31 = 7;
     float m32 = 8;
     float m33 = 9;
+}
+
+message Matrix3x4
+{
+    float m11 = 1;
+    float m12 = 2;
+    float m13 = 3;
+    float m14 = 4;
+    float m21 = 5;
+    float m22 = 6;
+    float m23 = 7;
+    float m24 = 8;
+    float m31 = 9;
+    float m32 = 10;
+    float m33 = 11;
+    float m34 = 12;
 }

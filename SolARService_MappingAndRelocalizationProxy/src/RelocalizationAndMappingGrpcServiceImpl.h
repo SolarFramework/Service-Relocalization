@@ -62,9 +62,17 @@ public:
                                      const CameraParameters* request,
                                      Empty* response)  override;
 
+    grpc::Status SetCameraRigParameters(::grpc::ServerContext* context,
+                                        const CameraRigParameters* request,
+                                        Empty* response) override;
+
     grpc::Status RelocalizeAndMap(grpc::ServerContext* context,
                                   const Frame* request,
                                   RelocalizationResult* response)  override;
+
+    grpc::Status RelocalizeAndMapStereo(grpc::ServerContext* context,
+                                        const Frames* request,
+                                        RelocalizationResult* response) override;
 
     grpc::Status Get3DTransform(grpc::ServerContext* context,
                                 const Empty* request,

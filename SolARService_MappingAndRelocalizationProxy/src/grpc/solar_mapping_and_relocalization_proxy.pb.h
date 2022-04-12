@@ -30,6 +30,9 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/map.h>  // IWYU pragma: export
+#include <google/protobuf/map_entry.h>
+#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
@@ -47,7 +50,7 @@ struct TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[10]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[20]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -62,21 +65,45 @@ namespace gprc {
 class CameraDistortion;
 struct CameraDistortionDefaultTypeInternal;
 extern CameraDistortionDefaultTypeInternal _CameraDistortion_default_instance_;
+class CameraIdPair;
+struct CameraIdPairDefaultTypeInternal;
+extern CameraIdPairDefaultTypeInternal _CameraIdPair_default_instance_;
 class CameraParameters;
 struct CameraParametersDefaultTypeInternal;
 extern CameraParametersDefaultTypeInternal _CameraParameters_default_instance_;
+class CameraRigParameters;
+struct CameraRigParametersDefaultTypeInternal;
+extern CameraRigParametersDefaultTypeInternal _CameraRigParameters_default_instance_;
+class CameraRigParameters_CameraIdsPairEntry_DoNotUse;
+struct CameraRigParameters_CameraIdsPairEntry_DoNotUseDefaultTypeInternal;
+extern CameraRigParameters_CameraIdsPairEntry_DoNotUseDefaultTypeInternal _CameraRigParameters_CameraIdsPairEntry_DoNotUse_default_instance_;
+class CameraRigParameters_CameraParametersEntry_DoNotUse;
+struct CameraRigParameters_CameraParametersEntry_DoNotUseDefaultTypeInternal;
+extern CameraRigParameters_CameraParametersEntry_DoNotUseDefaultTypeInternal _CameraRigParameters_CameraParametersEntry_DoNotUse_default_instance_;
+class CameraRigParameters_RectificationParametersEntry_DoNotUse;
+struct CameraRigParameters_RectificationParametersEntry_DoNotUseDefaultTypeInternal;
+extern CameraRigParameters_RectificationParametersEntry_DoNotUseDefaultTypeInternal _CameraRigParameters_RectificationParametersEntry_DoNotUse_default_instance_;
+class CameraRigParameters_Transformations3dEntry_DoNotUse;
+struct CameraRigParameters_Transformations3dEntry_DoNotUseDefaultTypeInternal;
+extern CameraRigParameters_Transformations3dEntry_DoNotUseDefaultTypeInternal _CameraRigParameters_Transformations3dEntry_DoNotUse_default_instance_;
 class Empty;
 struct EmptyDefaultTypeInternal;
 extern EmptyDefaultTypeInternal _Empty_default_instance_;
 class Frame;
 struct FrameDefaultTypeInternal;
 extern FrameDefaultTypeInternal _Frame_default_instance_;
+class Frames;
+struct FramesDefaultTypeInternal;
+extern FramesDefaultTypeInternal _Frames_default_instance_;
 class Image;
 struct ImageDefaultTypeInternal;
 extern ImageDefaultTypeInternal _Image_default_instance_;
 class Matrix3x3;
 struct Matrix3x3DefaultTypeInternal;
 extern Matrix3x3DefaultTypeInternal _Matrix3x3_default_instance_;
+class Matrix3x4;
+struct Matrix3x4DefaultTypeInternal;
+extern Matrix3x4DefaultTypeInternal _Matrix3x4_default_instance_;
 class Matrix4x4;
 struct Matrix4x4DefaultTypeInternal;
 extern Matrix4x4DefaultTypeInternal _Matrix4x4_default_instance_;
@@ -86,6 +113,12 @@ extern MessageDefaultTypeInternal _Message_default_instance_;
 class PipelineModeValue;
 struct PipelineModeValueDefaultTypeInternal;
 extern PipelineModeValueDefaultTypeInternal _PipelineModeValue_default_instance_;
+class RectificationParameters;
+struct RectificationParametersDefaultTypeInternal;
+extern RectificationParametersDefaultTypeInternal _RectificationParameters_default_instance_;
+class RectificationParametersPair;
+struct RectificationParametersPairDefaultTypeInternal;
+extern RectificationParametersPairDefaultTypeInternal _RectificationParametersPair_default_instance_;
 class RelocalizationResult;
 struct RelocalizationResultDefaultTypeInternal;
 extern RelocalizationResultDefaultTypeInternal _RelocalizationResult_default_instance_;
@@ -95,14 +128,24 @@ extern RelocalizationResultDefaultTypeInternal _RelocalizationResult_default_ins
 }  // namespace com
 PROTOBUF_NAMESPACE_OPEN
 template<> ::com::bcom::solar::gprc::CameraDistortion* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraDistortion>(Arena*);
+template<> ::com::bcom::solar::gprc::CameraIdPair* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraIdPair>(Arena*);
 template<> ::com::bcom::solar::gprc::CameraParameters* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraParameters>(Arena*);
+template<> ::com::bcom::solar::gprc::CameraRigParameters* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraRigParameters>(Arena*);
+template<> ::com::bcom::solar::gprc::CameraRigParameters_CameraIdsPairEntry_DoNotUse* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraRigParameters_CameraIdsPairEntry_DoNotUse>(Arena*);
+template<> ::com::bcom::solar::gprc::CameraRigParameters_CameraParametersEntry_DoNotUse* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraRigParameters_CameraParametersEntry_DoNotUse>(Arena*);
+template<> ::com::bcom::solar::gprc::CameraRigParameters_RectificationParametersEntry_DoNotUse* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraRigParameters_RectificationParametersEntry_DoNotUse>(Arena*);
+template<> ::com::bcom::solar::gprc::CameraRigParameters_Transformations3dEntry_DoNotUse* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraRigParameters_Transformations3dEntry_DoNotUse>(Arena*);
 template<> ::com::bcom::solar::gprc::Empty* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Empty>(Arena*);
 template<> ::com::bcom::solar::gprc::Frame* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Frame>(Arena*);
+template<> ::com::bcom::solar::gprc::Frames* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Frames>(Arena*);
 template<> ::com::bcom::solar::gprc::Image* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Image>(Arena*);
 template<> ::com::bcom::solar::gprc::Matrix3x3* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Matrix3x3>(Arena*);
+template<> ::com::bcom::solar::gprc::Matrix3x4* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Matrix3x4>(Arena*);
 template<> ::com::bcom::solar::gprc::Matrix4x4* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Matrix4x4>(Arena*);
 template<> ::com::bcom::solar::gprc::Message* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Message>(Arena*);
 template<> ::com::bcom::solar::gprc::PipelineModeValue* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::PipelineModeValue>(Arena*);
+template<> ::com::bcom::solar::gprc::RectificationParameters* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::RectificationParameters>(Arena*);
+template<> ::com::bcom::solar::gprc::RectificationParametersPair* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::RectificationParametersPair>(Arena*);
 template<> ::com::bcom::solar::gprc::RelocalizationResult* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::RelocalizationResult>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
@@ -134,6 +177,31 @@ inline bool PipelineMode_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PipelineMode* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PipelineMode>(
     PipelineMode_descriptor(), name, value);
+}
+enum StereoType : int {
+  HORIZONTAL = 0,
+  VERTICAL = 1,
+  StereoType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  StereoType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool StereoType_IsValid(int value);
+constexpr StereoType StereoType_MIN = HORIZONTAL;
+constexpr StereoType StereoType_MAX = VERTICAL;
+constexpr int StereoType_ARRAYSIZE = StereoType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* StereoType_descriptor();
+template<typename T>
+inline const std::string& StereoType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, StereoType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function StereoType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    StereoType_descriptor(), enum_t_value);
+}
+inline bool StereoType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, StereoType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<StereoType>(
+    StereoType_descriptor(), name, value);
 }
 enum CameraType : int {
   RGB = 0,
@@ -873,6 +941,847 @@ class CameraParameters PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class CameraIdPair PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.CameraIdPair) */ {
+ public:
+  inline CameraIdPair() : CameraIdPair(nullptr) {}
+  virtual ~CameraIdPair();
+  explicit constexpr CameraIdPair(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CameraIdPair(const CameraIdPair& from);
+  CameraIdPair(CameraIdPair&& from) noexcept
+    : CameraIdPair() {
+    *this = ::std::move(from);
+  }
+
+  inline CameraIdPair& operator=(const CameraIdPair& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CameraIdPair& operator=(CameraIdPair&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CameraIdPair& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CameraIdPair* internal_default_instance() {
+    return reinterpret_cast<const CameraIdPair*>(
+               &_CameraIdPair_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(CameraIdPair& a, CameraIdPair& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CameraIdPair* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CameraIdPair* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CameraIdPair* New() const final {
+    return CreateMaybeMessage<CameraIdPair>(nullptr);
+  }
+
+  CameraIdPair* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CameraIdPair>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CameraIdPair& from);
+  void MergeFrom(const CameraIdPair& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CameraIdPair* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.CameraIdPair";
+  }
+  protected:
+  explicit CameraIdPair(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCamera1FieldNumber = 1,
+    kCamera2FieldNumber = 2,
+  };
+  // uint32 camera_1 = 1;
+  void clear_camera_1();
+  ::PROTOBUF_NAMESPACE_ID::uint32 camera_1() const;
+  void set_camera_1(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_camera_1() const;
+  void _internal_set_camera_1(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 camera_2 = 2;
+  void clear_camera_2();
+  ::PROTOBUF_NAMESPACE_ID::uint32 camera_2() const;
+  void set_camera_2(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_camera_2() const;
+  void _internal_set_camera_2(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.CameraIdPair)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 camera_1_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 camera_2_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RectificationParameters PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.RectificationParameters) */ {
+ public:
+  inline RectificationParameters() : RectificationParameters(nullptr) {}
+  virtual ~RectificationParameters();
+  explicit constexpr RectificationParameters(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RectificationParameters(const RectificationParameters& from);
+  RectificationParameters(RectificationParameters&& from) noexcept
+    : RectificationParameters() {
+    *this = ::std::move(from);
+  }
+
+  inline RectificationParameters& operator=(const RectificationParameters& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RectificationParameters& operator=(RectificationParameters&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const RectificationParameters& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RectificationParameters* internal_default_instance() {
+    return reinterpret_cast<const RectificationParameters*>(
+               &_RectificationParameters_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(RectificationParameters& a, RectificationParameters& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RectificationParameters* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RectificationParameters* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RectificationParameters* New() const final {
+    return CreateMaybeMessage<RectificationParameters>(nullptr);
+  }
+
+  RectificationParameters* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<RectificationParameters>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const RectificationParameters& from);
+  void MergeFrom(const RectificationParameters& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RectificationParameters* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.RectificationParameters";
+  }
+  protected:
+  explicit RectificationParameters(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRotationFieldNumber = 1,
+    kProjectionFieldNumber = 2,
+    kStereoTypeFieldNumber = 3,
+    kBaseliseFieldNumber = 4,
+  };
+  // .com.bcom.solar.gprc.Matrix3x3 rotation = 1;
+  bool has_rotation() const;
+  private:
+  bool _internal_has_rotation() const;
+  public:
+  void clear_rotation();
+  const ::com::bcom::solar::gprc::Matrix3x3& rotation() const;
+  ::com::bcom::solar::gprc::Matrix3x3* release_rotation();
+  ::com::bcom::solar::gprc::Matrix3x3* mutable_rotation();
+  void set_allocated_rotation(::com::bcom::solar::gprc::Matrix3x3* rotation);
+  private:
+  const ::com::bcom::solar::gprc::Matrix3x3& _internal_rotation() const;
+  ::com::bcom::solar::gprc::Matrix3x3* _internal_mutable_rotation();
+  public:
+  void unsafe_arena_set_allocated_rotation(
+      ::com::bcom::solar::gprc::Matrix3x3* rotation);
+  ::com::bcom::solar::gprc::Matrix3x3* unsafe_arena_release_rotation();
+
+  // .com.bcom.solar.gprc.Matrix3x4 projection = 2;
+  bool has_projection() const;
+  private:
+  bool _internal_has_projection() const;
+  public:
+  void clear_projection();
+  const ::com::bcom::solar::gprc::Matrix3x4& projection() const;
+  ::com::bcom::solar::gprc::Matrix3x4* release_projection();
+  ::com::bcom::solar::gprc::Matrix3x4* mutable_projection();
+  void set_allocated_projection(::com::bcom::solar::gprc::Matrix3x4* projection);
+  private:
+  const ::com::bcom::solar::gprc::Matrix3x4& _internal_projection() const;
+  ::com::bcom::solar::gprc::Matrix3x4* _internal_mutable_projection();
+  public:
+  void unsafe_arena_set_allocated_projection(
+      ::com::bcom::solar::gprc::Matrix3x4* projection);
+  ::com::bcom::solar::gprc::Matrix3x4* unsafe_arena_release_projection();
+
+  // .com.bcom.solar.gprc.StereoType stereo_type = 3;
+  void clear_stereo_type();
+  ::com::bcom::solar::gprc::StereoType stereo_type() const;
+  void set_stereo_type(::com::bcom::solar::gprc::StereoType value);
+  private:
+  ::com::bcom::solar::gprc::StereoType _internal_stereo_type() const;
+  void _internal_set_stereo_type(::com::bcom::solar::gprc::StereoType value);
+  public:
+
+  // float baselise = 4;
+  void clear_baselise();
+  float baselise() const;
+  void set_baselise(float value);
+  private:
+  float _internal_baselise() const;
+  void _internal_set_baselise(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.RectificationParameters)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::com::bcom::solar::gprc::Matrix3x3* rotation_;
+  ::com::bcom::solar::gprc::Matrix3x4* projection_;
+  int stereo_type_;
+  float baselise_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RectificationParametersPair PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.RectificationParametersPair) */ {
+ public:
+  inline RectificationParametersPair() : RectificationParametersPair(nullptr) {}
+  virtual ~RectificationParametersPair();
+  explicit constexpr RectificationParametersPair(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RectificationParametersPair(const RectificationParametersPair& from);
+  RectificationParametersPair(RectificationParametersPair&& from) noexcept
+    : RectificationParametersPair() {
+    *this = ::std::move(from);
+  }
+
+  inline RectificationParametersPair& operator=(const RectificationParametersPair& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RectificationParametersPair& operator=(RectificationParametersPair&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const RectificationParametersPair& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RectificationParametersPair* internal_default_instance() {
+    return reinterpret_cast<const RectificationParametersPair*>(
+               &_RectificationParametersPair_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(RectificationParametersPair& a, RectificationParametersPair& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RectificationParametersPair* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RectificationParametersPair* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RectificationParametersPair* New() const final {
+    return CreateMaybeMessage<RectificationParametersPair>(nullptr);
+  }
+
+  RectificationParametersPair* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<RectificationParametersPair>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const RectificationParametersPair& from);
+  void MergeFrom(const RectificationParametersPair& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RectificationParametersPair* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.RectificationParametersPair";
+  }
+  protected:
+  explicit RectificationParametersPair(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRectificationParameters1FieldNumber = 1,
+    kRectificationParameters2FieldNumber = 2,
+  };
+  // .com.bcom.solar.gprc.RectificationParameters rectification_parameters_1 = 1;
+  bool has_rectification_parameters_1() const;
+  private:
+  bool _internal_has_rectification_parameters_1() const;
+  public:
+  void clear_rectification_parameters_1();
+  const ::com::bcom::solar::gprc::RectificationParameters& rectification_parameters_1() const;
+  ::com::bcom::solar::gprc::RectificationParameters* release_rectification_parameters_1();
+  ::com::bcom::solar::gprc::RectificationParameters* mutable_rectification_parameters_1();
+  void set_allocated_rectification_parameters_1(::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_1);
+  private:
+  const ::com::bcom::solar::gprc::RectificationParameters& _internal_rectification_parameters_1() const;
+  ::com::bcom::solar::gprc::RectificationParameters* _internal_mutable_rectification_parameters_1();
+  public:
+  void unsafe_arena_set_allocated_rectification_parameters_1(
+      ::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_1);
+  ::com::bcom::solar::gprc::RectificationParameters* unsafe_arena_release_rectification_parameters_1();
+
+  // .com.bcom.solar.gprc.RectificationParameters rectification_parameters_2 = 2;
+  bool has_rectification_parameters_2() const;
+  private:
+  bool _internal_has_rectification_parameters_2() const;
+  public:
+  void clear_rectification_parameters_2();
+  const ::com::bcom::solar::gprc::RectificationParameters& rectification_parameters_2() const;
+  ::com::bcom::solar::gprc::RectificationParameters* release_rectification_parameters_2();
+  ::com::bcom::solar::gprc::RectificationParameters* mutable_rectification_parameters_2();
+  void set_allocated_rectification_parameters_2(::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_2);
+  private:
+  const ::com::bcom::solar::gprc::RectificationParameters& _internal_rectification_parameters_2() const;
+  ::com::bcom::solar::gprc::RectificationParameters* _internal_mutable_rectification_parameters_2();
+  public:
+  void unsafe_arena_set_allocated_rectification_parameters_2(
+      ::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_2);
+  ::com::bcom::solar::gprc::RectificationParameters* unsafe_arena_release_rectification_parameters_2();
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.RectificationParametersPair)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_1_;
+  ::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_2_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CameraRigParameters_CameraParametersEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_CameraParametersEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_CameraParametersEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;
+  CameraRigParameters_CameraParametersEntry_DoNotUse();
+  explicit constexpr CameraRigParameters_CameraParametersEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit CameraRigParameters_CameraParametersEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const CameraRigParameters_CameraParametersEntry_DoNotUse& other);
+  static const CameraRigParameters_CameraParametersEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const CameraRigParameters_CameraParametersEntry_DoNotUse*>(&_CameraRigParameters_CameraParametersEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(void*) { return true; }
+  static bool ValidateValue(void*) { return true; }
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& other) final;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto.file_level_metadata[7];
+  }
+
+  public:
+};
+
+// -------------------------------------------------------------------
+
+class CameraRigParameters_CameraIdsPairEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_CameraIdsPairEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_CameraIdsPairEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;
+  CameraRigParameters_CameraIdsPairEntry_DoNotUse();
+  explicit constexpr CameraRigParameters_CameraIdsPairEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit CameraRigParameters_CameraIdsPairEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const CameraRigParameters_CameraIdsPairEntry_DoNotUse& other);
+  static const CameraRigParameters_CameraIdsPairEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const CameraRigParameters_CameraIdsPairEntry_DoNotUse*>(&_CameraRigParameters_CameraIdsPairEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(void*) { return true; }
+  static bool ValidateValue(void*) { return true; }
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& other) final;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto.file_level_metadata[8];
+  }
+
+  public:
+};
+
+// -------------------------------------------------------------------
+
+class CameraRigParameters_Transformations3dEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_Transformations3dEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_Transformations3dEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;
+  CameraRigParameters_Transformations3dEntry_DoNotUse();
+  explicit constexpr CameraRigParameters_Transformations3dEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit CameraRigParameters_Transformations3dEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const CameraRigParameters_Transformations3dEntry_DoNotUse& other);
+  static const CameraRigParameters_Transformations3dEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const CameraRigParameters_Transformations3dEntry_DoNotUse*>(&_CameraRigParameters_Transformations3dEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(void*) { return true; }
+  static bool ValidateValue(void*) { return true; }
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& other) final;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto.file_level_metadata[9];
+  }
+
+  public:
+};
+
+// -------------------------------------------------------------------
+
+class CameraRigParameters_RectificationParametersEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_RectificationParametersEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<CameraRigParameters_RectificationParametersEntry_DoNotUse, 
+    ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;
+  CameraRigParameters_RectificationParametersEntry_DoNotUse();
+  explicit constexpr CameraRigParameters_RectificationParametersEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit CameraRigParameters_RectificationParametersEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const CameraRigParameters_RectificationParametersEntry_DoNotUse& other);
+  static const CameraRigParameters_RectificationParametersEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const CameraRigParameters_RectificationParametersEntry_DoNotUse*>(&_CameraRigParameters_RectificationParametersEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(void*) { return true; }
+  static bool ValidateValue(void*) { return true; }
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& other) final;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto.file_level_metadata[10];
+  }
+
+  public:
+};
+
+// -------------------------------------------------------------------
+
+class CameraRigParameters PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.CameraRigParameters) */ {
+ public:
+  inline CameraRigParameters() : CameraRigParameters(nullptr) {}
+  virtual ~CameraRigParameters();
+  explicit constexpr CameraRigParameters(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CameraRigParameters(const CameraRigParameters& from);
+  CameraRigParameters(CameraRigParameters&& from) noexcept
+    : CameraRigParameters() {
+    *this = ::std::move(from);
+  }
+
+  inline CameraRigParameters& operator=(const CameraRigParameters& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CameraRigParameters& operator=(CameraRigParameters&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CameraRigParameters& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CameraRigParameters* internal_default_instance() {
+    return reinterpret_cast<const CameraRigParameters*>(
+               &_CameraRigParameters_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(CameraRigParameters& a, CameraRigParameters& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CameraRigParameters* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CameraRigParameters* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CameraRigParameters* New() const final {
+    return CreateMaybeMessage<CameraRigParameters>(nullptr);
+  }
+
+  CameraRigParameters* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CameraRigParameters>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CameraRigParameters& from);
+  void MergeFrom(const CameraRigParameters& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CameraRigParameters* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.CameraRigParameters";
+  }
+  protected:
+  explicit CameraRigParameters(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCameraParametersFieldNumber = 1,
+    kCameraIdsPairFieldNumber = 2,
+    kTransformations3DFieldNumber = 3,
+    kRectificationParametersFieldNumber = 4,
+  };
+  // map<uint32, .com.bcom.solar.gprc.CameraParameters> camera_parameters = 1;
+  int camera_parameters_size() const;
+  private:
+  int _internal_camera_parameters_size() const;
+  public:
+  void clear_camera_parameters();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >&
+      _internal_camera_parameters() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >*
+      _internal_mutable_camera_parameters();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >&
+      camera_parameters() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >*
+      mutable_camera_parameters();
+
+  // map<uint32, .com.bcom.solar.gprc.CameraIdPair> camera_ids_pair = 2;
+  int camera_ids_pair_size() const;
+  private:
+  int _internal_camera_ids_pair_size() const;
+  public:
+  void clear_camera_ids_pair();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >&
+      _internal_camera_ids_pair() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >*
+      _internal_mutable_camera_ids_pair();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >&
+      camera_ids_pair() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >*
+      mutable_camera_ids_pair();
+
+  // map<uint32, .com.bcom.solar.gprc.Matrix4x4> transformations_3d = 3;
+  int transformations_3d_size() const;
+  private:
+  int _internal_transformations_3d_size() const;
+  public:
+  void clear_transformations_3d();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >&
+      _internal_transformations_3d() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >*
+      _internal_mutable_transformations_3d();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >&
+      transformations_3d() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >*
+      mutable_transformations_3d();
+
+  // map<uint32, .com.bcom.solar.gprc.RectificationParametersPair> rectification_parameters = 4;
+  int rectification_parameters_size() const;
+  private:
+  int _internal_rectification_parameters_size() const;
+  public:
+  void clear_rectification_parameters();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >&
+      _internal_rectification_parameters() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >*
+      _internal_mutable_rectification_parameters();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >&
+      rectification_parameters() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >*
+      mutable_rectification_parameters();
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.CameraRigParameters)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+      CameraRigParameters_CameraParametersEntry_DoNotUse,
+      ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> camera_parameters_;
+  ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+      CameraRigParameters_CameraIdsPairEntry_DoNotUse,
+      ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> camera_ids_pair_;
+  ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+      CameraRigParameters_Transformations3dEntry_DoNotUse,
+      ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> transformations_3d_;
+  ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+      CameraRigParameters_RectificationParametersEntry_DoNotUse,
+      ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> rectification_parameters_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CameraDistortion PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.CameraDistortion) */ {
  public:
@@ -916,7 +1825,7 @@ class CameraDistortion PROTOBUF_FINAL :
                &_CameraDistortion_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    12;
 
   friend void swap(CameraDistortion& a, CameraDistortion& b) {
     a.Swap(&b);
@@ -1097,7 +2006,7 @@ class RelocalizationResult PROTOBUF_FINAL :
                &_RelocalizationResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    13;
 
   friend void swap(RelocalizationResult& a, RelocalizationResult& b) {
     a.Swap(&b);
@@ -1265,7 +2174,7 @@ class Image PROTOBUF_FINAL :
                &_Image_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    14;
 
   friend void swap(Image& a, Image& b) {
     a.Swap(&b);
@@ -1453,7 +2362,7 @@ class Frame PROTOBUF_FINAL :
                &_Frame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    15;
 
   friend void swap(Frame& a, Frame& b) {
     a.Swap(&b);
@@ -1598,6 +2507,152 @@ class Frame PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class Frames PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.Frames) */ {
+ public:
+  inline Frames() : Frames(nullptr) {}
+  virtual ~Frames();
+  explicit constexpr Frames(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Frames(const Frames& from);
+  Frames(Frames&& from) noexcept
+    : Frames() {
+    *this = ::std::move(from);
+  }
+
+  inline Frames& operator=(const Frames& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Frames& operator=(Frames&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const Frames& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Frames* internal_default_instance() {
+    return reinterpret_cast<const Frames*>(
+               &_Frames_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  friend void swap(Frames& a, Frames& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Frames* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Frames* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Frames* New() const final {
+    return CreateMaybeMessage<Frames>(nullptr);
+  }
+
+  Frames* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Frames>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const Frames& from);
+  void MergeFrom(const Frames& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Frames* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.Frames";
+  }
+  protected:
+  explicit Frames(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFramesFieldNumber = 1,
+  };
+  // repeated .com.bcom.solar.gprc.Frame frames = 1;
+  int frames_size() const;
+  private:
+  int _internal_frames_size() const;
+  public:
+  void clear_frames();
+  ::com::bcom::solar::gprc::Frame* mutable_frames(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::com::bcom::solar::gprc::Frame >*
+      mutable_frames();
+  private:
+  const ::com::bcom::solar::gprc::Frame& _internal_frames(int index) const;
+  ::com::bcom::solar::gprc::Frame* _internal_add_frames();
+  public:
+  const ::com::bcom::solar::gprc::Frame& frames(int index) const;
+  ::com::bcom::solar::gprc::Frame* add_frames();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::com::bcom::solar::gprc::Frame >&
+      frames() const;
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.Frames)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::com::bcom::solar::gprc::Frame > frames_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Matrix4x4 PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.Matrix4x4) */ {
  public:
@@ -1641,7 +2696,7 @@ class Matrix4x4 PROTOBUF_FINAL :
                &_Matrix4x4_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    17;
 
   friend void swap(Matrix4x4& a, Matrix4x4& b) {
     a.Swap(&b);
@@ -1943,7 +2998,7 @@ class Matrix3x3 PROTOBUF_FINAL :
                &_Matrix3x3_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    18;
 
   friend void swap(Matrix3x3& a, Matrix3x3& b) {
     a.Swap(&b);
@@ -2120,6 +3175,264 @@ class Matrix3x3 PROTOBUF_FINAL :
   float m31_;
   float m32_;
   float m33_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Matrix3x4 PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.Matrix3x4) */ {
+ public:
+  inline Matrix3x4() : Matrix3x4(nullptr) {}
+  virtual ~Matrix3x4();
+  explicit constexpr Matrix3x4(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Matrix3x4(const Matrix3x4& from);
+  Matrix3x4(Matrix3x4&& from) noexcept
+    : Matrix3x4() {
+    *this = ::std::move(from);
+  }
+
+  inline Matrix3x4& operator=(const Matrix3x4& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Matrix3x4& operator=(Matrix3x4&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const Matrix3x4& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Matrix3x4* internal_default_instance() {
+    return reinterpret_cast<const Matrix3x4*>(
+               &_Matrix3x4_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    19;
+
+  friend void swap(Matrix3x4& a, Matrix3x4& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Matrix3x4* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Matrix3x4* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Matrix3x4* New() const final {
+    return CreateMaybeMessage<Matrix3x4>(nullptr);
+  }
+
+  Matrix3x4* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Matrix3x4>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const Matrix3x4& from);
+  void MergeFrom(const Matrix3x4& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Matrix3x4* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.Matrix3x4";
+  }
+  protected:
+  explicit Matrix3x4(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kM11FieldNumber = 1,
+    kM12FieldNumber = 2,
+    kM13FieldNumber = 3,
+    kM14FieldNumber = 4,
+    kM21FieldNumber = 5,
+    kM22FieldNumber = 6,
+    kM23FieldNumber = 7,
+    kM24FieldNumber = 8,
+    kM31FieldNumber = 9,
+    kM32FieldNumber = 10,
+    kM33FieldNumber = 11,
+    kM34FieldNumber = 12,
+  };
+  // float m11 = 1;
+  void clear_m11();
+  float m11() const;
+  void set_m11(float value);
+  private:
+  float _internal_m11() const;
+  void _internal_set_m11(float value);
+  public:
+
+  // float m12 = 2;
+  void clear_m12();
+  float m12() const;
+  void set_m12(float value);
+  private:
+  float _internal_m12() const;
+  void _internal_set_m12(float value);
+  public:
+
+  // float m13 = 3;
+  void clear_m13();
+  float m13() const;
+  void set_m13(float value);
+  private:
+  float _internal_m13() const;
+  void _internal_set_m13(float value);
+  public:
+
+  // float m14 = 4;
+  void clear_m14();
+  float m14() const;
+  void set_m14(float value);
+  private:
+  float _internal_m14() const;
+  void _internal_set_m14(float value);
+  public:
+
+  // float m21 = 5;
+  void clear_m21();
+  float m21() const;
+  void set_m21(float value);
+  private:
+  float _internal_m21() const;
+  void _internal_set_m21(float value);
+  public:
+
+  // float m22 = 6;
+  void clear_m22();
+  float m22() const;
+  void set_m22(float value);
+  private:
+  float _internal_m22() const;
+  void _internal_set_m22(float value);
+  public:
+
+  // float m23 = 7;
+  void clear_m23();
+  float m23() const;
+  void set_m23(float value);
+  private:
+  float _internal_m23() const;
+  void _internal_set_m23(float value);
+  public:
+
+  // float m24 = 8;
+  void clear_m24();
+  float m24() const;
+  void set_m24(float value);
+  private:
+  float _internal_m24() const;
+  void _internal_set_m24(float value);
+  public:
+
+  // float m31 = 9;
+  void clear_m31();
+  float m31() const;
+  void set_m31(float value);
+  private:
+  float _internal_m31() const;
+  void _internal_set_m31(float value);
+  public:
+
+  // float m32 = 10;
+  void clear_m32();
+  float m32() const;
+  void set_m32(float value);
+  private:
+  float _internal_m32() const;
+  void _internal_set_m32(float value);
+  public:
+
+  // float m33 = 11;
+  void clear_m33();
+  float m33() const;
+  void set_m33(float value);
+  private:
+  float _internal_m33() const;
+  void _internal_set_m33(float value);
+  public:
+
+  // float m34 = 12;
+  void clear_m34();
+  float m34() const;
+  void set_m34(float value);
+  private:
+  float _internal_m34() const;
+  void _internal_set_m34(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.Matrix3x4)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  float m11_;
+  float m12_;
+  float m13_;
+  float m14_;
+  float m21_;
+  float m22_;
+  float m23_;
+  float m24_;
+  float m31_;
+  float m32_;
+  float m33_;
+  float m34_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
 };
@@ -2532,6 +3845,558 @@ inline void CameraParameters::set_allocated_distortion(::com::bcom::solar::gprc:
   }
   distortion_ = distortion;
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParameters.distortion)
+}
+
+// -------------------------------------------------------------------
+
+// CameraIdPair
+
+// uint32 camera_1 = 1;
+inline void CameraIdPair::clear_camera_1() {
+  camera_1_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 CameraIdPair::_internal_camera_1() const {
+  return camera_1_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 CameraIdPair::camera_1() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.CameraIdPair.camera_1)
+  return _internal_camera_1();
+}
+inline void CameraIdPair::_internal_set_camera_1(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  camera_1_ = value;
+}
+inline void CameraIdPair::set_camera_1(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_camera_1(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraIdPair.camera_1)
+}
+
+// uint32 camera_2 = 2;
+inline void CameraIdPair::clear_camera_2() {
+  camera_2_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 CameraIdPair::_internal_camera_2() const {
+  return camera_2_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 CameraIdPair::camera_2() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.CameraIdPair.camera_2)
+  return _internal_camera_2();
+}
+inline void CameraIdPair::_internal_set_camera_2(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  camera_2_ = value;
+}
+inline void CameraIdPair::set_camera_2(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_camera_2(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraIdPair.camera_2)
+}
+
+// -------------------------------------------------------------------
+
+// RectificationParameters
+
+// .com.bcom.solar.gprc.Matrix3x3 rotation = 1;
+inline bool RectificationParameters::_internal_has_rotation() const {
+  return this != internal_default_instance() && rotation_ != nullptr;
+}
+inline bool RectificationParameters::has_rotation() const {
+  return _internal_has_rotation();
+}
+inline void RectificationParameters::clear_rotation() {
+  if (GetArena() == nullptr && rotation_ != nullptr) {
+    delete rotation_;
+  }
+  rotation_ = nullptr;
+}
+inline const ::com::bcom::solar::gprc::Matrix3x3& RectificationParameters::_internal_rotation() const {
+  const ::com::bcom::solar::gprc::Matrix3x3* p = rotation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::com::bcom::solar::gprc::Matrix3x3&>(
+      ::com::bcom::solar::gprc::_Matrix3x3_default_instance_);
+}
+inline const ::com::bcom::solar::gprc::Matrix3x3& RectificationParameters::rotation() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RectificationParameters.rotation)
+  return _internal_rotation();
+}
+inline void RectificationParameters::unsafe_arena_set_allocated_rotation(
+    ::com::bcom::solar::gprc::Matrix3x3* rotation) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(rotation_);
+  }
+  rotation_ = rotation;
+  if (rotation) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:com.bcom.solar.gprc.RectificationParameters.rotation)
+}
+inline ::com::bcom::solar::gprc::Matrix3x3* RectificationParameters::release_rotation() {
+  
+  ::com::bcom::solar::gprc::Matrix3x3* temp = rotation_;
+  rotation_ = nullptr;
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::com::bcom::solar::gprc::Matrix3x3* RectificationParameters::unsafe_arena_release_rotation() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.RectificationParameters.rotation)
+  
+  ::com::bcom::solar::gprc::Matrix3x3* temp = rotation_;
+  rotation_ = nullptr;
+  return temp;
+}
+inline ::com::bcom::solar::gprc::Matrix3x3* RectificationParameters::_internal_mutable_rotation() {
+  
+  if (rotation_ == nullptr) {
+    auto* p = CreateMaybeMessage<::com::bcom::solar::gprc::Matrix3x3>(GetArena());
+    rotation_ = p;
+  }
+  return rotation_;
+}
+inline ::com::bcom::solar::gprc::Matrix3x3* RectificationParameters::mutable_rotation() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.RectificationParameters.rotation)
+  return _internal_mutable_rotation();
+}
+inline void RectificationParameters::set_allocated_rotation(::com::bcom::solar::gprc::Matrix3x3* rotation) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete rotation_;
+  }
+  if (rotation) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(rotation);
+    if (message_arena != submessage_arena) {
+      rotation = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rotation, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  rotation_ = rotation;
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParameters.rotation)
+}
+
+// .com.bcom.solar.gprc.Matrix3x4 projection = 2;
+inline bool RectificationParameters::_internal_has_projection() const {
+  return this != internal_default_instance() && projection_ != nullptr;
+}
+inline bool RectificationParameters::has_projection() const {
+  return _internal_has_projection();
+}
+inline void RectificationParameters::clear_projection() {
+  if (GetArena() == nullptr && projection_ != nullptr) {
+    delete projection_;
+  }
+  projection_ = nullptr;
+}
+inline const ::com::bcom::solar::gprc::Matrix3x4& RectificationParameters::_internal_projection() const {
+  const ::com::bcom::solar::gprc::Matrix3x4* p = projection_;
+  return p != nullptr ? *p : reinterpret_cast<const ::com::bcom::solar::gprc::Matrix3x4&>(
+      ::com::bcom::solar::gprc::_Matrix3x4_default_instance_);
+}
+inline const ::com::bcom::solar::gprc::Matrix3x4& RectificationParameters::projection() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RectificationParameters.projection)
+  return _internal_projection();
+}
+inline void RectificationParameters::unsafe_arena_set_allocated_projection(
+    ::com::bcom::solar::gprc::Matrix3x4* projection) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(projection_);
+  }
+  projection_ = projection;
+  if (projection) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:com.bcom.solar.gprc.RectificationParameters.projection)
+}
+inline ::com::bcom::solar::gprc::Matrix3x4* RectificationParameters::release_projection() {
+  
+  ::com::bcom::solar::gprc::Matrix3x4* temp = projection_;
+  projection_ = nullptr;
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::com::bcom::solar::gprc::Matrix3x4* RectificationParameters::unsafe_arena_release_projection() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.RectificationParameters.projection)
+  
+  ::com::bcom::solar::gprc::Matrix3x4* temp = projection_;
+  projection_ = nullptr;
+  return temp;
+}
+inline ::com::bcom::solar::gprc::Matrix3x4* RectificationParameters::_internal_mutable_projection() {
+  
+  if (projection_ == nullptr) {
+    auto* p = CreateMaybeMessage<::com::bcom::solar::gprc::Matrix3x4>(GetArena());
+    projection_ = p;
+  }
+  return projection_;
+}
+inline ::com::bcom::solar::gprc::Matrix3x4* RectificationParameters::mutable_projection() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.RectificationParameters.projection)
+  return _internal_mutable_projection();
+}
+inline void RectificationParameters::set_allocated_projection(::com::bcom::solar::gprc::Matrix3x4* projection) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete projection_;
+  }
+  if (projection) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(projection);
+    if (message_arena != submessage_arena) {
+      projection = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, projection, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  projection_ = projection;
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParameters.projection)
+}
+
+// .com.bcom.solar.gprc.StereoType stereo_type = 3;
+inline void RectificationParameters::clear_stereo_type() {
+  stereo_type_ = 0;
+}
+inline ::com::bcom::solar::gprc::StereoType RectificationParameters::_internal_stereo_type() const {
+  return static_cast< ::com::bcom::solar::gprc::StereoType >(stereo_type_);
+}
+inline ::com::bcom::solar::gprc::StereoType RectificationParameters::stereo_type() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RectificationParameters.stereo_type)
+  return _internal_stereo_type();
+}
+inline void RectificationParameters::_internal_set_stereo_type(::com::bcom::solar::gprc::StereoType value) {
+  
+  stereo_type_ = value;
+}
+inline void RectificationParameters::set_stereo_type(::com::bcom::solar::gprc::StereoType value) {
+  _internal_set_stereo_type(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RectificationParameters.stereo_type)
+}
+
+// float baselise = 4;
+inline void RectificationParameters::clear_baselise() {
+  baselise_ = 0;
+}
+inline float RectificationParameters::_internal_baselise() const {
+  return baselise_;
+}
+inline float RectificationParameters::baselise() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RectificationParameters.baselise)
+  return _internal_baselise();
+}
+inline void RectificationParameters::_internal_set_baselise(float value) {
+  
+  baselise_ = value;
+}
+inline void RectificationParameters::set_baselise(float value) {
+  _internal_set_baselise(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RectificationParameters.baselise)
+}
+
+// -------------------------------------------------------------------
+
+// RectificationParametersPair
+
+// .com.bcom.solar.gprc.RectificationParameters rectification_parameters_1 = 1;
+inline bool RectificationParametersPair::_internal_has_rectification_parameters_1() const {
+  return this != internal_default_instance() && rectification_parameters_1_ != nullptr;
+}
+inline bool RectificationParametersPair::has_rectification_parameters_1() const {
+  return _internal_has_rectification_parameters_1();
+}
+inline void RectificationParametersPair::clear_rectification_parameters_1() {
+  if (GetArena() == nullptr && rectification_parameters_1_ != nullptr) {
+    delete rectification_parameters_1_;
+  }
+  rectification_parameters_1_ = nullptr;
+}
+inline const ::com::bcom::solar::gprc::RectificationParameters& RectificationParametersPair::_internal_rectification_parameters_1() const {
+  const ::com::bcom::solar::gprc::RectificationParameters* p = rectification_parameters_1_;
+  return p != nullptr ? *p : reinterpret_cast<const ::com::bcom::solar::gprc::RectificationParameters&>(
+      ::com::bcom::solar::gprc::_RectificationParameters_default_instance_);
+}
+inline const ::com::bcom::solar::gprc::RectificationParameters& RectificationParametersPair::rectification_parameters_1() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_1)
+  return _internal_rectification_parameters_1();
+}
+inline void RectificationParametersPair::unsafe_arena_set_allocated_rectification_parameters_1(
+    ::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_1) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(rectification_parameters_1_);
+  }
+  rectification_parameters_1_ = rectification_parameters_1;
+  if (rectification_parameters_1) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_1)
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::release_rectification_parameters_1() {
+  
+  ::com::bcom::solar::gprc::RectificationParameters* temp = rectification_parameters_1_;
+  rectification_parameters_1_ = nullptr;
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::unsafe_arena_release_rectification_parameters_1() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_1)
+  
+  ::com::bcom::solar::gprc::RectificationParameters* temp = rectification_parameters_1_;
+  rectification_parameters_1_ = nullptr;
+  return temp;
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::_internal_mutable_rectification_parameters_1() {
+  
+  if (rectification_parameters_1_ == nullptr) {
+    auto* p = CreateMaybeMessage<::com::bcom::solar::gprc::RectificationParameters>(GetArena());
+    rectification_parameters_1_ = p;
+  }
+  return rectification_parameters_1_;
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::mutable_rectification_parameters_1() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_1)
+  return _internal_mutable_rectification_parameters_1();
+}
+inline void RectificationParametersPair::set_allocated_rectification_parameters_1(::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_1) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete rectification_parameters_1_;
+  }
+  if (rectification_parameters_1) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(rectification_parameters_1);
+    if (message_arena != submessage_arena) {
+      rectification_parameters_1 = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rectification_parameters_1, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  rectification_parameters_1_ = rectification_parameters_1;
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_1)
+}
+
+// .com.bcom.solar.gprc.RectificationParameters rectification_parameters_2 = 2;
+inline bool RectificationParametersPair::_internal_has_rectification_parameters_2() const {
+  return this != internal_default_instance() && rectification_parameters_2_ != nullptr;
+}
+inline bool RectificationParametersPair::has_rectification_parameters_2() const {
+  return _internal_has_rectification_parameters_2();
+}
+inline void RectificationParametersPair::clear_rectification_parameters_2() {
+  if (GetArena() == nullptr && rectification_parameters_2_ != nullptr) {
+    delete rectification_parameters_2_;
+  }
+  rectification_parameters_2_ = nullptr;
+}
+inline const ::com::bcom::solar::gprc::RectificationParameters& RectificationParametersPair::_internal_rectification_parameters_2() const {
+  const ::com::bcom::solar::gprc::RectificationParameters* p = rectification_parameters_2_;
+  return p != nullptr ? *p : reinterpret_cast<const ::com::bcom::solar::gprc::RectificationParameters&>(
+      ::com::bcom::solar::gprc::_RectificationParameters_default_instance_);
+}
+inline const ::com::bcom::solar::gprc::RectificationParameters& RectificationParametersPair::rectification_parameters_2() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_2)
+  return _internal_rectification_parameters_2();
+}
+inline void RectificationParametersPair::unsafe_arena_set_allocated_rectification_parameters_2(
+    ::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_2) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(rectification_parameters_2_);
+  }
+  rectification_parameters_2_ = rectification_parameters_2;
+  if (rectification_parameters_2) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_2)
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::release_rectification_parameters_2() {
+  
+  ::com::bcom::solar::gprc::RectificationParameters* temp = rectification_parameters_2_;
+  rectification_parameters_2_ = nullptr;
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::unsafe_arena_release_rectification_parameters_2() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_2)
+  
+  ::com::bcom::solar::gprc::RectificationParameters* temp = rectification_parameters_2_;
+  rectification_parameters_2_ = nullptr;
+  return temp;
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::_internal_mutable_rectification_parameters_2() {
+  
+  if (rectification_parameters_2_ == nullptr) {
+    auto* p = CreateMaybeMessage<::com::bcom::solar::gprc::RectificationParameters>(GetArena());
+    rectification_parameters_2_ = p;
+  }
+  return rectification_parameters_2_;
+}
+inline ::com::bcom::solar::gprc::RectificationParameters* RectificationParametersPair::mutable_rectification_parameters_2() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_2)
+  return _internal_mutable_rectification_parameters_2();
+}
+inline void RectificationParametersPair::set_allocated_rectification_parameters_2(::com::bcom::solar::gprc::RectificationParameters* rectification_parameters_2) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete rectification_parameters_2_;
+  }
+  if (rectification_parameters_2) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(rectification_parameters_2);
+    if (message_arena != submessage_arena) {
+      rectification_parameters_2 = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, rectification_parameters_2, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  rectification_parameters_2_ = rectification_parameters_2;
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParametersPair.rectification_parameters_2)
+}
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// CameraRigParameters
+
+// map<uint32, .com.bcom.solar.gprc.CameraParameters> camera_parameters = 1;
+inline int CameraRigParameters::_internal_camera_parameters_size() const {
+  return camera_parameters_.size();
+}
+inline int CameraRigParameters::camera_parameters_size() const {
+  return _internal_camera_parameters_size();
+}
+inline void CameraRigParameters::clear_camera_parameters() {
+  camera_parameters_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >&
+CameraRigParameters::_internal_camera_parameters() const {
+  return camera_parameters_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >&
+CameraRigParameters::camera_parameters() const {
+  // @@protoc_insertion_point(field_map:com.bcom.solar.gprc.CameraRigParameters.camera_parameters)
+  return _internal_camera_parameters();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >*
+CameraRigParameters::_internal_mutable_camera_parameters() {
+  return camera_parameters_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraParameters >*
+CameraRigParameters::mutable_camera_parameters() {
+  // @@protoc_insertion_point(field_mutable_map:com.bcom.solar.gprc.CameraRigParameters.camera_parameters)
+  return _internal_mutable_camera_parameters();
+}
+
+// map<uint32, .com.bcom.solar.gprc.CameraIdPair> camera_ids_pair = 2;
+inline int CameraRigParameters::_internal_camera_ids_pair_size() const {
+  return camera_ids_pair_.size();
+}
+inline int CameraRigParameters::camera_ids_pair_size() const {
+  return _internal_camera_ids_pair_size();
+}
+inline void CameraRigParameters::clear_camera_ids_pair() {
+  camera_ids_pair_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >&
+CameraRigParameters::_internal_camera_ids_pair() const {
+  return camera_ids_pair_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >&
+CameraRigParameters::camera_ids_pair() const {
+  // @@protoc_insertion_point(field_map:com.bcom.solar.gprc.CameraRigParameters.camera_ids_pair)
+  return _internal_camera_ids_pair();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >*
+CameraRigParameters::_internal_mutable_camera_ids_pair() {
+  return camera_ids_pair_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::CameraIdPair >*
+CameraRigParameters::mutable_camera_ids_pair() {
+  // @@protoc_insertion_point(field_mutable_map:com.bcom.solar.gprc.CameraRigParameters.camera_ids_pair)
+  return _internal_mutable_camera_ids_pair();
+}
+
+// map<uint32, .com.bcom.solar.gprc.Matrix4x4> transformations_3d = 3;
+inline int CameraRigParameters::_internal_transformations_3d_size() const {
+  return transformations_3d_.size();
+}
+inline int CameraRigParameters::transformations_3d_size() const {
+  return _internal_transformations_3d_size();
+}
+inline void CameraRigParameters::clear_transformations_3d() {
+  transformations_3d_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >&
+CameraRigParameters::_internal_transformations_3d() const {
+  return transformations_3d_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >&
+CameraRigParameters::transformations_3d() const {
+  // @@protoc_insertion_point(field_map:com.bcom.solar.gprc.CameraRigParameters.transformations_3d)
+  return _internal_transformations_3d();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >*
+CameraRigParameters::_internal_mutable_transformations_3d() {
+  return transformations_3d_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::Matrix4x4 >*
+CameraRigParameters::mutable_transformations_3d() {
+  // @@protoc_insertion_point(field_mutable_map:com.bcom.solar.gprc.CameraRigParameters.transformations_3d)
+  return _internal_mutable_transformations_3d();
+}
+
+// map<uint32, .com.bcom.solar.gprc.RectificationParametersPair> rectification_parameters = 4;
+inline int CameraRigParameters::_internal_rectification_parameters_size() const {
+  return rectification_parameters_.size();
+}
+inline int CameraRigParameters::rectification_parameters_size() const {
+  return _internal_rectification_parameters_size();
+}
+inline void CameraRigParameters::clear_rectification_parameters() {
+  rectification_parameters_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >&
+CameraRigParameters::_internal_rectification_parameters() const {
+  return rectification_parameters_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >&
+CameraRigParameters::rectification_parameters() const {
+  // @@protoc_insertion_point(field_map:com.bcom.solar.gprc.CameraRigParameters.rectification_parameters)
+  return _internal_rectification_parameters();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >*
+CameraRigParameters::_internal_mutable_rectification_parameters() {
+  return rectification_parameters_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::com::bcom::solar::gprc::RectificationParametersPair >*
+CameraRigParameters::mutable_rectification_parameters() {
+  // @@protoc_insertion_point(field_mutable_map:com.bcom.solar.gprc.CameraRigParameters.rectification_parameters)
+  return _internal_mutable_rectification_parameters();
 }
 
 // -------------------------------------------------------------------
@@ -3122,6 +4987,49 @@ inline void Frame::set_allocated_pose(::com::bcom::solar::gprc::Matrix4x4* pose)
 
 // -------------------------------------------------------------------
 
+// Frames
+
+// repeated .com.bcom.solar.gprc.Frame frames = 1;
+inline int Frames::_internal_frames_size() const {
+  return frames_.size();
+}
+inline int Frames::frames_size() const {
+  return _internal_frames_size();
+}
+inline void Frames::clear_frames() {
+  frames_.Clear();
+}
+inline ::com::bcom::solar::gprc::Frame* Frames::mutable_frames(int index) {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.Frames.frames)
+  return frames_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::com::bcom::solar::gprc::Frame >*
+Frames::mutable_frames() {
+  // @@protoc_insertion_point(field_mutable_list:com.bcom.solar.gprc.Frames.frames)
+  return &frames_;
+}
+inline const ::com::bcom::solar::gprc::Frame& Frames::_internal_frames(int index) const {
+  return frames_.Get(index);
+}
+inline const ::com::bcom::solar::gprc::Frame& Frames::frames(int index) const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Frames.frames)
+  return _internal_frames(index);
+}
+inline ::com::bcom::solar::gprc::Frame* Frames::_internal_add_frames() {
+  return frames_.Add();
+}
+inline ::com::bcom::solar::gprc::Frame* Frames::add_frames() {
+  // @@protoc_insertion_point(field_add:com.bcom.solar.gprc.Frames.frames)
+  return _internal_add_frames();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::com::bcom::solar::gprc::Frame >&
+Frames::frames() const {
+  // @@protoc_insertion_point(field_list:com.bcom.solar.gprc.Frames.frames)
+  return frames_;
+}
+
+// -------------------------------------------------------------------
+
 // Matrix4x4
 
 // float m11 = 1;
@@ -3628,9 +5536,273 @@ inline void Matrix3x3::set_m33(float value) {
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x3.m33)
 }
 
+// -------------------------------------------------------------------
+
+// Matrix3x4
+
+// float m11 = 1;
+inline void Matrix3x4::clear_m11() {
+  m11_ = 0;
+}
+inline float Matrix3x4::_internal_m11() const {
+  return m11_;
+}
+inline float Matrix3x4::m11() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m11)
+  return _internal_m11();
+}
+inline void Matrix3x4::_internal_set_m11(float value) {
+  
+  m11_ = value;
+}
+inline void Matrix3x4::set_m11(float value) {
+  _internal_set_m11(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m11)
+}
+
+// float m12 = 2;
+inline void Matrix3x4::clear_m12() {
+  m12_ = 0;
+}
+inline float Matrix3x4::_internal_m12() const {
+  return m12_;
+}
+inline float Matrix3x4::m12() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m12)
+  return _internal_m12();
+}
+inline void Matrix3x4::_internal_set_m12(float value) {
+  
+  m12_ = value;
+}
+inline void Matrix3x4::set_m12(float value) {
+  _internal_set_m12(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m12)
+}
+
+// float m13 = 3;
+inline void Matrix3x4::clear_m13() {
+  m13_ = 0;
+}
+inline float Matrix3x4::_internal_m13() const {
+  return m13_;
+}
+inline float Matrix3x4::m13() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m13)
+  return _internal_m13();
+}
+inline void Matrix3x4::_internal_set_m13(float value) {
+  
+  m13_ = value;
+}
+inline void Matrix3x4::set_m13(float value) {
+  _internal_set_m13(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m13)
+}
+
+// float m14 = 4;
+inline void Matrix3x4::clear_m14() {
+  m14_ = 0;
+}
+inline float Matrix3x4::_internal_m14() const {
+  return m14_;
+}
+inline float Matrix3x4::m14() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m14)
+  return _internal_m14();
+}
+inline void Matrix3x4::_internal_set_m14(float value) {
+  
+  m14_ = value;
+}
+inline void Matrix3x4::set_m14(float value) {
+  _internal_set_m14(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m14)
+}
+
+// float m21 = 5;
+inline void Matrix3x4::clear_m21() {
+  m21_ = 0;
+}
+inline float Matrix3x4::_internal_m21() const {
+  return m21_;
+}
+inline float Matrix3x4::m21() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m21)
+  return _internal_m21();
+}
+inline void Matrix3x4::_internal_set_m21(float value) {
+  
+  m21_ = value;
+}
+inline void Matrix3x4::set_m21(float value) {
+  _internal_set_m21(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m21)
+}
+
+// float m22 = 6;
+inline void Matrix3x4::clear_m22() {
+  m22_ = 0;
+}
+inline float Matrix3x4::_internal_m22() const {
+  return m22_;
+}
+inline float Matrix3x4::m22() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m22)
+  return _internal_m22();
+}
+inline void Matrix3x4::_internal_set_m22(float value) {
+  
+  m22_ = value;
+}
+inline void Matrix3x4::set_m22(float value) {
+  _internal_set_m22(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m22)
+}
+
+// float m23 = 7;
+inline void Matrix3x4::clear_m23() {
+  m23_ = 0;
+}
+inline float Matrix3x4::_internal_m23() const {
+  return m23_;
+}
+inline float Matrix3x4::m23() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m23)
+  return _internal_m23();
+}
+inline void Matrix3x4::_internal_set_m23(float value) {
+  
+  m23_ = value;
+}
+inline void Matrix3x4::set_m23(float value) {
+  _internal_set_m23(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m23)
+}
+
+// float m24 = 8;
+inline void Matrix3x4::clear_m24() {
+  m24_ = 0;
+}
+inline float Matrix3x4::_internal_m24() const {
+  return m24_;
+}
+inline float Matrix3x4::m24() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m24)
+  return _internal_m24();
+}
+inline void Matrix3x4::_internal_set_m24(float value) {
+  
+  m24_ = value;
+}
+inline void Matrix3x4::set_m24(float value) {
+  _internal_set_m24(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m24)
+}
+
+// float m31 = 9;
+inline void Matrix3x4::clear_m31() {
+  m31_ = 0;
+}
+inline float Matrix3x4::_internal_m31() const {
+  return m31_;
+}
+inline float Matrix3x4::m31() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m31)
+  return _internal_m31();
+}
+inline void Matrix3x4::_internal_set_m31(float value) {
+  
+  m31_ = value;
+}
+inline void Matrix3x4::set_m31(float value) {
+  _internal_set_m31(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m31)
+}
+
+// float m32 = 10;
+inline void Matrix3x4::clear_m32() {
+  m32_ = 0;
+}
+inline float Matrix3x4::_internal_m32() const {
+  return m32_;
+}
+inline float Matrix3x4::m32() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m32)
+  return _internal_m32();
+}
+inline void Matrix3x4::_internal_set_m32(float value) {
+  
+  m32_ = value;
+}
+inline void Matrix3x4::set_m32(float value) {
+  _internal_set_m32(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m32)
+}
+
+// float m33 = 11;
+inline void Matrix3x4::clear_m33() {
+  m33_ = 0;
+}
+inline float Matrix3x4::_internal_m33() const {
+  return m33_;
+}
+inline float Matrix3x4::m33() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m33)
+  return _internal_m33();
+}
+inline void Matrix3x4::_internal_set_m33(float value) {
+  
+  m33_ = value;
+}
+inline void Matrix3x4::set_m33(float value) {
+  _internal_set_m33(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m33)
+}
+
+// float m34 = 12;
+inline void Matrix3x4::clear_m34() {
+  m34_ = 0;
+}
+inline float Matrix3x4::_internal_m34() const {
+  return m34_;
+}
+inline float Matrix3x4::m34() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Matrix3x4.m34)
+  return _internal_m34();
+}
+inline void Matrix3x4::_internal_set_m34(float value) {
+  
+  m34_ = value;
+}
+inline void Matrix3x4::set_m34(float value) {
+  _internal_set_m34(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Matrix3x4.m34)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -3663,6 +5835,11 @@ template <> struct is_proto_enum< ::com::bcom::solar::gprc::PipelineMode> : ::st
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::PipelineMode>() {
   return ::com::bcom::solar::gprc::PipelineMode_descriptor();
+}
+template <> struct is_proto_enum< ::com::bcom::solar::gprc::StereoType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::StereoType>() {
+  return ::com::bcom::solar::gprc::StereoType_descriptor();
 }
 template <> struct is_proto_enum< ::com::bcom::solar::gprc::CameraType> : ::std::true_type {};
 template <>

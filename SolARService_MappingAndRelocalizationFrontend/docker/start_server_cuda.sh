@@ -22,7 +22,7 @@ fi
 
 echo "Try to replace the Relocalization Service URL in the XML configuration file..."
 
-sed -i -e "s/RELOCALIZATION_SERVICE_URL/$RELOCALIZATION_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+sed -i -e "s/RELOCALIZATION_SERVICE_URL/$RELOCALIZATION_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml
 
 ## Detect MAPPING_SERVICE_URL var and use its value
 ## to set the Mapping service URL in XML configuration file
@@ -46,7 +46,7 @@ fi
 
 echo "Try to replace the Mapping Service URL in the XML configuration file..."
 
-sed -i -e "s/MAPPING_SERVICE_URL/$MAPPING_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+sed -i -e "s/MAPPING_SERVICE_URL/$MAPPING_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml
 
 echo "XML configuration file ready"
 
@@ -59,8 +59,8 @@ if echo $DISPLAY_LOG | grep -q "ENVOY"
 then
 	echo "Display envoy logs"
 	envoy -c envoy_config.yaml &
-        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >/dev/null &
-        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >/dev/null
+        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf_cuda.xml >/dev/null &
+        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml >/dev/null
         exit 0
 fi
 
@@ -69,8 +69,8 @@ if echo $DISPLAY_LOG | grep -q "PROXY"
 then
 	echo "Display proxy logs"
         envoy -c envoy_config.yaml >/dev/null 2>&1 &
-        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
-        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >/dev/null
+        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf_cuda.xml &
+        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml >/dev/null
         exit 0
 fi
 
@@ -79,13 +79,13 @@ if echo $DISPLAY_LOG | grep -q "FRONTEND"
 then
 	echo "Display frontend logs"
         envoy -c envoy_config.yaml >/dev/null 2>&1 &
-        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >/dev/null &
-        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+        ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf_cuda.xml >/dev/null &
+        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml
         exit 0
 fi
 
 echo "Display all logs"
 envoy -c envoy_config.yaml &
-./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
-./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf_cuda.xml &
+./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml
 

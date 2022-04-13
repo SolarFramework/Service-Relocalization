@@ -253,16 +253,14 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
     auto fps = relocAndMapFps.update();
 
-    LOG_INFO("Relocalize and map ({:03.2f} FPS)", fps);
+    LOG_DEBUG("{:03.2f} FPS", fps);
 
-    LOG_DEBUG("Input");
-    LOG_DEBUG("  image: {}x{}, {}, compression: {}",
-              request->image().width(),
-              request->image().height(),
-              to_string(request->image().layout()),
-              to_string(request->image().imagecompression()));
-    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
-    LOG_DEBUG("  timestamp: {}", request->timestamp());
+//    LOG_DEBUG("  image: {}x{}, {}",
+//              request->image().width(),
+//              request->image().height(),
+//              to_string(request->image().layout()));
+//    LOG_DEBUG("  pose:\n{}", to_string(request->pose()));
+//    LOG_DEBUG("  timestamp: {}", request->timestamp());
 
     // Get data from request
     SRef<SolARImage> image;

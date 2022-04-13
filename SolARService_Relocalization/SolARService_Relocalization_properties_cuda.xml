@@ -13,7 +13,7 @@
     -->
     <!-- gRPC proxy configuration-->
     <configure component="IMapUpdatePipeline_grpcProxy">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50053"/>
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60053"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 
@@ -29,17 +29,18 @@
             <property name="reprojErrorThreshold" type="float" value="10.0"/>
             <property name="thresConfidence" type="float" value="0.03"/>
     </configure>
-    <configure component="SolARKeypointDetectorOpencv">
-            <property name="type" type="string" value="AKAZE2"/>
-			<property name="imageRatio" type="float" value="1.0"/>
-			<property name="nbDescriptors" type="int" value="1000"/>
-			<property name="nbOctaves" type="int" value="4"/>
-			<property name="threshold" type="float" value="0.0001"/>
-			<property name="borderRatio" type="float" value="0.0"/>
-    </configure>
-    <configure component="SolARDescriptorsExtractorAKAZE2Opencv">
-            <property name="threshold" type="float" value="3e-4"/>
-    </configure>
+    <configure component="SolARDescritorsExtractorFromImagePopSift">
+			<property name="mode" type="string" value="PopSift"/>
+			<property name="imageMode" type="string" value="Unsigned Char"/>
+			<property name="nbOctaves" type="integer" value="3"/>
+			<property name="nbLevelPerOctave" type="integer" value="3"/>
+			<property name="sigma" type="float" value="1.6"/>
+			<property name="threshold" type="float" value="0.04"/>
+			<property name="edgeLimit" type="float" value="10.0"/>
+			<property name="downsampling" type="float" value="-1.0"/>
+			<property name="initialBlur" type="float" value="-1.0"/>
+			<property name="maxTotalKeypoints" type="uint" value="1000"/>
+	</configure>
     <configure component="SolARDescriptorMatcherKNNOpencv">
             <property name="distanceRatio" type="float" value="0.8"/>
     </configure>
@@ -56,7 +57,7 @@
             <property name="method" type="string" value="EPNP"/>
     </configure>
     <configure component="SolARKeyframeRetrieverFBOW">
-            <property name="VOCpath" type="string" value="../../../../data/fbow_voc/akaze.fbow"/>
+            <property name="VOCpath" type="string" value="../../../../data/fbow_voc/popsift_uint8.fbow"/>
             <property name="threshold" type="float" value="0.01"/>
             <property name="level" type="int" value="3"/>
             <property name="matchingDistanceRatio" type="float" value="0.8"/>

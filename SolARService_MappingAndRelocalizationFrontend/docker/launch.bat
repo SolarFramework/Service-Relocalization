@@ -24,12 +24,13 @@ SET MAPPING_SERVICE_URL=%2
 
 REM Get output logs to display (if specified)
 IF "%3"=="" (
-	ECHO You can specify the logs to display on console using ENVOY/PROXY/FRONTEND as 3rd parameter (FRONTEND by default)
+        ECHO You can specify the logs to display on console using ENVOY/PROXY/FRONTEND as 3rd parameter (all logs by default)
+        SET DISPLAY_LOG=ALL
 ) ELSE (
 	ECHO Logs to display = %3
+        SET DISPLAY_LOG=%3
 )
 
-SET DISPLAY_LOG=%3
 
 REM Set application log level
 REM Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING

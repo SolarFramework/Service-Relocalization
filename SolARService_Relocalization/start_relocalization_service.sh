@@ -29,7 +29,18 @@ if [ -f "$PWD/SolARService_Relocalization_modules.xml" ]; then
         done
 fi
 
+if [ -f "$PWD/SolARService_Relocalization_modules_cuda.xml" ]; then
+        for modulePath in $(grep -o "\$XPCF_MODULE_ROOT.*lib" SolARService_Relocalization_modules_cuda.xml)
+        do
+           modulePath=${modulePath/"\$XPCF_MODULE_ROOT"/${XPCF_MODULE_ROOT}}
+           if ! [[ $ld_library_path =~ "$modulePath/x86_64/shared/release" ]]
+           then
+                  ld_library_path=$ld_library_path:$modulePath/x86_64/shared/release
+           fi
+        done
+fi
+
 echo LD_LIBRARY_PATH $ld_library_path
 
-LD_LIBRARY_PATH=$ld_library_path ./SolARService_Relocalization -m SolARService_Relocalization_modules.xml -p SolARService_Relocalization_properties.xml
+LD_LIBRARY_PATH=$ld_library_path ./SolARService_Relocalization -m SolARService_Relocalization_modules.xml -p SolARService_Relocalization_properties.xml $@
 

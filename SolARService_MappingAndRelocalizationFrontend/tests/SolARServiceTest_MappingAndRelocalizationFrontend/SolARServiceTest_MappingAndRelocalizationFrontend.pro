@@ -33,7 +33,6 @@ win32:CONFIG += shared
 QMAKE_TARGET.arch = x86_64 #must be defined prior to include
 
 DEPENDENCIESCONFIG = shared install_recurse
-
 PROJECTCONFIG = QTVS
 
 #NOTE : CONFIG as staticlib or sharedlib, DEPENDENCIESCONFIG as staticlib or sharedlib, QMAKE_TARGET.arch and PROJECTDEPLOYDIR MUST BE DEFINED BEFORE templatelibconfig.pri inclusion

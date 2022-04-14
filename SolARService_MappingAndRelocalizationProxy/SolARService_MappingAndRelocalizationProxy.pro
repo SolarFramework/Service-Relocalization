@@ -95,7 +95,8 @@ DISTFILES += \
     extra-packages-linux.txt
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocalizationProxy_conf.xml)
+xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocalizationProxy_conf.xml) \
+                   $$files($${PWD}/SolARService_MappingAndRelocalizationProxy_conf_cuda.xml)
 
 INSTALLS += xml_files
 

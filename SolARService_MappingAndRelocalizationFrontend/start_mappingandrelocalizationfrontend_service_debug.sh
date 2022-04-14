@@ -18,18 +18,17 @@ export SOLAR_LOG_LEVEL=DEBUG
 
 # include dependencies path to ld_library_path
 ld_library_path="./"
-if [ -f "$PWD/SolARService_MappingAndRelocalizationFrontend_modules.xml" ]; then
-        for modulePath in $(grep -o "\$XPCF_MODULE_ROOT.*lib" SolARService_MappingAndRelocalizationFrontend_modules.xml)
-        do
-           modulePath=${modulePath/"\$XPCF_MODULE_ROOT"/${XPCF_MODULE_ROOT}}
-           if ! [[ $ld_library_path =~ "$modulePath/x86_64/shared/debug" ]]
-           then
-                  ld_library_path=$ld_library_path:$modulePath/x86_64/shared/debug
-           fi
-        done
-fi
+
+for modulePath in $(grep -o "\$XPCF_MODULE_ROOT.*lib" SolARService_MappingAndRelocalizationFrontend_modules.xml)
+do
+   modulePath=${modulePath/"\$XPCF_MODULE_ROOT"/${XPCF_MODULE_ROOT}}
+   if ! [[ $ld_library_path =~ "$modulePath/x86_64/shared/debug" ]]
+   then
+          ld_library_path=$ld_library_path:$modulePath/x86_64/shared/debug
+   fi
+done
 
 echo LD_LIBRARY_PATH $ld_library_path
 
-LD_LIBRARY_PATH=$ld_library_path ./SolARService_MappingAndRelocalizationFrontend -m SolARService_MappingAndRelocalizationFrontend_modules.xml -p SolARService_MappingAndRelocalizationFrontend_properties.xml
+LD_LIBRARY_PATH=$ld_library_path ./SolARService_MappingAndRelocalizationFrontend -m SolARService_MappingAndRelocalizationFrontend_modules.xml -p SolARService_MappingAndRelocalizationFrontend_properties.xml $@
 

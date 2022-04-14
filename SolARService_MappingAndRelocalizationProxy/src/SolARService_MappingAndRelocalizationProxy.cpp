@@ -46,7 +46,7 @@ namespace xpcf=org::bcom::xpcf;
 
 using com::bcom::solar::gprc::RelocalizationAndMappingGrpcServiceImpl;
 
-const string DEFAULT_GRPC_LISTENING_PORT = "5010";
+const int DEFAULT_GRPC_LISTENING_PORT = 5010;
 
 SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, bool displayImages);
 void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,
@@ -68,7 +68,7 @@ LOG_ADD_LOG_TO_CONSOLE();
             ("v,version", "display version information and exit")
             ("f,file", "configuration file (mandatory)", cxxopts::value<string>())
             ("p,port", "port to which the gRPC service will listen to \
-                (default: " + DEFAULT_GRPC_LISTENING_PORT + ")", cxxopts::value<int>())
+                (default: " + std::to_string(DEFAULT_GRPC_LISTENING_PORT) + ")", cxxopts::value<int>()->default_value(std::to_string(DEFAULT_GRPC_LISTENING_PORT)))
             ("s,save", "save images and poses on the given folder", cxxopts::value<string>())
             ("d,display", "display images on a view screen");
 
@@ -84,12 +84,12 @@ LOG_ADD_LOG_TO_CONSOLE();
         return 0;
     }
 
-    string port = DEFAULT_GRPC_LISTENING_PORT;
+    int port = DEFAULT_GRPC_LISTENING_PORT;
     if (options.count("port"))
     {
         port = options["port"].as<int>();
     }
-    LOG_DEBUG("Port set to '{}'");
+    LOG_DEBUG("Port set to '{}'", port);
 
     if (!options.count("file") || options["file"].as<string>().empty()) {
            LOG_ERROR("Configuration file is missing");
@@ -116,7 +116,7 @@ LOG_ADD_LOG_TO_CONSOLE();
     try
     {
         auto pipeline = resolvePipeline(configFile, displayImages);
-        startService(pipeline.get(), "0.0.0.0:" + port, saveFolder, displayImages);
+        startService(pipeline.get(), "0.0.0.0:" + std::to_string(port), saveFolder, displayImages);
     }
     catch (const xpcf::Exception& e)
     {

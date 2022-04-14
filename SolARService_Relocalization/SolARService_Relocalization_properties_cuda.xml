@@ -13,7 +13,7 @@
     -->
     <!-- gRPC proxy configuration-->
     <configure component="IMapUpdatePipeline_grpcProxy">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50053"/>
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60053"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 
@@ -26,7 +26,7 @@
             <property name="keyframesManagerFileName" type="string" value="keyframes.bin"/>
             <property name="covisibilityGraphFileName" type="string" value="covisibility_graph.bin"/>
             <property name="keyframeRetrieverFileName" type="string" value="keyframe_retriever.bin"/>
-            <property name="reprojErrorThreshold" type="float" value="5.0"/>
+            <property name="reprojErrorThreshold" type="float" value="10.0"/>
             <property name="thresConfidence" type="float" value="0.03"/>
     </configure>
     <configure component="SolARDescritorsExtractorFromImagePopSift">

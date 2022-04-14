@@ -85,6 +85,7 @@ linux {
 
 DISTFILES += \
     SolARService_MappingAndRelocalizationProxy_conf.xml \
+    SolARService_MappingAndRelocalizationProxy_conf_cuda.xml \
     packagedependencies-linux.txt \
     packagedependencies-win.txt \
     packagedependencies-android.txt \

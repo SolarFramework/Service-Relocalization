@@ -445,6 +445,18 @@ RelocalizationAndMappingGrpcServiceImpl::to_string(ImageLayout layout)
 }
 
 std::string
+RelocalizationAndMappingGrpcServiceImpl::to_string(ImageCompression compression)
+{
+    switch(compression)
+    {
+    case ImageCompression::PNG: return "PNG";
+    case ImageCompression::JPG: return "JPG";
+    case ImageCompression::NONE: return "NONE";
+    default: throw std::runtime_error("Unkown compression type");
+    };
+}
+
+std::string
 RelocalizationAndMappingGrpcServiceImpl::to_string(SolAR::api::pipeline::TransformStatus transformStatus)
 {
     switch(transformStatus)
@@ -587,8 +599,9 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
         }
 
         case ImageCompression::PNG:
+        case ImageCompression::JPG:
         {
-            // Decode PNG image
+            // Decode compressed image
 
             // Copy PNG image buffer
             std::vector<uchar> decodingBuffer(frame->image().data().c_str(),

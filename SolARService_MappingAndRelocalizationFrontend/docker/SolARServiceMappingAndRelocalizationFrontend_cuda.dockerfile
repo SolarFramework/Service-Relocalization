@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM nvidia/cuda:11.4.0-base-ubuntu18.04
 MAINTAINER Christophe Cutullic christophe.cutullic@b-com.com
 
 ## Configure Ubuntu environment
@@ -29,15 +29,15 @@ ADD data/marker/* /SolARServiceMappingAndRelocalizationFrontend/data/marker/
 ## Libraries and modules
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend/modules
 ADD modules/* /SolARServiceMappingAndRelocalizationFrontend/modules/
-ADD modules_no_cuda/* /SolARServiceMappingAndRelocalizationFrontend/modules/
+ADD modules_cuda/* /SolARServiceMappingAndRelocalizationFrontend/modules/
 
 ## Project files
 ADD SolARService_MappingAndRelocalizationFrontend /SolARServiceMappingAndRelocalizationFrontend/
 RUN chmod +x /SolARServiceMappingAndRelocalizationFrontend/SolARService_MappingAndRelocalizationFrontend
 RUN mkdir .xpcf
 ADD *.xml /.xpcf/
-ADD docker/start_server.sh .
-RUN chmod +x start_server.sh
+ADD docker/start_server_cuda.sh .
+RUN chmod +x start_server_cuda.sh
 
 ## Proxy part
 ADD SolARService_MappingAndRelocalizationProxy /SolARServiceMappingAndRelocalizationFrontend/
@@ -62,4 +62,4 @@ ENV MAPPING_SERVICE_URL=mapping-service
 ENV SOLAR_LOG_LEVEL=INFO
 
 ## Run Server
-CMD [ "./start_server.sh"  ]
+CMD [ "./start_server_cuda.sh"  ]

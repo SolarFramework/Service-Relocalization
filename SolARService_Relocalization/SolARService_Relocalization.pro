@@ -96,8 +96,14 @@ linux {
 
 DISTFILES += \
     SolARService_Relocalization_modules.xml \
+    SolARService_Relocalization_modules_cuda.xml \
     SolARService_Relocalization_properties.xml \
+    SolARService_Relocalization_properties_cuda.xml \
+    docker/SolARServiceRelocalization_cuda.dockerfile \
+    docker/build_cuda.sh \
     docker/launch.bat \
+    docker/launch_cuda.sh \
+    docker/start_server_cuda.sh \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \

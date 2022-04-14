@@ -97,6 +97,7 @@ enum ImageCompression
 {
     NONE = 0;
     PNG = 1;
+    JPG = 2;
 }
 
 message Image

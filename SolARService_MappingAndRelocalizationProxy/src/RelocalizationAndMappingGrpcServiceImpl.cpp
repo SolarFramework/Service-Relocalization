@@ -253,7 +253,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
     auto fps = relocAndMapFps.update();
 
-    LOG_DEBUG("{:03.2f} FPS", fps);
+    LOG_INFO("{:03.2f} FPS", fps);
 
 //    LOG_DEBUG("  image: {}x{}, {}",
 //              request->image().width(),

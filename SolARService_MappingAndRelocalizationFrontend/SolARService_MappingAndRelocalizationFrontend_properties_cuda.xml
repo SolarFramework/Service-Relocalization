@@ -16,63 +16,18 @@
         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60051"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
-    <configure component="IRelocalizationPipeline_grpcProxy">
+    <configure component="IRelocalizationPipeline_grpcProxy" name="MapProperties">
         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60052"/>
+        <property name="channelCredentials" access="rw" type="uint" value="0"/>
+    </configure>
+    <configure component="IRelocalizationPipeline_grpcProxy" name="MarkerProperties">
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60050"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 
     <configure component="SolARMappingAndRelocalizationFrontendPipeline">
-        <property name="nbImagesBetweenRequest" access="rw" type="uint" value="3"/>
-        <property name="nbRelocRequest" access="rw" type="uint" value="5"/>
-    </configure>
-
-    <configure component="SolARFiducialMarkerPoseEstimator">
-        <property name="nbThreshold" type="int" value="4"/>
-        <property name="minThreshold" type="int" value="-1"/>
-        <property name="maxThreshold" type="int" value="220"/>
-        <property name="maxReprojError" type="float" value="0.8"/>
-    </configure>
-    <configure component="SolARFiducialMarkerLoaderOpencv">
-        <property name="filePath" type="string" value="../../../../data/marker/fiducialMarkerA.yml" description="Path of the .yml file describing the fiducial marker."/>
-    </configure>
-    <configure component="SolARQRCodePoseEstimatorOpencv">
-        <property name="maxReprojError" type="float" value="2.5"/>
-    </configure>
-    <configure component="SolARQRCodeLoaderOpencv">
-        <property name="filePath" type="string" value="../../../../data/marker/qrcode_artwin.yml"  description="Path of the .yml file describing the QRCode marker."/>
-    </configure>
-    <configure component="SolARImageFilterBinaryOpencv">
-        <property name="min" type="int" value="-1" description="minimum threshold (-1 to automatically compute it on the global image"/>
-        <property name="max" type="int" value="255" description="maximum threshold"/>
-    </configure>
-    <configure component="SolARContoursExtractorOpencv">
-         <property name="minContourEdges" type="int" value="4" description="Minimum number of edge to validate a contour (default = 4)"/>
-    </configure>
-    <configure component="SolARContoursFilterBinaryMarkerOpencv">
-        <property name="epsilon" type="float" value="0.05" description="The maximum distance between the original curve and its approximation (default = 0.05)"/>
-        <property name="minContourLength" type="float" value="20.0" description="The minimum length of an edge of the contour in pixels to be considered as valid (default = 20)."/>
-        <property name="minDistanceBetweenContourCorners" type="float" value="10.0" description="The minimum average distance in pixels between corners of a contour and the same corners of another contour to consider the contour as valid (default = 10)"/>
-    </configure>
-    <configure component="SolARPerspectiveControllerOpencv">
-        <property name="outputImageWidth" type="int" value="640" description="The width in pixels of the corrected image."/>
-        <property name="outputImageHeight" type="int" value="480" description="The width in pixels of the corrected image."/>
-    </configure>
-    <configure component="SolAR3DOverlayBoxOpencv">
-        <property name="position" type="float">
-            <value>0</value>
-            <value>0</value>
-            <value>0</value>
-        </property>
-        <property name="orientation" type="float">
-            <value>0.0</value>
-            <value>0.0</value>
-            <value>0.0</value>
-        </property>
-        <property name="size" type="float">
-            <value>0.185</value>
-            <value>0.185</value>
-            <value>0.185</value>
-        </property>
+        <property name="nbSecondsBetweenRequest" access="rw" type="uint" value="30"/>
+        <property name="nbRelocRequest" access="rw" type="uint" value="3"/>
     </configure>
 </properties>
 

@@ -33,14 +33,14 @@
         <!-- bindings for the gRPC Service: exposed interfaces -->
         <bind interface="org::bcom::xpcf::IGrpcService">
             <component to="IAsyncRelocalizationPipeline_grpcServer"/>
-        </bind>        
+        </bind>
     </bindings>
-	<injects>
-		<inject to="SolARMappingAndRelocalizationFrontendPipeline">
-			<bind interface="IRelocalizationPipeline" to="IRelocalizationPipeline_grpcProxy" name="Map" properties="MapProperties" range="default|all"/>
-			<bind interface="IRelocalizationPipeline" to="IRelocalizationPipeline_grpcProxy" name="Marker" properties="MarkerProperties" range="default|all"/>
-		</inject>
-		</injects>
+    <injects>
+        <inject to="SolARMappingAndRelocalizationFrontendPipeline">
+            <bind interface="IRelocalizationPipeline" to="IRelocalizationPipeline_grpcProxy" name="Map" properties="MapProperties" range="default|all"/>
+            <bind interface="IRelocalizationPipeline" to="IRelocalizationPipeline_grpcProxy" name="Marker" properties="MarkerProperties" range="default|all"/>
+        </inject>
+    </injects>
 </factory>
 
 </xpcf-registry>

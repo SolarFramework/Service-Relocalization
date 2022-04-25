@@ -97,14 +97,14 @@ linux {
 DISTFILES += \
     SolARService_RelocalizationMarkers_modules.xml \
     SolARService_RelocalizationMarkers_properties.xml \
+    docker/SolARServiceRelocalizationMarkers.dockerfile \
     docker/launch.bat \
+    docker/relocalization-markers-service-manifest.yaml \
     markers.json \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/relocalization-service-manifest.yaml \
-    docker/SolARServiceRelocalization.dockerfile \
     docker/start_server.sh \
     start_relocalizationmarkers_service_debug.sh \
     start_relocalizationmarkers_service_release.sh

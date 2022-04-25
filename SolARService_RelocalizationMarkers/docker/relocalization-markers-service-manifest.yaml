@@ -1,70 +1,68 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: relocalization-service
+  name: relocalization-markers-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: relocalization-service
+      app: relocalization-markers-service
   template:
     metadata:
       labels:
-        app: relocalization-service
+        app: relocalization-markers-service
     spec:
       imagePullSecrets:
       - name: regcredsupra
       containers:
-      - name: relocalization-service
-        image: solar-docker-local.artifact.b-com.com/relocalization/0.10.0/relocalization-service:latest
+      - name: relocalization-markers-service
+        image: solar-docker-local.artifact.b-com.com/relocalization/0.10.0/relocalization-markers-service:latest
         env:
         - name: SOLAR_LOG_LEVEL
           value: INFO
         - name: XPCF_GRPC_MAX_RECV_MSG_SIZE
-          value: "-1"
+          value: "7000000"
         - name: XPCF_GRPC_MAX_SEND_MSG_SIZE
-          value: "-1"
-        - name: MAPUPDATE_SERVICE_URL
-          value: map-update-service:80
+          value: "20000"
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
-  name: relocalization-service
+  name: relocalization-markers-service
   labels:
-    app: relocalization-service
+    app: relocalization-markers-service
 spec:
   type: NodePort
   selector:
-    app: relocalization-service
+    app: relocalization-markers-service
   ports:
   - name: http
     port: 80
     targetPort: 8080
-    nodePort: 31889
+    nodePort: 31880
 
 ---
 
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: relocalization-service
+  name: relocalization-markers-service
 
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: relocalization-service-rolebinding
+  name: relocalization-markers-service-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: relocalization-service
-  namespace: relocalization-service.artwin.b-com.com:q
+  name: relocalization-markers-service
+  namespace: relocalization-markers-service.artwin.b-com.com:q
 
 ---
 
@@ -76,18 +74,18 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
   name:
-    relocalization-service
+    relocalization-markers-service
 spec:
   tls:
   - hosts:
-      - relocalization-service.artwin.b-com.com
+      - relocalization-markers-service.artwin.b-com.com
   rules:
-  - host: relocalization-service.artwin.b-com.com
+  - host: relocalization-markers-service.artwin.b-com.com
     http:
       paths:
       - backend:
           service:
-            name: relocalization-service
+            name: relocalization-markers-service
             port:
               number: 80
         path: /

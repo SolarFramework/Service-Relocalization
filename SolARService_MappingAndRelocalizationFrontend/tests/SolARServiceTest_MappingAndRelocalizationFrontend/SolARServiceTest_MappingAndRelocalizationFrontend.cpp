@@ -36,7 +36,10 @@ using namespace SolAR::api;
 using namespace SolAR::datastructure;
 namespace xpcf=org::bcom::xpcf;
 
-#define INDEX_USE_CAMERA 1
+// index of using cameras
+// 1 camera for mono mode
+// 2 cameras for stereo mode
+const std::vector<int> INDEX_USE_CAMERA{1};
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
@@ -162,7 +165,7 @@ int main(int argc, char* argv[])
 
             // Load camera intrinsics parameters
             CameraRigParameters camRigParams = arDevice->getCameraParameters();
-            CameraParameters camParams = camRigParams.cameraParams[INDEX_USE_CAMERA];
+            CameraParameters camParams = camRigParams.cameraParams[INDEX_USE_CAMERA[0]];
             overlay3D->setCameraParameters(camParams.intrinsic, camParams.distortion);
 
             LOG_INFO("Set camera paremeters for the service");
@@ -170,6 +173,16 @@ int main(int argc, char* argv[])
             if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams) != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
                 return -1;
+            }
+
+            // for stereo mode
+            if (INDEX_USE_CAMERA.size() == 2){
+                RectificationParameters rectParams1 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].first;
+                RectificationParameters rectParams2 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].second;
+                if (gRelocalizationAndMappingFrontendService->setRectificationParameters(rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
+                    LOG_ERROR("Error while setting rectification parameters for the mapping and relocalization front end service");
+                    return -1;
+                }
             }
 
             LOG_INFO("Start the service");
@@ -190,41 +203,44 @@ int main(int argc, char* argv[])
 
                 // Read next image and pose
                 if (arDevice->getData(images, poses, timestamp) == FrameworkReturnCode::_SUCCESS) {
+                    std::vector<SRef<Image>> imagesToProcess;
+                    std::vector<Transform3Df> posesToProcess;
+                    for (const auto & i : INDEX_USE_CAMERA){
+                        images[i]->setImageEncoding(Image::ENCODING_JPEG);
+                        images[i]->setImageEncodingQuality(80);
+                        imagesToProcess.push_back(images[i]);
+                        posesToProcess.push_back(poses[i]);
+                    }
 
-                    SRef<Image> image = images[INDEX_USE_CAMERA];
-                    Transform3Df pose = poses[INDEX_USE_CAMERA];
                     api::pipeline::TransformStatus transform3DStatus;
                     Transform3Df transform3D;
                     float_t confidence;
 
-                    LOG_INFO("Send image and pose to service");
-
-                    image->setImageEncoding(Image::ENCODING_JPEG);
-                    image->setImageEncodingQuality(80);
+                    LOG_INFO("Send image and pose to service");                    
 
                     // Send data to mapping and relocalization front end service
                     gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
-                                image, pose, timestamp, transform3DStatus, transform3D, confidence);
+                                imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence);
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(transform3D * pose, image);
+                            overlay3D->draw(transform3D * posesToProcess[0], imagesToProcess[0]);
                     }
                     else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
                         LOG_DEBUG("Previous 3D transformation = {}", transform3D.matrix());
 
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(transform3D * pose, image);
+                            overlay3D->draw(transform3D * posesToProcess[0], imagesToProcess[0]);
                     }
                     else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
                         LOG_DEBUG("No 3D transformation");
                     }
 
                     // Display image sent
-                    imageViewer->display(image);
+                    imageViewer->display(imagesToProcess[0]);
                 }
                 else {
                     LOG_INFO("No more images to send");

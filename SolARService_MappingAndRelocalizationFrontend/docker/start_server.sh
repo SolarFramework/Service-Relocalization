@@ -24,6 +24,30 @@ echo "Try to replace the Relocalization Service URL in the XML configuration fil
 
 sed -i -e "s/RELOCALIZATION_SERVICE_URL/$RELOCALIZATION_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
 
+## Detect RELOCALIZATION_MARKERS_SERVICE_URL var and use its value
+## to set the Relocalization Markers service URL in XML configuration file
+
+if [ -z "$RELOCALIZATION_MARKERS_SERVICE_URL" ]
+then
+    echo "Error: You must define RELOCALIZATION_MARKERS_SERVICE_URL env var with the Relocalization Markers Service URL"
+    exit 1
+else
+    ## Detect port in service URL
+    if echo "$RELOCALIZATION_MARKERS_SERVICE_URL" | grep -q ":"
+    then
+        echo "Port is defined in Relocalization Markers service URL"
+    else
+        echo "No port set in Relocalization Markers service URL: add port 80 (default)"
+        export RELOCALIZATION_MARKERS_SERVICE_URL="${RELOCALIZATION_MARKERS_SERVICE_URL}:80"
+    fi
+
+    echo "RELOCALIZATION_MARKERS_SERVICE_URL defined: $RELOCALIZATION_MARKERS_SERVICE_URL"
+fi
+
+echo "Try to replace the Relocalization Markers Service URL in the XML configuration file..."
+
+sed -i -e "s/RELOCALIZATION_MARKERS_SERVICE_URL/$RELOCALIZATION_MARKERS_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+
 ## Detect MAPPING_SERVICE_URL var and use its value
 ## to set the Mapping service URL in XML configuration file
 

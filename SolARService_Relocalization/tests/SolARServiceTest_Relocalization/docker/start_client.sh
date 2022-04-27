@@ -3,11 +3,11 @@
 ## Detect RELOCALIZATION_SERVICE_URL var and use its value
 ## to set the Relocalization service URL in XML configuration file
 
-cd /SolARServiceMapUpdateClient
+cd /SolARServiceRelocalizationClient
 
 if [ -z "$RELOCALIZATION_SERVICE_URL" ]
 then
-    echo "Error: You must define RELOCALIZATION_SERVICE_URL env var with the MapUpdate Service URL"
+    echo "Error: You must define RELOCALIZATION_SERVICE_URL env var with the Relocalization Service URL"
     exit 1 
 else
     echo "RELOCALIZATION_SERVICE_URL defined: $RELOCALIZATION_SERVICE_URL"
@@ -26,5 +26,5 @@ export SOLAR_LOG_LEVEL=INFO
 export LD_LIBRARY_PATH=.:./modules/
 
 ## Start client
-./SolARServiceTest_Relocalization_ -f /.xpcf/SolARServiceTest_Relocalization_conf.xml
+./SolARServiceTest_Relocalization -f /.xpcf/SolARServiceTest_Relocalization_conf.xml
 

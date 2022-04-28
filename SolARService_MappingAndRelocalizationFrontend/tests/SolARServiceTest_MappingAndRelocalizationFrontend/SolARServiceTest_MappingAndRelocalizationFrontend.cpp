@@ -172,6 +172,13 @@ int main(int argc, char* argv[])
                 return -1;
             }
 
+            if (!relocOnly) {
+                LOG_INFO("Reset the global map stored in the Map Update service");
+                if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {
+                    LOG_INFO("Global map reset!");
+                }
+            }
+
             LOG_INFO("Start the service");
 
             if (gRelocalizationAndMappingFrontendService->start() != FrameworkReturnCode::_SUCCESS) {

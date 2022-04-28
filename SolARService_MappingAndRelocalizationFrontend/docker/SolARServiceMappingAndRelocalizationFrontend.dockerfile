@@ -46,6 +46,8 @@ ENV XPCF_GRPC_MAX_RECV_MSG_SIZE=7000000
 ## Set application gRPC max send message size
 ENV XPCF_GRPC_MAX_SEND_MSG_SIZE=20000
 
+## Set url to Map Update Service
+ENV MAPUPDATE_SERVICE_URL=mapupdate-service
 ## Set url to Relocalization Service
 ENV RELOCALIZATION_SERVICE_URL=relocalization-service
 ## Set url to Relocalization Markers Service

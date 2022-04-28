@@ -12,6 +12,10 @@
     </configure>
     -->
     <!-- gRPC proxy configuration-->
+    <configure component="IMapUpdatePipeline_grpcProxy">
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50053"/>
+        <property name="channelCredentials" access="rw" type="uint" value="0"/>
+    </configure>
     <configure component="IMappingPipeline_grpcProxy">
         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50051"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>

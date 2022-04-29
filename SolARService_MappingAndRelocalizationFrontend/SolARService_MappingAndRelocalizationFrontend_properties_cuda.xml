@@ -25,7 +25,7 @@
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
     <configure component="IRelocalizationPipeline_grpcProxy" name="MarkerProperties">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60050"/>
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50050"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 

@@ -397,7 +397,16 @@ RelocalizationAndMappingGrpcServiceImpl::Reset(grpc::ServerContext *context,
                                                Empty *response)
 {
     LOG_INFO("Reset");
-    return Status(grpc::StatusCode::UNIMPLEMENTED, "Reset() is not yet implemented");
+
+
+    if (m_pipeline->resetMap() != SolAR::FrameworkReturnCode::_SUCCESS)
+    {
+        return gRpcError("Error while resetting the global map for the map update service");
+    }
+
+    LOG_DEBUG("Reset global map OK");
+
+    return Status::OK;
 }
 
 grpc::Status

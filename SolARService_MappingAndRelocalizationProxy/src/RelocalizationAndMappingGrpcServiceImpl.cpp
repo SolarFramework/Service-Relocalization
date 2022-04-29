@@ -392,6 +392,15 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
 }
 
 grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::Reset(grpc::ServerContext *context,
+                                               const Empty *request,
+                                               Empty *response)
+{
+    LOG_INFO("Reset");
+    return Status(grpc::StatusCode::UNIMPLEMENTED, "Reset() is not yet implemented");
+}
+
+grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::SendMessage(grpc::ServerContext* context,
                                                      const Message* request,
                                                      Empty* response)

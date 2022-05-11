@@ -392,6 +392,24 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
 }
 
 grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::Reset(grpc::ServerContext *context,
+                                               const Empty *request,
+                                               Empty *response)
+{
+    LOG_INFO("Reset");
+
+
+    if (m_pipeline->resetMap() != SolAR::FrameworkReturnCode::_SUCCESS)
+    {
+        return gRpcError("Error while resetting the global map for the map update service");
+    }
+
+    LOG_DEBUG("Reset global map OK");
+
+    return Status::OK;
+}
+
+grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::SendMessage(grpc::ServerContext* context,
                                                      const Message* request,
                                                      Empty* response)

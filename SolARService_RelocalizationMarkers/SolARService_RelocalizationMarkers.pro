@@ -5,10 +5,11 @@ CONFIG -= qt
 QMAKE_PROJECT_DEPTH = 0
 
 ## global defintions : target lib name, version
-TARGET = SolARService_MappingAndRelocalizationFrontend
+TARGET = SolARService_RelocalizationMarkers
 VERSION=0.11.0
 PROJECTDEPLOYDIR = $${PWD}/..
 
+## remove Qt dependencies
 CONFIG += c++1z
 CONFIG += console
 CONFIG += verbose
@@ -43,7 +44,7 @@ HEADERS += \
 
 SOURCES += \
     GrpcServerManager.cpp\
-    SolARService_MappingAndRelocalizationFrontend.cpp
+    SolARService_RelocalizationMarkers.cpp
 
 unix {
     LIBS += -ldl
@@ -82,55 +83,38 @@ win32 {
 
 linux {
     run_install.path = $${TARGETDEPLOYDIR}
-    run_install.files = $${PWD}/start_mappingandrelocalizationfrontend_service.sh
+    run_install.files = $${PWD}/start_relocalizationmarkers_service.sh
     CONFIG(release,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_release.sh) $${PWD}/start_mappingandrelocalizationfrontend_service.sh
+        run_install.extra = cp $$files($${PWD}/start_relocalizationmarkers_service_release.sh) $${PWD}/start_relocalizationmarkers_service.sh
     }
     CONFIG(debug,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_debug.sh) $${PWD}/start_mappingandrelocalizationfrontend_service.sh
+        run_install.extra = cp $$files($${PWD}/start_relocalizationmarkers_service_debug.sh) $${PWD}/start_relocalizationmarkers_service.sh
     }
     run_install.CONFIG += nostrip
-    INSTALLS += run_install
-
-    run_install_cuda.path = $${TARGETDEPLOYDIR}
-    run_install_cuda.files = $${PWD}/start_mappingandrelocalizationfrontend_service_cuda.sh
-    CONFIG(release,debug|release) {
-        run_install_cuda.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_release_cuda.sh) $${PWD}/start_mappingandrelocalizationfrontend_service_cuda.sh
-    }
-    CONFIG(debug,debug|release) {
-        run_install_cuda.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_debug_cuda.sh) $${PWD}/start_mappingandrelocalizationfrontend_service_cuda.sh
-    }
-    run_install_cuda.CONFIG += nostrip
-    INSTALLS += run_install_cuda
+    INSTALLS += run_install    
 }
 
 DISTFILES += \
-    SolARService_MappingAndRelocalizationFrontend_modules.xml \
-    SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml \
-    SolARService_MappingAndRelocalizationFrontend_properties.xml \
-    SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml \
+    SolARService_RelocalizationMarkers_modules.xml \
+    SolARService_RelocalizationMarkers_properties.xml \
+    docker/SolARServiceRelocalizationMarkers.dockerfile \
     docker/launch.bat \
-    docker/launch_cuda.sh \
-    markerA.png \
+    docker/relocalization-markers-service-manifest.yaml \
+    markers.json \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/mappingandrelocalizationfrontend-service-manifest.yaml \
-    docker/SolARServiceMappingAndRelocalizationFrontend.dockerfile \
     docker/start_server.sh \
-    start_mappingandrelocalizationfrontend_service_debug.sh \
-    start_mappingandrelocalizationfrontend_service_debug_cuda.sh \
-    start_mappingandrelocalizationfrontend_service_release.sh \
-    start_mappingandrelocalizationfrontend_service_release_cuda.sh
+    start_relocalizationmarkers_service_debug.sh \
+    start_relocalizationmarkers_service_release.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_modules.xml) \
-                   $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_properties.xml) \
-                   $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml) \
-                   $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml)
+xml_files.files =  $$files($${PWD}/SolARService_RelocalizationMarkers_modules.xml) \
+                   $$files($${PWD}/SolARService_RelocalizationMarkers_properties.xml)
 
 INSTALLS += xml_files
 
 #NOTE : Must be placed at the end of the .pro
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/remaken_install_target.pri)))) # Shell_quote & shell_path required for visual on windows
+

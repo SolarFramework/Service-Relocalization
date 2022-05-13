@@ -110,6 +110,7 @@ DISTFILES += \
     SolARService_MappingAndRelocalizationFrontend_properties.xml \
     SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml \
     docker/launch.bat \
+    docker/launch_cuda.bat \
     docker/launch_cuda.sh \
     markerA.png \
     packagedependencies.txt \

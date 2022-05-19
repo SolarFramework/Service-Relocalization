@@ -3,7 +3,7 @@ MAINTAINER Christophe Cutullic christophe.cutullic@b-com.com
 
 ## Configure Ubuntu environment
 RUN apt-get update -y
-RUN apt-get install -y libgtk-3-0
+RUN apt-get install -y libgtk2.0-dev
 RUN apt-get install -y libva-dev
 RUN apt-get install -y libvdpau-dev
 
@@ -11,26 +11,27 @@ RUN apt-get install -y libvdpau-dev
 RUN apt-get install -y xterm
 RUN useradd -ms /bin/bash xterm
 
-## Copy SolARServiceMapUpdateClient app files
-RUN mkdir SolARServiceMapUpdateClient
+## Copy SolARServiceRelocalizationClient app files
+RUN mkdir SolARServiceRelocalizationClient
 
 ## Data files (maps, hololens configuration)
-RUN mkdir SolARServiceMapUpdateClient/data
-RUN mkdir SolARServiceMapUpdateClient/data/calibrations
-ADD data/calibrations/* /SolARServiceMapUpdateClient/data/calibrations/
-RUN mkdir SolARServiceMapUpdateClient/data/maps
-RUN mkdir SolARServiceMapUpdateClient/data/maps/mapA
-ADD data/maps/mapA/* /SolARServiceMapUpdateClient/data/maps/mapA/
-RUN mkdir SolARServiceMapUpdateClient/data/maps/mapB
-ADD data/maps/mapB/* /SolARServiceMapUpdateClient/data/maps/mapB/
+RUN mkdir SolARServiceRelocalizationClient/data
+RUN mkdir SolARServiceRelocalizationClient/data/data_hololens
+ADD data/data_hololens/* /SolARServiceRelocalizationClient/data/data_hololens/
+RUN mkdir SolARServiceRelocalizationClient/data/data_hololens/loop_desktop_A
+ADD data/data_hololens/loop_desktop_A/* /SolARServiceRelocalizationClient/data/data_hololens/loop_desktop_A/
+RUN mkdir SolARServiceRelocalizationClient/data/data_hololens/loop_desktop_A/000
+ADD data/data_hololens/loop_desktop_A/000/* /SolARServiceRelocalizationClient/data/data_hololens/loop_desktop_A/000/
+RUN mkdir SolARServiceRelocalizationClient/data/data_hololens/loop_desktop_A/001
+ADD data/data_hololens/loop_desktop_A/001/* /SolARServiceRelocalizationClient/data/data_hololens/loop_desktop_A/001/
 
 ## Libraries and modules
-RUN mkdir SolARServiceMapUpdateClient/modules
-ADD modules/* /SolARServiceMapUpdateClient/modules/
+RUN mkdir SolARServiceRelocalizationClient/modules
+ADD modules/* /SolARServiceRelocalizationClient/modules/
 
 ## Project files
-ADD SolARServiceTest_MapUpdate /SolARServiceMapUpdateClient/
-RUN chmod +x /SolARServiceMapUpdateClient/SolARServiceTest_MapUpdate
+ADD SolARServiceTest_Relocalization /SolARServiceRelocalizationClient/
+RUN chmod +x /SolARServiceRelocalizationClient/SolARServiceTest_Relocalization
 RUN mkdir .xpcf
 ADD *.xml /.xpcf/
 ADD docker/start_client.sh .

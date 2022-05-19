@@ -182,6 +182,10 @@ int main(int argc, char* argv[])
                 if (gRelocalizationAndMappingFrontendService->setRectificationParameters(rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting rectification parameters for the mapping and relocalization front end service");
                     return -1;
+            if (!relocOnly) {
+                LOG_INFO("Reset the global map stored in the Map Update service");
+                if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {
+                    LOG_INFO("Global map reset!");
                 }
             }
 

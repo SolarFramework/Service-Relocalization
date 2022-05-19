@@ -70,6 +70,10 @@ public:
                                 const Empty* request,
                                 RelocalizationResult* response)  override;
 
+    grpc::Status Reset(grpc::ServerContext *context,
+                       const Empty *request,
+                       Empty *response) override;
+
     grpc::Status SendMessage(grpc::ServerContext* context,
                              const Message* request,
                              Empty* response) override;
@@ -112,7 +116,6 @@ private:
     static grpc::Status buildSolARImage(const Frame*, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toSolAR(/* const */ cv::Mat& imgSrc, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toGrpc(SolAR::api::pipeline::TransformStatus solARPoseStatus, RelocalizationPoseStatus& gRpcPoseStatus);
-    static void imageToOpenCV(SRef<SolAR::datastructure::Image> imgSrc, cv::Mat& imgDest);
     static SolAR::api::pipeline::PipelineMode toSolAR(PipelineMode pipelineMode);
 
     static grpc::Status gRpcError(std::string message, grpc::StatusCode gRpcStatus = grpc::StatusCode::INTERNAL);

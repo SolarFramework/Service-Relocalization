@@ -91,22 +91,23 @@ linux {
         run_install.extra = cp $$files($${PWD}/start_relocalizationmarkers_service_debug.sh) $${PWD}/start_relocalizationmarkers_service.sh
     }
     run_install.CONFIG += nostrip
-    INSTALLS += run_install
+    INSTALLS += run_install    
 }
 
 DISTFILES += \
     SolARService_RelocalizationMarkers_modules.xml \
     SolARService_RelocalizationMarkers_properties.xml \
+    docker/SolARServiceRelocalizationMarkers.dockerfile \
     docker/launch.bat \
+    docker/relocalization-markers-service-manifest.yaml \
+    markers.json \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/relocalization-service-manifest.yaml \
-    docker/SolARServiceRelocalization.dockerfile \
     docker/start_server.sh \
-    start_relocalization_service_debug.sh \
-    start_relocalization_service_release.sh
+    start_relocalizationmarkers_service_debug.sh \
+    start_relocalizationmarkers_service_release.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
 xml_files.files =  $$files($${PWD}/SolARService_RelocalizationMarkers_modules.xml) \

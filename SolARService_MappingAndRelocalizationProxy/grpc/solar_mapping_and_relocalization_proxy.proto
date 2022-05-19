@@ -23,6 +23,7 @@ service SolARMappingAndRelocalizationProxy
     rpc SetCameraParameters(CameraParameters) returns (Empty);
     rpc RelocalizeAndMap(Frame) returns (RelocalizationResult);
     rpc Get3DTransform(Empty) returns (RelocalizationResult);
+    rpc Reset(Empty) returns (Empty);
 
     rpc SendMessage(Message) returns (Empty);
 }

@@ -7,21 +7,21 @@ RUN apt-get install -y libgtk2.0-dev
 RUN apt-get install -y libva-dev
 RUN apt-get install -y libvdpau-dev
 
-## Copy SolARServiceRelocalization app files
-RUN mkdir SolARServiceRelocalization
+## Copy SolARServiceRelocalizationMarkers app files
+RUN mkdir SolARServiceRelocalizationMarkers
 
-## Data files (fbow vocabulary)
-RUN mkdir SolARServiceRelocalization/data
-RUN mkdir SolARServiceRelocalization/data/fbow_voc
-ADD data/fbow_voc/* /SolARServiceRelocalization/data/fbow_voc/
+## Data files (markers description)
+RUN mkdir SolARServiceRelocalizationMarkers/data
+RUN mkdir SolARServiceRelocalizationMarkers/data/marker
+ADD data/marker/* /SolARServiceRelocalizationMarkers/data/marker/
 
 ## Libraries and modules
-RUN mkdir SolARServiceRelocalization/modules
-ADD modules/* /SolARServiceRelocalization/modules/
+RUN mkdir SolARServiceRelocalizationMarkers/modules
+ADD modules/* /SolARServiceRelocalizationMarkers/modules/
 
 ## Project files
-ADD SolARService_Relocalization /SolARServiceRelocalization/
-RUN chmod +x /SolARServiceRelocalization/SolARService_Relocalization
+ADD SolARService_RelocalizationMarkers /SolARServiceRelocalizationMarkers/
+RUN chmod +x /SolARServiceRelocalizationMarkers/SolARService_RelocalizationMarkers
 RUN mkdir .xpcf
 ADD *.xml /.xpcf/
 ADD docker/start_server.sh .
@@ -30,12 +30,9 @@ RUN chmod +x start_server.sh
 ## Set application gRPC server url
 ENV XPCF_GRPC_SERVER_URL=0.0.0.0:8080
 ## Set application gRPC max receive message size
-ENV XPCF_GRPC_MAX_RECV_MSG_SIZE=-1
+ENV XPCF_GRPC_MAX_RECV_MSG_SIZE=7000000
 ## Set application gRPC max send message size
-ENV XPCF_GRPC_MAX_SEND_MSG_SIZE=-1
-
-## Set url to Map Update Service
-ENV MAPUPDATE_SERVICE_URL=map-update-service:80
+ENV XPCF_GRPC_MAX_SEND_MSG_SIZE=20000
 
 ## Set application log level
 ## Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING

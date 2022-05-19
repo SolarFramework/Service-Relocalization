@@ -329,9 +329,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         if (m_file_path != "") {
             char imageName[9];
             sprintf(imageName, "%0.8d", m_index_image);
-            cv::Mat imageToSave;
-            imageToOpenCV(imageToSend, imageToSave);
-            if (cv::imwrite(m_image_path + imageName + std::string(".jpg"), imageToSave)) {
+            if (imageToSend->save(m_image_path + imageName + std::string(".jpg")) == SolAR::FrameworkReturnCode::_SUCCESS) {
                 m_index_image++;
                 for (int i = 0; i < 4; ++i)
                 for (int j = 0; j < 4; j++)
@@ -389,6 +387,24 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
     return Status(grpc::StatusCode::UNIMPLEMENTED,
                   "Get3DTransform() is not yet implemented: \
                     request relocalization to get the latest pose");
+}
+
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::Reset(grpc::ServerContext *context,
+                                               const Empty *request,
+                                               Empty *response)
+{
+    LOG_INFO("Reset");
+
+
+    if (m_pipeline->resetMap() != SolAR::FrameworkReturnCode::_SUCCESS)
+    {
+        return gRpcError("Error while resetting the global map for the map update service");
+    }
+
+    LOG_DEBUG("Reset global map OK");
+
+    return Status::OK;
 }
 
 grpc::Status
@@ -713,18 +729,6 @@ RelocalizationAndMappingGrpcServiceImpl::toGrpc(SolAR::api::pipeline::TransformS
     };
 
     return Status::OK;
-}
-
-void RelocalizationAndMappingGrpcServiceImpl::imageToOpenCV(SRef<SolAR::datastructure::Image> imgSrc, cv::Mat& imgDest)
-{
-    static std::map<std::tuple<uint32_t,std::size_t,uint32_t>,int> solar2cvTypeConvertMap = {
-        {std::make_tuple(8,1,3),CV_8UC3},
-        {std::make_tuple(8,1,1),CV_8UC1},
-        {std::make_tuple(16,1,1), CV_16UC1}
-    };
-    int type = solar2cvTypeConvertMap.at(std::forward_as_tuple(imgSrc->getNbBitsPerComponent(),1,imgSrc->getNbChannels()));
-    cv::Mat imgCV(imgSrc->getHeight(),imgSrc->getWidth(),type, imgSrc->data());
-    imgDest = imgCV;
 }
 
 SolAR::api::pipeline::PipelineMode

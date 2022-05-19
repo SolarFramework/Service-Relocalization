@@ -109,3 +109,5 @@ data/
 
 SolARService_Relocalization/start_relocalization_service.sh
 
+
+SolARService_RelocalizationMarkers/start_relocalizationmarkers_service.sh

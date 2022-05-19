@@ -21,15 +21,9 @@ RUN apt-get install -y getenvoy-envoy
 ## Copy SolARServiceMappingAndRelocalizationFrontend app files
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend
 
-## Data files (marker definition)
-RUN mkdir SolARServiceMappingAndRelocalizationFrontend/data
-RUN mkdir SolARServiceMappingAndRelocalizationFrontend/data/marker
-ADD data/marker/* /SolARServiceMappingAndRelocalizationFrontend/data/marker/
-
 ## Libraries and modules
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend/modules
 ADD modules/* /SolARServiceMappingAndRelocalizationFrontend/modules/
-ADD modules_no_cuda/* /SolARServiceMappingAndRelocalizationFrontend/modules/
 
 ## Project files
 ADD SolARService_MappingAndRelocalizationFrontend /SolARServiceMappingAndRelocalizationFrontend/
@@ -52,8 +46,12 @@ ENV XPCF_GRPC_MAX_RECV_MSG_SIZE=7000000
 ## Set application gRPC max send message size
 ENV XPCF_GRPC_MAX_SEND_MSG_SIZE=20000
 
+## Set url to Map Update Service
+ENV MAPUPDATE_SERVICE_URL=mapupdate-service
 ## Set url to Relocalization Service
 ENV RELOCALIZATION_SERVICE_URL=relocalization-service
+## Set url to Relocalization Markers Service
+ENV RELOCALIZATION_MARKERS_SERVICE_URL=relocalization-markers-service
 ## Set url to Mapping Service
 ENV MAPPING_SERVICE_URL=mapping-service
 

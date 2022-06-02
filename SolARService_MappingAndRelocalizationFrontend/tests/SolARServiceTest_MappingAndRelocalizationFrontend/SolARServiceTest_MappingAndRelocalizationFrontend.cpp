@@ -39,7 +39,7 @@ namespace xpcf=org::bcom::xpcf;
 // index of using cameras
 // 1 camera for mono mode
 // 2 cameras for stereo mode
-const std::vector<int> INDEX_USE_CAMERA{1};
+const std::vector<int> INDEX_USE_CAMERA{1, 2};
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
@@ -176,12 +176,15 @@ int main(int argc, char* argv[])
             }
 
             // for stereo mode
-            if (INDEX_USE_CAMERA.size() == 2){
+            if (INDEX_USE_CAMERA.size() == 2) {
                 RectificationParameters rectParams1 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].first;
                 RectificationParameters rectParams2 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].second;
                 if (gRelocalizationAndMappingFrontendService->setRectificationParameters(rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting rectification parameters for the mapping and relocalization front end service");
                     return -1;
+                }
+            }
+
             if (!relocOnly) {
                 LOG_INFO("Reset the global map stored in the Map Update service");
                 if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {

@@ -305,8 +305,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
         try {
             m_pipeline->relocalizeProcessRequest(
-                        imageToSend,
-                        poseToSend,
+                        {imageToSend},
+                        {poseToSend},
                         std::chrono::time_point<std::chrono::system_clock>(
                             std::chrono::milliseconds(m_last_image_timestamp)),
                         transform3DStatus,

@@ -32,6 +32,14 @@ IF "%4"=="" (
     ECHO Mapping Service URL = %4
 )
 
+REM Get Mapping Stereo Service URL from parameters
+IF "%5"=="" (
+    ECHO You need to give Mapping Stereo Service URL as 5th parameter!
+    GOTO end
+) ELSE (
+    ECHO Mapping Service URL = %5
+)
+
 REM Set Map Update Service URL
 SET MAPUPDATE_SERVICE_URL=%1
 
@@ -44,6 +52,9 @@ SET RELOCALIZATION_MARKERS_SERVICE_URL=%3
 REM Set Mapping Service URL
 SET MAPPING_SERVICE_URL=%4
 
+REM Set Mapping Stereo Service URL
+SET MAPPING_STEREO_SERVICE_URL=%5
+
 REM Get output logs to display (if specified)
 IF "%5"=="" (
         ECHO You can specify the logs to display on console using ENVOY/PROXY/FRONTEND as 5th parameter (all logs by default)
@@ -53,12 +64,11 @@ IF "%5"=="" (
         SET DISPLAY_LOG=%5
 )
 
-
 REM Set application log level
 REM Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 SET SOLAR_LOG_LEVEL=INFO
 
 docker rm -f solarservicemappingandrelocalizationfrontend
-docker run -d -p 50055:8080 -p 5000:5000 -p 5001:5001 -p 5002:5002 -p 5003:5003 -p 5004:5004 -p 5005:5005 -p 5006:5006 -p 5007:5007 -p 5008:5008 -p 5009:5009 -e SOLAR_LOG_LEVEL -e MAPUPDATE_SERVICE_URL -e RELOCALIZATION_SERVICE_URL -e RELOCALIZATION_MARKERS_SERVICE_URL -e MAPPING_SERVICE_URL -e DISPLAY_LOG -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
+docker run -d -p 50055:8080 -p 5000:5000 -p 5001:5001 -p 5002:5002 -p 5003:5003 -p 5004:5004 -p 5005:5005 -p 5006:5006 -p 5007:5007 -p 5008:5008 -p 5009:5009 -e SOLAR_LOG_LEVEL -e MAPUPDATE_SERVICE_URL -e RELOCALIZATION_SERVICE_URL -e RELOCALIZATION_MARKERS_SERVICE_URL -e MAPPING_SERVICE_URL -e MAPPING_STEREO_SERVICE_URL -e DISPLAY_LOG -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
 
 :end

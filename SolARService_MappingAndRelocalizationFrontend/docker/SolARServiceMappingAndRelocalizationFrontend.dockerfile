@@ -24,6 +24,8 @@ RUN mkdir SolARServiceMappingAndRelocalizationFrontend
 ## Libraries and modules
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend/modules
 ADD modules/* /SolARServiceMappingAndRelocalizationFrontend/modules/
+ADD modules_common/* /SolARServiceMappingAndRelocalizationFrontend/modules/
+ADD modules_no_cuda/* /SolARServiceMappingAndRelocalizationFrontend/modules/
 
 ## Project files
 ADD SolARService_MappingAndRelocalizationFrontend /SolARServiceMappingAndRelocalizationFrontend/

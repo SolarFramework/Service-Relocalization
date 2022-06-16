@@ -21,7 +21,8 @@ service SolARMappingAndRelocalizationProxy
     rpc Start(Empty) returns (Empty);
     rpc Stop(Empty) returns (Empty);
     rpc SetCameraParameters(CameraParameters) returns (Empty);
-    rpc RelocalizeAndMap(Frame) returns (RelocalizationResult);
+    rpc setRectificationParameters(RectificationParameters) returns (Empty);
+    rpc RelocalizeAndMap(Frames) returns (RelocalizationResult);
     rpc Get3DTransform(Empty) returns (RelocalizationResult);
     rpc Reset(Empty) returns (Empty);
 
@@ -73,6 +74,24 @@ message CameraDistortion
     float K_3 = 5;
 }
 
+message RectificationParameters
+{
+    Matrix3x3 cam1_rotation = 1;
+    Matrix3x4 cam1_projection = 2;
+    StereoType cam1_stereo_type = 3;
+    float cam1_baseline = 4;
+    Matrix3x3 cam2_rotation = 5;
+    Matrix3x4 cam2_projection = 6;
+    StereoType cam2_stereo_type = 7;
+    float cam2_baseline = 8;
+}
+
+enum StereoType
+{
+    Horizontal = 0;
+    Vertical = 1;
+}
+
 message RelocalizationResult
 {
     RelocalizationPoseStatus pose_status = 1;
@@ -108,6 +127,11 @@ message Image
     bytes data = 3;
     ImageLayout layout = 4;
     ImageCompression imageCompression = 5;
+}
+
+message Frames
+{
+    repeated Frame frames = 1;
 }
 
 message Frame
@@ -149,4 +173,20 @@ message Matrix3x3
     float m31 = 7;
     float m32 = 8;
     float m33 = 9;
+}
+
+message Matrix3x4
+{
+    float m11 = 1;
+    float m12 = 2;
+    float m13 = 3;
+    float m14 = 4;
+    float m21 = 5;
+    float m22 = 6;
+    float m23 = 7;
+    float m24 = 8;
+    float m31 = 9;
+    float m32 = 10;
+    float m33 = 11;
+    float m34 = 12;
 }

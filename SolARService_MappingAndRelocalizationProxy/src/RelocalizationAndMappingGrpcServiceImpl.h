@@ -19,8 +19,6 @@
 
 #include "grpc/solar_mapping_and_relocalization_proxy.grpc.pb.h"
 
-#include <opencv2/opencv.hpp>
-
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
 #include <api/display/IImageViewer.h>
 
@@ -62,8 +60,12 @@ public:
                                      const CameraParameters* request,
                                      Empty* response)  override;
 
+    grpc::Status setRectificationParameters(grpc::ServerContext* context,
+                                            const RectificationParameters* request,
+                                            Empty* response)  override;
+
     grpc::Status RelocalizeAndMap(grpc::ServerContext* context,
-                                  const Frame* request,
+                                  const Frames* request,
                                   RelocalizationResult* response)  override;
 
     grpc::Status Get3DTransform(grpc::ServerContext* context,
@@ -104,17 +106,19 @@ private:
 
 private:
     static std::string to_string(CameraType type);
+    static std::string to_string(StereoType type);
     static std::string to_string(Matrix3x3 mat);
     static std::string to_string(Matrix4x4 mat);
+    static std::string to_string(Matrix3x4 mat);
     static std::string to_string(ImageLayout layout);
     static std::string to_string(SolAR::api::pipeline::TransformStatus transformStatus);
     static std::string to_string(ImageCompression compression);
 
     static SolAR::datastructure::CameraType toSolAR(CameraType type);
+    static SolAR::datastructure::StereoType toSolAR(StereoType type);
     static SolAR::datastructure::Transform3Df toSolAR(const Matrix4x4& gRpcPose);
     static void toGrpc(const SolAR::datastructure::Transform3Df& solARPose, Matrix4x4& gRpcPose);
-    static grpc::Status buildSolARImage(const Frame*, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
-    static grpc::Status toSolAR(/* const */ cv::Mat& imgSrc, SRef<SolAR::datastructure::Image>& image);
+    static grpc::Status buildSolARImage(const Frame, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toGrpc(SolAR::api::pipeline::TransformStatus solARPoseStatus, RelocalizationPoseStatus& gRpcPoseStatus);
     static SolAR::api::pipeline::PipelineMode toSolAR(PipelineMode pipelineMode);
 

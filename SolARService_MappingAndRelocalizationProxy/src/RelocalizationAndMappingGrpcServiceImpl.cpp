@@ -94,7 +94,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl
 
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
         SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
-        std::string saveFolder, SRef<SolAR::api::display::IImageViewer> image_viewer):
+        std::string saveFolder,
+        SRef<SolAR::api::display::IImageViewer> image_viewer):
             m_pipeline{ pipeline }, m_file_path { saveFolder }, m_image_viewer {image_viewer}
 {}
 
@@ -139,9 +140,12 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
 
     m_index_image = 0;
     if (m_file_path != "") {
-        m_image_path = m_file_path + "/000/";
-        boost::filesystem::create_directories(boost::filesystem::path(m_image_path.c_str()));
-        m_poseFile.open(m_file_path + "/pose_000.txt");
+        m_image1_path = m_file_path + "/000/";
+        boost::filesystem::create_directories(boost::filesystem::path(m_image1_path.c_str()));
+        m_poseFile1.open(m_file_path + "/pose_000.txt");
+        m_image2_path = m_file_path + "/001/";
+        boost::filesystem::create_directories(boost::filesystem::path(m_image2_path.c_str()));
+        m_poseFile2.open(m_file_path + "/pose_001.txt");
         m_timestampFile.open(m_file_path + "/timestamps.txt");
     }
 
@@ -172,7 +176,10 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
     }
 
     if (m_file_path != "") {
-        m_poseFile.close();
+        // Wait to let all data be saved in files
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        m_poseFile1.close();
+        m_poseFile2.close();
         m_timestampFile.close();
     }
 
@@ -314,8 +321,10 @@ RelocalizationAndMappingGrpcServiceImpl::setRectificationParameters(grpc::Server
 }
 
 bool RelocalizationAndMappingGrpcServiceImpl::sortbythird (
-        const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> a,
-        const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> b)
+        const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                         std::vector<SolAR::datastructure::Transform3Df>, long> a,
+        const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                         std::vector<SolAR::datastructure::Transform3Df>, long> b)
 {
     return (std::get<2>(a) < std::get<2>(b));
 }
@@ -367,123 +376,153 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     }
 */
 
-    if (!stereo) {
-        // Get data from request
-        SRef<SolARImage> image;
-        auto status  = buildSolARImage(request->frames(0), toSolAR(request->frames(0).pose()), image);
+    // Get data from request
+    SRef<SolARImage> image1, image2;
+
+    LOG_DEBUG("Get image 1 from request");
+    auto status  = buildSolARImage(request->frames(0), toSolAR(request->frames(0).pose()), image1);
+    if (!status.ok())
+    {
+        LOG_ERROR("Error while converting received image 1 to SolAR datastructure");
+        return status;
+    }
+
+    if (stereo) {
+        LOG_DEBUG("Get image 2 from request");
+        auto status  = buildSolARImage(request->frames(1), toSolAR(request->frames(1).pose()), image2);
         if (!status.ok())
         {
-            LOG_ERROR("Error while converting received image to SolAR datastructure");
+            LOG_ERROR("Error while converting received image 2 to SolAR datastructure");
+            return status;
+        }
+    }
+
+    SolAR::datastructure::Transform3Df pose1, pose2;
+    pose1 = toSolAR(request->frames(0).pose());
+    if (stereo)
+        pose2 = toSolAR(request->frames(1).pose());
+
+    long timestamp = request->frames(0).timestamp();
+
+    SolAR::api::pipeline::TransformStatus transform3DStatus;
+    SolAR::datastructure::Transform3Df transform3D;
+    float_t confidence;
+
+    // Drop image if too old (older than last processed image)
+    if (timestamp < m_last_image_timestamp) {
+        LOG_INFO("Image too old: drop it!");
+
+        response->set_confidence(0);
+        response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
+
+        return Status::OK;
+    }
+
+    m_images_vector_mutex.lock();
+
+    // Add data to vector of tuple (timestamp, image(s), pose(s))
+    std::vector<SRef<SolAR::datastructure::Image>> images;
+    std::vector<SolAR::datastructure::Transform3Df> poses;
+
+    images.push_back(image1);
+    poses.push_back(pose1);
+
+    if (stereo) {
+        images.push_back(image2);
+        poses.push_back(pose2);
+    }
+
+    m_ordered_images.push_back(std::make_tuple(images, poses, timestamp));
+
+    // Sort vector based on timestamps
+    std::sort(m_ordered_images.begin(), m_ordered_images.end(), sortbythird);
+
+    // If enough tuples, send the older one to Front End
+    if (m_ordered_images.size() >= 5) {
+
+        std::vector<SRef<SolARImage>> imagesToSend = std::get<0>(m_ordered_images[0]);
+        std::vector<SolAR::datastructure::Transform3Df> posesToSend = std::get<1>(m_ordered_images[0]);
+        m_last_image_timestamp = std::get<2>(m_ordered_images[0]);
+
+        try {
+            m_pipeline->relocalizeProcessRequest(
+                        imagesToSend,
+                        posesToSend,
+                        std::chrono::time_point<std::chrono::system_clock>(
+                            std::chrono::milliseconds(m_last_image_timestamp)),
+                        transform3DStatus,
+                        transform3D,
+                        confidence);
+        }
+        catch (const std::exception& e)
+        {
+            m_images_vector_mutex.unlock();
+
+            return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
+                             + std::string(e.what()));
+        }
+
+        // Display image 1 if specified
+        if (m_image_viewer)
+            m_image_viewer->display(imagesToSend.at(0));
+
+        // Save images and poses on files if specified
+        if (m_file_path != "") {
+            char imageName[9];
+            sprintf(imageName, "%0.8d", m_index_image);
+            if (imagesToSend.at(0)->save(m_image1_path + imageName + std::string(".jpg"))
+                    == SolAR::FrameworkReturnCode::_SUCCESS) {
+                for (int i = 0; i < 4; ++i)
+                for (int j = 0; j < 4; j++)
+                    m_poseFile1 << posesToSend.at(0)(i, j) << " ";
+                m_poseFile1 << "\n";
+                if (stereo) {
+                    if (imagesToSend.at(1)->save(m_image2_path + imageName + std::string(".jpg"))
+                            == SolAR::FrameworkReturnCode::_SUCCESS) {
+                        for (int i = 0; i < 4; ++i)
+                        for (int j = 0; j < 4; j++)
+                            m_poseFile2 << posesToSend.at(1)(i, j) << " ";
+                        m_poseFile2 << "\n";
+                    }
+                }
+                m_timestampFile << m_last_image_timestamp << "\n";
+                m_index_image++;
+            }
+        }
+
+        // Remove the older tuple from vector
+        m_ordered_images.erase(m_ordered_images.begin());
+
+        m_images_vector_mutex.unlock();
+
+        RelocalizationPoseStatus gRpcPoseStatus;
+        status = toGrpc(transform3DStatus, gRpcPoseStatus);
+        if (!status.ok())
+        {
+            LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
             return status;
         }
 
-        SolAR::datastructure::Transform3Df pose = toSolAR(request->frames(0).pose());
-        long timestamp = request->frames(0).timestamp();
+        response->set_confidence(confidence);
+        response->set_pose_status(gRpcPoseStatus);
+        toGrpc(transform3D, *response->mutable_pose());
 
-        SolAR::api::pipeline::TransformStatus transform3DStatus;
-        SolAR::datastructure::Transform3Df transform3D;
-        float_t confidence;
+        LOG_DEBUG("Output");
+        LOG_DEBUG("  confidence: {}", confidence);
+        LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
+        LOG_DEBUG("  transform:\n{}", transform3D.matrix());
 
-        // Drop image if too old (older than last processed image)
-        if (timestamp < m_last_image_timestamp) {
-            LOG_INFO("Image too old: drop it!");
-
-            response->set_confidence(0);
-            response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
-
-            return Status::OK;
-        }
-
-        m_images_vector_mutex.lock();
-
-        // Add data to vector of tuple (timestamp, image, pose)
-        m_ordered_images.push_back(std::make_tuple(image, pose, timestamp));
-
-        // Sort vector based on timestamps
-        std::sort(m_ordered_images.begin(), m_ordered_images.end(), sortbythird);
-
-        // If enough tuples, send the older one to Front End
-        if (m_ordered_images.size() >= 5) {
-
-            SRef<SolARImage> imageToSend = std::get<0>(m_ordered_images[0]);
-            SolAR::datastructure::Transform3Df poseToSend = std::get<1>(m_ordered_images[0]);
-            m_last_image_timestamp = std::get<2>(m_ordered_images[0]);
-
-            try {
-                m_pipeline->relocalizeProcessRequest(
-                            {imageToSend},
-                            {poseToSend},
-                            std::chrono::time_point<std::chrono::system_clock>(
-                                std::chrono::milliseconds(m_last_image_timestamp)),
-                            transform3DStatus,
-                            transform3D,
-                            confidence);
-            }
-            catch (const std::exception& e)
-            {
-                m_images_vector_mutex.unlock();
-
-                return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
-                                 + std::string(e.what()));
-            }
-
-            // Display image if specified
-            if (m_image_viewer)
-                m_image_viewer->display(imageToSend);
-
-            // Save images and poses on files if specified
-            if (m_file_path != "") {
-                char imageName[9];
-                sprintf(imageName, "%0.8d", m_index_image);
-                if (imageToSend->save(m_image_path + imageName + std::string(".jpg")) == SolAR::FrameworkReturnCode::_SUCCESS) {
-                    m_index_image++;
-                    for (int i = 0; i < 4; ++i)
-                    for (int j = 0; j < 4; j++)
-                        m_poseFile << poseToSend(i, j) << " ";
-                    m_poseFile << "\n";
-                    m_timestampFile << m_last_image_timestamp << "\n";
-                }
-            }
-
-            // Remove the older tuple from vector
-            m_ordered_images.erase(m_ordered_images.begin());
-
-            m_images_vector_mutex.unlock();
-
-            RelocalizationPoseStatus gRpcPoseStatus;
-            status = toGrpc(transform3DStatus, gRpcPoseStatus);
-            if (!status.ok())
-            {
-                LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
-                return status;
-            }
-
-            response->set_confidence(confidence);
-            response->set_pose_status(gRpcPoseStatus);
-            toGrpc(transform3D, *response->mutable_pose());
-
-            LOG_DEBUG("Output");
-            LOG_DEBUG("  confidence: {}", confidence);
-            LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
-            LOG_DEBUG("  transform:\n{}", transform3D.matrix());
-
-            return Status::OK;
-        }
-        else {
-            LOG_INFO("Not enough images to process");
-
-            m_images_vector_mutex.unlock();
-
-            response->set_confidence(0);
-            response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
-
-            return Status::OK;
-        }
+        return Status::OK;
     }
     else {
-        LOG_INFO("Stereo images processing not implemented");
+        LOG_INFO("Not enough images to process");
 
-        // Stero images: TO BE IMPLEMENTED
+        m_images_vector_mutex.unlock();
+
+        response->set_confidence(0);
+        response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
+
+        return Status::OK;
     }
 
     return Status::OK;
@@ -723,25 +762,59 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame frame,
         {
             LOG_DEBUG("Create Image: RGB_24");
 
-            // Convert to CV_8UC3 because otherwise convertToSolar() will fail
-            const char* image_buffer = frame.image().data().c_str();
-            long destBufferSize = frame.image().data().size() - (frame.image().data().size() / 4);
-            char bgr_buffer[destBufferSize];
-            for (long j = 0, k = 0; j < frame.image().data().size(); j += 4, k += 3)
+            if (encoding == SolAR::datastructure::Image::ENCODING_NONE)
             {
-              bgr_buffer[k] = image_buffer[j];
-              bgr_buffer[k + 1] = image_buffer[j + 1];
-              bgr_buffer[k + 2] = image_buffer[j + 2];
-            }
+                // Convert to CV_8UC3 because otherwise convertToSolar() will fail
+                const char* image_buffer = frame.image().data().c_str();
+                long destBufferSize = frame.image().data().size() - (frame.image().data().size() / 4);
+                char bgr_buffer[destBufferSize];
+                for (long j = 0, k = 0; j < frame.image().data().size(); j += 4, k += 3)
+                {
+                  bgr_buffer[k] = image_buffer[j];
+                  bgr_buffer[k + 1] = image_buffer[j + 1];
+                  bgr_buffer[k + 2] = image_buffer[j + 2];
+                }
 
-            image = org::bcom::xpcf::utils::make_shared<SolARImage>(
-                        &bgr_buffer[0],
-                        frame.image().width(),
-                        frame.image().height(),
-                        SolARImage::ImageLayout::LAYOUT_BGR,
-                        SolARImage::PixelOrder::INTERLEAVED,
-                        SolARImage::DataType::TYPE_8U,
-                        encoding);
+                image = org::bcom::xpcf::utils::make_shared<SolARImage>(
+                            &bgr_buffer[0],
+                            frame.image().width(),
+                            frame.image().height(),
+                            SolARImage::ImageLayout::LAYOUT_BGR,
+                            SolARImage::PixelOrder::INTERLEAVED,
+                            SolARImage::DataType::TYPE_8U);
+            }
+            else {
+
+                // Use temporary image to decode data buffer
+                SRef<SolAR::datastructure::Image> temp_image =
+                        org::bcom::xpcf::utils::make_shared<SolARImage>(
+                            (char*)frame.image().data().c_str(),
+                            frame.image().width(),
+                            frame.image().height(),
+                            SolARImage::ImageLayout::LAYOUT_BGR,
+                            SolARImage::PixelOrder::INTERLEAVED,
+                            SolARImage::DataType::TYPE_8U,
+                            encoding);
+
+                // Convert to CV_8UC3 because otherwise convertToSolar() will fail
+                char* image_buffer = (char*)temp_image->data();
+                long destBufferSize = temp_image->getBufferSize() - (temp_image->getBufferSize() / 4);
+                char bgr_buffer[destBufferSize];
+                for (long j = 0, k = 0; j < temp_image->getBufferSize(); j += 4, k += 3)
+                {
+                  bgr_buffer[k] = image_buffer[j];
+                  bgr_buffer[k + 1] = image_buffer[j + 1];
+                  bgr_buffer[k + 2] = image_buffer[j + 2];
+                }
+
+                image = org::bcom::xpcf::utils::make_shared<SolARImage>(
+                            &bgr_buffer[0],
+                            temp_image->getWidth(),
+                            temp_image->getHeight(),
+                            SolARImage::ImageLayout::LAYOUT_BGR,
+                            SolARImage::PixelOrder::INTERLEAVED,
+                            SolARImage::DataType::TYPE_8U);
+            }
 
             break;
         }

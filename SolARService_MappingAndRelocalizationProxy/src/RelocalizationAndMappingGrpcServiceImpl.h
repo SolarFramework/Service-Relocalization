@@ -90,19 +90,22 @@ private:
 
     // Variables used to save images on disk
     long m_index_image;
-    std::ofstream m_poseFile;
+    std::ofstream m_poseFile1, m_poseFile2;
     std::ofstream m_timestampFile;
-    std::string m_file_path, m_image_path;
+    std::string m_file_path, m_image1_path, m_image2_path;
 
-    // Vector of ordered tuple(image, pose, timestamp)
-    std::vector<std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long>> m_ordered_images;
+    // Vector of ordered tuple(images, poses, timestamp)
+    std::vector<std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                           std::vector<SolAR::datastructure::Transform3Df>, long>> m_ordered_images;
     std::mutex m_images_vector_mutex;   // Mutex used to control vector access
     long m_last_image_timestamp;        // Timestamp of the last image processed
 
     // Sort vector of tuples according to the third element of tuple
     static bool sortbythird (
-            const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> a ,
-            const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> b);
+            const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                             std::vector<SolAR::datastructure::Transform3Df>, long> a ,
+            const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                             std::vector<SolAR::datastructure::Transform3Df>, long> b);
 
 private:
     static std::string to_string(CameraType type);

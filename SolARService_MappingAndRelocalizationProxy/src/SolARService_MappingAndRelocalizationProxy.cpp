@@ -147,8 +147,9 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
         return nullptr;
     }
 
-    if (displayImages)
+    if (displayImages) {
         gImageViewer = componentMgr->resolve<api::display::IImageViewer>();
+    }
 
     return componentMgr->resolve<pipeline::IAsyncRelocalizationPipeline>();
 }
@@ -163,7 +164,8 @@ void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serve
     builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());  
 
     if (displayImages) {
-        RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, saveFolder, gImageViewer);
+        RelocalizationAndMappingGrpcServiceImpl grpcServices(
+                    pipeline, saveFolder, gImageViewer);
 
         builder.RegisterService(&grpcServices);
 

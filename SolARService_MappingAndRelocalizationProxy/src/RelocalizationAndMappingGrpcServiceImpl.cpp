@@ -583,8 +583,7 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
             {
                 // Convert to CV_8UC3 because otherwise convertToSolar() will fail
                 const char* image_buffer = frame->image().data().c_str();
-                long destBufferSize = frame->image().data().size() - (frame->image().data().size() / 4);
-                char* bgr_buffer= new char[destBufferSize];
+                std::vector<char> bgr_buffer;
                 for (long j = 0, k = 0; j < frame->image().data().size(); j += 4, k += 3)
                 {
                   bgr_buffer[k] = image_buffer[j];
@@ -599,7 +598,6 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
                             SolARImage::ImageLayout::LAYOUT_BGR,
                             SolARImage::PixelOrder::INTERLEAVED,
                             SolARImage::DataType::TYPE_8U);
-                delete[] bgr_buffer;
             }
             else {
 
@@ -616,8 +614,7 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
 
                 // Convert to CV_8UC3 because otherwise convertToSolar() will fail
                 char* image_buffer = (char*)temp_image->data();
-                long destBufferSize = temp_image->getBufferSize() - (temp_image->getBufferSize() / 4);
-                char* bgr_buffer = new char[destBufferSize];
+                std::vector<char> bgr_buffer;
                 for (long j = 0, k = 0; j < temp_image->getBufferSize(); j += 4, k += 3)
                 {
                   bgr_buffer[k] = image_buffer[j];
@@ -632,7 +629,6 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
                             SolARImage::ImageLayout::LAYOUT_BGR,
                             SolARImage::PixelOrder::INTERLEAVED,
                             SolARImage::DataType::TYPE_8U);
-                delete[] bgr_buffer;
             }
 
             break;

@@ -44,7 +44,7 @@ class Fps
 public:
 
     Fps(){}
-    Fps(uint computePeriodMs, uint windowSize)
+    Fps(unsigned int computePeriodMs, unsigned int windowSize)
         :m_computePeriodMs{computePeriodMs},
           m_windowSize{windowSize}
     {}
@@ -73,7 +73,7 @@ public:
 
 private:
   std::chrono::milliseconds m_computePeriodMs{1000};
-  uint m_windowSize{10};
+  unsigned int m_windowSize{10};
   float m_currentFps{0};
 
   std::vector<float> m_lastTenDeltas;
@@ -766,13 +766,12 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame frame,
             {
                 // Convert to CV_8UC3 because otherwise convertToSolar() will fail
                 const char* image_buffer = frame.image().data().c_str();
-                long destBufferSize = frame.image().data().size() - (frame.image().data().size() / 4);
-                char bgr_buffer[destBufferSize];
-                for (long j = 0, k = 0; j < frame.image().data().size(); j += 4, k += 3)
+                std::vector<char> bgr_buffer;
+                for (long j = 0; j < frame.image().data().size(); j += 4)
                 {
-                  bgr_buffer[k] = image_buffer[j];
-                  bgr_buffer[k + 1] = image_buffer[j + 1];
-                  bgr_buffer[k + 2] = image_buffer[j + 2];
+                  bgr_buffer.push_back(image_buffer[j]);
+                  bgr_buffer.push_back(image_buffer[j + 1]);
+                  bgr_buffer.push_back(image_buffer[j + 2]);
                 }
 
                 image = org::bcom::xpcf::utils::make_shared<SolARImage>(
@@ -798,13 +797,12 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame frame,
 
                 // Convert to CV_8UC3 because otherwise convertToSolar() will fail
                 char* image_buffer = (char*)temp_image->data();
-                long destBufferSize = temp_image->getBufferSize() - (temp_image->getBufferSize() / 4);
-                char bgr_buffer[destBufferSize];
-                for (long j = 0, k = 0; j < temp_image->getBufferSize(); j += 4, k += 3)
+                std::vector<char> bgr_buffer;
+                for (long j = 0; j < temp_image->getBufferSize(); j += 4)
                 {
-                  bgr_buffer[k] = image_buffer[j];
-                  bgr_buffer[k + 1] = image_buffer[j + 1];
-                  bgr_buffer[k + 2] = image_buffer[j + 2];
+                  bgr_buffer.push_back(image_buffer[j]);
+                  bgr_buffer.push_back(image_buffer[j + 1]);
+                  bgr_buffer.push_back(image_buffer[j + 2]);
                 }
 
                 image = org::bcom::xpcf::utils::make_shared<SolARImage>(

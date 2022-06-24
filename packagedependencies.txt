@@ -4,4 +4,3 @@ SolARModuleTools|0.11.0|SolARModuleTools|SolARBuild@github|https://github.com/So
 SolARModuleFBOW|0.11.0|SolARModuleFBOW|SolARBuild@github|https://github.com/SolarFramework/SolARModuleFBOW/releases/download
 SolARPipelineRelocalization|0.11.0|SolARPipelineRelocalization|SolARBuild@github|https://github.com/SolarFramework/Sample-Relocalization/releases/download
 SolARPipelineMappingAndRelocalizationFrontend|0.11.0|SolARPipelineMappingAndRelocalizationFrontend|SolARBuild@github|https://github.com/SolarFramework/Sample-Relocalization/releases/download
-

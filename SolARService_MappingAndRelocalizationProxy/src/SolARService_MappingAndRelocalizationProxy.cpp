@@ -19,8 +19,6 @@
 #include <iostream>
 #include <signal.h>
 
-//#include <unistd.h>
-
 #include <cxxopts.hpp>
 
 // #include <grpcpp/ext/proto_server_reflection_plugin.h>

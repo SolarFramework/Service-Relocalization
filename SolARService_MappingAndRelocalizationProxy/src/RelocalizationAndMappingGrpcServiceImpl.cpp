@@ -584,11 +584,11 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
                 // Convert to CV_8UC3 because otherwise convertToSolar() will fail
                 const char* image_buffer = frame->image().data().c_str();
                 std::vector<char> bgr_buffer;
-                for (long j = 0, k = 0; j < frame->image().data().size(); j += 4, k += 3)
+                for (long j = 0; j < frame->image().data().size(); j += 4)
                 {
-                  bgr_buffer[k] = image_buffer[j];
-                  bgr_buffer[k + 1] = image_buffer[j + 1];
-                  bgr_buffer[k + 2] = image_buffer[j + 2];
+                  bgr_buffer.push_back(image_buffer[j]);
+                  bgr_buffer.push_back(image_buffer[j + 1]);
+                  bgr_buffer.push_back(image_buffer[j + 2]);
                 }
 
                 image = org::bcom::xpcf::utils::make_shared<SolARImage>(
@@ -615,11 +615,11 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
                 // Convert to CV_8UC3 because otherwise convertToSolar() will fail
                 char* image_buffer = (char*)temp_image->data();
                 std::vector<char> bgr_buffer;
-                for (long j = 0, k = 0; j < temp_image->getBufferSize(); j += 4, k += 3)
+                for (long j = 0; j < temp_image->getBufferSize(); j += 4)
                 {
-                  bgr_buffer[k] = image_buffer[j];
-                  bgr_buffer[k + 1] = image_buffer[j + 1];
-                  bgr_buffer[k + 2] = image_buffer[j + 2];
+                  bgr_buffer.push_back(image_buffer[j]);
+                  bgr_buffer.push_back(image_buffer[j + 1]);
+                  bgr_buffer.push_back(image_buffer[j + 2]);
                 }
 
                 image = org::bcom::xpcf::utils::make_shared<SolARImage>(

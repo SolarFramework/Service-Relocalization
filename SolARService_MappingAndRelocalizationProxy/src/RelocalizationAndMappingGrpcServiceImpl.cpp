@@ -44,7 +44,7 @@ class Fps
 public:
 
     Fps(){}
-    Fps(uint computePeriodMs, uint windowSize)
+    Fps(unsigned int computePeriodMs, unsigned int windowSize)
         :m_computePeriodMs{computePeriodMs},
           m_windowSize{windowSize}
     {}
@@ -73,7 +73,7 @@ public:
 
 private:
   std::chrono::milliseconds m_computePeriodMs{1000};
-  uint m_windowSize{10};
+  unsigned int m_windowSize{10};
   float m_currentFps{0};
 
   std::vector<float> m_lastTenDeltas;
@@ -547,161 +547,129 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame* frame,
                                                          const SolAR::datastructure::Transform3Df& solARPose,
                                                          SRef<SolAR::datastructure::Image>& image)
 {
-    switch(frame->image().imagecompression())
+    SolAR::datastructure::Image::ImageEncoding encoding;
+
+    // Decode image before use if needed
+    switch (frame->image().imagecompression())
     {
         case ImageCompression::NONE:
         {
-            int image_layout = -1;
-            std::string image_layout_string;
-            switch(frame->image().layout())
-            {
-                case ImageLayout::RGB_24:
-                {
-                    image_layout = CV_8UC4;
-                    image_layout_string = "RGB_24";
-                    break;
-                }
-                case ImageLayout::GREY_8:
-                {
-                    image_layout = CV_8UC1;
-                    image_layout_string = "GREY_8";
-                    break;
-                }
-                case ImageLayout::GREY_16:
-                {
-                    image_layout = CV_16UC1;
-                    image_layout_string = "GREY_16";
-                    break;
-                }
-                default:
-                {
-                    return gRpcError("Unkown image layout");
-                }
-            }
-
-            cv::Mat ocvImg;
-
-            if ( image_layout == CV_8UC4 )
-            {
-                // Convert to CV_8UC3 because otherwise convertToSolar() will fail
-                const char* bgra_buffer = frame->image().data().c_str();
-                long destBufferSize = frame->image().data().size() - (frame->image().data().size() / 4);
-                char bgr_buffer[destBufferSize];
-                for (long j = 0, k = 0; j < frame->image().data().size(); j += 4, k += 3)
-                {
-                  bgr_buffer[k] = bgra_buffer[j];
-                  bgr_buffer[k + 1] = bgra_buffer[j + 1];
-                  bgr_buffer[k + 2] = bgra_buffer[j + 2];
-                }
-                ocvImg.create(
-                            static_cast<int>(frame->image().height()),
-                            static_cast<int>(frame->image().width()),
-                            CV_8UC3);
-                memcpy(ocvImg.data, bgr_buffer, ocvImg.rows * ocvImg.cols * 3);
-            }
-            else
-            {
-                ocvImg.create(
-                  static_cast<int>(frame->image().height()),
-                  static_cast<int>(frame->image().width()),
-                  image_layout
-                  );
-                memcpy(ocvImg.data,
-                       const_cast<void*>(static_cast<const void*>(frame->image().data().c_str())),
-                       ocvImg.rows * ocvImg.cols * (image_layout == CV_8UC1 ? 1 : 2 ));
-            }
-
-            return toSolAR(ocvImg, image);
+            encoding = SolAR::datastructure::Image::ENCODING_NONE;
+            break;
         }
-
-        case ImageCompression::PNG:
         case ImageCompression::JPG:
         {
-            // Decode compressed image
-
-            // Copy PNG image buffer
-            std::vector<uchar> decodingBuffer(frame->image().data().c_str(),
-                                              frame->image().data().c_str() + frame->image().data().size());
-            cv::Mat imageDecoded;
-
-            // Decode PNG image
-            switch(frame->image().layout())
-            {
-                case ImageLayout::RGB_24:
-                {
-                    imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_COLOR);
-                    break;
-                }
-                case ImageLayout::GREY_8:
-                {
-                    imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
-                    break;
-                }
-                case ImageLayout::GREY_16:
-                {
-                    imageDecoded = cv::imdecode(decodingBuffer, cv::IMREAD_GRAYSCALE);
-                    break;
-                }
-                default:
-                {
-                    return gRpcError("Unkown image layout");
-                }
-            }
-
-            return toSolAR(imageDecoded, image);
+            encoding = SolAR::datastructure::Image::ENCODING_JPEG;
+            break;
         }
-
+        case ImageCompression::PNG:
+        {
+            encoding = SolAR::datastructure::Image::ENCODING_PNG;
+            break;
+        }
         default:
         {
             return gRpcError("Error: unkown image compression format");
         }
     }
-}
 
-grpc::Status
-RelocalizationAndMappingGrpcServiceImpl::toSolAR(/* const */ cv::Mat& imgSrc,
-                                                 SRef<SolARImage>& image)
-{
-    assert(imgSrc.type() == CV_8UC3 || imgSrc.type() == CV_8UC1 || imgSrc.type() == CV_16UC1);
+    switch(frame->image().layout())
+    {
+        case ImageLayout::RGB_24:
+        {
+            LOG_DEBUG("Create Image: RGB_24");
 
-    SolARImage::ImageLayout layout;
-    SolARImage::DataType dataType;
-    switch(imgSrc.type())
-    {
-    case CV_8UC3:
-    {
-        layout = SolARImage::ImageLayout::LAYOUT_BGR;
-        dataType = SolARImage::DataType::TYPE_8U;
-        break;
-    }
-    case CV_8UC1:
-    {
-        layout = SolARImage::ImageLayout::LAYOUT_GREY;
-        dataType = SolARImage::DataType::TYPE_8U;
-        break;
-    }
-    case CV_16UC1:
-    {
-        layout = SolARImage::ImageLayout::LAYOUT_GREY;
-        dataType = SolARImage::DataType::TYPE_16U;
-        break;
-    }
-    default:
-    {
-        return gRpcError("Cannot convert OpenCV image type to SolAR");
-    }
-    };
+            if (encoding == SolAR::datastructure::Image::ENCODING_NONE)
+            {
+                // Convert to CV_8UC3 because otherwise convertToSolar() will fail
+                const char* image_buffer = frame->image().data().c_str();
+                std::vector<char> bgr_buffer;
+                for (long j = 0; j < frame->image().data().size(); j += 4)
+                {
+                  bgr_buffer.push_back(image_buffer[j]);
+                  bgr_buffer.push_back(image_buffer[j + 1]);
+                  bgr_buffer.push_back(image_buffer[j + 2]);
+                }
 
-    image = org::bcom::xpcf::utils::make_shared<SolARImage>(
-                imgSrc.ptr(),
-                imgSrc.cols,
-                imgSrc.rows,
-                layout,
-                SolARImage::PixelOrder::INTERLEAVED,
-                dataType);
+                image = org::bcom::xpcf::utils::make_shared<SolARImage>(
+                            &bgr_buffer[0],
+                            frame->image().width(),
+                            frame->image().height(),
+                            SolARImage::ImageLayout::LAYOUT_BGR,
+                            SolARImage::PixelOrder::INTERLEAVED,
+                            SolARImage::DataType::TYPE_8U);
+            }
+            else {
+
+                // Use temporary image to decode data buffer
+                SRef<SolAR::datastructure::Image> temp_image =
+                        org::bcom::xpcf::utils::make_shared<SolARImage>(
+                            (char*)frame->image().data().c_str(),
+                            frame->image().width(),
+                            frame->image().height(),
+                            SolARImage::ImageLayout::LAYOUT_BGR,
+                            SolARImage::PixelOrder::INTERLEAVED,
+                            SolARImage::DataType::TYPE_8U,
+                            encoding);
+
+                // Convert to CV_8UC3 because otherwise convertToSolar() will fail
+                char* image_buffer = (char*)temp_image->data();
+                std::vector<char> bgr_buffer;
+                for (long j = 0; j < temp_image->getBufferSize(); j += 4)
+                {
+                  bgr_buffer.push_back(image_buffer[j]);
+                  bgr_buffer.push_back(image_buffer[j + 1]);
+                  bgr_buffer.push_back(image_buffer[j + 2]);
+                }
+
+                image = org::bcom::xpcf::utils::make_shared<SolARImage>(
+                            &bgr_buffer[0],
+                            temp_image->getWidth(),
+                            temp_image->getHeight(),
+                            SolARImage::ImageLayout::LAYOUT_BGR,
+                            SolARImage::PixelOrder::INTERLEAVED,
+                            SolARImage::DataType::TYPE_8U);
+            }
+
+            break;
+        }
+        case ImageLayout::GREY_8:
+        {
+            LOG_DEBUG("Create Image: GREY_8");
+
+            image = org::bcom::xpcf::utils::make_shared<SolARImage>(
+                        (char*)frame->image().data().c_str(),
+                        frame->image().width(),
+                        frame->image().height(),
+                        SolARImage::ImageLayout::LAYOUT_GREY,
+                        SolARImage::PixelOrder::INTERLEAVED,
+                        SolARImage::DataType::TYPE_8U,
+                        encoding);
+
+            break;
+        }
+        case ImageLayout::GREY_16:
+        {
+            LOG_DEBUG("Create Image: GREY_16");
+
+            image = org::bcom::xpcf::utils::make_shared<SolARImage>(
+                        (char*)frame->image().data().c_str(),
+                        frame->image().width(),
+                        frame->image().height(),
+                        SolARImage::ImageLayout::LAYOUT_GREY,
+                        SolARImage::PixelOrder::INTERLEAVED,
+                        SolARImage::DataType::TYPE_16U,
+                        encoding);
+
+            break;
+        }
+        default:
+        {
+            return gRpcError("Unkown image layout");
+        }
+    }
 
     return Status::OK;
-
 }
 
 grpc::Status

@@ -19,8 +19,6 @@
 
 #include "grpc/solar_mapping_and_relocalization_proxy.grpc.pb.h"
 
-#include <opencv2/opencv.hpp>
-
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
 #include <api/display/IImageViewer.h>
 
@@ -114,7 +112,6 @@ private:
     static SolAR::datastructure::Transform3Df toSolAR(const Matrix4x4& gRpcPose);
     static void toGrpc(const SolAR::datastructure::Transform3Df& solARPose, Matrix4x4& gRpcPose);
     static grpc::Status buildSolARImage(const Frame*, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
-    static grpc::Status toSolAR(/* const */ cv::Mat& imgSrc, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toGrpc(SolAR::api::pipeline::TransformStatus solARPoseStatus, RelocalizationPoseStatus& gRpcPoseStatus);
     static SolAR::api::pipeline::PipelineMode toSolAR(PipelineMode pipelineMode);
 

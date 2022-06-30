@@ -593,9 +593,9 @@ std::string
 RelocalizationAndMappingGrpcServiceImpl::to_string(Matrix3x3 mat)
 {
     std::stringstream ss;
-    ss << mat.m11() << mat.m12() << mat.m13() << std::endl
-       << mat.m21() << mat.m22() << mat.m23() << std::endl
-       << mat.m31() << mat.m32() << mat.m33() << std::endl;
+    ss << mat.m11() << ", "  << mat.m12() << ", "  << mat.m13() << std::endl
+       << mat.m21() << ", "  << mat.m22() << ", "  << mat.m23() << std::endl
+       << mat.m31() << ", "  << mat.m32() << ", "  << mat.m33() << std::endl;
     return ss.str();
 }
 

@@ -95,8 +95,10 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
         SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
         std::string saveFolder,
-        SRef<SolAR::api::display::IImageViewer> image_viewer):
-            m_pipeline{ pipeline }, m_file_path { saveFolder }, m_image_viewer {image_viewer}
+        SRef<SolAR::api::display::IImageViewer> image_viewer_left,
+        SRef<SolAR::api::display::IImageViewer> image_viewer_right):
+            m_pipeline{ pipeline }, m_file_path { saveFolder },
+            m_image_viewer_left {image_viewer_left}, m_image_viewer_right{image_viewer_right}
 {}
 
 grpc::Status
@@ -463,8 +465,10 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         }
 
         // Display image 1 if specified
-        if (m_image_viewer)
-            m_image_viewer->display(imagesToSend.at(0));
+        if (m_image_viewer_left)
+            m_image_viewer_left->display(imagesToSend.at(0));
+        if ((stereo) && (m_image_viewer_right))
+            m_image_viewer_right->display(imagesToSend.at(1));
 
         // Save images and poses on files if specified
         if (m_file_path != "") {

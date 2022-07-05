@@ -17,7 +17,12 @@
         </component>
     </module>
 
-    <!-- Modules/components used by the remote client -->
+    <factory>
+          <bindings>
+                <bind interface="IImageViewer" to="SolARImageViewerOpencv" name="Left" properties="Left"/>
+                <bind interface="IImageViewer" to="SolARImageViewerOpencv" name="Right" properties="Right"/>
+          </bindings>
+    </factory>
 
     <properties>
             <!-- gRPC proxy configuration-->
@@ -25,12 +30,18 @@
                     <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50055"/>
                     <property name="channelCredentials" access="rw" type="uint" value="0"/>
             </configure>
-            <configure component="SolARImageViewerOpencv">
-                <property name="title" type="string" value="Proxy image"/>
+            <configure component="SolARImageViewerOpencv" name="Left">
+                <property name="title" type="string" value="Camera 1 image"/>
                 <property name="exitKey" type="int" value="27"/>
                 <property name="width" type="int" value="640"/>
                 <property name="height" type="int" value="480"/>
             </configure>
-    </properties>
+            <configure component="SolARImageViewerOpencv" name="Right">
+                <property name="title" type="string" value="Camera 2 image"/>
+                <property name="exitKey" type="int" value="27"/>
+                <property name="width" type="int" value="640"/>
+                <property name="height" type="int" value="480"/>
+            </configure>
+j    </properties>
 
 </xpcf-registry>

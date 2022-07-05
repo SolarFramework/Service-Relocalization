@@ -39,7 +39,8 @@ public:
 
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
                                             std::string saveFolder,
-                                            SRef<SolAR::api::display::IImageViewer> image_viewer);
+                                            SRef<SolAR::api::display::IImageViewer> image_viewer_left,
+                                            SRef<SolAR::api::display::IImageViewer> image_viewer_right);
 
     ~RelocalizationAndMappingGrpcServiceImpl() = default;
 
@@ -86,7 +87,7 @@ private:
 
     bool m_started; // Indicates if the proxy is started or not
 
-    SRef<SolAR::api::display::IImageViewer> m_image_viewer;
+    SRef<SolAR::api::display::IImageViewer> m_image_viewer_left, m_image_viewer_right;
 
     // Variables used to save images on disk
     long m_index_image;

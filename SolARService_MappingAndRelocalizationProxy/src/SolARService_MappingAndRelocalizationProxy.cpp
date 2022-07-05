@@ -36,7 +36,7 @@
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
 
 #include <api/display/IImageViewer.h>
-SRef<SolAR::api::display::IImageViewer> gImageViewer;
+SRef<SolAR::api::display::IImageViewer> gImageViewer_left, gImageViewer_right;
 
 using namespace std;
 using namespace SolAR;
@@ -148,7 +148,8 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
     }
 
     if (displayImages) {
-        gImageViewer = componentMgr->resolve<api::display::IImageViewer>();
+        gImageViewer_left = componentMgr->resolve<api::display::IImageViewer>("Left");
+        gImageViewer_right = componentMgr->resolve<api::display::IImageViewer>("Right");
     }
 
     return componentMgr->resolve<pipeline::IAsyncRelocalizationPipeline>();
@@ -165,7 +166,7 @@ void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serve
 
     if (displayImages) {
         RelocalizationAndMappingGrpcServiceImpl grpcServices(
-                    pipeline, saveFolder, gImageViewer);
+                    pipeline, saveFolder, gImageViewer_left, gImageViewer_right);
 
         builder.RegisterService(&grpcServices);
 

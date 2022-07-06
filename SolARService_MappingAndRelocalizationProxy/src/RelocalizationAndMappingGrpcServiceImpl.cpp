@@ -786,7 +786,7 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame frame,
                             SolARImage::PixelOrder::INTERLEAVED,
                             SolARImage::DataType::TYPE_8U);
             }
-            else {
+            else if (encoding == SolAR::datastructure::Image::ENCODING_PNG) {
 
                 // Use temporary image to decode data buffer
                 SRef<SolAR::datastructure::Image> temp_image =
@@ -816,6 +816,20 @@ RelocalizationAndMappingGrpcServiceImpl::buildSolARImage(const Frame frame,
                             SolARImage::ImageLayout::LAYOUT_BGR,
                             SolARImage::PixelOrder::INTERLEAVED,
                             SolARImage::DataType::TYPE_8U);
+            }
+            else if (encoding == SolAR::datastructure::Image::ENCODING_JPEG) {
+
+                image = org::bcom::xpcf::utils::make_shared<SolARImage>(
+                            (char*)frame.image().data().c_str(),
+                            frame.image().width(),
+                            frame.image().height(),
+                            SolARImage::ImageLayout::LAYOUT_BGR,
+                            SolARImage::PixelOrder::INTERLEAVED,
+                            SolARImage::DataType::TYPE_8U,
+                            encoding);
+            }
+            else {
+                return gRpcError("Unkown encoding format");
             }
 
             break;

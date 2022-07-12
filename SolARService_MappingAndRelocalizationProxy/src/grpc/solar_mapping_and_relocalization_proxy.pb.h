@@ -223,6 +223,33 @@ inline bool RelocalizationPoseStatus_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<RelocalizationPoseStatus>(
     RelocalizationPoseStatus_descriptor(), name, value);
 }
+enum MappingStatus : int {
+  BOOTSTRAP = 0,
+  MAPPING = 1,
+  TRACKING_LOST = 2,
+  LOOP_CLOSURE = 3,
+  MappingStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  MappingStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool MappingStatus_IsValid(int value);
+constexpr MappingStatus MappingStatus_MIN = BOOTSTRAP;
+constexpr MappingStatus MappingStatus_MAX = LOOP_CLOSURE;
+constexpr int MappingStatus_ARRAYSIZE = MappingStatus_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MappingStatus_descriptor();
+template<typename T>
+inline const std::string& MappingStatus_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, MappingStatus>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function MappingStatus_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    MappingStatus_descriptor(), enum_t_value);
+}
+inline bool MappingStatus_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, MappingStatus* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MappingStatus>(
+    MappingStatus_descriptor(), name, value);
+}
 enum ImageLayout : int {
   RGB_24 = 0,
   GREY_8 = 1,
@@ -1457,6 +1484,7 @@ class RelocalizationResult PROTOBUF_FINAL :
     kPoseFieldNumber = 2,
     kPoseStatusFieldNumber = 1,
     kConfidenceFieldNumber = 3,
+    kMappingStatusFieldNumber = 4,
   };
   // .com.bcom.solar.gprc.Matrix4x4 pose = 2;
   bool has_pose() const;
@@ -1494,6 +1522,15 @@ class RelocalizationResult PROTOBUF_FINAL :
   void _internal_set_confidence(float value);
   public:
 
+  // .com.bcom.solar.gprc.MappingStatus mapping_status = 4;
+  void clear_mapping_status();
+  ::com::bcom::solar::gprc::MappingStatus mapping_status() const;
+  void set_mapping_status(::com::bcom::solar::gprc::MappingStatus value);
+  private:
+  ::com::bcom::solar::gprc::MappingStatus _internal_mapping_status() const;
+  void _internal_set_mapping_status(::com::bcom::solar::gprc::MappingStatus value);
+  public:
+
   // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.RelocalizationResult)
  private:
   class _Internal;
@@ -1504,6 +1541,7 @@ class RelocalizationResult PROTOBUF_FINAL :
   ::com::bcom::solar::gprc::Matrix4x4* pose_;
   int pose_status_;
   float confidence_;
+  int mapping_status_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
 };
@@ -3872,6 +3910,26 @@ inline void RelocalizationResult::set_confidence(float value) {
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RelocalizationResult.confidence)
 }
 
+// .com.bcom.solar.gprc.MappingStatus mapping_status = 4;
+inline void RelocalizationResult::clear_mapping_status() {
+  mapping_status_ = 0;
+}
+inline ::com::bcom::solar::gprc::MappingStatus RelocalizationResult::_internal_mapping_status() const {
+  return static_cast< ::com::bcom::solar::gprc::MappingStatus >(mapping_status_);
+}
+inline ::com::bcom::solar::gprc::MappingStatus RelocalizationResult::mapping_status() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RelocalizationResult.mapping_status)
+  return _internal_mapping_status();
+}
+inline void RelocalizationResult::_internal_set_mapping_status(::com::bcom::solar::gprc::MappingStatus value) {
+  
+  mapping_status_ = value;
+}
+inline void RelocalizationResult::set_mapping_status(::com::bcom::solar::gprc::MappingStatus value) {
+  _internal_set_mapping_status(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RelocalizationResult.mapping_status)
+}
+
 // -------------------------------------------------------------------
 
 // Image
@@ -5078,6 +5136,11 @@ template <> struct is_proto_enum< ::com::bcom::solar::gprc::RelocalizationPoseSt
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::RelocalizationPoseStatus>() {
   return ::com::bcom::solar::gprc::RelocalizationPoseStatus_descriptor();
+}
+template <> struct is_proto_enum< ::com::bcom::solar::gprc::MappingStatus> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::com::bcom::solar::gprc::MappingStatus>() {
+  return ::com::bcom::solar::gprc::MappingStatus_descriptor();
 }
 template <> struct is_proto_enum< ::com::bcom::solar::gprc::ImageLayout> : ::std::true_type {};
 template <>

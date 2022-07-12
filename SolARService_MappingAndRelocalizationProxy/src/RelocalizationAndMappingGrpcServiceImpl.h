@@ -116,6 +116,7 @@ private:
     static std::string to_string(Matrix3x4 mat);
     static std::string to_string(ImageLayout layout);
     static std::string to_string(SolAR::api::pipeline::TransformStatus transformStatus);
+    static std::string to_string(SolAR::api::pipeline::MappingStatus mappingStatus);
     static std::string to_string(ImageCompression compression);
 
     static SolAR::datastructure::CameraType toSolAR(CameraType type);
@@ -124,6 +125,7 @@ private:
     static void toGrpc(const SolAR::datastructure::Transform3Df& solARPose, Matrix4x4& gRpcPose);
     static grpc::Status buildSolARImage(const Frame, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toGrpc(SolAR::api::pipeline::TransformStatus solARPoseStatus, RelocalizationPoseStatus& gRpcPoseStatus);
+    static grpc::Status toGrpc(SolAR::api::pipeline::MappingStatus mappingStatus, MappingStatus& gRpcMappingStatus);
     static SolAR::api::pipeline::PipelineMode toSolAR(PipelineMode pipelineMode);
 
     static grpc::Status gRpcError(std::string message, grpc::StatusCode gRpcStatus = grpc::StatusCode::INTERNAL);

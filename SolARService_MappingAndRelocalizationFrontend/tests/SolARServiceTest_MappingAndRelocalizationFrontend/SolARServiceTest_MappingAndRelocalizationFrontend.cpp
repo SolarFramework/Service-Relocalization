@@ -78,6 +78,8 @@ int main(int argc, char* argv[])
     #endif
 
     LOG_ADD_LOG_TO_CONSOLE();
+//    LOG_SET_DEBUG_LEVEL();
+
 
     bool relocOnly = false; // Indicate if only relocalization has to be done
 
@@ -222,12 +224,13 @@ int main(int argc, char* argv[])
                     api::pipeline::TransformStatus transform3DStatus;
                     Transform3Df transform3D;
                     float_t confidence;
+                    api::pipeline::MappingStatus mappingStatus;
 
                     LOG_INFO("Send image and pose to service");                    
 
                     // Send data to mapping and relocalization front end service
                     gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
-                                imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence);
+                                imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence, mappingStatus);
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
@@ -244,6 +247,26 @@ int main(int argc, char* argv[])
                     }
                     else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
                         LOG_DEBUG("No 3D transformation");
+                    }
+
+                    if (!relocOnly) {
+                        switch (mappingStatus) {
+                            case api::pipeline::BOOTSTRAP:
+                                LOG_DEBUG("Mapping status: Bootstrap");
+                                break;
+                            case api::pipeline::MAPPING:
+                                LOG_DEBUG("Mapping status: Mapping");
+                                break;
+                            case api::pipeline::TRACKING_LOST:
+                                LOG_DEBUG("Mapping status: Tracking Lost");
+                                break;
+                            case api::pipeline::LOOP_CLOSURE:
+                                LOG_DEBUG("Mapping status: Loop Closure");
+                                break;
+                            default:
+                                LOG_DEBUG("Mapping status: unknown");
+                                break;
+                        }
                     }
 
                     // Display image sent

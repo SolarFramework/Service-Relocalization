@@ -97,6 +97,7 @@ message RelocalizationResult
     RelocalizationPoseStatus pose_status = 1;
     Matrix4x4 pose = 2;
     float confidence = 3;
+    MappingStatus mapping_status = 4;
 }
 
 enum RelocalizationPoseStatus
@@ -104,6 +105,14 @@ enum RelocalizationPoseStatus
     NO_POSE = 0;
     NEW_POSE = 1;
     LATEST_POSE = 2;
+}
+
+enum MappingStatus
+{
+    BOOTSTRAP = 0;
+    MAPPING = 1;
+    TRACKING_LOST = 2;
+    LOOP_CLOSURE = 3;
 }
 
 enum ImageLayout

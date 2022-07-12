@@ -409,6 +409,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     SolAR::api::pipeline::TransformStatus transform3DStatus;
     SolAR::datastructure::Transform3Df transform3D;
     float_t confidence;
+    SolAR::api::pipeline::MappingStatus mappingStatus;
 
     // Drop image if too old (older than last processed image)
     if (timestamp < m_last_image_timestamp) {
@@ -454,7 +455,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                             std::chrono::milliseconds(m_last_image_timestamp)),
                         transform3DStatus,
                         transform3D,
-                        confidence);
+                        confidence,
+                        mappingStatus);
         }
         catch (const std::exception& e)
         {
@@ -507,14 +509,24 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             return status;
         }
 
+        MappingStatus gRpcMappingStatus;
+        status = toGrpc(mappingStatus, gRpcMappingStatus);
+        if (!status.ok())
+        {
+            LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
+            return status;
+        }
+
         response->set_confidence(confidence);
         response->set_pose_status(gRpcPoseStatus);
+        response->set_mapping_status(gRpcMappingStatus);
         toGrpc(transform3D, *response->mutable_pose());
 
         LOG_DEBUG("Output");
         LOG_DEBUG("  confidence: {}", confidence);
         LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
         LOG_DEBUG("  transform:\n{}", transform3D.matrix());
+        LOG_DEBUG("  mapping status:\n{}", to_string(mappingStatus));
 
         return Status::OK;
     }
@@ -657,6 +669,19 @@ RelocalizationAndMappingGrpcServiceImpl::to_string(SolAR::api::pipeline::Transfo
     case SolAR::api::pipeline::TransformStatus::NEW_3DTRANSFORM: return "NEW_3DTRANSFORM";
     case SolAR::api::pipeline::TransformStatus::PREVIOUS_3DTRANSFORM: return "PREVIOUS_3DTRANSFORM";
     default: throw std::runtime_error("Unkown transform status");
+    };
+}
+
+std::string
+RelocalizationAndMappingGrpcServiceImpl::to_string(SolAR::api::pipeline::MappingStatus mappingStatus)
+{
+    switch(mappingStatus)
+    {
+    case SolAR::api::pipeline::MappingStatus::BOOTSTRAP: return "BOOTSTRAP";
+    case SolAR::api::pipeline::MappingStatus::MAPPING: return "MAPPING";
+    case SolAR::api::pipeline::MappingStatus::TRACKING_LOST: return "TRACKING_LOST";
+    case SolAR::api::pipeline::MappingStatus::LOOP_CLOSURE: return "LOOP_CLOSURE";
+    default: throw std::runtime_error("Unkown mapping status");
     };
 }
 
@@ -894,6 +919,37 @@ RelocalizationAndMappingGrpcServiceImpl::toGrpc(SolAR::api::pipeline::TransformS
     default:
     {
         return gRpcError("Cannot convert gRPC pose status to SolAR TransformStatus");
+    }
+    };
+
+    return Status::OK;
+}
+
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::toGrpc(SolAR::api::pipeline::MappingStatus mappingStatus,
+                                                MappingStatus& gRpcMappingStatus)
+{
+    switch(mappingStatus)
+    {
+    case SolAR::api::pipeline::MappingStatus::BOOTSTRAP:
+    {
+        gRpcMappingStatus = MappingStatus::BOOTSTRAP; break;
+    }
+    case SolAR::api::pipeline::MappingStatus::MAPPING:
+    {
+        gRpcMappingStatus = MappingStatus::MAPPING; break;
+    }
+    case SolAR::api::pipeline::MappingStatus::TRACKING_LOST:
+    {
+        gRpcMappingStatus = MappingStatus::TRACKING_LOST; break;
+    }
+    case SolAR::api::pipeline::MappingStatus::LOOP_CLOSURE:
+    {
+        gRpcMappingStatus = MappingStatus::LOOP_CLOSURE; break;
+    }
+    default:
+    {
+        return gRpcError("Cannot convert gRPC mapping status to SolAR MappingStatus");
     }
     };
 

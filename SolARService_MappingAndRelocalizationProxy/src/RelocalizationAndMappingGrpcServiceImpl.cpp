@@ -431,6 +431,9 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     poses.push_back(pose1);
 
     if (stereo) {
+        // Rotate image from camera right front 180 degrees
+        image2->rotate180();
+
         images.push_back(image2);
         poses.push_back(pose2);
     }

@@ -421,8 +421,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         return Status::OK;
     }
 
-    m_images_vector_mutex.lock();
-
     // Add data to vector of tuple (timestamp, image(s), pose(s))
     std::vector<SRef<SolAR::datastructure::Image>> images;
     std::vector<SolAR::datastructure::Transform3Df> poses;
@@ -438,10 +436,14 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         poses.push_back(pose2);
     }
 
+    m_images_vector_mutex.lock();
+
     m_ordered_images.push_back(std::make_tuple(images, poses, timestamp));
 
     // Sort vector based on timestamps
     std::sort(m_ordered_images.begin(), m_ordered_images.end(), sortbythird);
+
+    m_images_vector_mutex.unlock();
 
     // If enough tuples, send the older one to Front End
     if (m_ordered_images.size() >= 5) {
@@ -463,11 +465,16 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         }
         catch (const std::exception& e)
         {
-            m_images_vector_mutex.unlock();
-
             return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
                              + std::string(e.what()));
         }
+
+        m_images_vector_mutex.lock();
+
+        // Remove the older tuple from vector
+        m_ordered_images.erase(m_ordered_images.begin());
+
+        m_images_vector_mutex.unlock();
 
         // Display image 1 if specified
         if (m_image_viewer_left)
@@ -499,16 +506,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             }
         }
 
-        // Remove the older tuple from vector
-        m_ordered_images.erase(m_ordered_images.begin());
-
-        m_images_vector_mutex.unlock();
-
         RelocalizationPoseStatus gRpcPoseStatus;
         status = toGrpc(transform3DStatus, gRpcPoseStatus);
         if (!status.ok())
         {
-            LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
+            LOG_ERROR("RelocalizeAndMap(): error while converting received image to SolAR datastructure");
             return status;
         }
 
@@ -535,8 +537,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     }
     else {
         LOG_INFO("Not enough images to process");
-
-        m_images_vector_mutex.unlock();
 
         response->set_confidence(0);
         response->set_pose_status(RelocalizationPoseStatus::NO_POSE);

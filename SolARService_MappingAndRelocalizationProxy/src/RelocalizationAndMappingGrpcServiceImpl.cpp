@@ -358,25 +358,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     auto fps = relocAndMapFps.update();
 
     LOG_INFO("{:03.2f} FPS", fps);
-/*
-    LOG_DEBUG(" Image 1:");
-    LOG_DEBUG("  image: {}x{}, {}",
-              request->frames(0).image().width(),
-              request->frames(0).image().height(),
-              to_string(request->frames(0).image().layout()));
-    LOG_DEBUG("  pose:\n{}", to_string(request->frames(0).pose()));
-    LOG_DEBUG("  timestamp: {}", request->frames(0).timestamp());
-
-    if (stereo) {
-        LOG_DEBUG(" Image 2:");
-        LOG_DEBUG("  image: {}x{}, {}",
-                  request->frames(1).image().width(),
-                  request->frames(1).image().height(),
-                  to_string(request->frames(1).image().layout()));
-        LOG_DEBUG("  pose:\n{}", to_string(request->frames(1).pose()));
-        LOG_DEBUG("  timestamp: {}", request->frames(1).timestamp());
-    }
-*/
 
     // Get data from request
     SRef<SolARImage> image1, image2;
@@ -443,8 +424,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     // Sort vector based on timestamps
     std::sort(m_ordered_images.begin(), m_ordered_images.end(), sortbythird);
 
-    m_images_vector_mutex.unlock();
-
     // If enough tuples, send the older one to Front End
     if (m_ordered_images.size() >= 5) {
 
@@ -465,11 +444,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         }
         catch (const std::exception& e)
         {
+            m_images_vector_mutex.unlock();
+
             return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
                              + std::string(e.what()));
         }
-
-        m_images_vector_mutex.lock();
 
         // Remove the older tuple from vector
         m_ordered_images.erase(m_ordered_images.begin());
@@ -537,6 +516,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     }
     else {
         LOG_INFO("Not enough images to process");
+
+        m_images_vector_mutex.unlock();
 
         response->set_confidence(0);
         response->set_pose_status(RelocalizationPoseStatus::NO_POSE);

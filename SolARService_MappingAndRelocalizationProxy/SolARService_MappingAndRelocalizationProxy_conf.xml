@@ -42,6 +42,6 @@
                 <property name="width" type="int" value="640"/>
                 <property name="height" type="int" value="480"/>
             </configure>
-j    </properties>
+    </properties>
 
 </xpcf-registry>

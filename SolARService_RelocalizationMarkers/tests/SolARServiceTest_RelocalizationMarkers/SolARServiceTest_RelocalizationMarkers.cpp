@@ -135,7 +135,6 @@ int main(int argc, char* argv[])
                     // Load camera intrinsics parameters
                     CameraRigParameters camRigParams = arDevice->getCameraParameters();
                     CameraParameters camParams = camRigParams.cameraParams[INDEX_USE_CAMERA];
-                    overlay3D->setCameraParameters(camParams.intrinsic, camParams.distortion);
 
                     if (gRelocalizationPipeline->setCameraParameters(camParams) == FrameworkReturnCode::_SUCCESS) {
 
@@ -171,7 +170,7 @@ int main(int argc, char* argv[])
                                         if (gRelocalizationPipeline->relocalizeProcessRequest(image, relocPose, confidence) == FrameworkReturnCode::_SUCCESS) {
                                             LOG_INFO("New pose calculated by relocalization pipeline:\n{}", relocPose.matrix());
                                             LOG_INFO("Transformation:\n{}", (relocPose * pose.inverse()).matrix());
-                                            overlay3D->draw(relocPose, image);
+                                            overlay3D->draw(relocPose, camParams, image);
                                         }
                                         else {
                                             LOG_INFO("Failed to calculate pose for this image");

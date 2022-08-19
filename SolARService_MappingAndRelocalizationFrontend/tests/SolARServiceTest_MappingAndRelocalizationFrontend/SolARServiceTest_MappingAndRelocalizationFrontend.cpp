@@ -163,7 +163,6 @@ int main(int argc, char* argv[])
             // Load camera intrinsics parameters
             CameraRigParameters camRigParams = arDevice->getCameraParameters();
             CameraParameters camParams = camRigParams.cameraParams[INDEX_USE_CAMERA];
-            overlay3D->setCameraParameters(camParams.intrinsic, camParams.distortion);
 
             LOG_INFO("Set camera paremeters for the service");
 
@@ -172,12 +171,12 @@ int main(int argc, char* argv[])
                 return -1;
             }
 
-            if (!relocOnly) {
-                LOG_INFO("Reset the global map stored in the Map Update service");
-                if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {
-                    LOG_INFO("Global map reset!");
-                }
-            }
+//            if (!relocOnly) {
+//                LOG_INFO("Reset the global map stored in the Map Update service");
+//                if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {
+//                    LOG_INFO("Global map reset!");
+//                }
+//            }
 
             LOG_INFO("Start the service");
 
@@ -217,14 +216,14 @@ int main(int argc, char* argv[])
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(transform3D * pose, image);
+                            overlay3D->draw(transform3D * pose, camParams, image);
                     }
                     else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
                         LOG_DEBUG("Previous 3D transformation = {}", transform3D.matrix());
 
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(transform3D * pose, image);
+                            overlay3D->draw(transform3D * pose, camParams, image);
                     }
                     else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
                         LOG_DEBUG("No 3D transformation");

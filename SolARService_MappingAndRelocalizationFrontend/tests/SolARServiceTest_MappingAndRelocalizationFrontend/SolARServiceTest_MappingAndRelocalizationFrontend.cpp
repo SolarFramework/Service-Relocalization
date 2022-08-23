@@ -168,7 +168,6 @@ int main(int argc, char* argv[])
             // Load camera intrinsics parameters
             CameraRigParameters camRigParams = arDevice->getCameraParameters();
             CameraParameters camParams = camRigParams.cameraParams[INDEX_USE_CAMERA[0]];
-            overlay3D->setCameraParameters(camParams.intrinsic, camParams.distortion);
 
             LOG_INFO("Set camera paremeters for the service");
 
@@ -236,14 +235,14 @@ int main(int argc, char* argv[])
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(transform3D * posesToProcess[0], imagesToProcess[0]);
+                            overlay3D->draw(transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
                     }
                     else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
                         LOG_DEBUG("Previous 3D transformation = {}", transform3D.matrix());
 
                         // draw cube
                         if (!relocOnly)
-                            overlay3D->draw(transform3D * posesToProcess[0], imagesToProcess[0]);
+                            overlay3D->draw(transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
                     }
                     else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
                         LOG_DEBUG("No 3D transformation");

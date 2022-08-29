@@ -431,23 +431,26 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         std::vector<SolAR::datastructure::Transform3Df> posesToSend = std::get<1>(m_ordered_images[0]);
         m_last_image_timestamp = std::get<2>(m_ordered_images[0]);
 
-        try {
-            m_pipeline->relocalizeProcessRequest(
-                        imagesToSend,
-                        posesToSend,
-                        std::chrono::time_point<std::chrono::system_clock>(
-                            std::chrono::milliseconds(m_last_image_timestamp)),
-                        transform3DStatus,
-                        transform3D,
-                        confidence,
-                        mappingStatus);
-        }
-        catch (const std::exception& e)
-        {
-            m_images_vector_mutex.unlock();
+        if (m_file_path == "") {
 
-            return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
-                             + std::string(e.what()));
+            try {
+                m_pipeline->relocalizeProcessRequest(
+                            imagesToSend,
+                            posesToSend,
+                            std::chrono::time_point<std::chrono::system_clock>(
+                                std::chrono::milliseconds(m_last_image_timestamp)),
+                            transform3DStatus,
+                            transform3D,
+                            confidence,
+                            mappingStatus);
+            }
+            catch (const std::exception& e)
+            {
+                m_images_vector_mutex.unlock();
+
+                return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
+                                 + std::string(e.what()));
+            }
         }
 
         // Remove the older tuple from vector

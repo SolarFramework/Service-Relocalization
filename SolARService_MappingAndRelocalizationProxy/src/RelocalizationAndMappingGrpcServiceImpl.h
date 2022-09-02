@@ -22,8 +22,19 @@
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
 #include <api/display/IImageViewer.h>
 
+#include "xpcf/threading/SharedBuffer.h"
+#include "xpcf/threading/BaseTask.h"
+
 namespace com::bcom::solar::gprc
 {
+
+#define BUFFER_SIZE_DISPLAY_SAVE_IMAGE 5
+
+enum CameraMode : uint8_t {
+  UNKNOWN_CAMERA_MODE = 0,
+  CAMERA_MONO = 1,
+  CAMERA_STEREO
+};
 
 class RelocalizationAndMappingGrpcServiceImpl
     final : public SolARMappingAndRelocalizationProxy::Service
@@ -42,7 +53,7 @@ public:
                                             SRef<SolAR::api::display::IImageViewer> image_viewer_left,
                                             SRef<SolAR::api::display::IImageViewer> image_viewer_right);
 
-    ~RelocalizationAndMappingGrpcServiceImpl() = default;
+    ~RelocalizationAndMappingGrpcServiceImpl() override;
 
 public:
     grpc::Status Init(grpc::ServerContext* context,
@@ -87,6 +98,8 @@ private:
 
     bool m_started; // Indicates if the proxy is started or not
 
+    CameraMode m_cameraMode; // Indicates the camera mode: mono or stereo
+
     SRef<SolAR::api::display::IImageViewer> m_image_viewer_left, m_image_viewer_right;
 
     // Variables used to save images on disk
@@ -107,6 +120,23 @@ private:
                              std::vector<SolAR::datastructure::Transform3Df>, long> a ,
             const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
                              std::vector<SolAR::datastructure::Transform3Df>, long> b);
+
+    // Buffers used to save or display images and poses
+    xpcf::SharedBuffer<std::vector<SRef<SolAR::datastructure::Image>>>
+                            m_sharedBufferImageToDisplay{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
+    xpcf::SharedBuffer<std::pair<std::vector<SRef<SolAR::datastructure::Image>>,
+                                 std::vector<SolAR::datastructure::Transform3Df>>>
+                            m_sharedBufferImagePoseToSave{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
+
+    // Delegate task dedicated to asynchronous processing
+    xpcf::DelegateTask * m_displayImagesTask = nullptr;
+    xpcf::DelegateTask * m_saveImagesTask = nullptr;
+
+    // Asynchronous display of images
+    void displayImages();
+
+    // Asynchronous backup of images and poses
+    void saveImages();
 
 private:
     static std::string to_string(CameraType type);

@@ -388,8 +388,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                                                           RelocalizationResult* response)
 {
     response->set_confidence(0);
-    response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
     response->set_mapping_status(MappingStatus::BOOTSTRAP);
+    response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
 
     if (!m_started) {
         LOG_INFO("Proxy is not started");
@@ -567,8 +567,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             }
 
             response->set_confidence(confidence);
-            response->set_pose_status(gRpcPoseStatus);
             response->set_mapping_status(gRpcMappingStatus);
+            if (gRpcMappingStatus == MappingStatus::BOOTSTRAP)
+                response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
+            else
+                response->set_pose_status(gRpcPoseStatus);
             toGrpc(transform3D, *response->mutable_pose());
 
             LOG_DEBUG("Output");

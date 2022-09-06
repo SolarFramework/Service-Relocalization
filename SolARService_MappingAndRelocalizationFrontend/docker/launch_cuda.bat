@@ -34,7 +34,7 @@ IF "%4"=="" (
 
 REM Get Mapping Stereo Service URL from parameters
 IF "%5"=="" (
-    ECHO You need to give Mapping Stereo Service URL as 5th parameter!
+    ECHO You need to give Mapping Stereo Service URL as 5th parameter (or a fake URL if no stereo service is available)!
     GOTO end
 ) ELSE (
     ECHO Mapping Service URL = %5

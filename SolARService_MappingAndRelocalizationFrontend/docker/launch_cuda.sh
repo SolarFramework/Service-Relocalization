@@ -41,7 +41,7 @@ if [ "$5" ]
 then
     echo "Mapping Stereo Service URL = $5"
 else
-    echo "You need to give Mapping Stereo Service URL as 5th parameter!"
+    echo "You need to give Mapping Stereo Service URL as 5th parameter (or a fake URL if no stereo service is available)!"
     exit 1
 fi
 

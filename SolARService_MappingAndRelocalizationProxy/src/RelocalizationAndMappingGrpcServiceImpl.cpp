@@ -387,6 +387,10 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                                                           const Frames* request,
                                                           RelocalizationResult* response)
 {
+    response->set_confidence(0);
+    response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
+    response->set_mapping_status(MappingStatus::BOOTSTRAP);
+
     if (!m_started) {
         LOG_INFO("Proxy is not started");
         return Status::OK;
@@ -415,7 +419,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             m_cameraMode = CAMERA_STEREO;
         }
     }
-    else if (m_cameraMode == UNKNOWN_CAMERA_MODE) {
+    else if ((request->frames_size() == 0) || (request->frames_size() > 2)) {
         LOG_ERROR("Unexpected number of images: {}", request->frames_size());
         m_images_vector_mutex.unlock();
         return Status::CANCELLED;
@@ -432,10 +436,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     // Drop image if too old (older than last processed image)
     if (timestamp < m_last_image_timestamp) {
         LOG_INFO("Image too old: drop it!");
-
-        response->set_confidence(0);
-        response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
-
         return Status::OK;
     }
 
@@ -592,9 +592,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                 m_sharedBufferImageToDisplay.push(imagesToSend);
             }
 
-            response->set_confidence(0);
-            response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
-
             return Status::OK;
         }
     }
@@ -602,9 +599,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         LOG_INFO("Not enough images to process");
 
         m_images_vector_mutex.unlock();
-
-        response->set_confidence(0);
-        response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
 
         return Status::OK;
     }

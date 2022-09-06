@@ -48,9 +48,9 @@ using com::bcom::solar::gprc::RelocalizationAndMappingGrpcServiceImpl;
 
 const int DEFAULT_GRPC_LISTENING_PORT = 5010;
 
-SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, bool displayImages);
+SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, uint8_t displayImages);
 void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,
-                  string saveFolder, bool displayImages);
+                  string saveFolder, uint8_t displayImages);
 void print_help(const cxxopts::Options& options);
 
 int main(int argc, char* argv[])
@@ -70,7 +70,8 @@ LOG_ADD_LOG_TO_CONSOLE();
             ("p,port", "port to which the gRPC service will listen to \
                 (default: " + std::to_string(DEFAULT_GRPC_LISTENING_PORT) + ")", cxxopts::value<int>()->default_value(std::to_string(DEFAULT_GRPC_LISTENING_PORT)))
             ("s,save", "save images and poses on the given folder", cxxopts::value<string>())
-            ("d,display", "display images on a view screen");
+            ("display-received-images", "display images received from client (before proxy processing)")
+            ("display-sent-images", "display images sent to Front End (after proxy processing)");
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -106,11 +107,16 @@ LOG_ADD_LOG_TO_CONSOLE();
         LOG_INFO("Image/pose folder set to: {}", saveFolder);
     }
 
-    bool displayImages = false;
-    if (options.count("display"))
+    uint8_t displayImages = 0;
+    if (options.count("display-received-images"))
     {
-        displayImages = true;
-        LOG_INFO("Images will be displayed on a view screen");
+        displayImages = 1;
+        LOG_INFO("Received images will be displayed on a view screen");
+    }
+    else if (options.count("display-sent-images"))
+    {
+        displayImages = 2;
+        LOG_INFO("Sent images will be displayed on a view screen");
     }
 
     try
@@ -137,7 +143,7 @@ LOG_ADD_LOG_TO_CONSOLE();
     return 0;
 }
 
-SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, bool displayImages)
+SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, uint8_t displayImages)
 {
     auto componentMgr = xpcf::getComponentManagerInstance();
 
@@ -147,7 +153,7 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
         return nullptr;
     }
 
-    if (displayImages) {
+    if (displayImages != 0) {
         gImageViewer_left = componentMgr->resolve<api::display::IImageViewer>("Left");
         gImageViewer_right = componentMgr->resolve<api::display::IImageViewer>("Right");
     }
@@ -156,7 +162,7 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
 }
 
 void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,
-                  string saveFolder, bool displayImages)
+                  string saveFolder, uint8_t displayImages)
 {
     grpc::EnableDefaultHealthCheckService(true);
     // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
@@ -164,9 +170,9 @@ void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serve
 
     builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());  
 
-    if (displayImages) {
+    if (displayImages != 0) {
         RelocalizationAndMappingGrpcServiceImpl grpcServices(
-                    pipeline, saveFolder, gImageViewer_left, gImageViewer_right);
+                    pipeline, saveFolder, displayImages, gImageViewer_left, gImageViewer_right);
 
         builder.RegisterService(&grpcServices);
 

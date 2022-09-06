@@ -50,6 +50,7 @@ public:
 
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
                                             std::string saveFolder,
+                                            uint8_t display_images,
                                             SRef<SolAR::api::display::IImageViewer> image_viewer_left,
                                             SRef<SolAR::api::display::IImageViewer> image_viewer_right);
 
@@ -100,6 +101,8 @@ private:
 
     CameraMode m_cameraMode; // Indicates the camera mode: mono or stereo
 
+    // Variables used to display images on a view screen
+    uint8_t m_display_images = 0;
     SRef<SolAR::api::display::IImageViewer> m_image_viewer_left, m_image_viewer_right;
 
     // Variables used to save images on disk

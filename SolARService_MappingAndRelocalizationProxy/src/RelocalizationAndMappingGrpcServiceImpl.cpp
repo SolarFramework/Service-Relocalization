@@ -104,13 +104,14 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
         SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
         std::string saveFolder,
+        u_int8_t display_images,
         SRef<SolAR::api::display::IImageViewer> image_viewer_left,
         SRef<SolAR::api::display::IImageViewer> image_viewer_right):
-            m_pipeline{ pipeline }, m_file_path { saveFolder },
+            m_pipeline{ pipeline }, m_file_path { saveFolder }, m_display_images { display_images },
             m_image_viewer_left {image_viewer_left}, m_image_viewer_right{image_viewer_right}
 {
     // Display images processing function
-    if (image_viewer_left) {
+    if (display_images != 0) {
         auto fnDisplayImagesProcessing = [&]() {
             displayImages();
         };
@@ -396,6 +397,28 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         return Status::OK;
     }
 
+    // Display images if specified
+    if ((m_display_images == 1) && (m_displayImagesTask != nullptr)) {
+        std::vector<SRef<SolARImage>> imagesToDisplay;
+        SRef<SolARImage> image1, image2;
+        if (request->frames_size() >= 1) {
+            auto status  = buildSolARImage(request->frames(0), toSolAR(request->frames(0).pose()), image1);
+            if (status.ok())
+            {
+                imagesToDisplay.push_back(image1);
+            }
+        }
+        if (request->frames_size() == 2) {
+            auto status  = buildSolARImage(request->frames(0), toSolAR(request->frames(0).pose()), image2);
+            if (status.ok())
+            {
+                imagesToDisplay.push_back(image2);
+            }
+        }
+        if (imagesToDisplay.size() > 0)
+            m_sharedBufferImageToDisplay.push(imagesToDisplay);
+    }
+
     m_images_vector_mutex.lock();
 
     if ((request->frames_size() == 1) && (m_cameraMode != CAMERA_MONO)) {
@@ -548,7 +571,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             }
 
             // Display images if specified
-            if (m_displayImagesTask != nullptr) {
+            if ((m_display_images == 2) && (m_displayImagesTask != nullptr)) {
                 m_sharedBufferImageToDisplay.push(imagesToSend);
             }
 

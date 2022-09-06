@@ -541,6 +541,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             }
             catch (const std::exception& e)
             {
+                response->set_mapping_status(MappingStatus::TRACKING_LOST);
+
                 return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
                                  + std::string(e.what()));
             }

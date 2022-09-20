@@ -18,6 +18,8 @@ ADD data/marker/* /SolARServiceRelocalizationMarkers/data/marker/
 ## Libraries and modules
 RUN mkdir SolARServiceRelocalizationMarkers/modules
 ADD modules/* /SolARServiceRelocalizationMarkers/modules/
+ADD modules_common/* /SolARServiceRelocalizationMarkers/modules/
+ADD modules_no_cuda/* /SolARServiceRelocalizationMarkers/modules/
 
 ## Project files
 ADD SolARService_RelocalizationMarkers /SolARServiceRelocalizationMarkers/

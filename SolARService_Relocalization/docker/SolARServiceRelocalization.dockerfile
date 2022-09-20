@@ -16,6 +16,7 @@ ADD data/fbow_voc/akaze.fbow /SolARServiceRelocalization/data/fbow_voc/
 ## Libraries and modules
 RUN mkdir SolARServiceRelocalization/modules
 ADD modules/* /SolARServiceRelocalization/modules/
+ADD modules_common/* /SolARServiceRelocalization/modules/
 ADD modules_no_cuda/* /SolARServiceRelocalization/modules/
 
 ## Project files

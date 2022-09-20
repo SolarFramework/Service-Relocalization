@@ -28,6 +28,8 @@ spec:
           value: relocalization-service:80
         - name: MAPPING_SERVICE_URL
           value: mapping-service:80
+        - name: MAPPING_STEREO_SERVICE_URL
+          value: mapping-stereo-service:80
 ---
 
 kind: Service

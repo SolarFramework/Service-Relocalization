@@ -22,8 +22,19 @@
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
 #include <api/display/IImageViewer.h>
 
+#include "xpcf/threading/SharedBuffer.h"
+#include "xpcf/threading/BaseTask.h"
+
 namespace com::bcom::solar::gprc
 {
+
+#define BUFFER_SIZE_DISPLAY_SAVE_IMAGE 5
+
+enum CameraMode : uint8_t {
+  UNKNOWN_CAMERA_MODE = 0,
+  CAMERA_MONO = 1,
+  CAMERA_STEREO
+};
 
 class RelocalizationAndMappingGrpcServiceImpl
     final : public SolARMappingAndRelocalizationProxy::Service
@@ -39,9 +50,11 @@ public:
 
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
                                             std::string saveFolder,
-                                            SRef<SolAR::api::display::IImageViewer> image_viewer);
+                                            uint8_t display_images,
+                                            SRef<SolAR::api::display::IImageViewer> image_viewer_left,
+                                            SRef<SolAR::api::display::IImageViewer> image_viewer_right);
 
-    ~RelocalizationAndMappingGrpcServiceImpl() = default;
+    ~RelocalizationAndMappingGrpcServiceImpl() override;
 
 public:
     grpc::Status Init(grpc::ServerContext* context,
@@ -60,8 +73,12 @@ public:
                                      const CameraParameters* request,
                                      Empty* response)  override;
 
+    grpc::Status setRectificationParameters(grpc::ServerContext* context,
+                                            const RectificationParameters* request,
+                                            Empty* response)  override;
+
     grpc::Status RelocalizeAndMap(grpc::ServerContext* context,
-                                  const Frame* request,
+                                  const Frames* request,
                                   RelocalizationResult* response)  override;
 
     grpc::Status Get3DTransform(grpc::ServerContext* context,
@@ -82,37 +99,66 @@ private:
 
     bool m_started; // Indicates if the proxy is started or not
 
-    SRef<SolAR::api::display::IImageViewer> m_image_viewer;
+    CameraMode m_cameraMode; // Indicates the camera mode: mono or stereo
+
+    // Variables used to display images on a view screen
+    uint8_t m_display_images = 0;
+    SRef<SolAR::api::display::IImageViewer> m_image_viewer_left, m_image_viewer_right;
 
     // Variables used to save images on disk
     long m_index_image;
-    std::ofstream m_poseFile;
+    std::ofstream m_poseFile1, m_poseFile2;
     std::ofstream m_timestampFile;
-    std::string m_file_path, m_image_path;
+    std::string m_file_path, m_image1_path, m_image2_path;
 
-    // Vector of ordered tuple(image, pose, timestamp)
-    std::vector<std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long>> m_ordered_images;
+    // Vector of ordered tuple(images, poses, timestamp)
+    std::vector<std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                           std::vector<SolAR::datastructure::Transform3Df>, long>> m_ordered_images;
     std::mutex m_images_vector_mutex;   // Mutex used to control vector access
     long m_last_image_timestamp;        // Timestamp of the last image processed
 
     // Sort vector of tuples according to the third element of tuple
     static bool sortbythird (
-            const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> a ,
-            const std::tuple<SRef<SolAR::datastructure::Image>, SolAR::datastructure::Transform3Df, long> b);
+            const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                             std::vector<SolAR::datastructure::Transform3Df>, long> a ,
+            const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                             std::vector<SolAR::datastructure::Transform3Df>, long> b);
+
+    // Buffers used to save or display images and poses
+    xpcf::SharedBuffer<std::vector<SRef<SolAR::datastructure::Image>>>
+                            m_sharedBufferImageToDisplay{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
+    xpcf::SharedBuffer<std::pair<std::vector<SRef<SolAR::datastructure::Image>>,
+                                 std::vector<SolAR::datastructure::Transform3Df>>>
+                            m_sharedBufferImagePoseToSave{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
+
+    // Delegate task dedicated to asynchronous processing
+    xpcf::DelegateTask * m_displayImagesTask = nullptr;
+    xpcf::DelegateTask * m_saveImagesTask = nullptr;
+
+    // Asynchronous display of images
+    void displayImages();
+
+    // Asynchronous backup of images and poses
+    void saveImages();
 
 private:
     static std::string to_string(CameraType type);
+    static std::string to_string(StereoType type);
     static std::string to_string(Matrix3x3 mat);
     static std::string to_string(Matrix4x4 mat);
+    static std::string to_string(Matrix3x4 mat);
     static std::string to_string(ImageLayout layout);
     static std::string to_string(SolAR::api::pipeline::TransformStatus transformStatus);
+    static std::string to_string(SolAR::api::pipeline::MappingStatus mappingStatus);
     static std::string to_string(ImageCompression compression);
 
     static SolAR::datastructure::CameraType toSolAR(CameraType type);
+    static SolAR::datastructure::StereoType toSolAR(StereoType type);
     static SolAR::datastructure::Transform3Df toSolAR(const Matrix4x4& gRpcPose);
     static void toGrpc(const SolAR::datastructure::Transform3Df& solARPose, Matrix4x4& gRpcPose);
-    static grpc::Status buildSolARImage(const Frame*, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
+    static grpc::Status buildSolARImage(const Frame, const SolAR::datastructure::Transform3Df& solARPose, SRef<SolAR::datastructure::Image>& image);
     static grpc::Status toGrpc(SolAR::api::pipeline::TransformStatus solARPoseStatus, RelocalizationPoseStatus& gRpcPoseStatus);
+    static grpc::Status toGrpc(SolAR::api::pipeline::MappingStatus mappingStatus, MappingStatus& gRpcMappingStatus);
     static SolAR::api::pipeline::PipelineMode toSolAR(PipelineMode pipelineMode);
 
     static grpc::Status gRpcError(std::string message, grpc::StatusCode gRpcStatus = grpc::StatusCode::INTERNAL);

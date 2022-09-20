@@ -24,6 +24,8 @@ RUN mkdir SolARServiceMappingAndRelocalizationFrontend
 ## Libraries and modules
 RUN mkdir SolARServiceMappingAndRelocalizationFrontend/modules
 ADD modules/* /SolARServiceMappingAndRelocalizationFrontend/modules/
+ADD modules_common/* /SolARServiceMappingAndRelocalizationFrontend/modules/
+ADD modules_no_cuda/* /SolARServiceMappingAndRelocalizationFrontend/modules/
 
 ## Project files
 ADD SolARService_MappingAndRelocalizationFrontend /SolARServiceMappingAndRelocalizationFrontend/
@@ -54,6 +56,8 @@ ENV RELOCALIZATION_SERVICE_URL=relocalization-service
 ENV RELOCALIZATION_MARKERS_SERVICE_URL=relocalization-markers-service
 ## Set url to Mapping Service
 ENV MAPPING_SERVICE_URL=mapping-service
+## Set url to Mapping Service
+ENV MAPPING_STEREO_SERVICE_URL=mapping-stereo-service
 
 ## Set application log level
 ## Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING

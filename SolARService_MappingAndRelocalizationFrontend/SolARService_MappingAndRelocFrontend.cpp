@@ -85,8 +85,8 @@ int main(int argc, char* argv[])
     fs::path currentPath(boost::filesystem::initial_path().generic_string(utf8));
     configSrc = currentPath.generic_string(utf8);
 
-    cxxopts::Options option_list("SolARService_MappingAndRelocalizationFrontend",
-                                 "SolARService_MappingAndRelocalizationFrontend - The commandline interface to the xpcf grpc server application.\n");
+    cxxopts::Options option_list("SolARService_MappingAndRelocFrontend",
+                                 "SolARService_MappingAndRelocFrontend - The commandline interface to the xpcf grpc server application.\n");
     option_list.add_options()
             ("h,help", "display this help and exit")
             ("v,version", "display version information and exit")
@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
     }
     else if (options.count("version"))
     {
-        std::cout << "SolARService_MappingAndRelocalizationFrontend version " << MYVERSION << std::endl << std::endl;
+        std::cout << "SolARService_MappingAndRelocFrontend version " << MYVERSION << std::endl << std::endl;
         return 0;
     }
     else if ((!options.count("modules") || options["modules"].as<std::string>().empty())

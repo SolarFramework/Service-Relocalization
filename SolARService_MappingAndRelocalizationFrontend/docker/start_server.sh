@@ -22,7 +22,7 @@ fi
 
 echo "Try to replace the Map Update Service URL in the XML configuration file..."
 
-sed -i -e "s/MAPUPDATE_SERVICE_URL/$MAPUPDATE_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+sed -i -e "s/MAPUPDATE_SERVICE_URL/$MAPUPDATE_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
 
 ## Detect RELOCALIZATION_SERVICE_URL var and use its value
 ## to set the Relocalization service URL in XML configuration file
@@ -46,7 +46,7 @@ fi
 
 echo "Try to replace the Relocalization Service URL in the XML configuration file..."
 
-sed -i -e "s/RELOCALIZATION_SERVICE_URL/$RELOCALIZATION_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+sed -i -e "s/RELOCALIZATION_SERVICE_URL/$RELOCALIZATION_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
 
 ## Detect RELOCALIZATION_MARKERS_SERVICE_URL var and use its value
 ## to set the Relocalization Markers service URL in XML configuration file
@@ -70,7 +70,7 @@ fi
 
 echo "Try to replace the Relocalization Markers Service URL in the XML configuration file..."
 
-sed -i -e "s/RELOCALIZATION_MARKERS_SERVICE_URL/$RELOCALIZATION_MARKERS_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+sed -i -e "s/RELOCALIZATION_MARKERS_SERVICE_URL/$RELOCALIZATION_MARKERS_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
 
 ## Detect MAPPING_SERVICE_URL var and use its value
 ## to set the Mapping service URL in XML configuration file
@@ -94,13 +94,13 @@ fi
 
 echo "Try to replace the Mapping Service URL in the XML configuration file..."
 
-sed -i -e "s/MAPPING_SERVICE_URL/$MAPPING_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+sed -i -e "s/MAPPING_SERVICE_URL/$MAPPING_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
 
 echo "XML configuration file ready"
 
-export LD_LIBRARY_PATH=/SolARServiceMappingAndRelocalizationFrontend:/SolARServiceMappingAndRelocalizationFrontend/modules/
+export LD_LIBRARY_PATH=/SolARServiceMappingAndRelocFrontend:/SolARServiceMappingAndRelocFrontend/modules/
 
-cd /SolARServiceMappingAndRelocalizationFrontend
+cd /SolARServiceMappingAndRelocFrontend
 
 ## Start Envoy
 if echo $DISPLAY_LOG | grep -q "ENVOY"
@@ -108,7 +108,7 @@ then
 	echo "Display envoy logs"
 	envoy -c envoy_config.yaml &
         ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >/dev/null &
-        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >/dev/null
+        ./SolARService_MappingAndRelocFrontend -m /.xpcf/SolARService_MappingAndRelocFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml >/dev/null
         exit 0
 fi
 
@@ -118,7 +118,7 @@ then
 	echo "Display proxy logs"
         envoy -c envoy_config.yaml >/dev/null 2>&1 &
         ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
-        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml >/dev/null
+        ./SolARService_MappingAndRelocFrontend -m /.xpcf/SolARService_MappingAndRelocFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml >/dev/null
         exit 0
 fi
 
@@ -128,12 +128,12 @@ then
 	echo "Display frontend logs"
         envoy -c envoy_config.yaml >/dev/null 2>&1 &
         ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml >/dev/null &
-        ./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+        ./SolARService_MappingAndRelocFrontend -m /.xpcf/SolARService_MappingAndRelocFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
         exit 0
 fi
 
 echo "Display all logs"
 envoy -c envoy_config.yaml &
 ./SolARService_MappingAndRelocalizationProxy -f /.xpcf/SolARService_MappingAndRelocalizationProxy_conf.xml &
-./SolARService_MappingAndRelocalizationFrontend -m /.xpcf/SolARService_MappingAndRelocalizationFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+./SolARService_MappingAndRelocFrontend -m /.xpcf/SolARService_MappingAndRelocFrontend_modules.xml -p /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
 

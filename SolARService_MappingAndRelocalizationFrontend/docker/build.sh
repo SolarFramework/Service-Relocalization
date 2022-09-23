@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t artwin/solar/services/mappingandrelocalizationfrontend-service -f SolARServiceMappingAndRelocalizationFrontend.dockerfile ..
+docker build -t artwin/solar/services/mappingandrelocfrontend-service -f SolARServiceMappingAndRelocFrontend.dockerfile ..

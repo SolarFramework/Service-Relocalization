@@ -5,7 +5,7 @@ CONFIG -= qt
 QMAKE_PROJECT_DEPTH = 0
 
 ## global defintions : target lib name, version
-TARGET = SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer
+TARGET = SolARServiceTest_MappingAndRelocFrontend
 VERSION=1.0.0
 PROJECTDEPLOYDIR = $${PWD}/../../..
 
@@ -39,7 +39,7 @@ PROJECTCONFIG = QTVS
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/templateappconfig.pri)))  # Shell_quote & shell_path required for visual on windows
 
 SOURCES += \
-    SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer.cpp
+    SolARServiceTest_MappingAndRelocFrontend.cpp
 
 unix {
     LIBS += -ldl
@@ -88,17 +88,17 @@ linux {
 }
 
 DISTFILES += \
-    SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer_conf.xml \
+    SolARServiceTest_MappingAndRelocFrontend_conf.xml \
+    docker/SolARServiceMappingAndRelocFrontendClt.dockerfile \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
     docker/launch_vm.sh \
-    docker/SolARServiceFrontEndRelocViewer.dockerfile \
     docker/start_client.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  $$files($${PWD}/SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer_conf.xml)
+xml_files.files =  $$files($${PWD}/SolARServiceTest_MappingAndRelocFrontend_conf.xml)
 
 INSTALLS += xml_files
 

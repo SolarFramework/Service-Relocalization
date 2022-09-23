@@ -24,6 +24,7 @@
             <property name="coordinateFileName" type="string" value="coordinate.bin"/>
             <property name="pointCloudManagerFileName" type="string" value="pointcloud.bin"/>
             <property name="keyframesManagerFileName" type="string" value="keyframes.bin"/>
+            <property name="cameraParametersManagerFileName" type="string" value="cameraParameters.bin"/>
             <property name="covisibilityGraphFileName" type="string" value="covisibility_graph.bin"/>
             <property name="keyframeRetrieverFileName" type="string" value="keyframe_retriever.bin"/>
             <property name="reprojErrorThreshold" type="float" value="10.0"/>

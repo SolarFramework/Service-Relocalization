@@ -5,7 +5,7 @@ CONFIG -= qt
 QMAKE_PROJECT_DEPTH = 0
 
 ## global defintions : target lib name, version
-TARGET = SolARService_MappingAndRelocalizationFrontend
+TARGET = SolARService_MappingAndRelocFrontend
 VERSION=1.0.0
 PROJECTDEPLOYDIR = $${PWD}/..
 
@@ -43,7 +43,7 @@ HEADERS += \
 
 SOURCES += \
     GrpcServerManager.cpp\
-    SolARService_MappingAndRelocalizationFrontend.cpp
+    SolARService_MappingAndRelocFrontend.cpp
 
 unix {
     LIBS += -ldl
@@ -82,33 +82,33 @@ win32 {
 
 linux {
     run_install.path = $${TARGETDEPLOYDIR}
-    run_install.files = $${PWD}/start_mappingandrelocalizationfrontend_service.sh
+    run_install.files = $${PWD}/start_mappingandrelocfrontend_service.sh
     CONFIG(release,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_release.sh) $${PWD}/start_mappingandrelocalizationfrontend_service.sh
+        run_install.extra = cp $$files($${PWD}/start_mappingandrelocfrontend_service_release.sh) $${PWD}/start_mappingandrelocfrontend_service.sh
     }
     CONFIG(debug,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_debug.sh) $${PWD}/start_mappingandrelocalizationfrontend_service.sh
+        run_install.extra = cp $$files($${PWD}/start_mappingandrelocfrontend_service_debug.sh) $${PWD}/start_mappingandrelocfrontend_service.sh
     }
     run_install.CONFIG += nostrip
     INSTALLS += run_install
 
     run_install_cuda.path = $${TARGETDEPLOYDIR}
-    run_install_cuda.files = $${PWD}/start_mappingandrelocalizationfrontend_service_cuda.sh
+    run_install_cuda.files = $${PWD}/start_mappingandrelocfrontend_service_cuda.sh
     CONFIG(release,debug|release) {
-        run_install_cuda.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_release_cuda.sh) $${PWD}/start_mappingandrelocalizationfrontend_service_cuda.sh
+        run_install_cuda.extra = cp $$files($${PWD}/start_mappingandrelocfrontend_service_release_cuda.sh) $${PWD}/start_mappingandrelocfrontend_service_cuda.sh
     }
     CONFIG(debug,debug|release) {
-        run_install_cuda.extra = cp $$files($${PWD}/start_mappingandrelocalizationfrontend_service_debug_cuda.sh) $${PWD}/start_mappingandrelocalizationfrontend_service_cuda.sh
+        run_install_cuda.extra = cp $$files($${PWD}/start_mappingandrelocfrontend_service_debug_cuda.sh) $${PWD}/start_mappingandrelocfrontend_service_cuda.sh
     }
     run_install_cuda.CONFIG += nostrip
     INSTALLS += run_install_cuda
 }
 
 DISTFILES += \
-    SolARService_MappingAndRelocalizationFrontend_modules.xml \
-    SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml \
-    SolARService_MappingAndRelocalizationFrontend_properties.xml \
-    SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml \
+    SolARService_MappingAndRelocFrontend_modules.xml \
+    SolARService_MappingAndRelocFrontend_modules_cuda.xml \
+    SolARService_MappingAndRelocFrontend_properties.xml \
+    SolARService_MappingAndRelocFrontend_properties_cuda.xml \
     docker/launch.bat \
     docker/launch_cuda.bat \
     docker/launch_cuda.sh \
@@ -117,19 +117,19 @@ DISTFILES += \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/mappingandrelocalizationfrontend-service-manifest.yaml \
-    docker/SolARServiceMappingAndRelocalizationFrontend.dockerfile \
+    docker/mappingandrelocfrontend-service-manifest.yaml \
+    docker/SolARServiceMappingAndRelocFrontend.dockerfile \
     docker/start_server.sh \
-    start_mappingandrelocalizationfrontend_service_debug.sh \
-    start_mappingandrelocalizationfrontend_service_debug_cuda.sh \
-    start_mappingandrelocalizationfrontend_service_release.sh \
-    start_mappingandrelocalizationfrontend_service_release_cuda.sh
+    start_mappingandrelocfrontend_service_debug.sh \
+    start_mappingandrelocfrontend_service_debug_cuda.sh \
+    start_mappingandrelocfrontend_service_release.sh \
+    start_mappingandrelocfrontend_service_release_cuda.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_modules.xml) \
-                   $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_properties.xml) \
-                   $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml) \
-                   $$files($${PWD}/SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml)
+xml_files.files =  $$files($${PWD}/SolARService_MappingAndRelocFrontend_modules.xml) \
+                   $$files($${PWD}/SolARService_MappingAndRelocFrontend_properties.xml) \
+                   $$files($${PWD}/SolARService_MappingAndRelocFrontend_modules_cuda.xml) \
+                   $$files($${PWD}/SolARService_MappingAndRelocFrontend_properties_cuda.xml)
 
 INSTALLS += xml_files
 

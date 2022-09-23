@@ -11,16 +11,16 @@ RUN apt-get install -y libvdpau-dev
 RUN apt-get install -y xterm
 RUN useradd -ms /bin/bash xterm
 
-## Copy SolARServiceMappingAndRelocalizationFrontendRelocViewer app files
-RUN mkdir SolARServiceMappingAndRelocalizationFrontendRelocViewer
+## Copy SolARServiceMappingAndRelocFrontendViewer app files
+RUN mkdir SolARServiceMappingAndRelocFrontendViewer
 
 ## Libraries and modules
-RUN mkdir SolARServiceMappingAndRelocalizationFrontendRelocViewer/modules
-ADD modules/* /SolARServiceMappingAndRelocalizationFrontendRelocViewer/modules/
+RUN mkdir SolARServiceMappingAndRelocFrontendViewer/modules
+ADD modules/* /SolARServiceMappingAndRelocFrontendViewer/modules/
 
 ## Project files
-ADD SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer /SolARServiceMappingAndRelocalizationFrontendRelocViewer/
-RUN chmod +x /SolARServiceMappingAndRelocalizationFrontendRelocViewer/SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer
+ADD SolARServiceTest_MappingAndRelocFrontend_Viewer /SolARServiceMappingAndRelocFrontendViewer/
+RUN chmod +x /SolARServiceMappingAndRelocFrontendViewer/SolARServiceTest_MappingAndRelocFrontend_Viewer
 RUN mkdir .xpcf
 ADD *.xml /.xpcf/
 ADD docker/start_client.sh .

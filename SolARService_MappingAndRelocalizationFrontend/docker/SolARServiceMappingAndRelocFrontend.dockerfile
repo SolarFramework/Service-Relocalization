@@ -18,26 +18,26 @@ RUN apt-get install -y getenvoy-envoy
 
 ## Front End part
 
-## Copy SolARServiceMappingAndRelocalizationFrontend app files
-RUN mkdir SolARServiceMappingAndRelocalizationFrontend
+## Copy SolARServiceMappingAndRelocFrontend app files
+RUN mkdir SolARServiceMappingAndRelocFrontend
 
 ## Libraries and modules
-RUN mkdir SolARServiceMappingAndRelocalizationFrontend/modules
-ADD modules/* /SolARServiceMappingAndRelocalizationFrontend/modules/
+RUN mkdir SolARServiceMappingAndRelocFrontend/modules
+ADD modules/* /SolARServiceMappingAndRelocFrontend/modules/
 
 ## Project files
-ADD SolARService_MappingAndRelocalizationFrontend /SolARServiceMappingAndRelocalizationFrontend/
-RUN chmod +x /SolARServiceMappingAndRelocalizationFrontend/SolARService_MappingAndRelocalizationFrontend
+ADD SolARService_MappingAndRelocFrontend /SolARServiceMappingAndRelocFrontend/
+RUN chmod +x /SolARServiceMappingAndRelocFrontend/SolARService_MappingAndRelocFrontend
 RUN mkdir .xpcf
 ADD *.xml /.xpcf/
 ADD docker/start_server.sh .
 RUN chmod +x start_server.sh
 
 ## Proxy part
-ADD SolARService_MappingAndRelocalizationProxy /SolARServiceMappingAndRelocalizationFrontend/
-RUN chmod +x /SolARServiceMappingAndRelocalizationFrontend/SolARService_MappingAndRelocalizationProxy
+ADD SolARService_MappingAndRelocalizationProxy /SolARServiceMappingAndRelocFrontend/
+RUN chmod +x /SolARServiceMappingAndRelocFrontend/SolARService_MappingAndRelocalizationProxy
 ## Envoy configuration files
-ADD envoy_config.yaml /SolARServiceMappingAndRelocalizationFrontend/
+ADD envoy_config.yaml /SolARServiceMappingAndRelocFrontend/
 
 ## Set application gRPC server url
 ENV XPCF_GRPC_SERVER_URL=0.0.0.0:8080

@@ -86,6 +86,10 @@ linux {
 DISTFILES += \
     SolARService_MappingAndRelocalizationProxy_conf.xml \
     SolARService_MappingAndRelocalizationProxy_conf_cuda.xml \
+    grpc/envoy_config.yaml \
+    grpc/generate.sh \
+    grpc/sensor_data_sender.proto \
+    grpc/solar_mapping_and_relocalization_proxy.proto \
     packagedependencies-linux.txt \
     packagedependencies-win.txt \
     packagedependencies-android.txt \

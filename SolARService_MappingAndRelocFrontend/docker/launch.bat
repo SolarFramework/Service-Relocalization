@@ -32,6 +32,14 @@ IF "%4"=="" (
     ECHO Mapping Service URL = %4
 )
 
+REM Get Mapping Stereo Service URL from parameters
+IF "%5"=="" (
+    ECHO You need to give Mapping Stereo Service URL as 5th parameter (or a fake URL if no stereo service is available)!
+    GOTO end
+) ELSE (
+    ECHO Mapping Service URL = %5
+)
+
 REM Set Map Update Service URL
 SET MAPUPDATE_SERVICE_URL=%1
 
@@ -44,6 +52,9 @@ SET RELOCALIZATION_MARKERS_SERVICE_URL=%3
 REM Set Mapping Service URL
 SET MAPPING_SERVICE_URL=%4
 
+REM Set Mapping Stereo Service URL
+SET MAPPING_STEREO_SERVICE_URL=%5
+
 REM Get output logs to display (if specified)
 IF "%5"=="" (
         ECHO You can specify the logs to display on console using ENVOY/PROXY/FRONTEND as 5th parameter (all logs by default)
@@ -52,7 +63,6 @@ IF "%5"=="" (
         ECHO Logs to display = %5
         SET DISPLAY_LOG=%5
 )
-
 
 REM Set application log level
 REM Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING

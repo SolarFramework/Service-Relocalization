@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +17,7 @@ spec:
       - name: regcredsupra
       containers:
       - name: mappingandrelocfrontend-service
-        image: solar-docker-local.artifact.b-com.com/relocalization/0.10.0/mappingandrelocfrontend-service:latest
+        image: solar-docker-local.artifact.b-com.com/relocalization/1.0.0/mappingandrelocfrontend-service:latest
         env:
         - name: SOLAR_LOG_LEVEL
           value: INFO
@@ -28,6 +29,8 @@ spec:
           value: relocalization-service:80
         - name: MAPPING_SERVICE_URL
           value: mapping-service:80
+        - name: MAPPING_STEREO_SERVICE_URL
+          value: mapping-stereo-service:80
 ---
 
 kind: Service
@@ -98,3 +101,4 @@ spec:
               number: 80
         path: /
         pathType: Prefix
+SolARService_MappingAndRelocalizationFrontend/docker/mappingandrelocfrontend-service-manifest.yaml

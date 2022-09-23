@@ -96,6 +96,30 @@ echo "Try to replace the Mapping Service URL in the XML configuration file..."
 
 sed -i -e "s/MAPPING_SERVICE_URL/$MAPPING_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
 
+## Detect MAPPING_STEREO_SERVICE_URL var and use its value
+## to set the Mapping Stereo service URL in XML configuration file
+
+if [ -z "$MAPPING_STEREO_SERVICE_URL" ]
+then
+    echo "Error: You must define MAPPING_STEREO_SERVICE_URL env var with the Mapping Stereo Service URL"
+    exit 1
+else
+    ## Detect port in service URL
+    if echo "$MAPPING_STEREO_SERVICE_URL" | grep -q ":"
+    then
+        echo "Port is defined in Mapping Stereo service URL"
+    else
+        echo "No port set in Mapping Stereo service URL: add port 80 (default)"
+        export MAPPING_STEREO_SERVICE_URL="${MAPPING_STEREO_SERVICE_URL}:80"
+    fi
+
+    echo "MAPPING_STEREO_SERVICE_URL defined: $MAPPING_STEREO_SERVICE_URL"
+fi
+
+echo "Try to replace the Mapping Stereo Service URL in the XML configuration file..."
+
+sed -i -e "s/MAPPING_STEREO_SERVICE_URL/$MAPPING_STEREO_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+
 echo "XML configuration file ready"
 
 export LD_LIBRARY_PATH=/SolARServiceMappingAndRelocFrontend:/SolARServiceMappingAndRelocFrontend/modules/

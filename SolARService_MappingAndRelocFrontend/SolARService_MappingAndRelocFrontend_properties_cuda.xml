@@ -13,24 +13,28 @@
     -->
     <!-- gRPC proxy configuration-->
     <configure component="IMapUpdatePipeline_grpcProxy">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50053"/>
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60053"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
-    <configure component="IMappingPipeline_grpcProxy">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50051"/>
+    <configure component="IMappingPipeline_grpcProxy" name="MappingProperties">
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60051"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
-    <configure component="IRelocalizationPipeline_grpcProxy" name="MapProperties">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50052"/>
+    <configure component="IMappingPipeline_grpcProxy" name="StereoMappingProperties">
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60054"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
-    <configure component="IRelocalizationPipeline_grpcProxy" name="MarkerProperties">
+    <configure component="IRelocalizationPipeline_grpcProxy" name="RelocalizationMapProperties">
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60052"/>
+        <property name="channelCredentials" access="rw" type="uint" value="0"/>
+    </configure>
+    <configure component="IRelocalizationPipeline_grpcProxy" name="RelocalizationMarkersProperties">
         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50050"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 
     <configure component="SolARMappingAndRelocalizationFrontendPipeline">
-        <property name="nbSecondsBetweenRequest" access="rw" type="uint" value="30"/>
+        <property name="nbSecondsBetweenRequest" access="rw" type="uint" value="20"/>
         <property name="nbRelocRequest" access="rw" type="uint" value="3"/>
     </configure>
 </properties>

@@ -39,7 +39,7 @@ PROJECTCONFIG = QTVS
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/templateappconfig.pri)))  # Shell_quote & shell_path required for visual on windows
 
 SOURCES += \
-    SolARServiceTest_MappingAndRelocFrontend_Viewer.cpp
+    main.cpp
 
 unix {
     LIBS += -ldl

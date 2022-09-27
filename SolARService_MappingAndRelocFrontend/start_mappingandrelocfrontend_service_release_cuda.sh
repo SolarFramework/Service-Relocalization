@@ -19,7 +19,7 @@ export SOLAR_LOG_LEVEL=INFO
 # include dependencies path to ld_library_path
 ld_library_path="./"
 
-for modulePath in $(grep -o "\$XPCF_MODULE_ROOT.*lib" SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml)
+for modulePath in $(grep -o "\$XPCF_MODULE_ROOT.*lib" SolARService_MappingAndRelocFrontend_modules_cuda.xml)
 do
    modulePath=${modulePath/"\$XPCF_MODULE_ROOT"/${XPCF_MODULE_ROOT}}
    if ! [[ $ld_library_path =~ "$modulePath/x86_64/shared/release" ]]
@@ -30,5 +30,5 @@ done
 
 echo LD_LIBRARY_PATH $ld_library_path
 
-LD_LIBRARY_PATH=$ld_library_path ./SolARService_MappingAndRelocalizationFrontend -m SolARService_MappingAndRelocalizationFrontend_modules_cuda.xml -p SolARService_MappingAndRelocalizationFrontend_properties_cuda.xml $@
+LD_LIBRARY_PATH=$ld_library_path ./SolARService_MappingAndRelocFrontend -m SolARService_MappingAndRelocFrontend_modules_cuda.xml -p SolARService_MappingAndRelocFrontend_properties_cuda.xml $@
 

@@ -394,7 +394,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
     if (!m_started) {
         LOG_INFO("Proxy is not started");
-        return Status::OK;
+        return gRpcError("Error: proxy is not started");
     }
 
     // Display images if specified
@@ -429,7 +429,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         else {
             LOG_WARNING("Only 1 image received in stereo mode: drop image");
             m_images_vector_mutex.unlock();
-            return Status::OK;
+            return gRpcError("Only 1 image received in stereo mode: drop image", grpc::StatusCode::OK);
         }
     }
     else if ((request->frames_size() == 2) && (m_cameraMode != CAMERA_STEREO)) {
@@ -445,7 +445,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     else if ((request->frames_size() == 0) || (request->frames_size() > 2)) {
         LOG_ERROR("Unexpected number of images: {}", request->frames_size());
         m_images_vector_mutex.unlock();
-        return Status::CANCELLED;
+        return gRpcError("Unexpected number of images", grpc::StatusCode::CANCELLED);
     }
 
     m_images_vector_mutex.unlock();
@@ -459,7 +459,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
     // Drop image if too old (older than last processed image)
     if (timestamp < m_last_image_timestamp) {
         LOG_INFO("Image too old: drop it!");
-        return Status::OK;
+        return gRpcError("Image too old: drop it!", grpc::StatusCode::OK);
     }
 
     // Get data from request
@@ -471,7 +471,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
         if (!status.ok())
         {
             LOG_ERROR("Error while converting received image 1 to SolAR datastructure");
-            return status;
+            return gRpcError("Error while converting received image 1 to SolAR datastructure", status.error_code());
         }
     }
     else if (m_cameraMode == CAMERA_STEREO) {
@@ -484,7 +484,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                 if (!status.ok())
                 {
                     LOG_ERROR("Error while converting received image 1 to SolAR datastructure");
-                    return status;
+                    return gRpcError("Error while converting received image 1 to SolAR datastructure", status.error_code());
                 }
             }
             else if (request->frames(i).sensor_id() == 1) {
@@ -493,7 +493,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                 if (!status.ok())
                 {
                     LOG_ERROR("Error while converting received image 2 to SolAR datastructure");
-                    return status;
+                    return gRpcError("Error while converting received image 2 to SolAR datastructure", status.error_code());
                 }
                 // Rotate image from camera right front 180 degrees
                 image2->rotate180();
@@ -502,7 +502,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
         if ((image1 == nullptr) || (image2 == nullptr)) {
             LOG_ERROR("Error: can not found left and/or right image for stereo processing");
-            return Status::CANCELLED;
+            return gRpcError("Error: can not found left and/or right image for stereo processing", grpc::StatusCode::CANCELLED);
         }
     }
 
@@ -580,7 +580,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             if (!status.ok())
             {
                 LOG_ERROR("RelocalizeAndMap(): error while converting received image to SolAR datastructure");
-                return status;
+                return gRpcError("RelocalizeAndMap(): error while converting received image to SolAR datastructure", status.error_code());
             }
 
             MappingStatus gRpcMappingStatus;
@@ -588,7 +588,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
             if (!status.ok())
             {
                 LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
-                return status;
+                return gRpcError("RelocalizeAndMap(): error while converting received image to SolAR datastructure", status.error_code());
             }
 
             response->set_confidence(confidence);

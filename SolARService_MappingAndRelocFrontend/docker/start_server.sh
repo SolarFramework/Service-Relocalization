@@ -118,7 +118,7 @@ fi
 
 echo "Try to replace the Mapping Stereo Service URL in the XML configuration file..."
 
-sed -i -e "s/MAPPING_STEREO_SERVICE_URL/$MAPPING_STEREO_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocalizationFrontend_properties.xml
+sed -i -e "s/MAPPING_STEREO_SERVICE_URL/$MAPPING_STEREO_SERVICE_URL/g" /.xpcf/SolARService_MappingAndRelocFrontend_properties.xml
 
 echo "XML configuration file ready"
 

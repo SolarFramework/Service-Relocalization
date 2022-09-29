@@ -26,7 +26,6 @@ RUN mkdir SolARServiceMappingAndRelocFrontend/modules
 ADD modules/* /SolARServiceMappingAndRelocFrontend/modules/
 ADD modules_common/* /SolARServiceMappingAndRelocFrontend/modules/
 ADD modules_no_cuda/* /SolARServiceMappingAndRelocFrontend/modules/
-origin/develop:SolARService_MappingAndRelocalizationFrontend/docker/SolARServiceMappingAndRelocFrontend.dockerfile
 
 ## Project files
 ADD SolARService_MappingAndRelocFrontend /SolARServiceMappingAndRelocFrontend/

@@ -816,7 +816,7 @@ RelocalizationAndMappingGrpcServiceImpl::toSolAR(const Matrix4x4& gRpcPose)
     solARPose(3,2) = gRpcPose.m43();
     solARPose(3,3) = gRpcPose.m44();
 
-    LOG_DEBUG("==> Hololens pose = {}", solARPose.matrix());
+    LOG_DEBUG("==> Client pose = {}", solARPose.matrix());
     return solARPose;
 }
 

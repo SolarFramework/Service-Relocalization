@@ -7,7 +7,7 @@ QMAKE_PROJECT_DEPTH = 0
 ## global defintions : target lib name, version
 TARGET = SolARService_MappingAndRelocalizationFrontend
 VERSION=0.11.0
-PROJECTDEPLOYDIR = $${PWD}/..
+PROJECTDEPLOYDIR = $${PWD}/../deploy
 
 CONFIG += c++1z
 CONFIG += console

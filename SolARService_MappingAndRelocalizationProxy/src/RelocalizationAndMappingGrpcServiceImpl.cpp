@@ -104,7 +104,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
         SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
         std::string saveFolder,
-        u_int8_t display_images,
+        uint8_t display_images,
         SRef<SolAR::api::display::IImageViewer> image_viewer_left,
         SRef<SolAR::api::display::IImageViewer> image_viewer_right):
             m_pipeline{ pipeline }, m_file_path { saveFolder }, m_display_images { display_images },
@@ -816,7 +816,7 @@ RelocalizationAndMappingGrpcServiceImpl::toSolAR(const Matrix4x4& gRpcPose)
     solARPose(3,2) = gRpcPose.m43();
     solARPose(3,3) = gRpcPose.m44();
 
-    LOG_DEBUG("==> Hololens pose = {}", solARPose.matrix());
+    LOG_DEBUG("==> Client pose = {}", solARPose.matrix());
     return solARPose;
 }
 

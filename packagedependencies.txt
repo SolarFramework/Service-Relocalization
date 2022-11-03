@@ -1,6 +1,2 @@
-SolARModuleOpenCV|1.0.0|SolARModuleOpenCV|SolARBuild@github|https://github.com/SolarFramework/SolarModuleOpenCV/releases/download
-SolARModuleOpenGL|1.0.0|SolARModuleOpenGL|SolARBuild@github|https://github.com/SolarFramework/SolarModuleOpenGL/releases/download
-SolARModuleTools|1.0.0|SolARModuleTools|SolARBuild@github|https://github.com/SolarFramework/SolARModuleTools/releases/download
-SolARModuleFBOW|1.0.0|SolARModuleFBOW|SolARBuild@github|https://github.com/SolarFramework/SolARModuleFBOW/releases/download
-SolARPipelineRelocalization|1.0.0|SolARPipelineRelocalization|SolARBuild@github|https://github.com/SolarFramework/Sample-Relocalization/releases/download
-SolARPipelineMappingAndRelocalizationFrontend|1.0.0|SolARPipelineMappingAndRelocalizationFrontend|SolARBuild@github|https://github.com/SolarFramework/Sample-Relocalization/releases/download
+SolARFramework|1.0.0|SolARFramework|SolARBuild@github|https://github.com/SolarFramework/SolarFramework/releases/download|shared|
+cxxopts|3.0.0|cxxopts|conan|conan-center|na|

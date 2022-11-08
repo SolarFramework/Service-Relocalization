@@ -301,9 +301,9 @@ int main(int argc, char* argv[])
                     LOG_INFO("End of test");
 
                     exit(0);
+
                 }
             }
-
         }
         else {
             LOG_INFO("Cannot start AR device loader");

@@ -39,7 +39,12 @@
                 <configure component="IAsyncRelocalizationPipeline_grpcProxy">
                         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50055"/>
                         <property name="channelCredentials" access="rw" type="uint" value="0"/>
+                        <property name="grpc_compress_proxy" type="string">
+                          <value>method|getMapRequest|deflate|0</value>
+                          <value>method|getPointCloudRequest|deflate|0</value>
+                        </property>
                 </configure>
+
                 <!-- Remote client configuration-->
                 <configure component="SolARDeviceDataLoader">
                         <property name="calibrationFile" type="string" value="../../../../../data/data_hololens/hololens_calibration_siemens.json"/>

@@ -29,6 +29,7 @@
 #include "api/input/devices/IARDevice.h"
 #include "api/display/IImageViewer.h"
 #include "api/display/I3DOverlay.h"
+#include "api/display/I3DPointsViewer.h"
 
 using namespace std;
 using namespace SolAR;
@@ -273,6 +274,24 @@ int main(int argc, char* argv[])
                 }
                 else {
                     LOG_INFO("No more images to send");
+
+                    SRef<PointCloud> pointCloud;
+
+                    // Get global point cloud
+                    if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(pointCloud) == FrameworkReturnCode::_SUCCESS) {
+                        std::vector<SRef<CloudPoint>> globalPointCloud;
+                        pointCloud->getAllPoints(globalPointCloud);
+
+                        auto gViewer3D = componentMgr->resolve<display::I3DPointsViewer>();
+
+                        LOG_INFO("==> Display current global point cloud: press ESC on the display window to end test");
+
+                        while (true)
+                        {
+                            if (gViewer3D->display(globalPointCloud, {}, {}, {}, {}, {}) == FrameworkReturnCode::_STOP)
+                                break;
+                        }
+                    }
 
                     LOG_INFO("Stop relocalization and mapping front end service");
 

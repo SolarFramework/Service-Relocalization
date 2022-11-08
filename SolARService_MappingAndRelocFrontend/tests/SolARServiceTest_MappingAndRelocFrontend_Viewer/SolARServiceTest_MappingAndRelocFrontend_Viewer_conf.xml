@@ -34,7 +34,6 @@
         <!-- gRPC proxy configuration-->
         <configure component="IMapUpdatePipeline_grpcProxy">
             <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50053"/>
-            <!--property name="channelUrl" access="rw" type="string" value="mapupdate-service.artwin.b-com.com:31888"/-->
             <property name="channelCredentials" access="rw" type="uint" value="0"/>
         </configure>
         <configure component="IAsyncRelocalizationPipeline_grpcProxy">

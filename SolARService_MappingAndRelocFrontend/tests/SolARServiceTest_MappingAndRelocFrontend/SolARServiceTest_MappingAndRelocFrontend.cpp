@@ -212,13 +212,20 @@ int main(int argc, char* argv[])
 
             LOG_INFO("Set camera paremeters for the service");
 
-            if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams) != FrameworkReturnCode::_SUCCESS) {
-                LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
-                return -1;
+            if (INDEX_USE_CAMERA.size() == 1) {
+                // Mono camera mode
+                if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams) != FrameworkReturnCode::_SUCCESS) {
+                    LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
+                    return -1;
+                }
             }
-
-            // for stereo mode
-            if (INDEX_USE_CAMERA.size() == 2) {
+            else if (INDEX_USE_CAMERA.size() == 2) {
+                // Stereo camera mode
+                CameraParameters camParams2 = camRigParams.cameraParams[INDEX_USE_CAMERA[1]];
+                if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams, camParams2) != FrameworkReturnCode::_SUCCESS) {
+                    LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
+                    return -1;
+                }
                 RectificationParameters rectParams1 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].first;
                 RectificationParameters rectParams2 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].second;
                 if (gRelocalizationAndMappingFrontendService->setRectificationParameters(rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {

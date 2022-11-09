@@ -44,6 +44,9 @@ const std::vector<int> INDEX_USE_CAMERA{1, 2};
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
+SRef<display::I3DPointsViewer> gViewer3D = 0;
+
+bool gDisplayPointCloud = false;
 
 // print help options
 void print_help(const cxxopts::Options& options)
@@ -57,6 +60,31 @@ void print_error(const string& msg)
     cerr << msg << '\n';
 }
 
+static void displayPointCloud()
+{
+    SRef<PointCloud> pointCloud;
+
+    // Get global point cloud
+    if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(pointCloud) == FrameworkReturnCode::_SUCCESS) {
+        std::vector<SRef<CloudPoint>> globalPointCloud;
+        pointCloud->getAllPoints(globalPointCloud);
+
+        if (globalPointCloud.size() > 0) {
+
+            LOG_INFO("==> Display current global point cloud: press ESC on the display window to end test");
+
+            while (true)
+            {
+                if (gViewer3D->display(globalPointCloud, {}, {}, {}, {}, {}) == FrameworkReturnCode::_STOP)
+                    break;
+            }
+        }
+        else {
+            LOG_INFO("The global point cloud is empty!");
+        }
+    }
+}
+
 // Function called when interruption signal is triggered
 static void SigInt(int signo) {
 
@@ -66,6 +94,9 @@ static void SigInt(int signo) {
 
     if (gRelocalizationAndMappingFrontendService != 0)
         gRelocalizationAndMappingFrontendService->stop();
+
+    if (gDisplayPointCloud)
+        displayPointCloud();
 
     LOG_INFO("End of test");
 
@@ -117,6 +148,11 @@ int main(int argc, char* argv[])
             LOG_INFO("Relocalization only option specified");
             relocOnly = true;
         }
+
+        if (options.count("display-point-cloud")) {
+            LOG_INFO("Dispay global point cloud option specified");
+            gDisplayPointCloud = true;
+        }
     }
 
     try {
@@ -164,6 +200,9 @@ int main(int argc, char* argv[])
         imageViewer = componentMgr->resolve<SolAR::api::display::IImageViewer>();
         auto overlay3D = componentMgr->resolve<display::I3DOverlay>();
         LOG_INFO("Remote producer client: AR device component created");
+
+        if (gDisplayPointCloud)
+            gViewer3D = componentMgr->resolve<display::I3DPointsViewer>();
 
         if (arDevice->start() == FrameworkReturnCode::_SUCCESS) {
 
@@ -276,36 +315,13 @@ int main(int argc, char* argv[])
                 else {
                     LOG_INFO("No more images to send");
 
-                    if (options.count("display-point-cloud")) {
-
-                        SRef<PointCloud> pointCloud;
-
-                        // Get global point cloud
-                        if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(pointCloud) == FrameworkReturnCode::_SUCCESS) {
-                            std::vector<SRef<CloudPoint>> globalPointCloud;
-                            pointCloud->getAllPoints(globalPointCloud);
-
-                            if (globalPointCloud.size() > 0) {
-                                auto gViewer3D = componentMgr->resolve<display::I3DPointsViewer>();
-
-                                LOG_INFO("==> Display current global point cloud: press ESC on the display window to end test");
-
-                                while (true)
-                                {
-                                    if (gViewer3D->display(globalPointCloud, {}, {}, {}, {}, {}) == FrameworkReturnCode::_STOP)
-                                        break;
-                                }
-                            }
-                            else {
-                                LOG_INFO("The global point cloud is empty!");
-                            }
-                        }
-                    }
-
                     LOG_INFO("Stop relocalization and mapping front end service");
 
                     if (gRelocalizationAndMappingFrontendService != 0)
                         gRelocalizationAndMappingFrontendService->stop();
+
+                    if (gDisplayPointCloud)
+                        displayPointCloud();
 
                     LOG_INFO("End of test");
 

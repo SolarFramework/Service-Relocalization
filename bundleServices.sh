@@ -18,8 +18,8 @@ echo "**** Bundle dependencies in bin folder"
 for file in $CONFIG_FILES
 do
    echo "install dependencies for config file: $file"
-   remaken bundleXpcf $file -d ./deploy/bin/Release -s modules
-   remaken bundleXpcf $file -d ./deploy/bin/Debug -s modules -c debug
+   remaken bundleXpcf --recurse -d ./deploy/bin/Release -s modules $file
+   remaken bundleXpcf --recurse -d ./deploy/bin/Debug -s modules -c debug $file
 done
 
 zip --symlinks -r "./deploy/${filename}_release.zip" ./deploy/bin/Release ./README.md ./installData.sh ./LICENSE

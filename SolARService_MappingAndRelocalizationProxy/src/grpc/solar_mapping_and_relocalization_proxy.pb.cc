@@ -75,6 +75,33 @@ struct CameraParametersDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CameraParametersDefaultTypeInternal _CameraParameters_default_instance_;
+constexpr CameraParametersStereo::CameraParametersStereo(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : name1_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , name2_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , intrinsics1_(nullptr)
+  , distortion1_(nullptr)
+  , intrinsics2_(nullptr)
+  , distortion2_(nullptr)
+  , id1_(0u)
+  , camera_type1_(0)
+
+  , width1_(0u)
+  , height1_(0u)
+  , id2_(0u)
+  , camera_type2_(0)
+
+  , width2_(0u)
+  , height2_(0u){}
+struct CameraParametersStereoDefaultTypeInternal {
+  constexpr CameraParametersStereoDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~CameraParametersStereoDefaultTypeInternal() {}
+  union {
+    CameraParametersStereo _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CameraParametersStereoDefaultTypeInternal _CameraParametersStereo_default_instance_;
 constexpr CameraDistortion::CameraDistortion(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : k_1_(0)
@@ -248,7 +275,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Matrix3x4DefaultTypeInternal _M
 }  // namespace solar
 }  // namespace bcom
 }  // namespace com
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[13];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[14];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[7];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = nullptr;
 
@@ -282,6 +309,25 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, height_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, intrinsics_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, distortion_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, name1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, id1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, camera_type1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, width1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, height1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, intrinsics1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, distortion1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, name2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, id2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, camera_type2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, width2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, height2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, intrinsics2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, distortion2_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraDistortion, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -397,15 +443,16 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 5, -1, sizeof(::com::bcom::solar::gprc::PipelineModeValue)},
   { 11, -1, sizeof(::com::bcom::solar::gprc::Message)},
   { 17, -1, sizeof(::com::bcom::solar::gprc::CameraParameters)},
-  { 29, -1, sizeof(::com::bcom::solar::gprc::CameraDistortion)},
-  { 39, -1, sizeof(::com::bcom::solar::gprc::RectificationParameters)},
-  { 52, -1, sizeof(::com::bcom::solar::gprc::RelocalizationResult)},
-  { 61, -1, sizeof(::com::bcom::solar::gprc::Image)},
-  { 71, -1, sizeof(::com::bcom::solar::gprc::Frames)},
-  { 77, -1, sizeof(::com::bcom::solar::gprc::Frame)},
-  { 86, -1, sizeof(::com::bcom::solar::gprc::Matrix4x4)},
-  { 107, -1, sizeof(::com::bcom::solar::gprc::Matrix3x3)},
-  { 121, -1, sizeof(::com::bcom::solar::gprc::Matrix3x4)},
+  { 29, -1, sizeof(::com::bcom::solar::gprc::CameraParametersStereo)},
+  { 48, -1, sizeof(::com::bcom::solar::gprc::CameraDistortion)},
+  { 58, -1, sizeof(::com::bcom::solar::gprc::RectificationParameters)},
+  { 71, -1, sizeof(::com::bcom::solar::gprc::RelocalizationResult)},
+  { 80, -1, sizeof(::com::bcom::solar::gprc::Image)},
+  { 90, -1, sizeof(::com::bcom::solar::gprc::Frames)},
+  { 96, -1, sizeof(::com::bcom::solar::gprc::Frame)},
+  { 105, -1, sizeof(::com::bcom::solar::gprc::Matrix4x4)},
+  { 126, -1, sizeof(::com::bcom::solar::gprc::Matrix3x3)},
+  { 140, -1, sizeof(::com::bcom::solar::gprc::Matrix3x4)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -413,6 +460,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_PipelineModeValue_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Message_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraParameters_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraParametersStereo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraDistortion_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_RectificationParameters_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_RelocalizationResult_default_instance_),
@@ -435,81 +483,96 @@ const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fpr
   "Type\022\r\n\005width\030\004 \001(\r\022\016\n\006height\030\005 \001(\r\0222\n\ni"
   "ntrinsics\030\006 \001(\0132\036.com.bcom.solar.gprc.Ma"
   "trix3x3\0229\n\ndistortion\030\007 \001(\0132%.com.bcom.s"
-  "olar.gprc.CameraDistortion\"S\n\020CameraDist"
-  "ortion\022\013\n\003K_1\030\001 \001(\002\022\013\n\003K_2\030\002 \001(\002\022\013\n\003P_1\030"
-  "\003 \001(\002\022\013\n\003P_2\030\004 \001(\002\022\013\n\003K_3\030\005 \001(\002\"\235\003\n\027Rect"
-  "ificationParameters\0225\n\rcam1_rotation\030\001 \001"
-  "(\0132\036.com.bcom.solar.gprc.Matrix3x3\0227\n\017ca"
-  "m1_projection\030\002 \001(\0132\036.com.bcom.solar.gpr"
-  "c.Matrix3x4\0229\n\020cam1_stereo_type\030\003 \001(\0162\037."
-  "com.bcom.solar.gprc.StereoType\022\025\n\rcam1_b"
-  "aseline\030\004 \001(\002\0225\n\rcam2_rotation\030\005 \001(\0132\036.c"
-  "om.bcom.solar.gprc.Matrix3x3\0227\n\017cam2_pro"
-  "jection\030\006 \001(\0132\036.com.bcom.solar.gprc.Matr"
-  "ix3x4\0229\n\020cam2_stereo_type\030\007 \001(\0162\037.com.bc"
-  "om.solar.gprc.StereoType\022\025\n\rcam2_baselin"
-  "e\030\010 \001(\002\"\330\001\n\024RelocalizationResult\022B\n\013pose"
-  "_status\030\001 \001(\0162-.com.bcom.solar.gprc.Relo"
-  "calizationPoseStatus\022,\n\004pose\030\002 \001(\0132\036.com"
-  ".bcom.solar.gprc.Matrix4x4\022\022\n\nconfidence"
-  "\030\003 \001(\002\022:\n\016mapping_status\030\004 \001(\0162\".com.bco"
-  "m.solar.gprc.MappingStatus\"\247\001\n\005Image\022\r\n\005"
-  "width\030\001 \001(\r\022\016\n\006height\030\002 \001(\r\022\014\n\004data\030\003 \001("
-  "\014\0220\n\006layout\030\004 \001(\0162 .com.bcom.solar.gprc."
-  "ImageLayout\022\?\n\020imageCompression\030\005 \001(\0162%."
-  "com.bcom.solar.gprc.ImageCompression\"4\n\006"
-  "Frames\022*\n\006frames\030\001 \003(\0132\032.com.bcom.solar."
-  "gprc.Frame\"\206\001\n\005Frame\022\021\n\tsensor_id\030\001 \001(\005\022"
-  ")\n\005image\030\002 \001(\0132\032.com.bcom.solar.gprc.Ima"
-  "ge\022\021\n\ttimestamp\030\003 \001(\004\022,\n\004pose\030\004 \001(\0132\036.co"
-  "m.bcom.solar.gprc.Matrix4x4\"\333\001\n\tMatrix4x"
-  "4\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002"
-  "\022\013\n\003m14\030\004 \001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006 \001(\002\022"
-  "\013\n\003m23\030\007 \001(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m31\030\t \001(\002\022\013"
-  "\n\003m32\030\n \001(\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m34\030\014 \001(\002\022\013\n"
-  "\003m41\030\r \001(\002\022\013\n\003m42\030\016 \001(\002\022\013\n\003m43\030\017 \001(\002\022\013\n\003"
-  "m44\030\020 \001(\002\"\200\001\n\tMatrix3x3\022\013\n\003m11\030\001 \001(\002\022\013\n\003"
-  "m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m21\030\004 \001(\002\022\013\n\003m"
-  "22\030\005 \001(\002\022\013\n\003m23\030\006 \001(\002\022\013\n\003m31\030\007 \001(\002\022\013\n\003m3"
-  "2\030\010 \001(\002\022\013\n\003m33\030\t \001(\002\"\247\001\n\tMatrix3x4\022\013\n\003m1"
-  "1\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m14"
-  "\030\004 \001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006 \001(\002\022\013\n\003m23\030"
-  "\007 \001(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m31\030\t \001(\002\022\013\n\003m32\030\n"
-  " \001(\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m34\030\014 \001(\002*G\n\014Pipeli"
-  "neMode\022\036\n\032RELOCALIZATION_AND_MAPPING\020\000\022\027"
-  "\n\023RELOCALIZATION_ONLY\020\001*\037\n\nCameraType\022\007\n"
-  "\003RGB\020\000\022\010\n\004GRAY\020\001**\n\nStereoType\022\016\n\nHorizo"
-  "ntal\020\000\022\014\n\010Vertical\020\001*F\n\030RelocalizationPo"
-  "seStatus\022\013\n\007NO_POSE\020\000\022\014\n\010NEW_POSE\020\001\022\017\n\013L"
-  "ATEST_POSE\020\002*P\n\rMappingStatus\022\r\n\tBOOTSTR"
-  "AP\020\000\022\013\n\007MAPPING\020\001\022\021\n\rTRACKING_LOST\020\002\022\020\n\014"
-  "LOOP_CLOSURE\020\003*2\n\013ImageLayout\022\n\n\006RGB_24\020"
-  "\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\002*.\n\020ImageCompr"
-  "ession\022\010\n\004NONE\020\000\022\007\n\003PNG\020\001\022\007\n\003JPG\020\0022\362\005\n\"S"
-  "olARMappingAndRelocalizationProxy\022J\n\004Ini"
-  "t\022&.com.bcom.solar.gprc.PipelineModeValu"
-  "e\032\032.com.bcom.solar.gprc.Empty\022\?\n\005Start\022\032"
-  ".com.bcom.solar.gprc.Empty\032\032.com.bcom.so"
-  "lar.gprc.Empty\022>\n\004Stop\022\032.com.bcom.solar."
-  "gprc.Empty\032\032.com.bcom.solar.gprc.Empty\022X"
-  "\n\023SetCameraParameters\022%.com.bcom.solar.g"
-  "prc.CameraParameters\032\032.com.bcom.solar.gp"
-  "rc.Empty\022f\n\032setRectificationParameters\022,"
-  ".com.bcom.solar.gprc.RectificationParame"
-  "ters\032\032.com.bcom.solar.gprc.Empty\022Z\n\020Relo"
-  "calizeAndMap\022\033.com.bcom.solar.gprc.Frame"
-  "s\032).com.bcom.solar.gprc.RelocalizationRe"
-  "sult\022W\n\016Get3DTransform\022\032.com.bcom.solar."
-  "gprc.Empty\032).com.bcom.solar.gprc.Relocal"
-  "izationResult\022\?\n\005Reset\022\032.com.bcom.solar."
-  "gprc.Empty\032\032.com.bcom.solar.gprc.Empty\022G"
-  "\n\013SendMessage\022\034.com.bcom.solar.gprc.Mess"
-  "age\032\032.com.bcom.solar.gprc.Emptyb\006proto3"
+  "olar.gprc.CameraDistortion\"\342\003\n\026CameraPar"
+  "ametersStereo\022\r\n\005name1\030\001 \001(\t\022\013\n\003id1\030\002 \001("
+  "\r\0225\n\014camera_type1\030\003 \001(\0162\037.com.bcom.solar"
+  ".gprc.CameraType\022\016\n\006width1\030\004 \001(\r\022\017\n\007heig"
+  "ht1\030\005 \001(\r\0223\n\013intrinsics1\030\006 \001(\0132\036.com.bco"
+  "m.solar.gprc.Matrix3x3\022:\n\013distortion1\030\007 "
+  "\001(\0132%.com.bcom.solar.gprc.CameraDistorti"
+  "on\022\r\n\005name2\030\010 \001(\t\022\013\n\003id2\030\t \001(\r\0225\n\014camera"
+  "_type2\030\n \001(\0162\037.com.bcom.solar.gprc.Camer"
+  "aType\022\016\n\006width2\030\013 \001(\r\022\017\n\007height2\030\014 \001(\r\0223"
+  "\n\013intrinsics2\030\r \001(\0132\036.com.bcom.solar.gpr"
+  "c.Matrix3x3\022:\n\013distortion2\030\016 \001(\0132%.com.b"
+  "com.solar.gprc.CameraDistortion\"S\n\020Camer"
+  "aDistortion\022\013\n\003K_1\030\001 \001(\002\022\013\n\003K_2\030\002 \001(\002\022\013\n"
+  "\003P_1\030\003 \001(\002\022\013\n\003P_2\030\004 \001(\002\022\013\n\003K_3\030\005 \001(\002\"\235\003\n"
+  "\027RectificationParameters\0225\n\rcam1_rotatio"
+  "n\030\001 \001(\0132\036.com.bcom.solar.gprc.Matrix3x3\022"
+  "7\n\017cam1_projection\030\002 \001(\0132\036.com.bcom.sola"
+  "r.gprc.Matrix3x4\0229\n\020cam1_stereo_type\030\003 \001"
+  "(\0162\037.com.bcom.solar.gprc.StereoType\022\025\n\rc"
+  "am1_baseline\030\004 \001(\002\0225\n\rcam2_rotation\030\005 \001("
+  "\0132\036.com.bcom.solar.gprc.Matrix3x3\0227\n\017cam"
+  "2_projection\030\006 \001(\0132\036.com.bcom.solar.gprc"
+  ".Matrix3x4\0229\n\020cam2_stereo_type\030\007 \001(\0162\037.c"
+  "om.bcom.solar.gprc.StereoType\022\025\n\rcam2_ba"
+  "seline\030\010 \001(\002\"\330\001\n\024RelocalizationResult\022B\n"
+  "\013pose_status\030\001 \001(\0162-.com.bcom.solar.gprc"
+  ".RelocalizationPoseStatus\022,\n\004pose\030\002 \001(\0132"
+  "\036.com.bcom.solar.gprc.Matrix4x4\022\022\n\nconfi"
+  "dence\030\003 \001(\002\022:\n\016mapping_status\030\004 \001(\0162\".co"
+  "m.bcom.solar.gprc.MappingStatus\"\247\001\n\005Imag"
+  "e\022\r\n\005width\030\001 \001(\r\022\016\n\006height\030\002 \001(\r\022\014\n\004data"
+  "\030\003 \001(\014\0220\n\006layout\030\004 \001(\0162 .com.bcom.solar."
+  "gprc.ImageLayout\022\?\n\020imageCompression\030\005 \001"
+  "(\0162%.com.bcom.solar.gprc.ImageCompressio"
+  "n\"4\n\006Frames\022*\n\006frames\030\001 \003(\0132\032.com.bcom.s"
+  "olar.gprc.Frame\"\206\001\n\005Frame\022\021\n\tsensor_id\030\001"
+  " \001(\005\022)\n\005image\030\002 \001(\0132\032.com.bcom.solar.gpr"
+  "c.Image\022\021\n\ttimestamp\030\003 \001(\004\022,\n\004pose\030\004 \001(\013"
+  "2\036.com.bcom.solar.gprc.Matrix4x4\"\333\001\n\tMat"
+  "rix4x4\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030"
+  "\003 \001(\002\022\013\n\003m14\030\004 \001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006"
+  " \001(\002\022\013\n\003m23\030\007 \001(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m31\030\t "
+  "\001(\002\022\013\n\003m32\030\n \001(\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m34\030\014 \001"
+  "(\002\022\013\n\003m41\030\r \001(\002\022\013\n\003m42\030\016 \001(\002\022\013\n\003m43\030\017 \001("
+  "\002\022\013\n\003m44\030\020 \001(\002\"\200\001\n\tMatrix3x3\022\013\n\003m11\030\001 \001("
+  "\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m21\030\004 \001(\002"
+  "\022\013\n\003m22\030\005 \001(\002\022\013\n\003m23\030\006 \001(\002\022\013\n\003m31\030\007 \001(\002\022"
+  "\013\n\003m32\030\010 \001(\002\022\013\n\003m33\030\t \001(\002\"\247\001\n\tMatrix3x4\022"
+  "\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013"
+  "\n\003m14\030\004 \001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006 \001(\002\022\013\n"
+  "\003m23\030\007 \001(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m31\030\t \001(\002\022\013\n\003"
+  "m32\030\n \001(\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m34\030\014 \001(\002*G\n\014P"
+  "ipelineMode\022\036\n\032RELOCALIZATION_AND_MAPPIN"
+  "G\020\000\022\027\n\023RELOCALIZATION_ONLY\020\001*\037\n\nCameraTy"
+  "pe\022\007\n\003RGB\020\000\022\010\n\004GRAY\020\001**\n\nStereoType\022\016\n\nH"
+  "orizontal\020\000\022\014\n\010Vertical\020\001*F\n\030Relocalizat"
+  "ionPoseStatus\022\013\n\007NO_POSE\020\000\022\014\n\010NEW_POSE\020\001"
+  "\022\017\n\013LATEST_POSE\020\002*P\n\rMappingStatus\022\r\n\tBO"
+  "OTSTRAP\020\000\022\013\n\007MAPPING\020\001\022\021\n\rTRACKING_LOST\020"
+  "\002\022\020\n\014LOOP_CLOSURE\020\003*2\n\013ImageLayout\022\n\n\006RG"
+  "B_24\020\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\002*.\n\020Image"
+  "Compression\022\010\n\004NONE\020\000\022\007\n\003PNG\020\001\022\007\n\003JPG\020\0022"
+  "\330\006\n\"SolARMappingAndRelocalizationProxy\022J"
+  "\n\004Init\022&.com.bcom.solar.gprc.PipelineMod"
+  "eValue\032\032.com.bcom.solar.gprc.Empty\022\?\n\005St"
+  "art\022\032.com.bcom.solar.gprc.Empty\032\032.com.bc"
+  "om.solar.gprc.Empty\022>\n\004Stop\022\032.com.bcom.s"
+  "olar.gprc.Empty\032\032.com.bcom.solar.gprc.Em"
+  "pty\022X\n\023SetCameraParameters\022%.com.bcom.so"
+  "lar.gprc.CameraParameters\032\032.com.bcom.sol"
+  "ar.gprc.Empty\022d\n\031SetCameraParametersSter"
+  "eo\022+.com.bcom.solar.gprc.CameraParameter"
+  "sStereo\032\032.com.bcom.solar.gprc.Empty\022f\n\032s"
+  "etRectificationParameters\022,.com.bcom.sol"
+  "ar.gprc.RectificationParameters\032\032.com.bc"
+  "om.solar.gprc.Empty\022Z\n\020RelocalizeAndMap\022"
+  "\033.com.bcom.solar.gprc.Frames\032).com.bcom."
+  "solar.gprc.RelocalizationResult\022W\n\016Get3D"
+  "Transform\022\032.com.bcom.solar.gprc.Empty\032)."
+  "com.bcom.solar.gprc.RelocalizationResult"
+  "\022\?\n\005Reset\022\032.com.bcom.solar.gprc.Empty\032\032."
+  "com.bcom.solar.gprc.Empty\022G\n\013SendMessage"
+  "\022\034.com.bcom.solar.gprc.Message\032\032.com.bco"
+  "m.solar.gprc.Emptyb\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = {
-  false, false, 3199, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
-  &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 13,
+  false, false, 3786, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
+  &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 14,
   schemas, file_default_instances, TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto::offsets,
   file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto,
 };
@@ -1561,6 +1624,606 @@ void CameraParameters::InternalSwap(CameraParameters* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata CameraParameters::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class CameraParametersStereo::_Internal {
+ public:
+  static const ::com::bcom::solar::gprc::Matrix3x3& intrinsics1(const CameraParametersStereo* msg);
+  static const ::com::bcom::solar::gprc::CameraDistortion& distortion1(const CameraParametersStereo* msg);
+  static const ::com::bcom::solar::gprc::Matrix3x3& intrinsics2(const CameraParametersStereo* msg);
+  static const ::com::bcom::solar::gprc::CameraDistortion& distortion2(const CameraParametersStereo* msg);
+};
+
+const ::com::bcom::solar::gprc::Matrix3x3&
+CameraParametersStereo::_Internal::intrinsics1(const CameraParametersStereo* msg) {
+  return *msg->intrinsics1_;
+}
+const ::com::bcom::solar::gprc::CameraDistortion&
+CameraParametersStereo::_Internal::distortion1(const CameraParametersStereo* msg) {
+  return *msg->distortion1_;
+}
+const ::com::bcom::solar::gprc::Matrix3x3&
+CameraParametersStereo::_Internal::intrinsics2(const CameraParametersStereo* msg) {
+  return *msg->intrinsics2_;
+}
+const ::com::bcom::solar::gprc::CameraDistortion&
+CameraParametersStereo::_Internal::distortion2(const CameraParametersStereo* msg) {
+  return *msg->distortion2_;
+}
+CameraParametersStereo::CameraParametersStereo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.CameraParametersStereo)
+}
+CameraParametersStereo::CameraParametersStereo(const CameraParametersStereo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  name1_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name1().empty()) {
+    name1_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_name1(), 
+      GetArena());
+  }
+  name2_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name2().empty()) {
+    name2_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_name2(), 
+      GetArena());
+  }
+  if (from._internal_has_intrinsics1()) {
+    intrinsics1_ = new ::com::bcom::solar::gprc::Matrix3x3(*from.intrinsics1_);
+  } else {
+    intrinsics1_ = nullptr;
+  }
+  if (from._internal_has_distortion1()) {
+    distortion1_ = new ::com::bcom::solar::gprc::CameraDistortion(*from.distortion1_);
+  } else {
+    distortion1_ = nullptr;
+  }
+  if (from._internal_has_intrinsics2()) {
+    intrinsics2_ = new ::com::bcom::solar::gprc::Matrix3x3(*from.intrinsics2_);
+  } else {
+    intrinsics2_ = nullptr;
+  }
+  if (from._internal_has_distortion2()) {
+    distortion2_ = new ::com::bcom::solar::gprc::CameraDistortion(*from.distortion2_);
+  } else {
+    distortion2_ = nullptr;
+  }
+  ::memcpy(&id1_, &from.id1_,
+    static_cast<size_t>(reinterpret_cast<char*>(&height2_) -
+    reinterpret_cast<char*>(&id1_)) + sizeof(height2_));
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.CameraParametersStereo)
+}
+
+void CameraParametersStereo::SharedCtor() {
+name1_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+name2_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&intrinsics1_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&height2_) -
+    reinterpret_cast<char*>(&intrinsics1_)) + sizeof(height2_));
+}
+
+CameraParametersStereo::~CameraParametersStereo() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.CameraParametersStereo)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void CameraParametersStereo::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  name1_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  name2_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete intrinsics1_;
+  if (this != internal_default_instance()) delete distortion1_;
+  if (this != internal_default_instance()) delete intrinsics2_;
+  if (this != internal_default_instance()) delete distortion2_;
+}
+
+void CameraParametersStereo::ArenaDtor(void* object) {
+  CameraParametersStereo* _this = reinterpret_cast< CameraParametersStereo* >(object);
+  (void)_this;
+}
+void CameraParametersStereo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void CameraParametersStereo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void CameraParametersStereo::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.CameraParametersStereo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  name1_.ClearToEmpty();
+  name2_.ClearToEmpty();
+  if (GetArena() == nullptr && intrinsics1_ != nullptr) {
+    delete intrinsics1_;
+  }
+  intrinsics1_ = nullptr;
+  if (GetArena() == nullptr && distortion1_ != nullptr) {
+    delete distortion1_;
+  }
+  distortion1_ = nullptr;
+  if (GetArena() == nullptr && intrinsics2_ != nullptr) {
+    delete intrinsics2_;
+  }
+  intrinsics2_ = nullptr;
+  if (GetArena() == nullptr && distortion2_ != nullptr) {
+    delete distortion2_;
+  }
+  distortion2_ = nullptr;
+  ::memset(&id1_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&height2_) -
+      reinterpret_cast<char*>(&id1_)) + sizeof(height2_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CameraParametersStereo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string name1 = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_name1();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.CameraParametersStereo.name1"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 id1 = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          id1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraType camera_type1 = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_camera_type1(static_cast<::com::bcom::solar::gprc::CameraType>(val));
+        } else goto handle_unusual;
+        continue;
+      // uint32 width1 = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          width1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 height1 = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          height1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+          ptr = ctx->ParseMessage(_internal_mutable_intrinsics1(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraDistortion distortion1 = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_distortion1(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string name2 = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
+          auto str = _internal_mutable_name2();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.CameraParametersStereo.name2"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 id2 = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+          id2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraType camera_type2 = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_camera_type2(static_cast<::com::bcom::solar::gprc::CameraType>(val));
+        } else goto handle_unusual;
+        continue;
+      // uint32 width2 = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
+          width2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 height2 = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 96)) {
+          height2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 106)) {
+          ptr = ctx->ParseMessage(_internal_mutable_intrinsics2(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraDistortion distortion2 = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 114)) {
+          ptr = ctx->ParseMessage(_internal_mutable_distortion2(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* CameraParametersStereo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.CameraParametersStereo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string name1 = 1;
+  if (this->name1().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name1().data(), static_cast<int>(this->_internal_name1().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.CameraParametersStereo.name1");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_name1(), target);
+  }
+
+  // uint32 id1 = 2;
+  if (this->id1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_id1(), target);
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type1 = 3;
+  if (this->camera_type1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_camera_type1(), target);
+  }
+
+  // uint32 width1 = 4;
+  if (this->width1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_width1(), target);
+  }
+
+  // uint32 height1 = 5;
+  if (this->height1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_height1(), target);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 6;
+  if (this->has_intrinsics1()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        6, _Internal::intrinsics1(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion1 = 7;
+  if (this->has_distortion1()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        7, _Internal::distortion1(this), target, stream);
+  }
+
+  // string name2 = 8;
+  if (this->name2().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name2().data(), static_cast<int>(this->_internal_name2().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.CameraParametersStereo.name2");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_name2(), target);
+  }
+
+  // uint32 id2 = 9;
+  if (this->id2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(9, this->_internal_id2(), target);
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type2 = 10;
+  if (this->camera_type2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      10, this->_internal_camera_type2(), target);
+  }
+
+  // uint32 width2 = 11;
+  if (this->width2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(11, this->_internal_width2(), target);
+  }
+
+  // uint32 height2 = 12;
+  if (this->height2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(12, this->_internal_height2(), target);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 13;
+  if (this->has_intrinsics2()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        13, _Internal::intrinsics2(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion2 = 14;
+  if (this->has_distortion2()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        14, _Internal::distortion2(this), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.CameraParametersStereo)
+  return target;
+}
+
+size_t CameraParametersStereo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.CameraParametersStereo)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string name1 = 1;
+  if (this->name1().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name1());
+  }
+
+  // string name2 = 8;
+  if (this->name2().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name2());
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 6;
+  if (this->has_intrinsics1()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *intrinsics1_);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion1 = 7;
+  if (this->has_distortion1()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *distortion1_);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 13;
+  if (this->has_intrinsics2()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *intrinsics2_);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion2 = 14;
+  if (this->has_distortion2()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *distortion2_);
+  }
+
+  // uint32 id1 = 2;
+  if (this->id1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_id1());
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type1 = 3;
+  if (this->camera_type1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_camera_type1());
+  }
+
+  // uint32 width1 = 4;
+  if (this->width1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_width1());
+  }
+
+  // uint32 height1 = 5;
+  if (this->height1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_height1());
+  }
+
+  // uint32 id2 = 9;
+  if (this->id2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_id2());
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type2 = 10;
+  if (this->camera_type2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_camera_type2());
+  }
+
+  // uint32 width2 = 11;
+  if (this->width2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_width2());
+  }
+
+  // uint32 height2 = 12;
+  if (this->height2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_height2());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void CameraParametersStereo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const CameraParametersStereo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<CameraParametersStereo>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.CameraParametersStereo)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.CameraParametersStereo)
+    MergeFrom(*source);
+  }
+}
+
+void CameraParametersStereo::MergeFrom(const CameraParametersStereo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.name1().size() > 0) {
+    _internal_set_name1(from._internal_name1());
+  }
+  if (from.name2().size() > 0) {
+    _internal_set_name2(from._internal_name2());
+  }
+  if (from.has_intrinsics1()) {
+    _internal_mutable_intrinsics1()->::com::bcom::solar::gprc::Matrix3x3::MergeFrom(from._internal_intrinsics1());
+  }
+  if (from.has_distortion1()) {
+    _internal_mutable_distortion1()->::com::bcom::solar::gprc::CameraDistortion::MergeFrom(from._internal_distortion1());
+  }
+  if (from.has_intrinsics2()) {
+    _internal_mutable_intrinsics2()->::com::bcom::solar::gprc::Matrix3x3::MergeFrom(from._internal_intrinsics2());
+  }
+  if (from.has_distortion2()) {
+    _internal_mutable_distortion2()->::com::bcom::solar::gprc::CameraDistortion::MergeFrom(from._internal_distortion2());
+  }
+  if (from.id1() != 0) {
+    _internal_set_id1(from._internal_id1());
+  }
+  if (from.camera_type1() != 0) {
+    _internal_set_camera_type1(from._internal_camera_type1());
+  }
+  if (from.width1() != 0) {
+    _internal_set_width1(from._internal_width1());
+  }
+  if (from.height1() != 0) {
+    _internal_set_height1(from._internal_height1());
+  }
+  if (from.id2() != 0) {
+    _internal_set_id2(from._internal_id2());
+  }
+  if (from.camera_type2() != 0) {
+    _internal_set_camera_type2(from._internal_camera_type2());
+  }
+  if (from.width2() != 0) {
+    _internal_set_width2(from._internal_width2());
+  }
+  if (from.height2() != 0) {
+    _internal_set_height2(from._internal_height2());
+  }
+}
+
+void CameraParametersStereo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CameraParametersStereo::CopyFrom(const CameraParametersStereo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CameraParametersStereo::IsInitialized() const {
+  return true;
+}
+
+void CameraParametersStereo::InternalSwap(CameraParametersStereo* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  name1_.Swap(&other->name1_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  name2_.Swap(&other->name2_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CameraParametersStereo, height2_)
+      + sizeof(CameraParametersStereo::height2_)
+      - PROTOBUF_FIELD_OFFSET(CameraParametersStereo, intrinsics1_)>(
+          reinterpret_cast<char*>(&intrinsics1_),
+          reinterpret_cast<char*>(&other->intrinsics1_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CameraParametersStereo::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -4694,6 +5357,9 @@ template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Message* Arena::CreateMay
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::CameraParameters* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::CameraParameters >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::CameraParameters >(arena);
+}
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::CameraParametersStereo* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::CameraParametersStereo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::CameraParametersStereo >(arena);
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::CameraDistortion* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::CameraDistortion >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::CameraDistortion >(arena);

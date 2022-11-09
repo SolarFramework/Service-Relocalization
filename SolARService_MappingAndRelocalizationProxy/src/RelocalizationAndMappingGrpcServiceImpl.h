@@ -73,6 +73,10 @@ public:
                                      const CameraParameters* request,
                                      Empty* response)  override;
 
+    grpc::Status SetCameraParametersStereo(grpc::ServerContext* context,
+                                           const CameraParametersStereo* request,
+                                           Empty* response)  override;
+
     grpc::Status setRectificationParameters(grpc::ServerContext* context,
                                             const RectificationParameters* request,
                                             Empty* response)  override;

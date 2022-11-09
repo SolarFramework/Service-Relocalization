@@ -21,6 +21,7 @@ service SolARMappingAndRelocalizationProxy
     rpc Start(Empty) returns (Empty);
     rpc Stop(Empty) returns (Empty);
     rpc SetCameraParameters(CameraParameters) returns (Empty);
+    rpc SetCameraParametersStereo(CameraParametersStereo) returns (Empty);
     rpc setRectificationParameters(RectificationParameters) returns (Empty);
     rpc RelocalizeAndMap(Frames) returns (RelocalizationResult);
     rpc Get3DTransform(Empty) returns (RelocalizationResult);
@@ -57,6 +58,24 @@ message CameraParameters
     uint32 height = 5;
     Matrix3x3 intrinsics = 6;
     CameraDistortion distortion = 7;
+}
+
+message CameraParametersStereo
+{
+    string name1 = 1;
+    uint32 id1 = 2;
+    CameraType camera_type1 = 3;
+    uint32 width1 = 4;
+    uint32 height1 = 5;
+    Matrix3x3 intrinsics1 = 6;
+    CameraDistortion distortion1 = 7;
+    string name2 = 8;
+    uint32 id2 = 9;
+    CameraType camera_type2 = 10;
+    uint32 width2 =11;
+    uint32 height2 = 12;
+    Matrix3x3 intrinsics2 = 13;
+    CameraDistortion distortion2 = 14;
 }
 
 enum CameraType

@@ -295,6 +295,95 @@ RelocalizationAndMappingGrpcServiceImpl::SetCameraParameters(grpc::ServerContext
 }
 
 grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::SetCameraParametersStereo(grpc::ServerContext* context,
+                                                                   const CameraParametersStereo* request,
+                                                                   Empty* response)
+{
+    LOG_INFO("Set camera parameters for relocalization and stereo mapping");
+    LOG_DEBUG("   Camera 1:");
+    LOG_DEBUG("   name: {}", request->name1());
+    LOG_DEBUG("   id: {}", request->id1());
+    LOG_DEBUG("   type: {}", to_string(request->camera_type1()));
+    LOG_DEBUG("   resolution: {}x{}", request->width1(), request->height1());
+    LOG_DEBUG("   intrinsics:");
+    LOG_DEBUG("{}", to_string(request->intrinsics1()));
+    LOG_DEBUG("   distortion: K_1={}, K_2={}, P_1={}, P_2={}, K_3={}",
+              request->distortion1().k_1(),
+              request->distortion1().k_2(),
+              request->distortion1().p_1(),
+              request->distortion1().p_2(),
+              request->distortion1().k_3());
+    LOG_DEBUG("   Camera 2:");
+    LOG_DEBUG("   name: {}", request->name2());
+    LOG_DEBUG("   id: {}", request->id2());
+    LOG_DEBUG("   type: {}", to_string(request->camera_type2()));
+    LOG_DEBUG("   resolution: {}x{}", request->width1(), request->height2());
+    LOG_DEBUG("   intrinsics:");
+    LOG_DEBUG("{}", to_string(request->intrinsics2()));
+    LOG_DEBUG("   distortion: K_1={}, K_2={}, P_1={}, P_2={}, K_3={}",
+              request->distortion2().k_1(),
+              request->distortion2().k_2(),
+              request->distortion2().p_1(),
+              request->distortion2().p_2(),
+              request->distortion2().k_3());
+
+    SolAR::datastructure::CameraParameters solarCamParams1;
+    solarCamParams1.name = request->name1();
+    solarCamParams1.id = request->id1();
+    solarCamParams1.type = toSolAR(request->camera_type1());
+    solarCamParams1.resolution.width = request->width1();
+    solarCamParams1.resolution.height = request->height1();
+
+    solarCamParams1.intrinsic(0,0) = request->intrinsics1().m11();
+    solarCamParams1.intrinsic(0,1) = request->intrinsics1().m12();
+    solarCamParams1.intrinsic(0,2) = request->intrinsics1().m13();
+    solarCamParams1.intrinsic(1,0) = request->intrinsics1().m21();
+    solarCamParams1.intrinsic(1,1) = request->intrinsics1().m22();
+    solarCamParams1.intrinsic(1,2) = request->intrinsics1().m23();
+    solarCamParams1.intrinsic(2,0) = request->intrinsics1().m31();
+    solarCamParams1.intrinsic(2,1) = request->intrinsics1().m32();
+    solarCamParams1.intrinsic(2,2) = request->intrinsics1().m33();
+
+    solarCamParams1.distortion(0,0) = request->distortion1().k_1();
+    solarCamParams1.distortion(1,0) = request->distortion1().k_2();
+    solarCamParams1.distortion(2,0) = request->distortion1().p_1();
+    solarCamParams1.distortion(3,0) = request->distortion1().p_1();
+    solarCamParams1.distortion(4,0) = request->distortion1().k_3();
+
+    SolAR::datastructure::CameraParameters solarCamParams2;
+    solarCamParams2.name = request->name2();
+    solarCamParams2.id = request->id2();
+    solarCamParams2.type = toSolAR(request->camera_type2());
+    solarCamParams2.resolution.width = request->width2();
+    solarCamParams2.resolution.height = request->height2();
+
+    solarCamParams2.intrinsic(0,0) = request->intrinsics2().m11();
+    solarCamParams2.intrinsic(0,1) = request->intrinsics2().m12();
+    solarCamParams2.intrinsic(0,2) = request->intrinsics2().m13();
+    solarCamParams2.intrinsic(1,0) = request->intrinsics2().m21();
+    solarCamParams2.intrinsic(1,1) = request->intrinsics2().m22();
+    solarCamParams2.intrinsic(1,2) = request->intrinsics2().m23();
+    solarCamParams2.intrinsic(2,0) = request->intrinsics2().m31();
+    solarCamParams2.intrinsic(2,1) = request->intrinsics2().m32();
+    solarCamParams2.intrinsic(2,2) = request->intrinsics2().m33();
+
+    solarCamParams2.distortion(0,0) = request->distortion2().k_1();
+    solarCamParams2.distortion(1,0) = request->distortion2().k_2();
+    solarCamParams2.distortion(2,0) = request->distortion2().p_1();
+    solarCamParams2.distortion(3,0) = request->distortion2().p_1();
+    solarCamParams2.distortion(4,0) = request->distortion2().k_3();
+
+    if (m_pipeline->setCameraParameters(solarCamParams1, solarCamParams2) != SolAR::FrameworkReturnCode::_SUCCESS)
+    {
+        return gRpcError("Error while setting camera parameters for the stereo mapping and relocalization front end service");
+    }
+
+    LOG_DEBUG("Set camera parameters for relocalization and stereo mapping OK");
+
+    return Status::OK;
+}
+
+grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::setRectificationParameters(grpc::ServerContext* context,
                                                                     const RectificationParameters* request,
                                                                     Empty* response)

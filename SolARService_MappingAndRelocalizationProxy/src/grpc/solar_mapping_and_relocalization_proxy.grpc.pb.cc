@@ -29,6 +29,7 @@ static const char* SolARMappingAndRelocalizationProxy_method_names[] = {
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/Start",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/Stop",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/SetCameraParameters",
+  "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/SetCameraParametersStereo",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/setRectificationParameters",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/RelocalizeAndMap",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/Get3DTransform",
@@ -47,11 +48,12 @@ SolARMappingAndRelocalizationProxy::Stub::Stub(const std::shared_ptr< ::grpc::Ch
   , rpcmethod_Start_(SolARMappingAndRelocalizationProxy_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_Stop_(SolARMappingAndRelocalizationProxy_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SetCameraParameters_(SolARMappingAndRelocalizationProxy_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setRectificationParameters_(SolARMappingAndRelocalizationProxy_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_RelocalizeAndMap_(SolARMappingAndRelocalizationProxy_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Get3DTransform_(SolARMappingAndRelocalizationProxy_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Reset_(SolARMappingAndRelocalizationProxy_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SendMessage_(SolARMappingAndRelocalizationProxy_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SetCameraParametersStereo_(SolARMappingAndRelocalizationProxy_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setRectificationParameters_(SolARMappingAndRelocalizationProxy_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_RelocalizeAndMap_(SolARMappingAndRelocalizationProxy_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Get3DTransform_(SolARMappingAndRelocalizationProxy_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Reset_(SolARMappingAndRelocalizationProxy_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SendMessage_(SolARMappingAndRelocalizationProxy_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status SolARMappingAndRelocalizationProxy::Stub::Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::com::bcom::solar::gprc::Empty* response) {
@@ -142,6 +144,29 @@ void SolARMappingAndRelocalizationProxy::Stub::experimental_async::SetCameraPara
 ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* SolARMappingAndRelocalizationProxy::Stub::AsyncSetCameraParametersRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncSetCameraParametersRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status SolARMappingAndRelocalizationProxy::Stub::SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo& request, ::com::bcom::solar::gprc::Empty* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::com::bcom::solar::gprc::CameraParametersStereo, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SetCameraParametersStereo_, context, request, response);
+}
+
+void SolARMappingAndRelocalizationProxy::Stub::experimental_async::SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::com::bcom::solar::gprc::CameraParametersStereo, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetCameraParametersStereo_, context, request, response, std::move(f));
+}
+
+void SolARMappingAndRelocalizationProxy::Stub::experimental_async::SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetCameraParametersStereo_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* SolARMappingAndRelocalizationProxy::Stub::PrepareAsyncSetCameraParametersStereoRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::CameraParametersStereo, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SetCameraParametersStereo_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* SolARMappingAndRelocalizationProxy::Stub::AsyncSetCameraParametersStereoRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncSetCameraParametersStereoRaw(context, request, cq);
   result->StartCall();
   return result;
 }
@@ -305,6 +330,16 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       SolARMappingAndRelocalizationProxy_method_names[4],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::CameraParametersStereo, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](SolARMappingAndRelocalizationProxy::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::com::bcom::solar::gprc::CameraParametersStereo* req,
+             ::com::bcom::solar::gprc::Empty* resp) {
+               return service->SetCameraParametersStereo(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      SolARMappingAndRelocalizationProxy_method_names[5],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::RectificationParameters, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
              ::grpc::ServerContext* ctx,
@@ -313,7 +348,7 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
                return service->setRectificationParameters(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      SolARMappingAndRelocalizationProxy_method_names[5],
+      SolARMappingAndRelocalizationProxy_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
@@ -323,7 +358,7 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
                return service->RelocalizeAndMap(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      SolARMappingAndRelocalizationProxy_method_names[6],
+      SolARMappingAndRelocalizationProxy_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
@@ -333,7 +368,7 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
                return service->Get3DTransform(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      SolARMappingAndRelocalizationProxy_method_names[7],
+      SolARMappingAndRelocalizationProxy_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
@@ -343,7 +378,7 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
                return service->Reset(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      SolARMappingAndRelocalizationProxy_method_names[8],
+      SolARMappingAndRelocalizationProxy_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
@@ -379,6 +414,13 @@ SolARMappingAndRelocalizationProxy::Service::~Service() {
 }
 
 ::grpc::Status SolARMappingAndRelocalizationProxy::Service::SetCameraParameters(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status SolARMappingAndRelocalizationProxy::Service::SetCameraParametersStereo(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response) {
   (void) context;
   (void) request;
   (void) response;

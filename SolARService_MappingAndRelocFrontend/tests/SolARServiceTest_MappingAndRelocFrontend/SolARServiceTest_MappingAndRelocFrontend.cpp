@@ -94,7 +94,8 @@ int main(int argc, char* argv[])
             ("v,version", "display version information and exit")
             ("f,file", "xpcf grpc client configuration file",
              cxxopts::value<string>())
-            ("reloc-only", "do only relocalization (no mapping)");
+            ("reloc-only", "do only relocalization (no mapping)")
+            ("d,display-point-cloud", "display the global point cloud at the end of the test");
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -275,21 +276,29 @@ int main(int argc, char* argv[])
                 else {
                     LOG_INFO("No more images to send");
 
-                    SRef<PointCloud> pointCloud;
+                    if (options.count("display-point-cloud")) {
 
-                    // Get global point cloud
-                    if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(pointCloud) == FrameworkReturnCode::_SUCCESS) {
-                        std::vector<SRef<CloudPoint>> globalPointCloud;
-                        pointCloud->getAllPoints(globalPointCloud);
+                        SRef<PointCloud> pointCloud;
 
-                        auto gViewer3D = componentMgr->resolve<display::I3DPointsViewer>();
+                        // Get global point cloud
+                        if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(pointCloud) == FrameworkReturnCode::_SUCCESS) {
+                            std::vector<SRef<CloudPoint>> globalPointCloud;
+                            pointCloud->getAllPoints(globalPointCloud);
 
-                        LOG_INFO("==> Display current global point cloud: press ESC on the display window to end test");
+                            if (globalPointCloud.size() > 0) {
+                                auto gViewer3D = componentMgr->resolve<display::I3DPointsViewer>();
 
-                        while (true)
-                        {
-                            if (gViewer3D->display(globalPointCloud, {}, {}, {}, {}, {}) == FrameworkReturnCode::_STOP)
-                                break;
+                                LOG_INFO("==> Display current global point cloud: press ESC on the display window to end test");
+
+                                while (true)
+                                {
+                                    if (gViewer3D->display(globalPointCloud, {}, {}, {}, {}, {}) == FrameworkReturnCode::_STOP)
+                                        break;
+                                }
+                            }
+                            else {
+                                LOG_INFO("The global point cloud is empty!");
+                            }
                         }
                     }
 
@@ -301,7 +310,6 @@ int main(int argc, char* argv[])
                     LOG_INFO("End of test");
 
                     exit(0);
-
                 }
             }
         }

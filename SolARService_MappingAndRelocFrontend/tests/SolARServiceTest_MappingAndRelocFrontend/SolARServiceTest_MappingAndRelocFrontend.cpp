@@ -46,6 +46,9 @@ const std::vector<int> INDEX_USE_CAMERA{1, 2};
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
 SRef<display::I3DPointsViewer> gViewer3D = 0;
 
+// Client UUID
+std::string gClient_UUID = "";
+
 bool gDisplayPointCloud = false;
 
 // print help options
@@ -65,7 +68,7 @@ static void displayPointCloud()
     SRef<PointCloud> pointCloud;
 
     // Get global point cloud
-    if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(pointCloud) == FrameworkReturnCode::_SUCCESS) {
+    if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(gClient_UUID, pointCloud) == FrameworkReturnCode::_SUCCESS) {
         std::vector<SRef<CloudPoint>> globalPointCloud;
         pointCloud->getAllPoints(globalPointCloud);
 
@@ -92,11 +95,16 @@ static void SigInt(int signo) {
 
     LOG_INFO("Stop mapping and relocalization front end service");
 
-    if (gRelocalizationAndMappingFrontendService != 0)
-        gRelocalizationAndMappingFrontendService->stop();
+    if (gRelocalizationAndMappingFrontendService != 0) {
+        gRelocalizationAndMappingFrontendService->stop(gClient_UUID);
+    }
 
     if (gDisplayPointCloud)
         displayPointCloud();
+
+    if (gRelocalizationAndMappingFrontendService != 0) {
+        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+    }
 
     LOG_INFO("End of test");
 
@@ -180,16 +188,25 @@ int main(int argc, char* argv[])
 
         LOG_INFO("Initialize the service");
 
+        LOG_INFO("Register the client");
+
+        if (gRelocalizationAndMappingFrontendService->registerClient(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
+                    LOG_ERROR("Error while registering the client to the mapping and relocalization front end service");
+                    return -1;
+        }
+
+        LOG_INFO("Client UUID = {}", gClient_UUID);
+
         if (relocOnly) {
             LOG_INFO("Set \'Relocalization only\' mode");
 
-            if (gRelocalizationAndMappingFrontendService->init(api::pipeline::RELOCALIZATION_ONLY)
+            if (gRelocalizationAndMappingFrontendService->init(gClient_UUID, api::pipeline::RELOCALIZATION_ONLY)
                     != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while initializing the mode for mapping and relocalization front end service");
                 return -1;
             }
         }
-        else if (gRelocalizationAndMappingFrontendService->init() != FrameworkReturnCode::_SUCCESS) {
+        else if (gRelocalizationAndMappingFrontendService->init(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
             LOG_ERROR("Error while initializing the mapping and relocalization front end service");
             return -1;
         }
@@ -214,7 +231,7 @@ int main(int argc, char* argv[])
 
             if (INDEX_USE_CAMERA.size() == 1) {
                 // Mono camera mode
-                if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams) != FrameworkReturnCode::_SUCCESS) {
+                if (gRelocalizationAndMappingFrontendService->setCameraParameters(gClient_UUID, camParams) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
                     return -1;
                 }
@@ -222,13 +239,13 @@ int main(int argc, char* argv[])
             else if (INDEX_USE_CAMERA.size() == 2) {
                 // Stereo camera mode
                 CameraParameters camParams2 = camRigParams.cameraParams[INDEX_USE_CAMERA[1]];
-                if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams, camParams2) != FrameworkReturnCode::_SUCCESS) {
+                if (gRelocalizationAndMappingFrontendService->setCameraParameters(gClient_UUID, camParams, camParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
                     return -1;
                 }
                 RectificationParameters rectParams1 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].first;
                 RectificationParameters rectParams2 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].second;
-                if (gRelocalizationAndMappingFrontendService->setRectificationParameters(rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
+                if (gRelocalizationAndMappingFrontendService->setRectificationParameters(gClient_UUID, rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting rectification parameters for the mapping and relocalization front end service");
                     return -1;
                 }
@@ -236,14 +253,14 @@ int main(int argc, char* argv[])
 
             if (!relocOnly) {
                 LOG_INFO("Reset the global map stored in the Map Update service");
-                if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {
+                if (gRelocalizationAndMappingFrontendService->resetMap(gClient_UUID) == FrameworkReturnCode::_SUCCESS) {
                     LOG_INFO("Global map reset!");
                 }
             }
 
             LOG_INFO("Start the service");
 
-            if (gRelocalizationAndMappingFrontendService->start() != FrameworkReturnCode::_SUCCESS) {
+            if (gRelocalizationAndMappingFrontendService->start(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while initializing the mapping and relocalization front end service");
                 return -1;
             }
@@ -277,7 +294,7 @@ int main(int argc, char* argv[])
 
                     // Send data to mapping and relocalization front end service
                     gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
-                                imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence, mappingStatus);
+                                gClient_UUID, imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence, mappingStatus);
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
@@ -324,11 +341,16 @@ int main(int argc, char* argv[])
 
                     LOG_INFO("Stop relocalization and mapping front end service");
 
-                    if (gRelocalizationAndMappingFrontendService != 0)
-                        gRelocalizationAndMappingFrontendService->stop();
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->stop(gClient_UUID);
+                    }
 
                     if (gDisplayPointCloud)
                         displayPointCloud();
+
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
 
                     LOG_INFO("End of test");
 

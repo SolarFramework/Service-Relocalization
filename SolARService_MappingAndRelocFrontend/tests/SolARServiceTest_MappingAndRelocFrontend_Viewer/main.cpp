@@ -171,6 +171,18 @@ int main(int argc, char* argv[])
             return -1;
         }
 
+        // Client UUID
+        std::string clientUUID = "";
+
+        LOG_INFO("Register the client");
+
+        if (frontEndService->registerClient(clientUUID) != FrameworkReturnCode::_SUCCESS) {
+                 LOG_ERROR("Error while registering the client to the mapping and relocalization front end service");
+                 return -1;
+        }
+
+        LOG_INFO("Client UUID = {}", clientUUID);
+
         // Display the current global map
 
         auto gViewer3D = componentManager->resolve<display::I3DPointsViewer>();
@@ -229,18 +241,18 @@ int main(int argc, char* argv[])
                     if (elapsed_time.count() > FRONT_END_REQUEST_DELAY) {
                         // Try to get the Device pose from Front End
                         if ((display_device_poses)
-                                && (frontEndService->getLastPose(device_pose, api::pipeline::DEVICE_POSE))
+                                && (frontEndService->getLastPose(clientUUID, device_pose, api::pipeline::DEVICE_POSE))
                                 == FrameworkReturnCode::_SUCCESS) {
                             deviceOrKeyframePoses.push_back(device_pose);
                         }
                         // Try to get the SolAR pose from Front End
-                        if (frontEndService->getLastPose(solAR_pose) == FrameworkReturnCode::_SUCCESS) {
+                        if (frontEndService->getLastPose(clientUUID, solAR_pose) == FrameworkReturnCode::_SUCCESS) {
 
                             found_solAR_pose = true;
 
                             // Check if a new transformation matrix has been found
-                            if (frontEndService->get3DTransformRequest(transform3DStatus, transform3D,
-                                                                       confidence) == FrameworkReturnCode::_SUCCESS) {
+                            if (frontEndService->get3DTransformRequest(clientUUID, transform3DStatus, transform3D, confidence)
+                                    == FrameworkReturnCode::_SUCCESS) {
                                 if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                                     newTransfPoses.push_back(solAR_pose);
                                 }
@@ -275,6 +287,9 @@ int main(int argc, char* argv[])
         else {
             LOG_INFO("No current global map!");
         }
+
+        // Unregister client
+        frontEndService->unregisterClient(clientUUID);
     }
     catch (xpcf::Exception & e) {
         LOG_INFO("The following exception has been caught: {}", e.what());

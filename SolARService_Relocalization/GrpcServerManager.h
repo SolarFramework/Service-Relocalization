@@ -31,6 +31,8 @@
 
 #include "core/Log.h"
 
+#include "api/pipeline/IServiceManagerPipeline.h"
+
 using namespace SolAR;
 
 namespace org { namespace bcom { namespace xpcf {
@@ -56,6 +58,10 @@ private:
     int64_t m_receiveMessageMaxSize = -1;
     int64_t m_sendMessageMaxSize = -1;
     SRef<org::bcom::xpcf::ICollection<SRef<IGrpcService> >> m_services;
+    std::string m_externalURL = "0.0.0.0:8080";
+
+    // Service Manager service
+    SRef<api::pipeline::IServiceManagerPipeline> m_serviceManager;
 };
 
 }}}

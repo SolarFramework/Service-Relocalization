@@ -176,6 +176,7 @@ int main(int argc, char* argv[])
     tryConfigureServer(serverMgr, "server_credentials", "XPCF_GRPC_CREDENTIALS");
     tryConfigureServer(serverMgr, "max_receive_message_size", "XPCF_GRPC_MAX_RECV_MSG_SIZE");
     tryConfigureServer(serverMgr, "max_send_message_size", "XPCF_GRPC_MAX_SEND_MSG_SIZE");
+    tryConfigureServer(serverMgr, "external_url", "SERVER_EXTERNAL_URL");
 
     LOG_INFO ("LOG LEVEL: {}", str_log_level);
     LOG_INFO ("GRPC SERVER ADDRESS: {}",
@@ -199,6 +200,9 @@ int main(int argc, char* argv[])
 
     LOG_INFO ("XPCF gRPC server listens on: {}",
               serverMgr->bindTo<xpcf::IConfigurable>()->getProperty("server_address")->getStringValue())
+
+    LOG_INFO ("EXTERNAL URL: {}",
+              serverMgr->bindTo<xpcf::IConfigurable>()->getProperty("external_url")->getStringValue());
 
     serverMgr->runServer();
 

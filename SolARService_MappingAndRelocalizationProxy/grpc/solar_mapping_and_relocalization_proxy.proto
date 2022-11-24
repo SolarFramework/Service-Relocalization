@@ -168,6 +168,7 @@ message Frame
     Image image = 2;
     uint64 timestamp = 3;
     Matrix4x4 pose = 4;
+    bool fixed_pose = 5;
 }
 
 message Matrix4x4

@@ -2332,6 +2332,7 @@ class Frame PROTOBUF_FINAL :
     kPoseFieldNumber = 4,
     kTimestampFieldNumber = 3,
     kSensorIdFieldNumber = 1,
+    kFixedPoseFieldNumber = 5,
   };
   // .com.bcom.solar.gprc.Image image = 2;
   bool has_image() const;
@@ -2387,6 +2388,15 @@ class Frame PROTOBUF_FINAL :
   void _internal_set_sensor_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // bool fixed_pose = 5;
+  void clear_fixed_pose();
+  bool fixed_pose() const;
+  void set_fixed_pose(bool value);
+  private:
+  bool _internal_fixed_pose() const;
+  void _internal_set_fixed_pose(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.Frame)
  private:
   class _Internal;
@@ -2398,6 +2408,7 @@ class Frame PROTOBUF_FINAL :
   ::com::bcom::solar::gprc::Matrix4x4* pose_;
   ::PROTOBUF_NAMESPACE_ID::uint64 timestamp_;
   ::PROTOBUF_NAMESPACE_ID::int32 sensor_id_;
+  bool fixed_pose_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
 };
@@ -5278,6 +5289,26 @@ inline void Frame::set_allocated_pose(::com::bcom::solar::gprc::Matrix4x4* pose)
   }
   pose_ = pose;
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.Frame.pose)
+}
+
+// bool fixed_pose = 5;
+inline void Frame::clear_fixed_pose() {
+  fixed_pose_ = false;
+}
+inline bool Frame::_internal_fixed_pose() const {
+  return fixed_pose_;
+}
+inline bool Frame::fixed_pose() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Frame.fixed_pose)
+  return _internal_fixed_pose();
+}
+inline void Frame::_internal_set_fixed_pose(bool value) {
+  
+  fixed_pose_ = value;
+}
+inline void Frame::set_fixed_pose(bool value) {
+  _internal_set_fixed_pose(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Frame.fixed_pose)
 }
 
 // -------------------------------------------------------------------

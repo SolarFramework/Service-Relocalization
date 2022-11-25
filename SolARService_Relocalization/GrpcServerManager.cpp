@@ -27,10 +27,7 @@ GrpcServerManager::GrpcServerManager():ConfigurableBase(toMap<GrpcServerManager>
     declareProperty("server_credentials",m_serverCredentials);
     declareProperty("max_receive_message_size", m_receiveMessageMaxSize);
     declareProperty("max_send_message_size", m_sendMessageMaxSize);
-    declareProperty("external_url", m_externalURL);
     declareInjectable<IGrpcService>(m_services);
-
-    declareInjectable<api::pipeline::IServiceManagerPipeline>(m_serviceManager, true);
 
     LOG_DEBUG("this->getNbInterfaces() = {}", this->getNbInterfaces());
 }
@@ -38,10 +35,6 @@ GrpcServerManager::GrpcServerManager():ConfigurableBase(toMap<GrpcServerManager>
 GrpcServerManager::~GrpcServerManager()
 {
     LOG_DEBUG("~GrpcServerManager");
-
-    LOG_DEBUG("Unregister the service to the Service Manager");
-
-    m_serviceManager->unregisterService(api::pipeline::ServiceType::RELOCALIZATION_SERVICE, m_externalURL);
 }
 
 void GrpcServerManager::unloadComponent ()
@@ -106,10 +99,6 @@ void GrpcServerManager::runServer()
         LOG_DEBUG("Registering IGrpcService #  {}", service->getServiceName());
         registerService(service);
     }
-
-    LOG_DEBUG("Register the new service to the Service Manager with URL: {}", m_externalURL);
-
-    m_serviceManager->registerService(api::pipeline::ServiceType::RELOCALIZATION_SERVICE, m_externalURL);
 
     std::unique_ptr<grpc::Server> server(m_builder.BuildAndStart());
     LOG_DEBUG("Server listening on  {}", m_serverAddress);

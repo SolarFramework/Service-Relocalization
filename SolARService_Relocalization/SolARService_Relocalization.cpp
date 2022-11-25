@@ -27,6 +27,13 @@
 #include <boost/filesystem/detail/utf8_codecvt_facet.hpp>
 #include "core/Log.h"
 
+#include "api/pipeline/IServiceManagerPipeline.h"
+
+#include <iostream>
+#include <fstream>
+
+const std::string MAP_UPDATE_CONF_FILE = "./SolARService_Relocalization_MapUpdate_conf.xml";
+
 using namespace SolAR;
 
 namespace fs = boost::filesystem;
@@ -67,6 +74,34 @@ void tryConfigureServer(SRef<xpcf::IGrpcServerManager> server, const std::string
             LOG_DEBUG("GrpcServerManager Property type not handled");
             break;
         }
+    }
+}
+
+void createMapUpdateConfigurationFile(std::string mapUpdateURL)
+{
+    LOG_DEBUG("Create Map Update service configuration file with URL: {}", mapUpdateURL);
+
+    // Open/create configuration file
+    std::ofstream confFile(MAP_UPDATE_CONF_FILE, std::ofstream::out);
+
+    // Check if file was successfully opened for writing
+    if (confFile.is_open())
+    {
+        confFile << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>" << std::endl;
+        confFile << "<xpcf-registry autoAlias=\"true\">" << std::endl << std::endl;
+        confFile << "<properties>" << std::endl;
+        confFile << "    <!-- gRPC proxy configuration-->" << std::endl;
+        confFile << "    <configure component=\"IMapUpdatePipeline_grpcProxy\">" << std::endl;
+        confFile << "        <property name=\"channelUrl\" access=\"rw\" type=\"string\" value=\""
+                 << mapUpdateURL << "\"/>" << std::endl;
+        confFile << "    </configure>" << std::endl << std::endl;
+        confFile << "</properties>" << std::endl << std::endl;
+        confFile << "</xpcf-registry>" << std::endl;
+
+        confFile.close();
+    }
+    else {
+        LOG_ERROR("Error when creating the Map Update service configuration file");
     }
 }
 
@@ -169,6 +204,40 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    // Get the external URL of the service
+    char * externalURL = getenv("SERVER_EXTERNAL_URL");
+    if (externalURL == nullptr) {
+        LOG_ERROR("The external URL of the service must be defined using the SERVER_EXTERNAL_URL env var!");
+        return -1;
+    }
+
+    LOG_DEBUG("Environment variable SERVER_EXTERNAL_URL: {}", externalURL);
+
+    // Get Service Manager proxy
+    auto serviceManager = cmpMgr->resolve<api::pipeline::IServiceManagerPipeline>();
+
+    LOG_DEBUG("Register the new service to the Service Manager with URL: {}", externalURL);
+
+    serviceManager->registerService(api::pipeline::ServiceType::RELOCALIZATION_SERVICE, std::string(externalURL));
+
+    std::string mapUpdateURL = "";
+    serviceManager->getService(api::pipeline::ServiceType::MAP_UPDATE_SERVICE, mapUpdateURL);
+    if (mapUpdateURL == ""){
+        LOG_ERROR("No Map Update service available!");
+        return -1;
+    }
+
+    LOG_DEBUG("Map Update URL given by the Service Manager:{}", mapUpdateURL);
+
+    createMapUpdateConfigurationFile(mapUpdateURL);
+
+    LOG_INFO("Load the new Map Update properties configuration file: {}", MAP_UPDATE_CONF_FILE);
+
+    if (cmpMgr->load(MAP_UPDATE_CONF_FILE.c_str()) != org::bcom::xpcf::_SUCCESS) {
+        LOG_ERROR("Failed to load properties configuration file: {}", MAP_UPDATE_CONF_FILE);
+        return -1;
+    }
+
     auto serverMgr = cmpMgr->resolve<xpcf::IGrpcServerManager>();
 
     // Check environment variables
@@ -176,7 +245,6 @@ int main(int argc, char* argv[])
     tryConfigureServer(serverMgr, "server_credentials", "XPCF_GRPC_CREDENTIALS");
     tryConfigureServer(serverMgr, "max_receive_message_size", "XPCF_GRPC_MAX_RECV_MSG_SIZE");
     tryConfigureServer(serverMgr, "max_send_message_size", "XPCF_GRPC_MAX_SEND_MSG_SIZE");
-    tryConfigureServer(serverMgr, "external_url", "SERVER_EXTERNAL_URL");
 
     LOG_INFO ("LOG LEVEL: {}", str_log_level);
     LOG_INFO ("GRPC SERVER ADDRESS: {}",
@@ -201,10 +269,11 @@ int main(int argc, char* argv[])
     LOG_INFO ("XPCF gRPC server listens on: {}",
               serverMgr->bindTo<xpcf::IConfigurable>()->getProperty("server_address")->getStringValue())
 
-    LOG_INFO ("EXTERNAL URL: {}",
-              serverMgr->bindTo<xpcf::IConfigurable>()->getProperty("external_url")->getStringValue());
-
     serverMgr->runServer();
+
+    LOG_DEBUG("Unregister the service to the Service Manager");
+
+    serviceManager->unregisterService(api::pipeline::ServiceType::RELOCALIZATION_SERVICE, std::string(externalURL));
 
     return 0;
 }

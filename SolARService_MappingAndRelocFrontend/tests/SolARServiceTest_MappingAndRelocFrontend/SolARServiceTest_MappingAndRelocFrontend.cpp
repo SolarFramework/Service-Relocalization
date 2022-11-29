@@ -277,7 +277,7 @@ int main(int argc, char* argv[])
 
                     // Send data to mapping and relocalization front end service
                     gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
-                                imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence, mappingStatus);
+                                imagesToProcess, posesToProcess, false, timestamp, transform3DStatus, transform3D, confidence, mappingStatus);
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());

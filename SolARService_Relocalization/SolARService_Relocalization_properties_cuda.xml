@@ -16,9 +16,6 @@
         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50059"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
-    <configure component="IMapUpdatePipeline_grpcProxy">
-        <property name="channelCredentials" access="rw" type="uint" value="0"/>
-    </configure>
 
     <!-- relocalization pipeline configuration -->
     <configure component="SolARMapManager">

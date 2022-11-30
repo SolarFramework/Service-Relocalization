@@ -94,6 +94,7 @@ void createMapUpdateConfigurationFile(std::string mapUpdateURL)
         confFile << "    <configure component=\"IMapUpdatePipeline_grpcProxy\">" << std::endl;
         confFile << "        <property name=\"channelUrl\" access=\"rw\" type=\"string\" value=\""
                  << mapUpdateURL << "\"/>" << std::endl;
+        confFile << "        <property name=\"channelCredentials\" access=\"rw\" type=\"uint\" value=\"0\"/>" << std::endl;
         confFile << "    </configure>" << std::endl << std::endl;
         confFile << "</properties>" << std::endl << std::endl;
         confFile << "</xpcf-registry>" << std::endl;

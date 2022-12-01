@@ -178,8 +178,24 @@ int main(int argc, char* argv[])
 
     LOG_DEBUG("Register the new service to the Service Manager with URL: {}", externalURL);
 
-    serviceManager->registerService(api::pipeline::ServiceType::RELOCALIZATION_MARKERS_SERVICE,
-                                    std::string(externalURL));
+    bool isRegistered = false;
+
+    while(!isRegistered) {
+        try {
+            if (serviceManager->registerService(api::pipeline::ServiceType::RELOCALIZATION_MARKERS_SERVICE,
+                                                std::string(externalURL)) == FrameworkReturnCode::_SUCCESS) {
+                isRegistered = true;
+            }
+            else {
+                LOG_ERROR("Fail to register the service to the Service Manager!");
+                return -1;
+            }
+        }
+        catch (const std::exception &e) {
+            LOG_WARNING("Waiting for the Service Manager...");
+            sleep(1);
+        }
+    }
 
     auto serverMgr = cmpMgr->resolve<xpcf::IGrpcServerManager>();
 

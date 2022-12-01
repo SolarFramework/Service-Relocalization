@@ -217,15 +217,20 @@ int main(int argc, char* argv[])
     // Get Service Manager proxy
     auto serviceManager = cmpMgr->resolve<api::pipeline::IServiceManagerPipeline>();
 
-    LOG_DEBUG("Register the new service to the Service Manager with URL: {}", externalURL);
-
-    serviceManager->registerService(api::pipeline::ServiceType::RELOCALIZATION_SERVICE, std::string(externalURL));
-
     std::string mapUpdateURL = "";
-    serviceManager->getService(api::pipeline::ServiceType::MAP_UPDATE_SERVICE, mapUpdateURL);
-    if (mapUpdateURL == ""){
-        LOG_ERROR("No Map Update service available!");
-        return -1;
+
+    while (mapUpdateURL == "") {
+        try {
+            if (serviceManager->getService(api::pipeline::ServiceType::MAP_UPDATE_SERVICE, mapUpdateURL)
+                   != FrameworkReturnCode::_SUCCESS) {
+                LOG_WARNING("Wait for an available Map Update service...");
+                sleep(1);
+            }
+        }
+        catch (const std::exception &e) {
+            LOG_WARNING("Waiting for the Service Manager...");
+            sleep(1);
+        }
     }
 
     LOG_DEBUG("Map Update URL given by the Service Manager:{}", mapUpdateURL);
@@ -236,6 +241,14 @@ int main(int argc, char* argv[])
 
     if (cmpMgr->load(MAP_UPDATE_CONF_FILE.c_str()) != org::bcom::xpcf::_SUCCESS) {
         LOG_ERROR("Failed to load properties configuration file: {}", MAP_UPDATE_CONF_FILE);
+        return -1;
+    }
+
+    LOG_DEBUG("Register the new service to the Service Manager with URL: {}", externalURL);
+
+    if (serviceManager->registerService(api::pipeline::ServiceType::RELOCALIZATION_SERVICE,
+                                        std::string(externalURL)) != FrameworkReturnCode::_SUCCESS) {
+        LOG_ERROR("Fail to register the service to the Service Manager!");
         return -1;
     }
 

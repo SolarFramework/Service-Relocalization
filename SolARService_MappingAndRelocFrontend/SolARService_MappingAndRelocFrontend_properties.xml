@@ -12,8 +12,8 @@
     </configure>
     -->
     <!-- gRPC proxy configuration-->
-    <configure component="IMapUpdatePipeline_grpcProxy">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50053"/>
+    <configure component="IServiceManagerPipeline_grpcProxy">
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50059"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
     <configure component="IMappingPipeline_grpcProxy" name="MappingProperties">
@@ -26,10 +26,6 @@
     </configure>
     <configure component="IRelocalizationPipeline_grpcProxy" name="RelocalizationMapProperties">
         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50052"/>
-        <property name="channelCredentials" access="rw" type="uint" value="0"/>
-    </configure>
-    <configure component="IRelocalizationPipeline_grpcProxy" name="RelocalizationMarkersProperties">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50050"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 

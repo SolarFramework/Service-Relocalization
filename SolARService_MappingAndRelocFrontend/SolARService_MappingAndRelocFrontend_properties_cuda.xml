@@ -16,18 +16,6 @@
         <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50059"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
-    <configure component="IMappingPipeline_grpcProxy" name="MappingProperties">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60051"/>
-        <property name="channelCredentials" access="rw" type="uint" value="0"/>
-    </configure>
-    <configure component="IMappingPipeline_grpcProxy" name="StereoMappingProperties">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60054"/>
-        <property name="channelCredentials" access="rw" type="uint" value="0"/>
-    </configure>
-    <configure component="IRelocalizationPipeline_grpcProxy" name="RelocalizationMapProperties">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60052"/>
-        <property name="channelCredentials" access="rw" type="uint" value="0"/>
-    </configure>
 
     <configure component="SolARMappingAndRelocalizationFrontendPipeline">
         <property name="nbSecondsBetweenRequest" access="rw" type="uint" value="20"/>

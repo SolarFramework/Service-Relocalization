@@ -45,14 +45,6 @@
             <component to="IAsyncRelocalizationPipeline_grpcServer"/>
         </bind>
     </bindings>
-    <injects>
-        <inject to="SolARMappingAndRelocalizationFrontendPipeline">
-            <bind interface="IMappingPipeline" to="IMappingPipeline_grpcProxy" name="Mapping" properties="MappingProperties" range="default|all"/>
-            <bind interface="IMappingPipeline" to="IMappingPipeline_grpcProxy" name="StereoMapping" properties="StereoMappingProperties" range="default|all"/>
-            <bind interface="IRelocalizationPipeline" to="IRelocalizationPipeline_grpcProxy" name="RelocalizationMap" properties="RelocalizationMapProperties" range="default|all"/>
-            <bind interface="IRelocalizationPipeline" to="IRelocalizationPipeline_grpcProxy" name="RelocalizationMarkers" properties="RelocalizationMarkersProperties" range="default|all"/>
-        </inject>
-    </injects>
 </factory>
 
 </xpcf-registry>

@@ -28,13 +28,11 @@
 #include "core/Log.h"
 
 #include "api/pipeline/IServiceManagerPipeline.h"
-#include "api/pipeline/IRelocalizationPipeline.h"
 
 #include <iostream>
 #include <fstream>
 
 const std::string MAP_UPDATE_CONF_FILE = "./SolARService_MappingAndRelocFrontend_MapUpdate_conf.xml";
-const std::string RELOCALIZATION_MARKERS_CONF_FILE = "./SolARService_MappingAndRelocFrontend_RelocMarkers_conf.xml";
 
 using namespace SolAR;
 
@@ -105,35 +103,6 @@ void createMapUpdateConfigurationFile(std::string mapUpdateURL)
     }
     else {
         LOG_ERROR("Error when creating the Map Update service configuration file");
-    }
-}
-
-void createRelocMarkersConfigurationFile(std::string relocMarkersURL)
-{
-    LOG_DEBUG("Create Relocalization Markers service configuration file with URL: {}", relocMarkersURL);
-
-    // Open/create configuration file
-    std::ofstream confFile(RELOCALIZATION_MARKERS_CONF_FILE, std::ofstream::out);
-
-    // Check if file was successfully opened for writing
-    if (confFile.is_open())
-    {
-        confFile << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>" << std::endl;
-        confFile << "<xpcf-registry autoAlias=\"true\">" << std::endl << std::endl;
-        confFile << "<properties>" << std::endl;
-        confFile << "    <!-- gRPC proxy configuration-->" << std::endl;
-        confFile << "    <configure component=\"IRelocalizationPipeline_grpcProxy\" name=\"RelocalizationMarkersProperties\">" << std::endl;
-        confFile << "        <property name=\"channelUrl\" access=\"rw\" type=\"string\" value=\""
-                 << relocMarkersURL << "\"/>" << std::endl;
-        confFile << "        <property name=\"channelCredentials\" access=\"rw\" type=\"uint\" value=\"0\"/>" << std::endl;
-        confFile << "    </configure>" << std::endl << std::endl;
-        confFile << "</properties>" << std::endl << std::endl;
-        confFile << "</xpcf-registry>" << std::endl;
-
-        confFile.close();
-    }
-    else {
-        LOG_ERROR("Error when creating the Relocalization Markers service configuration file");
     }
 }
 
@@ -256,33 +225,6 @@ int main(int argc, char* argv[])
 
     if (cmpMgr->load(MAP_UPDATE_CONF_FILE.c_str()) != org::bcom::xpcf::_SUCCESS) {
         LOG_ERROR("Failed to load properties configuration file: {}", MAP_UPDATE_CONF_FILE);
-        return -1;
-    }
-
-    std::string relocMarkersURL = "";
-
-    while (relocMarkersURL == "") {
-        try {
-            if (serviceManager->getService(api::pipeline::ServiceType::RELOCALIZATION_MARKERS_SERVICE, relocMarkersURL)
-                   != FrameworkReturnCode::_SUCCESS) {
-                LOG_WARNING("Wait for an available Relocalization Markers service...");
-                sleep(1);
-            }
-        }
-        catch (const std::exception &e) {
-            LOG_WARNING("Waiting for the Service Manager...");
-            sleep(1);
-        }
-    }
-
-    LOG_DEBUG("Relocalization Markers URL given by the Service Manager:{}", relocMarkersURL);
-
-    createRelocMarkersConfigurationFile(relocMarkersURL);
-
-    LOG_INFO("Load the new Relocalization Markers properties configuration file: {}", RELOCALIZATION_MARKERS_CONF_FILE);
-
-    if (cmpMgr->load(RELOCALIZATION_MARKERS_CONF_FILE.c_str()) != org::bcom::xpcf::_SUCCESS) {
-        LOG_ERROR("Failed to load properties configuration file: {}", RELOCALIZATION_MARKERS_CONF_FILE);
         return -1;
     }
 

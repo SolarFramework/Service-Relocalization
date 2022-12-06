@@ -176,7 +176,8 @@ struct ImageDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ImageDefaultTypeInternal _Image_default_instance_;
 constexpr Frames::Frames(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : frames_(){}
+  : frames_()
+  , fixed_pose_(false){}
 struct FramesDefaultTypeInternal {
   constexpr FramesDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -191,8 +192,7 @@ constexpr Frame::Frame(
   : image_(nullptr)
   , pose_(nullptr)
   , timestamp_(PROTOBUF_ULONGLONG(0))
-  , sensor_id_(0)
-  , fixed_pose_(false){}
+  , sensor_id_(0){}
 struct FrameDefaultTypeInternal {
   constexpr FrameDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -377,6 +377,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frames, frames_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frames, fixed_pose_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frame, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -386,7 +387,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frame, image_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frame, timestamp_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frame, pose_),
-  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frame, fixed_pose_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix4x4, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -451,7 +451,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 71, -1, sizeof(::com::bcom::solar::gprc::RelocalizationResult)},
   { 80, -1, sizeof(::com::bcom::solar::gprc::Image)},
   { 90, -1, sizeof(::com::bcom::solar::gprc::Frames)},
-  { 96, -1, sizeof(::com::bcom::solar::gprc::Frame)},
+  { 97, -1, sizeof(::com::bcom::solar::gprc::Frame)},
   { 106, -1, sizeof(::com::bcom::solar::gprc::Matrix4x4)},
   { 127, -1, sizeof(::com::bcom::solar::gprc::Matrix3x3)},
   { 141, -1, sizeof(::com::bcom::solar::gprc::Matrix3x4)},
@@ -520,12 +520,12 @@ const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fpr
   "\030\003 \001(\014\0220\n\006layout\030\004 \001(\0162 .com.bcom.solar."
   "gprc.ImageLayout\022\?\n\020imageCompression\030\005 \001"
   "(\0162%.com.bcom.solar.gprc.ImageCompressio"
-  "n\"4\n\006Frames\022*\n\006frames\030\001 \003(\0132\032.com.bcom.s"
-  "olar.gprc.Frame\"\232\001\n\005Frame\022\021\n\tsensor_id\030\001"
-  " \001(\005\022)\n\005image\030\002 \001(\0132\032.com.bcom.solar.gpr"
-  "c.Image\022\021\n\ttimestamp\030\003 \001(\004\022,\n\004pose\030\004 \001(\013"
-  "2\036.com.bcom.solar.gprc.Matrix4x4\022\022\n\nfixe"
-  "d_pose\030\005 \001(\010\"\333\001\n\tMatrix4x4\022\013\n\003m11\030\001 \001(\002\022"
+  "n\"H\n\006Frames\022*\n\006frames\030\001 \003(\0132\032.com.bcom.s"
+  "olar.gprc.Frame\022\022\n\nfixed_pose\030\002 \001(\010\"\206\001\n\005"
+  "Frame\022\021\n\tsensor_id\030\001 \001(\005\022)\n\005image\030\002 \001(\0132"
+  "\032.com.bcom.solar.gprc.Image\022\021\n\ttimestamp"
+  "\030\003 \001(\004\022,\n\004pose\030\004 \001(\0132\036.com.bcom.solar.gp"
+  "rc.Matrix4x4\"\333\001\n\tMatrix4x4\022\013\n\003m11\030\001 \001(\002\022"
   "\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m14\030\004 \001(\002\022\013"
   "\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006 \001(\002\022\013\n\003m23\030\007 \001(\002\022\013\n"
   "\003m24\030\010 \001(\002\022\013\n\003m31\030\t \001(\002\022\013\n\003m32\030\n \001(\002\022\013\n\003"
@@ -3551,10 +3551,12 @@ Frames::Frames(const Frames& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       frames_(from.frames_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  fixed_pose_ = from.fixed_pose_;
   // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.Frames)
 }
 
 void Frames::SharedCtor() {
+fixed_pose_ = false;
 }
 
 Frames::~Frames() {
@@ -3584,6 +3586,7 @@ void Frames::Clear() {
   (void) cached_has_bits;
 
   frames_.Clear();
+  fixed_pose_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3604,6 +3607,13 @@ const char* Frames::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // bool fixed_pose = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          fixed_pose_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -3642,6 +3652,12 @@ failure:
       InternalWriteMessage(1, this->_internal_frames(i), target, stream);
   }
 
+  // bool fixed_pose = 2;
+  if (this->fixed_pose() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_fixed_pose(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3663,6 +3679,11 @@ size_t Frames::ByteSizeLong() const {
   for (const auto& msg : this->frames_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // bool fixed_pose = 2;
+  if (this->fixed_pose() != 0) {
+    total_size += 1 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3697,6 +3718,9 @@ void Frames::MergeFrom(const Frames& from) {
   (void) cached_has_bits;
 
   frames_.MergeFrom(from.frames_);
+  if (from.fixed_pose() != 0) {
+    _internal_set_fixed_pose(from._internal_fixed_pose());
+  }
 }
 
 void Frames::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -3721,6 +3745,7 @@ void Frames::InternalSwap(Frames* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   frames_.InternalSwap(&other->frames_);
+  swap(fixed_pose_, other->fixed_pose_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Frames::GetMetadata() const {
@@ -3764,16 +3789,16 @@ Frame::Frame(const Frame& from)
     pose_ = nullptr;
   }
   ::memcpy(&timestamp_, &from.timestamp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&fixed_pose_) -
-    reinterpret_cast<char*>(&timestamp_)) + sizeof(fixed_pose_));
+    static_cast<size_t>(reinterpret_cast<char*>(&sensor_id_) -
+    reinterpret_cast<char*>(&timestamp_)) + sizeof(sensor_id_));
   // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.Frame)
 }
 
 void Frame::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&image_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&fixed_pose_) -
-    reinterpret_cast<char*>(&image_)) + sizeof(fixed_pose_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&sensor_id_) -
+    reinterpret_cast<char*>(&image_)) + sizeof(sensor_id_));
 }
 
 Frame::~Frame() {
@@ -3813,8 +3838,8 @@ void Frame::Clear() {
   }
   pose_ = nullptr;
   ::memset(&timestamp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fixed_pose_) -
-      reinterpret_cast<char*>(&timestamp_)) + sizeof(fixed_pose_));
+      reinterpret_cast<char*>(&sensor_id_) -
+      reinterpret_cast<char*>(&timestamp_)) + sizeof(sensor_id_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3850,13 +3875,6 @@ const char* Frame::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inte
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_pose(), ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // bool fixed_pose = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
-          fixed_pose_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -3916,12 +3934,6 @@ failure:
         4, _Internal::pose(this), target, stream);
   }
 
-  // bool fixed_pose = 5;
-  if (this->fixed_pose() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(5, this->_internal_fixed_pose(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3964,11 +3976,6 @@ size_t Frame::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_sensor_id());
-  }
-
-  // bool fixed_pose = 5;
-  if (this->fixed_pose() != 0) {
-    total_size += 1 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4014,9 +4021,6 @@ void Frame::MergeFrom(const Frame& from) {
   if (from.sensor_id() != 0) {
     _internal_set_sensor_id(from._internal_sensor_id());
   }
-  if (from.fixed_pose() != 0) {
-    _internal_set_fixed_pose(from._internal_fixed_pose());
-  }
 }
 
 void Frame::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -4041,8 +4045,8 @@ void Frame::InternalSwap(Frame* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Frame, fixed_pose_)
-      + sizeof(Frame::fixed_pose_)
+      PROTOBUF_FIELD_OFFSET(Frame, sensor_id_)
+      + sizeof(Frame::sensor_id_)
       - PROTOBUF_FIELD_OFFSET(Frame, image_)>(
           reinterpret_cast<char*>(&image_),
           reinterpret_cast<char*>(&other->image_));

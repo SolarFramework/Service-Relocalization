@@ -17,15 +17,17 @@ package com.bcom.solar.gprc;
 
 service SolARMappingAndRelocalizationProxy
 {
+    rpc RegisterClient(Empty) returns (ClientUUID);
+    rpc UnregisterClient(ClientUUID) returns (Empty);
     rpc Init(PipelineModeValue) returns (Empty);
-    rpc Start(Empty) returns (Empty);
-    rpc Stop(Empty) returns (Empty);
+    rpc Start(ClientUUID) returns (Empty);
+    rpc Stop(ClientUUID) returns (Empty);
     rpc SetCameraParameters(CameraParameters) returns (Empty);
     rpc SetCameraParametersStereo(CameraParametersStereo) returns (Empty);
     rpc setRectificationParameters(RectificationParameters) returns (Empty);
     rpc RelocalizeAndMap(Frames) returns (RelocalizationResult);
-    rpc Get3DTransform(Empty) returns (RelocalizationResult);
-    rpc Reset(Empty) returns (Empty);
+    rpc Get3DTransform(ClientUUID) returns (RelocalizationResult);
+    rpc Reset(ClientUUID) returns (Empty);
 
     rpc SendMessage(Message) returns (Empty);
 }
@@ -39,43 +41,52 @@ enum PipelineMode
     RELOCALIZATION_ONLY = 1;
 }
 
+message ClientUUID
+{
+    string client_uuid = 1;
+}
+
 message PipelineModeValue
 {
-    PipelineMode pipeline_mode = 1;
+    string client_uuid = 1;
+    PipelineMode pipeline_mode = 2;
 }
 
 message Message
 {
-    string message = 1;
+    string client_uuid = 1;
+    string message = 2;
 }
 
 message CameraParameters
 {
-    string name = 1;
-    uint32 id = 2;
-    CameraType camera_type = 3;
-    uint32 width = 4;
-    uint32 height = 5;
-    Matrix3x3 intrinsics = 6;
-    CameraDistortion distortion = 7;
+    string client_uuid = 1;
+    string name = 2;
+    uint32 id = 3;
+    CameraType camera_type = 4;
+    uint32 width = 5;
+    uint32 height = 6;
+    Matrix3x3 intrinsics = 7;
+    CameraDistortion distortion = 8;
 }
 
 message CameraParametersStereo
 {
-    string name1 = 1;
-    uint32 id1 = 2;
-    CameraType camera_type1 = 3;
-    uint32 width1 = 4;
-    uint32 height1 = 5;
-    Matrix3x3 intrinsics1 = 6;
-    CameraDistortion distortion1 = 7;
-    string name2 = 8;
-    uint32 id2 = 9;
-    CameraType camera_type2 = 10;
-    uint32 width2 =11;
-    uint32 height2 = 12;
-    Matrix3x3 intrinsics2 = 13;
-    CameraDistortion distortion2 = 14;
+    string client_uuid = 1;
+    string name1 = 2;
+    uint32 id1 = 3;
+    CameraType camera_type1 = 4;
+    uint32 width1 = 5;
+    uint32 height1 = 6;
+    Matrix3x3 intrinsics1 = 7;
+    CameraDistortion distortion1 = 8;
+    string name2 = 9;
+    uint32 id2 = 10;
+    CameraType camera_type2 = 11;
+    uint32 width2 =12;
+    uint32 height2 = 13;
+    Matrix3x3 intrinsics2 = 14;
+    CameraDistortion distortion2 = 15;
 }
 
 enum CameraType
@@ -95,14 +106,15 @@ message CameraDistortion
 
 message RectificationParameters
 {
-    Matrix3x3 cam1_rotation = 1;
-    Matrix3x4 cam1_projection = 2;
-    StereoType cam1_stereo_type = 3;
-    float cam1_baseline = 4;
-    Matrix3x3 cam2_rotation = 5;
-    Matrix3x4 cam2_projection = 6;
-    StereoType cam2_stereo_type = 7;
-    float cam2_baseline = 8;
+    string client_uuid = 1;
+    Matrix3x3 cam1_rotation = 2;
+    Matrix3x4 cam1_projection = 3;
+    StereoType cam1_stereo_type = 4;
+    float cam1_baseline = 5;
+    Matrix3x3 cam2_rotation = 6;
+    Matrix3x4 cam2_projection = 7;
+    StereoType cam2_stereo_type = 8;
+    float cam2_baseline = 9;
 }
 
 enum StereoType
@@ -159,7 +171,8 @@ message Image
 
 message Frames
 {
-    repeated Frame frames = 1;
+    string client_uuid = 1;
+    repeated Frame frames = 2;
 }
 
 message Frame

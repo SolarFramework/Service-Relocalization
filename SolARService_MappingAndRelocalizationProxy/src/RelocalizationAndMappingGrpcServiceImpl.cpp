@@ -141,13 +141,47 @@ RelocalizationAndMappingGrpcServiceImpl::~RelocalizationAndMappingGrpcServiceImp
 }
 
 grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::RegisterClient(grpc::ServerContext* context,
+                                                        const Empty* request,
+                                                        ClientUUID* response)
+{
+    std::string clientUUID = "";
+
+    if (m_pipeline->registerClient(clientUUID) != SolAR::FrameworkReturnCode::_SUCCESS) {
+        LOG_ERROR("Error while registering the client to the mapping and relocalization front end service");
+        return gRpcError("Error while registering the client to the mapping and relocalization front end service");
+    }
+
+    response->set_client_uuid(clientUUID);
+
+    LOG_INFO("Client registered with UUID = {}", clientUUID);
+
+    return Status::OK;
+}
+
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::UnregisterClient(grpc::ServerContext* context,
+                                                          const ClientUUID* request,
+                                                          Empty* response)
+{
+    LOG_INFO("Unregister the client with UUID = {}", request->client_uuid());
+
+    if (m_pipeline->unregisterClient(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS) {
+        LOG_ERROR("Error while unregistering the client to the mapping and relocalization front end service");
+    }
+
+    return Status::OK;
+}
+
+
+grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
                                               const PipelineModeValue* request,
                                               Empty* response)
 {
     LOG_INFO("Init mapping and relocalization service");
 
-    if (m_pipeline->init(toSolAR(request->pipeline_mode())) != SolAR::FrameworkReturnCode::_SUCCESS) {
+    if (m_pipeline->init(request->client_uuid(), toSolAR(request->pipeline_mode())) != SolAR::FrameworkReturnCode::_SUCCESS) {
         LOG_ERROR("Error while initializing the mapping and relocalization front end service");
         return gRpcError("Error while initializing the mapping and relocalization front end service");
     }
@@ -161,7 +195,7 @@ RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
-                                               const Empty* request,
+                                               const ClientUUID* request,
                                                Empty* response)
 {
     if (m_started) {
@@ -171,7 +205,7 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
 
     LOG_INFO("Start mapping and relocalization service");
 
-    if (m_pipeline->start() != SolAR::FrameworkReturnCode::_SUCCESS) {
+    if (m_pipeline->start(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS) {
         LOG_ERROR("Error while starting the mapping and relocalization front end service");
         return gRpcError("Error while starting the mapping and relocalization front end service");
     }
@@ -206,7 +240,7 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
-                                              const Empty* request,
+                                              const ClientUUID* request,
                                               Empty* response)
 {
     if (!m_started) {
@@ -218,7 +252,7 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
 
     LOG_INFO("Stop mapping and relocalization service");
 
-    if (m_pipeline->stop() != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->stop(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while stopping the mapping and relocalization front end service");
     }
@@ -284,7 +318,7 @@ RelocalizationAndMappingGrpcServiceImpl::SetCameraParameters(grpc::ServerContext
     solarCamParams.distortion(3,0) = request->distortion().p_1();
     solarCamParams.distortion(4,0) = request->distortion().k_3();
 
-    if (m_pipeline->setCameraParameters(solarCamParams) != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->setCameraParameters(request->client_uuid(), solarCamParams) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while setting camera parameters for the mapping and relocalization front end service");
     }
@@ -373,7 +407,7 @@ RelocalizationAndMappingGrpcServiceImpl::SetCameraParametersStereo(grpc::ServerC
     solarCamParams2.distortion(3,0) = request->distortion2().p_1();
     solarCamParams2.distortion(4,0) = request->distortion2().k_3();
 
-    if (m_pipeline->setCameraParameters(solarCamParams1, solarCamParams2) != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->setCameraParameters(request->client_uuid(), solarCamParams1, solarCamParams2) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while setting camera parameters for the stereo mapping and relocalization front end service");
     }
@@ -453,7 +487,7 @@ RelocalizationAndMappingGrpcServiceImpl::setRectificationParameters(grpc::Server
     solarCam2RectParams.type = toSolAR(request->cam2_stereo_type());
     solarCam2RectParams.baseline = request->cam2_baseline();
 
-    if (m_pipeline->setRectificationParameters(solarCam1RectParams, solarCam2RectParams) != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->setRectificationParameters(request->client_uuid(), solarCam1RectParams, solarCam2RectParams) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while setting camera rectification parameters for the mapping and relocalization front end service");
     }
@@ -642,6 +676,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
             try {
                 m_pipeline->relocalizeProcessRequest(
+                            request->client_uuid(),
                             imagesToSend,
                             posesToSend,
                             std::chrono::time_point<std::chrono::system_clock>(
@@ -723,7 +758,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* context,
-                                                        const Empty* request,
+                                                        const ClientUUID* request,
                                                         RelocalizationResult* response)
 {
     LOG_INFO("Get3DTransform");
@@ -735,13 +770,13 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Reset(grpc::ServerContext *context,
-                                               const Empty *request,
+                                               const ClientUUID* request,
                                                Empty *response)
 {
     LOG_INFO("Reset");
 
 
-    if (m_pipeline->resetMap() != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->resetMap(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while resetting the global map for the map update service");
     }
@@ -756,7 +791,7 @@ RelocalizationAndMappingGrpcServiceImpl::SendMessage(grpc::ServerContext* contex
                                                      const Message* request,
                                                      Empty* response)
 {
-    LOG_INFO("[RelocAndMapping] message: '{}'", request->message());
+    LOG_INFO("[RelocAndMapping] Client UUID : {} / message: '{}'", request->client_uuid(), request->message());
     return Status::OK;
 }
 

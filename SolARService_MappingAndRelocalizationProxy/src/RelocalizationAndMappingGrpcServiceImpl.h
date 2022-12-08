@@ -57,16 +57,24 @@ public:
     ~RelocalizationAndMappingGrpcServiceImpl() override;
 
 public:
+    grpc::Status RegisterClient(grpc::ServerContext* context,
+                                const Empty* request,
+                                ClientUUID* response)  override;
+
+    grpc::Status UnregisterClient(grpc::ServerContext* context,
+                                  const ClientUUID* request,
+                                  Empty* response)  override;
+
     grpc::Status Init(grpc::ServerContext* context,
                       const PipelineModeValue* request,
                       Empty* response)  override;
 
     grpc::Status Start(grpc::ServerContext* context,
-                       const Empty* request,
+                       const ClientUUID* request,
                        Empty* response)  override;
 
     grpc::Status Stop(grpc::ServerContext* context,
-                      const Empty* request,
+                      const ClientUUID* request,
                       Empty* response)  override;
 
     grpc::Status SetCameraParameters(grpc::ServerContext* context,
@@ -86,11 +94,11 @@ public:
                                   RelocalizationResult* response)  override;
 
     grpc::Status Get3DTransform(grpc::ServerContext* context,
-                                const Empty* request,
+                                const ClientUUID* request,
                                 RelocalizationResult* response)  override;
 
     grpc::Status Reset(grpc::ServerContext *context,
-                       const Empty *request,
+                       const ClientUUID* request,
                        Empty *response) override;
 
     grpc::Status SendMessage(grpc::ServerContext* context,

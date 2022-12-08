@@ -68,7 +68,7 @@ static void displayPointCloud()
     SRef<PointCloud> pointCloud;
 
     // Get global point cloud
-    if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(gClient_UUID, pointCloud) == FrameworkReturnCode::_SUCCESS) {
+    if (gRelocalizationAndMappingFrontendService->getPointCloudRequest(pointCloud) == FrameworkReturnCode::_SUCCESS) {
         std::vector<SRef<CloudPoint>> globalPointCloud;
         pointCloud->getAllPoints(globalPointCloud);
 
@@ -250,14 +250,14 @@ int main(int argc, char* argv[])
                     return -1;
                 }
             }
-
+/*
             if (!relocOnly) {
                 LOG_INFO("Reset the global map stored in the Map Update service");
-                if (gRelocalizationAndMappingFrontendService->resetMap(gClient_UUID) == FrameworkReturnCode::_SUCCESS) {
+                if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {
                     LOG_INFO("Global map reset!");
                 }
             }
-
+*/
             LOG_INFO("Start the service");
 
             if (gRelocalizationAndMappingFrontendService->start(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {

@@ -770,13 +770,13 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Reset(grpc::ServerContext *context,
-                                               const ClientUUID* request,
+                                               const Empty* request,
                                                Empty *response)
 {
     LOG_INFO("Reset");
 
 
-    if (m_pipeline->resetMap(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->resetMap() != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while resetting the global map for the map update service");
     }

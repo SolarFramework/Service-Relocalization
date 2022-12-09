@@ -582,7 +582,7 @@ const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fpr
   "\020\002\022\020\n\014LOOP_CLOSURE\020\003*2\n\013ImageLayout\022\n\n\006R"
   "GB_24\020\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\002*.\n\020Imag"
   "eCompression\022\010\n\004NONE\020\000\022\007\n\003PNG\020\001\022\007\n\003JPG\020\002"
-  "2\214\010\n\"SolARMappingAndRelocalizationProxy\022"
+  "2\207\010\n\"SolARMappingAndRelocalizationProxy\022"
   "M\n\016RegisterClient\022\032.com.bcom.solar.gprc."
   "Empty\032\037.com.bcom.solar.gprc.ClientUUID\022O"
   "\n\020UnregisterClient\022\037.com.bcom.solar.gprc"
@@ -604,15 +604,15 @@ const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fpr
   ").com.bcom.solar.gprc.RelocalizationResu"
   "lt\022\\\n\016Get3DTransform\022\037.com.bcom.solar.gp"
   "rc.ClientUUID\032).com.bcom.solar.gprc.Relo"
-  "calizationResult\022D\n\005Reset\022\037.com.bcom.sol"
-  "ar.gprc.ClientUUID\032\032.com.bcom.solar.gprc"
-  ".Empty\022G\n\013SendMessage\022\034.com.bcom.solar.g"
-  "prc.Message\032\032.com.bcom.solar.gprc.Emptyb"
-  "\006proto3"
+  "calizationResult\022\?\n\005Reset\022\032.com.bcom.sol"
+  "ar.gprc.Empty\032\032.com.bcom.solar.gprc.Empt"
+  "y\022G\n\013SendMessage\022\034.com.bcom.solar.gprc.M"
+  "essage\032\032.com.bcom.solar.gprc.Emptyb\006prot"
+  "o3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = {
-  false, false, 4127, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
+  false, false, 4122, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
   &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 15,
   schemas, file_default_instances, TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto::offsets,
   file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto,

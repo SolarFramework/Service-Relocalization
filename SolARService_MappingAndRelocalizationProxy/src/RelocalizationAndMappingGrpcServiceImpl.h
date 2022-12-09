@@ -98,7 +98,7 @@ public:
                                 RelocalizationResult* response)  override;
 
     grpc::Status Reset(grpc::ServerContext *context,
-                       const ClientUUID* request,
+                       const Empty* request,
                        Empty *response) override;
 
     grpc::Status SendMessage(grpc::ServerContext* context,

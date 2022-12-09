@@ -27,7 +27,7 @@ service SolARMappingAndRelocalizationProxy
     rpc setRectificationParameters(RectificationParameters) returns (Empty);
     rpc RelocalizeAndMap(Frames) returns (RelocalizationResult);
     rpc Get3DTransform(ClientUUID) returns (RelocalizationResult);
-    rpc Reset(ClientUUID) returns (Empty);
+    rpc Reset(Empty) returns (Empty);
 
     rpc SendMessage(Message) returns (Empty);
 }

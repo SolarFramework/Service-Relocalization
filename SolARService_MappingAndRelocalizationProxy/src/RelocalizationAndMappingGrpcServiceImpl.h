@@ -85,6 +85,10 @@ public:
                                   const Frames* request,
                                   RelocalizationResult* response)  override;
 
+    grpc::Status RelocalizeAndMapGroundTruth(grpc::ServerContext* context,
+                                             const GroundTruthFrames* request,
+                                             RelocalizationResult* response)  override;
+
     grpc::Status Get3DTransform(grpc::ServerContext* context,
                                 const Empty* request,
                                 RelocalizationResult* response)  override;
@@ -144,6 +148,12 @@ private:
 
     // Asynchronous backup of images and poses
     void saveImages();
+
+    grpc::Status RelocalizeAndMapInternal(grpc::ServerContext* context,
+                                          const Frames* request,
+                                          const ::com::bcom::solar::gprc::Matrix4x4& worldTransform,
+                                          bool fixedPose,
+                                          RelocalizationResult* response);
 
 private:
     static std::string to_string(CameraType type);

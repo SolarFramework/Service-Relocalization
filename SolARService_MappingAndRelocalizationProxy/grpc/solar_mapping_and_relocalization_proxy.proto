@@ -24,6 +24,7 @@ service SolARMappingAndRelocalizationProxy
     rpc SetCameraParametersStereo(CameraParametersStereo) returns (Empty);
     rpc setRectificationParameters(RectificationParameters) returns (Empty);
     rpc RelocalizeAndMap(Frames) returns (RelocalizationResult);
+    rpc RelocalizeAndMapGroundTruth(GroundTruthFrames) returns (RelocalizationResult);
     rpc Get3DTransform(Empty) returns (RelocalizationResult);
     rpc Reset(Empty) returns (Empty);
 
@@ -160,7 +161,13 @@ message Image
 message Frames
 {
     repeated Frame frames = 1;
-    bool fixed_pose = 2;
+}
+
+message GroundTruthFrames
+{
+    Frames frames = 1;
+    Matrix4x4 world_transorm = 2;
+    bool fixed_pose = 3;
 }
 
 message Frame

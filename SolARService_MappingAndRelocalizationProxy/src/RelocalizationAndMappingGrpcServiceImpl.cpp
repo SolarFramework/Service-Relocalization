@@ -477,6 +477,24 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                                                           const Frames* request,
                                                           RelocalizationResult* response)
 {
+    return RelocalizeAndMapInternal( context, request, {}, /* fixedpose = */ false, response );
+}
+
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapGroundTruth(grpc::ServerContext* context,
+                                                                     const GroundTruthFrames* request,
+                                                                     RelocalizationResult* response)
+{
+    return RelocalizeAndMapInternal( context, &request->frames(), request->world_transorm(), request->fixed_pose(), response );
+}
+
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerContext* context,
+                                                                  const Frames* request,
+                                                                  const ::com::bcom::solar::gprc::Matrix4x4& worldTransform,
+                                                                  bool fixedPose,
+                                                                  RelocalizationResult* response)
+{
     response->set_confidence(0);
     response->set_mapping_status(MappingStatus::BOOTSTRAP);
     response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
@@ -644,6 +662,8 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                 m_pipeline->relocalizeProcessRequest(
                             imagesToSend,
                             posesToSend,
+                            fixedPose,
+                            toSolAR(worldTransform),
                             std::chrono::time_point<std::chrono::system_clock>(
                                 std::chrono::milliseconds(m_last_image_timestamp)),
                             transform3DStatus,

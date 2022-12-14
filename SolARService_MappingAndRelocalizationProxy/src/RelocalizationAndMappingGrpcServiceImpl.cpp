@@ -741,7 +741,6 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
     }
 }
 
-
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* context,
                                                         const Empty* request,

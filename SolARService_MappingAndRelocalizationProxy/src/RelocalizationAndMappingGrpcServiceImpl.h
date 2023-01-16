@@ -25,6 +25,8 @@
 #include "xpcf/threading/SharedBuffer.h"
 #include "xpcf/threading/BaseTask.h"
 
+#include <mutex>
+
 namespace com::bcom::solar::gprc
 {
 
@@ -36,6 +38,79 @@ enum CameraMode : uint8_t {
   CAMERA_STEREO
 };
 
+class Fps
+{
+    typedef std::chrono::system_clock Time;
+    typedef std::chrono::milliseconds ms;
+
+    public:
+        Fps(){}
+        Fps(unsigned int computePeriodMs, unsigned int windowSize)
+            :m_computePeriodMs{computePeriodMs},
+              m_windowSize{windowSize}
+        {}
+
+        float update()
+        {
+            auto now = Time::now();
+            auto timeElapsed = now - m_lastTime;
+            m_lastTime = now;
+
+            m_lastTenDeltas.push_back(std::chrono::duration_cast<ms>(timeElapsed).count());
+
+            if (m_lastTenDeltas.size() > m_windowSize)
+            {
+                m_lastTenDeltas.erase(m_lastTenDeltas.begin());
+            }
+
+            if (now - m_lastTimeComputed > m_computePeriodMs)
+            {
+                m_currentFps = 1000.f / (std::accumulate(m_lastTenDeltas.begin(), m_lastTenDeltas.end(), 0.f) / m_lastTenDeltas.size());
+                m_lastTimeComputed = now;
+            }
+
+            return m_currentFps;
+        }
+
+    private:
+        std::chrono::milliseconds m_computePeriodMs{1000};
+        unsigned int m_windowSize{10};
+        float m_currentFps{0};
+
+        std::vector<float> m_lastTenDeltas;
+        std::chrono::time_point<std::chrono::system_clock> m_lastTime;
+        std::chrono::time_point<std::chrono::system_clock> m_lastTimeComputed;
+};
+
+/**
+ * @class ProxyClientContext
+ * @brief Class that models each proxy client context
+ *
+ */
+
+class ProxyClientContext
+{
+    public:
+        ProxyClientContext()
+        {
+            // Initialize class members
+            m_started = false;
+            m_cameraMode = UNKNOWN_CAMERA_MODE;
+            m_last_image_timestamp = 0;
+        };
+
+        bool m_started;                 // Indicates if the proxy is started or not
+        CameraMode m_cameraMode;        // Indicates the camera mode: mono or stereo
+        long m_last_image_timestamp;    // Timestamp of the last image processed
+
+        // Vector of ordered tuple(images, poses, timestamp)
+        std::vector<std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                               std::vector<SolAR::datastructure::Transform3Df>, long>> m_ordered_images;
+        std::mutex m_images_vector_mutex;   // Mutex used to control vector access
+
+        Fps m_relocAndMapFps;
+};
+
 class RelocalizationAndMappingGrpcServiceImpl
     final : public SolARMappingAndRelocalizationProxy::Service
 {
@@ -44,15 +119,6 @@ public:
     RelocalizationAndMappingGrpcServiceImpl() = default;
 
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline);
-
-    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
-                                            std::string saveFolder);
-
-    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
-                                            std::string saveFolder,
-                                            uint8_t display_images,
-                                            SRef<SolAR::api::display::IImageViewer> image_viewer_left,
-                                            SRef<SolAR::api::display::IImageViewer> image_viewer_right);
 
     ~RelocalizationAndMappingGrpcServiceImpl() override;
 
@@ -107,27 +173,14 @@ public:
 
 
 private:
+
     SolAR::api::pipeline::IAsyncRelocalizationPipeline* m_pipeline;
 
-    bool m_started; // Indicates if the proxy is started or not
+    // Map of current clients (UUID) with the context for each one
+    std::map<std::string, SRef<ProxyClientContext>> m_clientsMap;
+    mutable std::mutex                              m_mutexClientMap;
 
-    CameraMode m_cameraMode; // Indicates the camera mode: mono or stereo
-
-    // Variables used to display images on a view screen
-    uint8_t m_display_images = 0;
-    SRef<SolAR::api::display::IImageViewer> m_image_viewer_left, m_image_viewer_right;
-
-    // Variables used to save images on disk
-    long m_index_image;
-    std::ofstream m_poseFile1, m_poseFile2;
-    std::ofstream m_timestampFile;
-    std::string m_file_path, m_image1_path, m_image2_path;
-
-    // Vector of ordered tuple(images, poses, timestamp)
-    std::vector<std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
-                           std::vector<SolAR::datastructure::Transform3Df>, long>> m_ordered_images;
-    std::mutex m_images_vector_mutex;   // Mutex used to control vector access
-    long m_last_image_timestamp;        // Timestamp of the last image processed
+private:
 
     // Sort vector of tuples according to the third element of tuple
     static bool sortbythird (
@@ -136,24 +189,9 @@ private:
             const std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
                              std::vector<SolAR::datastructure::Transform3Df>, long> b);
 
-    // Buffers used to save or display images and poses
-    xpcf::SharedBuffer<std::vector<SRef<SolAR::datastructure::Image>>>
-                            m_sharedBufferImageToDisplay{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
-    xpcf::SharedBuffer<std::pair<std::vector<SRef<SolAR::datastructure::Image>>,
-                                 std::vector<SolAR::datastructure::Transform3Df>>>
-                            m_sharedBufferImagePoseToSave{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
+    /// @brief Give the context (ProxyClientContext instance) of the given client UUID
+    SRef<ProxyClientContext> getClientContext(const std::string & clientUUID) const;
 
-    // Delegate task dedicated to asynchronous processing
-    xpcf::DelegateTask * m_displayImagesTask = nullptr;
-    xpcf::DelegateTask * m_saveImagesTask = nullptr;
-
-    // Asynchronous display of images
-    void displayImages();
-
-    // Asynchronous backup of images and poses
-    void saveImages();
-
-private:
     static std::string to_string(CameraType type);
     static std::string to_string(StereoType type);
     static std::string to_string(Matrix3x3 mat);

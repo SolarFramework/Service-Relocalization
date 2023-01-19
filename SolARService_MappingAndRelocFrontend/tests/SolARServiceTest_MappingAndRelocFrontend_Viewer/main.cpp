@@ -67,8 +67,8 @@ int main(int argc, char* argv[])
     option_list.add_options()
             ("h,help", "display this help and exit")
             ("v,version", "display version information and exit")
-            ("f,file", "xpcf grpc client configuration file",
-             cxxopts::value<string>())
+            ("f,file", "xpcf grpc client configuration file", cxxopts::value<string>())
+            ("client-uuid", "set the client UUID", cxxopts::value<string>())
             ("display-keyframe-poses", "display keyframe poses from Map Update global map")
             ("display-device-poses", "display poses sent by the device");
 
@@ -88,7 +88,11 @@ int main(int argc, char* argv[])
             return -1;
         }
 
-        if (options.count("display-keyframe-poses") && options.count("display-device-poses")) {
+        if (!options.count("client-uuid") || options["client-uuid"].as<string>().empty()) {
+            print_error("missing client UUID");
+            return 1;
+        }
+                if (options.count("display-keyframe-poses") && options.count("display-device-poses")) {
             print_error("\'--display-keyframe-poses\' and \'--display-device-poses\' are exclusive options");
             return -1;
         }
@@ -146,6 +150,9 @@ int main(int argc, char* argv[])
             return -1;
         }
 
+        std::string clientUUID = options["client-uuid"].as<string>();
+        LOG_INFO("Get the Client UUID: {}", clientUUID);
+
         LOG_INFO("Resolve IMapUpdatePipeline interface");
         SRef<pipeline::IMapUpdatePipeline> mapUpdateService =
                 componentManager->resolve<SolAR::api::pipeline::IMapUpdatePipeline>();
@@ -170,18 +177,6 @@ int main(int argc, char* argv[])
             LOG_ERROR("Failed to start Map Update service");
             return -1;
         }
-
-        // Client UUID
-        std::string clientUUID = "";
-
-        LOG_INFO("Register the client");
-
-        if (frontEndService->registerClient(clientUUID) != FrameworkReturnCode::_SUCCESS) {
-                 LOG_ERROR("Error while registering the client to the mapping and relocalization front end service");
-                 return -1;
-        }
-
-        LOG_INFO("Client UUID = {}", clientUUID);
 
         // Display the current global map
 

@@ -23,7 +23,7 @@
 		</component>
 </module>
 
-<module uuid="15e1990b-86b2-445c-8194-0cbe80ede970" name="SolARModuleOpenCV" description="SolARModuleOpenCV" path="$XPCF_MODULE_ROOT/SolARBuild/SolARModuleOpenCV/1.0.0/lib/x86_64/shared">
+<module uuid="15e1990b-86b2-445c-8194-0cbe80ede970" name="SolARModuleOpenCV" description="SolARModuleOpenCV" path="$XPCF_MODULE_ROOT/SolARBuild/SolARModuleOpenCV/1.1.0/lib/x86_64/shared">
         <component uuid="0ff5ae31-f469-4d9b-86fc-feca1fa74a04" name="SolARQRCodesDetectorOpencv" description="SolARQRCodesDetectorOpencv">
 			<interface uuid="125f2007-1bf9-421d-9367-fbdc1210d006" name="IComponentIntrospect" description="IComponentIntrospect"/>
 			<interface uuid="607d0b0d-766d-4ff2-9b72-45c555f9726f" name="I2DTrackablesDetector" description="I2DTrackablesDetector"/>
@@ -74,7 +74,7 @@
 		</component>
 </module>
 
-<module uuid="28b89d39-41bd-451d-b19e-d25a3d7c5797" name="SolARModuleTools"  description="SolARModuleTools"  path="$XPCF_MODULE_ROOT/SolARBuild/SolARModuleTools/1.0.0/lib/x86_64/shared">
+<module uuid="28b89d39-41bd-451d-b19e-d25a3d7c5797" name="SolARModuleTools"  description="SolARModuleTools"  path="$XPCF_MODULE_ROOT/SolARBuild/SolARModuleTools/1.1.0/lib/x86_64/shared">
         <component uuid="31fa26d6-9744-4522-85fa-fc2baafbe397" name="SolARFiducialMarkersDetector" description="SolARFiducialMarkersDetector">
 			<interface uuid="125f2007-1bf9-421d-9367-fbdc1210d006" name="IComponentIntrospect" description="IComponentIntrospect"/>
 			<interface uuid="607d0b0d-766d-4ff2-9b72-45c555f9726f" name="I2DTrackablesDetector" description="I2DTrackablesDetector"/>

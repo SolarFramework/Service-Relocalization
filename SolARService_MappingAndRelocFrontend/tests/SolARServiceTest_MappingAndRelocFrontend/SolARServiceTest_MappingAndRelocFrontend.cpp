@@ -40,7 +40,7 @@ namespace xpcf=org::bcom::xpcf;
 // index of using cameras
 // 1 camera for mono mode
 // 2 cameras for stereo mode
-const std::vector<int> INDEX_USE_CAMERA{1, 2};
+const std::vector<int> INDEX_USE_CAMERA{0};
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;

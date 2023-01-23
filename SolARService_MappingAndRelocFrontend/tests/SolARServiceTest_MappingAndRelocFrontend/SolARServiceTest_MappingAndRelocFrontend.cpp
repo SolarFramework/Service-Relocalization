@@ -40,7 +40,7 @@ namespace xpcf=org::bcom::xpcf;
 // index of using cameras
 // 1 camera for mono mode
 // 2 cameras for stereo mode
-const std::vector<int> INDEX_USE_CAMERA{0};
+const std::vector<int> INDEX_USE_CAMERA{1};
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
@@ -214,6 +214,8 @@ int main(int argc, char* argv[])
 
             if (INDEX_USE_CAMERA.size() == 1) {
                 // Mono camera mode
+                // reset camera id to 0 since only 1 camera in the collection
+                camParams.id = 0;
                 if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
                     return -1;

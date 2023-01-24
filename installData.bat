@@ -7,8 +7,6 @@ powershell Expand-Archive fbow_voc.zip -DestinationPath .\data\fbow_voc -F
 del fbow_voc.zip
 curl https://repository.solarframework.org/generic/FbowVoc/popsift_uint8.fbow -L -o ./data/fbow_voc/popsift_uint8.fbow
 
-curl https://repository.solarframework.org/generic/FbowVoc/popsift_uint8.fbow -L -o data/fbow_voc/popsift_uint8.fbow
-
 :: Download TUM camera calibration
 echo Download TUM camera calibration
 curl https://repository.solarframework.org/generic/captures/singleRGB/TUM/tum_camera_calibration.json -L -o data/tum_camera_calibration.json

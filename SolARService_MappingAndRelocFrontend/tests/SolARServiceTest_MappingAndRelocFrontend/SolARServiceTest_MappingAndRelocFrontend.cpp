@@ -37,10 +37,26 @@ using namespace SolAR::api;
 using namespace SolAR::datastructure;
 namespace xpcf=org::bcom::xpcf;
 
+/* IS_GT_SEQ if defined the input sequence should contain GT poses
+    gt_0.txt, gt_1.txt ... each file containing 17 lines (timestamp and 16 elements of 4x4 matrix)
+    gt pose is defined in solar coordinate system
+    solar_to_world transform is provided in solar_to_world.txt, otherwise will be set to identity matrix
+    An example of this groundtruth pose sequence can be found at https://repository.solarframework.org/generic/captures/hololens/bcomLab/
+       gtpose_fid_desktop_A.zip
+*/
+//#define IS_GT_SEQ
+//#define NBR_GT 2
+
+#ifdef IS_GT_SEQ
+std::vector<Transform3Df> g_GT_Transforms;  // GT camera pose in solar
+std::vector<std::chrono::system_clock::time_point> g_GT_Times; // corresponding timestamp
+Transform3Df g_solar2world;  // transform from solar to world coordinate systems
+#endif
+
 // index of using cameras
 // 1 camera for mono mode
 // 2 cameras for stereo mode
-const std::vector<int> INDEX_USE_CAMERA{1, 2};
+const std::vector<int> INDEX_USE_CAMERA{0};
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
@@ -118,7 +134,7 @@ int main(int argc, char* argv[])
     #endif
 
     LOG_ADD_LOG_TO_CONSOLE();
-//    LOG_SET_DEBUG_LEVEL();
+    //LOG_SET_DEBUG_LEVEL();
 
 
     bool relocOnly = false; // Indicate if only relocalization has to be done
@@ -218,6 +234,45 @@ int main(int argc, char* argv[])
         auto overlay3D = componentMgr->resolve<display::I3DOverlay>();
         LOG_INFO("Remote producer client: AR device component created");
 
+#ifdef IS_GT_SEQ
+        // load GT pose data
+        std::string pathToData = arDevice->bindTo<xpcf::IConfigurable>()->getProperty("pathToData")->getStringValue();
+        std::ifstream infile(pathToData + "/solar_to_world.txt");
+        std::string line;
+        if (!infile.is_open()) {
+            g_solar2world = Transform3Df::Identity();
+        }
+        else {
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 4; c++) {
+                    std::getline(infile, line);
+                    g_solar2world(r, c) = std::stof(line);
+                }
+            }
+            infile.close();
+        }
+
+        for (int i = 0; i < NBR_GT; i++) {
+            infile.open(pathToData + "/gt_" + std::to_string(i) + ".txt");
+            if (!infile.is_open()) {
+                LOG_ERROR("Failed to open the groundtruth file");
+                return -1;
+            }
+            std::getline(infile, line);
+            std::chrono::milliseconds dur(std::stoll(line));
+            g_GT_Times.push_back(std::chrono::time_point<std::chrono::system_clock>(dur));
+            Transform3Df trf;
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 4; c++) {
+                    std::getline(infile, line);
+                    trf(r, c) = std::stof(line);
+                }
+            }
+            g_GT_Transforms.push_back(trf);
+            infile.close();
+        }
+#endif
+
         if (gDisplayPointCloud)
             gViewer3D = componentMgr->resolve<display::I3DPointsViewer>();
 
@@ -231,6 +286,8 @@ int main(int argc, char* argv[])
 
             if (INDEX_USE_CAMERA.size() == 1) {
                 // Mono camera mode
+                // reset camera id to 0 since only 1 camera in the collection
+                camParams.id = 0;
                 if (gRelocalizationAndMappingFrontendService->setCameraParameters(gClient_UUID, camParams) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
                     return -1;
@@ -288,9 +345,21 @@ int main(int argc, char* argv[])
                     api::pipeline::TransformStatus transform3DStatus;
                     Transform3Df transform3D;
                     float_t confidence;
+                    bool isFixedPose = false;
+                    Transform3Df tr_ar_world = Transform3Df::Identity();
                     api::pipeline::MappingStatus mappingStatus;
 
-                    LOG_INFO("Send image and pose to service");                    
+                    LOG_INFO("Send image and pose to service");
+
+#ifdef IS_GT_SEQ
+                    for (int i = 0; i < NBR_GT; i++) {
+                        if (timestamp == g_GT_Times[i]) {
+                            LOG_INFO("Receiving GT pose {}", i);
+                            isFixedPose = true;
+                            tr_ar_world = g_solar2world*g_GT_Transforms[i]*poses[0].inverse();
+                        }
+                    }
+#endif
 
                     // Send data to mapping and relocalization front end service
                     gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
@@ -301,6 +370,10 @@ int main(int argc, char* argv[])
                         // draw cube
                         if (!relocOnly)
                             overlay3D->draw(transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#ifdef IS_GT_SEQ
+                        if (!relocOnly)
+                            overlay3D->draw(g_solar2world.inverse()*transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#endif
                     }
                     else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
                         LOG_DEBUG("Previous 3D transformation = {}", transform3D.matrix());
@@ -308,6 +381,10 @@ int main(int argc, char* argv[])
                         // draw cube
                         if (!relocOnly)
                             overlay3D->draw(transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#ifdef IS_GT_SEQ
+                        if (!relocOnly)
+                            overlay3D->draw(g_solar2world.inverse()*transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#endif
                     }
                     else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
                         LOG_DEBUG("No 3D transformation");

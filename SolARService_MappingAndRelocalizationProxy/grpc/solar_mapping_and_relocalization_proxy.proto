@@ -26,6 +26,7 @@ service SolARMappingAndRelocalizationProxy
     rpc SetCameraParametersStereo(CameraParametersStereo) returns (Empty);
     rpc setRectificationParameters(RectificationParameters) returns (Empty);
     rpc RelocalizeAndMap(Frames) returns (RelocalizationResult);
+    rpc RelocalizeAndMapGroundTruth(GroundTruthFrames) returns (RelocalizationResult);
     rpc Get3DTransform(ClientUUID) returns (RelocalizationResult);
     rpc Reset(Empty) returns (Empty);
 
@@ -173,6 +174,14 @@ message Frames
 {
     string client_uuid = 1;
     repeated Frame frames = 2;
+}
+
+message GroundTruthFrames
+{
+    string client_uuid = 1;
+    Frames frames = 2;
+    Matrix4x4 world_transorm = 3;
+    bool fixed_pose = 4;
 }
 
 message Frame

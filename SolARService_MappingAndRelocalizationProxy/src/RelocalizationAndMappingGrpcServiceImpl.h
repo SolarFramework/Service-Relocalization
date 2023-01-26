@@ -159,6 +159,10 @@ public:
                                   const Frames* request,
                                   RelocalizationResult* response)  override;
 
+    grpc::Status RelocalizeAndMapGroundTruth(grpc::ServerContext* context,
+                                             const GroundTruthFrames* request,
+                                             RelocalizationResult* response)  override;
+
     grpc::Status Get3DTransform(grpc::ServerContext* context,
                                 const ClientUUID* request,
                                 RelocalizationResult* response)  override;
@@ -180,6 +184,11 @@ private:
     std::map<std::string, SRef<ProxyClientContext>> m_clientsMap;
     mutable std::mutex                              m_mutexClientMap;
 
+    grpc::Status RelocalizeAndMapInternal(grpc::ServerContext* context,
+                                          const Frames* request,
+                                          const ::com::bcom::solar::gprc::Matrix4x4& worldTransform,
+                                          bool fixedPose,
+                                          RelocalizationResult* response);
 private:
 
     // Sort vector of tuples according to the third element of tuple

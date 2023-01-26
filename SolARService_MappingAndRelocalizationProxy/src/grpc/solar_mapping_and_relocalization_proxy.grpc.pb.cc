@@ -34,6 +34,7 @@ static const char* SolARMappingAndRelocalizationProxy_method_names[] = {
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/SetCameraParametersStereo",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/setRectificationParameters",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/RelocalizeAndMap",
+  "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/RelocalizeAndMapGroundTruth",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/Get3DTransform",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/Reset",
   "/com.bcom.solar.gprc.SolARMappingAndRelocalizationProxy/SendMessage",
@@ -55,9 +56,10 @@ SolARMappingAndRelocalizationProxy::Stub::Stub(const std::shared_ptr< ::grpc::Ch
   , rpcmethod_SetCameraParametersStereo_(SolARMappingAndRelocalizationProxy_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_setRectificationParameters_(SolARMappingAndRelocalizationProxy_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_RelocalizeAndMap_(SolARMappingAndRelocalizationProxy_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Get3DTransform_(SolARMappingAndRelocalizationProxy_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Reset_(SolARMappingAndRelocalizationProxy_method_names[10], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SendMessage_(SolARMappingAndRelocalizationProxy_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_RelocalizeAndMapGroundTruth_(SolARMappingAndRelocalizationProxy_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Get3DTransform_(SolARMappingAndRelocalizationProxy_method_names[10], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Reset_(SolARMappingAndRelocalizationProxy_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SendMessage_(SolARMappingAndRelocalizationProxy_method_names[12], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status SolARMappingAndRelocalizationProxy::Stub::RegisterClient(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::com::bcom::solar::gprc::ClientUUID* response) {
@@ -267,6 +269,29 @@ void SolARMappingAndRelocalizationProxy::Stub::experimental_async::RelocalizeAnd
   return result;
 }
 
+::grpc::Status SolARMappingAndRelocalizationProxy::Stub::RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames& request, ::com::bcom::solar::gprc::RelocalizationResult* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::com::bcom::solar::gprc::GroundTruthFrames, ::com::bcom::solar::gprc::RelocalizationResult, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_RelocalizeAndMapGroundTruth_, context, request, response);
+}
+
+void SolARMappingAndRelocalizationProxy::Stub::experimental_async::RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::com::bcom::solar::gprc::GroundTruthFrames, ::com::bcom::solar::gprc::RelocalizationResult, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RelocalizeAndMapGroundTruth_, context, request, response, std::move(f));
+}
+
+void SolARMappingAndRelocalizationProxy::Stub::experimental_async::RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RelocalizeAndMapGroundTruth_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* SolARMappingAndRelocalizationProxy::Stub::PrepareAsyncRelocalizeAndMapGroundTruthRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::com::bcom::solar::gprc::RelocalizationResult, ::com::bcom::solar::gprc::GroundTruthFrames, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_RelocalizeAndMapGroundTruth_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::RelocalizationResult>* SolARMappingAndRelocalizationProxy::Stub::AsyncRelocalizeAndMapGroundTruthRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncRelocalizeAndMapGroundTruthRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ::grpc::Status SolARMappingAndRelocalizationProxy::Stub::Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::ClientUUID& request, ::com::bcom::solar::gprc::RelocalizationResult* response) {
   return ::grpc::internal::BlockingUnaryCall< ::com::bcom::solar::gprc::ClientUUID, ::com::bcom::solar::gprc::RelocalizationResult, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Get3DTransform_, context, request, response);
 }
@@ -430,6 +455,16 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       SolARMappingAndRelocalizationProxy_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::GroundTruthFrames, ::com::bcom::solar::gprc::RelocalizationResult, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](SolARMappingAndRelocalizationProxy::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::com::bcom::solar::gprc::GroundTruthFrames* req,
+             ::com::bcom::solar::gprc::RelocalizationResult* resp) {
+               return service->RelocalizeAndMapGroundTruth(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      SolARMappingAndRelocalizationProxy_method_names[10],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::ClientUUID, ::com::bcom::solar::gprc::RelocalizationResult, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
              ::grpc::ServerContext* ctx,
@@ -438,7 +473,7 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
                return service->Get3DTransform(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      SolARMappingAndRelocalizationProxy_method_names[10],
+      SolARMappingAndRelocalizationProxy_method_names[11],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
@@ -448,7 +483,7 @@ SolARMappingAndRelocalizationProxy::Service::Service() {
                return service->Reset(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      SolARMappingAndRelocalizationProxy_method_names[11],
+      SolARMappingAndRelocalizationProxy_method_names[12],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< SolARMappingAndRelocalizationProxy::Service, ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](SolARMappingAndRelocalizationProxy::Service* service,
@@ -519,6 +554,13 @@ SolARMappingAndRelocalizationProxy::Service::~Service() {
 }
 
 ::grpc::Status SolARMappingAndRelocalizationProxy::Service::RelocalizeAndMap(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status SolARMappingAndRelocalizationProxy::Service::RelocalizeAndMapGroundTruth(::grpc::ServerContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response) {
   (void) context;
   (void) request;
   (void) response;

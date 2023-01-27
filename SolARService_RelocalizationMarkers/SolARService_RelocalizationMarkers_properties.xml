@@ -17,7 +17,7 @@
 		<property name="maxReprojError" type="float" value="2.0"/>
 	</configure>
 	<configure component="SolARWorldGraphLoader">
-                <property name="filePath" type="string" value="../../../../../data/marker/markers.json"/>
+                <property name="filePath" type="string" value="markers.json"/>
 	</configure>
 	<configure component="SolARFiducialMarkersDetector" name="FiducialProperties">
 		<property name="nbThreshold" type="int" value="4"/>

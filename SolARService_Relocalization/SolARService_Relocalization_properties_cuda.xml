@@ -36,7 +36,7 @@
 			<property name="nbOctaves" type="integer" value="3"/>
 			<property name="nbLevelPerOctave" type="integer" value="3"/>
 			<property name="sigma" type="float" value="1.6"/>
-                        <property name="threshold" type="float" value="0.001"/>
+            <property name="threshold" type="float" value="0.001"/>
 			<property name="edgeLimit" type="float" value="10.0"/>
 			<property name="downsampling" type="float" value="-1.0"/>
 			<property name="initialBlur" type="float" value="-1.0"/>
@@ -53,9 +53,9 @@
     <configure component="SolARPoseEstimationSACPnpOpencv">
             <property name="iterationsCount" type="int" value="500"/>
             <property name="reprojError" type="float" value="3.0"/>
-            <property name="confidence" type="float" value="0.99"/>
+            <property name="confidence" type="float" value="0.95"/>
             <property name="minNbInliers" type="int" value="15"/>
-            <!--property name="method" type="string" value="EPNP"/-->
+            <property name="method" type="string" value="USAC_MAGSAC"/>
     </configure>
     <configure component="SolARKeyframeRetrieverFBOW">
             <property name="VOCpath" type="string" value="../../../../../data/fbow_voc/popsift_uint8.fbow"/>

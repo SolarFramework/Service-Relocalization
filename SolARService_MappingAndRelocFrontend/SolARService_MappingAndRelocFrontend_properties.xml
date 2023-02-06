@@ -36,6 +36,7 @@
     <configure component="SolARMappingAndRelocalizationFrontendPipeline">
         <property name="nbSecondsBetweenRequest" access="rw" type="uint" value="20"/>
         <property name="nbRelocRequest" access="rw" type="uint" value="3"/>
+        <property name="thresholdTranslationRatio" access="rw" type="float" value="0.2" description="ratio multiplied with cumulated distance used as threshold to test if reloc pose is coherent with AR runtime pose"/>
     </configure>
 </properties>
 

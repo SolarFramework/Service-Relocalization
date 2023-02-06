@@ -31,16 +31,16 @@
             <property name="thresConfidence" type="float" value="0.03"/>
     </configure>
     <configure component="SolARDescritorsExtractorFromImagePopSift">
-			<property name="mode" type="string" value="PopSift"/>
-			<property name="imageMode" type="string" value="Unsigned Char"/>
-			<property name="nbOctaves" type="integer" value="3"/>
-			<property name="nbLevelPerOctave" type="integer" value="3"/>
-			<property name="sigma" type="float" value="1.6"/>
+            <property name="mode" type="string" value="PopSift"/>
+            <property name="imageMode" type="string" value="Unsigned Char"/>
+            <property name="nbOctaves" type="integer" value="3"/>
+            <property name="nbLevelPerOctave" type="integer" value="3"/>
+            <property name="sigma" type="float" value="1.6"/>
             <property name="threshold" type="float" value="0.001"/>
-			<property name="edgeLimit" type="float" value="10.0"/>
-			<property name="downsampling" type="float" value="-1.0"/>
-			<property name="initialBlur" type="float" value="-1.0"/>
-			<property name="maxTotalKeypoints" type="uint" value="1000"/>
+            <property name="edgeLimit" type="float" value="10.0"/>
+            <property name="downsampling" type="float" value="-1.0"/>
+            <property name="initialBlur" type="float" value="-1.0"/>
+            <property name="maxTotalKeypoints" type="uint" value="1000"/>
 	</configure>
     <configure component="SolARDescriptorMatcherKNNOpencv">
             <property name="distanceRatio" type="float" value="0.8"/>

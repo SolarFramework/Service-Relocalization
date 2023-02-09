@@ -53,7 +53,7 @@
     <configure component="SolARPoseEstimationSACPnpOpencv">
             <property name="iterationsCount" type="int" value="500"/>
             <property name="reprojError" type="float" value="3.0"/>
-            <property name="confidence" type="float" value="0.95"/>
+            <property name="confidence" type="float" value="0.96"/>
             <property name="minNbInliers" type="int" value="15"/>
             <property name="method" type="string" value="USAC_MAGSAC"/>
     </configure>

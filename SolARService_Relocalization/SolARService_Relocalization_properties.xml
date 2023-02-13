@@ -32,11 +32,11 @@
     </configure>
     <configure component="SolARKeypointDetectorOpencv">
             <property name="type" type="string" value="AKAZE2"/>
-			<property name="imageRatio" type="float" value="1.0"/>
-			<property name="nbDescriptors" type="int" value="1000"/>
-			<property name="nbOctaves" type="int" value="4"/>
-			<property name="threshold" type="float" value="0.0001"/>
-			<property name="borderRatio" type="float" value="0.0"/>
+            <property name="imageRatio" type="float" value="1.0"/>
+            <property name="nbDescriptors" type="int" value="1000"/>
+            <property name="nbOctaves" type="int" value="4"/>
+            <property name="threshold" type="float" value="0.0001"/>
+            <property name="borderRatio" type="float" value="0.0"/>
     </configure>
     <configure component="SolARDescriptorsExtractorAKAZE2Opencv">
             <property name="threshold" type="float" value="3e-4"/>
@@ -52,9 +52,9 @@
     <configure component="SolARPoseEstimationSACPnpOpencv">
             <property name="iterationsCount" type="int" value="500"/>
             <property name="reprojError" type="float" value="3.0"/>
-            <property name="confidence" type="float" value="0.99"/>
-            <property name="minNbInliers" type="int" value="40"/>
-            <property name="method" type="string" value="EPNP"/>
+            <property name="confidence" type="float" value="0.96"/>
+            <property name="minNbInliers" type="int" value="15"/>
+            <property name="method" type="string" value="USAC_MAGSAC"/>
     </configure>
     <configure component="SolARKeyframeRetrieverFBOW">
             <property name="VOCpath" type="string" value="../../../../../data/fbow_voc/akaze.fbow"/>

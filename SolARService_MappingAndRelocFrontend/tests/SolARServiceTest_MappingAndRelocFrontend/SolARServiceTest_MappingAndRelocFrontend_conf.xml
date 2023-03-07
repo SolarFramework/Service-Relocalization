@@ -49,10 +49,7 @@
                 <configure component="SolARDeviceDataLoader">
                         <property name="calibrationFile" type="string" value="../../../../../data/data_hololens/hololens_calibration.json"/>
                         <property name="pathToData" type="string" value="../../../../../data/data_hololens/loop_desktop_A"/>
-                        <property name="delayTime" type="int" value="150"/>
-                        <!--property name="calibrationFile" type="string" value="../../../../../data/data_hololens/hololens_calibration_lf_rf.json"/-->
-                        <!--property name="pathToData" type="string" value="../../../../../data/data_hololens/gtpose_fid_desktop_A"/-->
-                        <!--property name="delayTime" type="int" value="50"/-->
+                        <property name="delayTime" type="int" value="0"/>
                 </configure>
                 <configure component="SolARImageViewerOpencv">
                         <property name="title" type="string" value="AR device mapping. Green = inliers, Red = outliers"/>

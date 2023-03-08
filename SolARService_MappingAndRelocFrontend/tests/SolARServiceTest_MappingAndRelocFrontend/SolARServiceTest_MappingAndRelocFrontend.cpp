@@ -325,14 +325,35 @@ int main(int argc, char* argv[])
             LOG_INFO("Read images and poses from hololens files");
             LOG_INFO("\n\n***** Control+C to stop *****\n");          
 
+            // Previous image timestamp
+            std::chrono::time_point<std::chrono::system_clock> previous_timestamp;
+
+            bool first_image = true;
+
             // Wait for interruption or and of images
             while (true) {
                 std::vector<SRef<Image>> images;
                 std::vector<Transform3Df> poses;
-                std::chrono::system_clock::time_point timestamp;
+                std::chrono::time_point<std::chrono::system_clock> timestamp;
 
                 // Read next image and pose
                 if (arDevice->getData(images, poses, timestamp) == FrameworkReturnCode::_SUCCESS) {
+
+                    // Send images/poses according to timestamps
+                    if (!first_image) {
+                        // Calculate delay between current and previous images
+                        std::chrono::duration delay =
+                                std::chrono::duration_cast<std::chrono::milliseconds>(timestamp - previous_timestamp);
+
+                        std::this_thread::sleep_for(delay);
+
+                        LOG_DEBUG("Delay between current and previous images = {} ms", delay.count());
+                    }
+                    else
+                        first_image = false;
+
+                    previous_timestamp = timestamp;
+
                     std::vector<SRef<Image>> imagesToProcess;
                     std::vector<Transform3Df> posesToProcess;
                     for (const auto & i : INDEX_USE_CAMERA){

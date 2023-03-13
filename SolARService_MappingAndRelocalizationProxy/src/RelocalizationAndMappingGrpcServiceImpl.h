@@ -120,6 +120,9 @@ public:
 
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline);
 
+    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+                                            std::string saveFolder);
+
     ~RelocalizationAndMappingGrpcServiceImpl() override;
 
 public:
@@ -190,6 +193,24 @@ private:
                                           bool fixedPose,
                                           RelocalizationResult* response);
 private:
+
+    // Variables used to save images on disk
+    long m_index_image;
+    std::ofstream m_poseFile1, m_poseFile2;
+    std::ofstream m_timestampFile;
+    std::string m_file_path, m_image1_path, m_image2_path;
+
+    // Buffers used to save images, poses and timestamps
+    xpcf::SharedBuffer<std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
+                                  std::vector<SolAR::datastructure::Transform3Df>,
+                                  long>>
+                            m_sharedBufferImagePoseToSave{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
+
+    // Delegate task dedicated to asynchronous processing
+    xpcf::DelegateTask * m_saveImagesTask = nullptr;
+
+    // Asynchronous backup of images and poses
+    void saveImages();
 
     // Sort vector of tuples according to the third element of tuple
     static bool sortbythird (

@@ -44,9 +44,26 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl
     LOG_DEBUG("RelocalizationAndMappingGrpcServiceImpl constructor");
 }
 
+RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
+        SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+        std::string saveFolder): m_pipeline{ pipeline }, m_file_path { saveFolder }
+{
+    // Save images and poses processing function
+    if (saveFolder != "") {
+        auto fnSaveImagesProcessing = [&]() {
+            saveImages();
+        };
+
+        m_saveImagesTask = new xpcf::DelegateTask(fnSaveImagesProcessing, true);
+    }
+}
+
 RelocalizationAndMappingGrpcServiceImpl::~RelocalizationAndMappingGrpcServiceImpl()
 {
     LOG_DEBUG("RelocalizationAndMappingGrpcServiceImpl destructor");
+
+    if (m_saveImagesTask != nullptr)
+        delete m_saveImagesTask;
 }
 
 grpc::Status
@@ -151,6 +168,20 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
 
     LOG_DEBUG("Start mapping and relocalization service OK");
 
+    m_index_image = 0;
+    if (m_file_path != "") {
+        m_image1_path = m_file_path + "/000/";
+        boost::filesystem::create_directories(boost::filesystem::path(m_image1_path.c_str()));
+        m_poseFile1.open(m_file_path + "/pose_000.txt");
+        m_image2_path = m_file_path + "/001/";
+        boost::filesystem::create_directories(boost::filesystem::path(m_image2_path.c_str()));
+        m_poseFile2.open(m_file_path + "/pose_001.txt");
+        m_timestampFile.open(m_file_path + "/timestamps.txt");
+    }
+
+    if (m_saveImagesTask != nullptr)
+        m_saveImagesTask->start();
+
     return Status::OK;
 }
 
@@ -179,6 +210,17 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
     {
         return gRpcError("Error while stopping the mapping and relocalization front end service");
     }
+
+    if (m_file_path != "") {
+        // Wait to let all data be saved in files
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        m_poseFile1.close();
+        m_poseFile2.close();
+        m_timestampFile.close();
+    }
+
+    if (m_saveImagesTask != nullptr)
+        m_saveImagesTask->stop();
 
     LOG_DEBUG("Stop mapping and relocalization service OK");
 
@@ -582,62 +624,76 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
 
         clientContext->m_images_vector_mutex.unlock();
 
-        LOG_DEBUG("Do mapping and relocalization");
+        if (m_file_path == "") {
 
-        try {
-            m_pipeline->relocalizeProcessRequest(
-                        request->client_uuid(),
-                        imagesToSend,
-                        posesToSend,
-                        fixedPose,
-                        toSolAR(worldTransform),
-                        std::chrono::time_point<std::chrono::system_clock>(
-                            std::chrono::milliseconds(clientContext->m_last_image_timestamp)),
-                        transform3DStatus,
-                        transform3D,
-                        confidence,
-                        mappingStatus);
+            LOG_DEBUG("Do mapping and relocalization");
+
+            try {
+                m_pipeline->relocalizeProcessRequest(
+                            request->client_uuid(),
+                            imagesToSend,
+                            posesToSend,
+                            fixedPose,
+                            toSolAR(worldTransform),
+                            std::chrono::time_point<std::chrono::system_clock>(
+                                std::chrono::milliseconds(clientContext->m_last_image_timestamp)),
+                            transform3DStatus,
+                            transform3D,
+                            confidence,
+                            mappingStatus);
+            }
+            catch (const std::exception& e)
+            {
+                response->set_mapping_status(MappingStatus::TRACKING_LOST);
+
+                return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
+                                 + std::string(e.what()));
+            }
+
+            RelocalizationPoseStatus gRpcPoseStatus;
+            auto status = toGrpc(transform3DStatus, gRpcPoseStatus);
+            if (!status.ok())
+            {
+                LOG_ERROR("RelocalizeAndMap(): error while converting received image to SolAR datastructure");
+                return gRpcError("RelocalizeAndMap(): error while converting received image to SolAR datastructure", status.error_code());
+            }
+
+            MappingStatus gRpcMappingStatus;
+            status = toGrpc(mappingStatus, gRpcMappingStatus);
+            if (!status.ok())
+            {
+                LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
+                return gRpcError("RelocalizeAndMap(): error while converting received image to SolAR datastructure", status.error_code());
+            }
+
+            response->set_confidence(confidence);
+            response->set_mapping_status(gRpcMappingStatus);
+            if (gRpcMappingStatus == MappingStatus::BOOTSTRAP)
+                response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
+            else
+                response->set_pose_status(gRpcPoseStatus);
+            toGrpc(transform3D, *response->mutable_pose());
+
+            LOG_DEBUG("Output");
+            LOG_DEBUG("  confidence: {}", confidence);
+            LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
+            LOG_DEBUG("  transform:\n{}", transform3D.matrix());
+            LOG_DEBUG("  mapping status:\n{}", to_string(mappingStatus));
+
+            return Status::OK;
         }
-        catch (const std::exception& e)
-        {
-            response->set_mapping_status(MappingStatus::TRACKING_LOST);
+        else {
 
-            return gRpcError("Error: exception thrown by relocation and mapping pipeline: "
-                             + std::string(e.what()));
+            LOG_DEBUG("Save images, poses and timestamps on file");
+
+            if (m_saveImagesTask != nullptr) {
+                m_sharedBufferImagePoseToSave.push(std::make_tuple(imagesToSend, posesToSend,
+                                                                   clientContext->m_last_image_timestamp));
+            }
+
+            return Status::OK;
         }
-
-        RelocalizationPoseStatus gRpcPoseStatus;
-        auto status = toGrpc(transform3DStatus, gRpcPoseStatus);
-        if (!status.ok())
-        {
-            LOG_ERROR("RelocalizeAndMap(): error while converting received image to SolAR datastructure");
-            return gRpcError("RelocalizeAndMap(): error while converting received image to SolAR datastructure", status.error_code());
-        }
-
-        MappingStatus gRpcMappingStatus;
-        status = toGrpc(mappingStatus, gRpcMappingStatus);
-        if (!status.ok())
-        {
-            LOG_ERROR("RelocalizeAndMap(): error while converting received image to SoLAR datastructure");
-            return gRpcError("RelocalizeAndMap(): error while converting received image to SolAR datastructure", status.error_code());
-        }
-
-        response->set_confidence(confidence);
-        response->set_mapping_status(gRpcMappingStatus);
-        if (gRpcMappingStatus == MappingStatus::BOOTSTRAP)
-            response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
-        else
-            response->set_pose_status(gRpcPoseStatus);
-        toGrpc(transform3D, *response->mutable_pose());
-
-        LOG_DEBUG("Output");
-        LOG_DEBUG("  confidence: {}", confidence);
-        LOG_DEBUG("  transform status: {}", to_string(transform3DStatus));
-        LOG_DEBUG("  transform:\n{}", transform3D.matrix());
-        LOG_DEBUG("  mapping status:\n{}", to_string(mappingStatus));
-
-        return Status::OK;
-    }
+      }
     else {
         LOG_INFO("Not enough images to process");
 
@@ -1096,6 +1152,46 @@ RelocalizationAndMappingGrpcServiceImpl::gRpcError(std::string message,
 {
     LOG_ERROR("{}", message);
     return Status(gRpcStatus, message);
+}
+
+void RelocalizationAndMappingGrpcServiceImpl::saveImages()
+{
+    std::tuple<std::vector<SRef<SolARImage>>, std::vector<SolAR::datastructure::Transform3Df>,
+               long> imagesPoses;
+
+    if (!m_sharedBufferImagePoseToSave.tryPop(imagesPoses)) {
+        xpcf::DelegateTask::yield();
+        return;
+    }
+
+    std::vector<SRef<SolARImage>> images = std::get<0>(imagesPoses);
+    std::vector<SolAR::datastructure::Transform3Df> poses  = std::get<1>(imagesPoses);
+
+    char imageName[9];
+    sprintf(imageName, "%0.8d", m_index_image);
+
+    if (images.size() >= 1)
+    {
+        if (images.at(0)->save(m_image1_path + imageName + std::string(".jpg"))
+                == SolAR::FrameworkReturnCode::_SUCCESS) {
+            for (int i = 0; i < 4; ++i)
+            for (int j = 0; j < 4; j++)
+                m_poseFile1 << poses.at(0)(i, j) << " ";
+            m_poseFile1 << "\n";
+
+            if (images.size() == 2) {
+                if (images.at(1)->save(m_image2_path + imageName + std::string(".jpg"))
+                        == SolAR::FrameworkReturnCode::_SUCCESS) {
+                    for (int i = 0; i < 4; ++i)
+                    for (int j = 0; j < 4; j++)
+                        m_poseFile2 << poses.at(1)(i, j) << " ";
+                    m_poseFile2 << "\n";
+                }
+            }
+            m_timestampFile << std::get<2>(imagesPoses) << "\n";
+            m_index_image++;
+        }
+    }
 }
 
 } // namespace com::bcom::solar::gprc

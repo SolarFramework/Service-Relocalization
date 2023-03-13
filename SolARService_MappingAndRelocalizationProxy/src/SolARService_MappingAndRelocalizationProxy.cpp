@@ -46,7 +46,7 @@ using com::bcom::solar::gprc::RelocalizationAndMappingGrpcServiceImpl;
 const int DEFAULT_GRPC_LISTENING_PORT = 5010;
 
 SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile);
-void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress);
+void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress, string saveFolder);
 void print_help(const cxxopts::Options& options);
 
 int main(int argc, char* argv[])
@@ -64,7 +64,8 @@ LOG_ADD_LOG_TO_CONSOLE();
             ("v,version", "display version information and exit")
             ("f,file", "configuration file (mandatory)", cxxopts::value<string>())
             ("p,port", "port to which the gRPC service will listen to \
-                (default: " + std::to_string(DEFAULT_GRPC_LISTENING_PORT) + ")", cxxopts::value<int>()->default_value(std::to_string(DEFAULT_GRPC_LISTENING_PORT)));
+                (default: " + std::to_string(DEFAULT_GRPC_LISTENING_PORT) + ")", cxxopts::value<int>()->default_value(std::to_string(DEFAULT_GRPC_LISTENING_PORT)))
+            ("s,save", "save images and poses on the given folder", cxxopts::value<string>());
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -93,10 +94,17 @@ LOG_ADD_LOG_TO_CONSOLE();
 
     string configFile = options["file"].as<string>();
 
+    string saveFolder = "";
+
+    if (options.count("save") && !options["save"].as<string>().empty()) {
+        saveFolder = options["save"].as<string>();
+        LOG_INFO("Image/pose folder set to: {}", saveFolder);
+    }
+
     try
     {
         auto pipeline = resolvePipeline(configFile);
-        startService(pipeline.get(), "0.0.0.0:" + std::to_string(port));
+        startService(pipeline.get(), "0.0.0.0:" + std::to_string(port), saveFolder);
     }
     catch (const xpcf::Exception& e)
     {
@@ -130,7 +138,7 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
     return componentMgr->resolve<pipeline::IAsyncRelocalizationPipeline>();
 }
 
-void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress)
+void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress, string saveFolder)
 {
     grpc::EnableDefaultHealthCheckService(true);
     // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
@@ -138,7 +146,7 @@ void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serve
 
     builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());  
 
-    RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline);
+    RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, saveFolder);
 
     builder.RegisterService(&grpcServices);
 

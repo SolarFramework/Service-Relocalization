@@ -219,11 +219,17 @@ int main(int argc, char* argv[])
             if (gRelocalizationAndMappingFrontendService->init(gClient_UUID, api::pipeline::RELOCALIZATION_ONLY)
                     != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while initializing the mode for mapping and relocalization front end service");
+                if (gRelocalizationAndMappingFrontendService != 0) {
+                    gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                }
                 return -1;
             }
         }
         else if (gRelocalizationAndMappingFrontendService->init(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
             LOG_ERROR("Error while initializing the mapping and relocalization front end service");
+            if (gRelocalizationAndMappingFrontendService != 0) {
+                gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+            }
             return -1;
         }
 
@@ -290,6 +296,9 @@ int main(int argc, char* argv[])
                 camParams.id = 0;
                 if (gRelocalizationAndMappingFrontendService->setCameraParameters(gClient_UUID, camParams) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
                     return -1;
                 }
             }
@@ -298,12 +307,18 @@ int main(int argc, char* argv[])
                 CameraParameters camParams2 = camRigParams.cameraParams[INDEX_USE_CAMERA[1]];
                 if (gRelocalizationAndMappingFrontendService->setCameraParameters(gClient_UUID, camParams, camParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
                     return -1;
                 }
                 RectificationParameters rectParams1 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].first;
                 RectificationParameters rectParams2 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].second;
                 if (gRelocalizationAndMappingFrontendService->setRectificationParameters(gClient_UUID, rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting rectification parameters for the mapping and relocalization front end service");
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
                     return -1;
                 }
             }
@@ -319,6 +334,9 @@ int main(int argc, char* argv[])
 
             if (gRelocalizationAndMappingFrontendService->start(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while initializing the mapping and relocalization front end service");
+                if (gRelocalizationAndMappingFrontendService != 0) {
+                    gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                }
                 return -1;
             }
 
@@ -458,11 +476,17 @@ int main(int argc, char* argv[])
         }
         else {
             LOG_INFO("Cannot start AR device loader");
+            if (gRelocalizationAndMappingFrontendService != 0) {
+                gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+            }
             return -1;
         }
     }
     catch (xpcf::Exception & e) {
         LOG_INFO("The following exception has been caught: {}", e.what());
+        if (gRelocalizationAndMappingFrontendService != 0) {
+            gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+        }
         return -1;
     }
 

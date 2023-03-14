@@ -282,9 +282,6 @@ int main(int argc, char* argv[])
         else {
             LOG_INFO("No current global map!");
         }
-
-        // Unregister client
-        frontEndService->unregisterClient(clientUUID);
     }
     catch (xpcf::Exception & e) {
         LOG_INFO("The following exception has been caught: {}", e.what());

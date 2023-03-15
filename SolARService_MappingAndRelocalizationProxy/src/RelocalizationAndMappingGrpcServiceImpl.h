@@ -123,6 +123,12 @@ public:
     RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
                                             std::string saveFolder);
 
+    RelocalizationAndMappingGrpcServiceImpl(SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+                                            std::string saveFolder,
+                                            uint8_t display_images,
+                                            SRef<SolAR::api::display::IImageViewer> image_viewer_left,
+                                            SRef<SolAR::api::display::IImageViewer> image_viewer_right);
+
     ~RelocalizationAndMappingGrpcServiceImpl() override;
 
 public:
@@ -194,20 +200,30 @@ private:
                                           RelocalizationResult* response);
 private:
 
+    // Variables used to display images on a view screen
+    uint8_t m_display_images = 0;
+    SRef<SolAR::api::display::IImageViewer> m_image_viewer_left, m_image_viewer_right;
+
     // Variables used to save images on disk
     long m_index_image;
     std::ofstream m_poseFile1, m_poseFile2;
     std::ofstream m_timestampFile;
     std::string m_file_path, m_image1_path, m_image2_path;
 
-    // Buffers used to save images, poses and timestamps
+    // Buffers used to save or display images (poses and timestamps)
+    xpcf::SharedBuffer<std::vector<SRef<SolAR::datastructure::Image>>>
+                            m_sharedBufferImageToDisplay{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
     xpcf::SharedBuffer<std::tuple<std::vector<SRef<SolAR::datastructure::Image>>,
                                   std::vector<SolAR::datastructure::Transform3Df>,
                                   long>>
                             m_sharedBufferImagePoseToSave{BUFFER_SIZE_DISPLAY_SAVE_IMAGE};
 
     // Delegate task dedicated to asynchronous processing
+    xpcf::DelegateTask * m_displayImagesTask = nullptr;
     xpcf::DelegateTask * m_saveImagesTask = nullptr;
+
+    // Asynchronous display of images
+    void displayImages();
 
     // Asynchronous backup of images and poses
     void saveImages();

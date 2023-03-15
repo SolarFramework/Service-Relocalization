@@ -35,6 +35,8 @@
 #include <core/Log.h>
 #include <api/pipeline/IAsyncRelocalizationPipeline.h>
 
+#include <api/display/IImageViewer.h>
+
 using namespace std;
 using namespace SolAR;
 using namespace SolAR::api;
@@ -45,9 +47,12 @@ using com::bcom::solar::gprc::RelocalizationAndMappingGrpcServiceImpl;
 
 const int DEFAULT_GRPC_LISTENING_PORT = 5010;
 
-SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile);
-void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress, string saveFolder);
+SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, uint8_t displayImages);
+void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,
+                  string saveFolder, uint8_t displayImages);
 void print_help(const cxxopts::Options& options);
+
+SRef<SolAR::api::display::IImageViewer> gImageViewer_left, gImageViewer_right;
 
 int main(int argc, char* argv[])
 {
@@ -65,7 +70,9 @@ LOG_ADD_LOG_TO_CONSOLE();
             ("f,file", "configuration file (mandatory)", cxxopts::value<string>())
             ("p,port", "port to which the gRPC service will listen to \
                 (default: " + std::to_string(DEFAULT_GRPC_LISTENING_PORT) + ")", cxxopts::value<int>()->default_value(std::to_string(DEFAULT_GRPC_LISTENING_PORT)))
-            ("s,save", "save images and poses on the given folder", cxxopts::value<string>());
+            ("s,save", "save images and poses on the given folder", cxxopts::value<string>())
+            ("display-received-images", "display images received from client (before proxy processing)")
+            ("display-sent-images", "display images sent to Front End (after proxy processing)");
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -101,10 +108,22 @@ LOG_ADD_LOG_TO_CONSOLE();
         LOG_INFO("Image/pose folder set to: {}", saveFolder);
     }
 
+    uint8_t displayImages = 0;
+    if (options.count("display-received-images"))
+    {
+        displayImages = 1;
+        LOG_INFO("Received images will be displayed on a view screen");
+    }
+    else if (options.count("display-sent-images"))
+    {
+        displayImages = 2;
+        LOG_INFO("Sent images will be displayed on a view screen");
+    }
+
     try
     {
-        auto pipeline = resolvePipeline(configFile);
-        startService(pipeline.get(), "0.0.0.0:" + std::to_string(port), saveFolder);
+        auto pipeline = resolvePipeline(configFile, displayImages);
+        startService(pipeline.get(), "0.0.0.0:" + std::to_string(port), saveFolder, displayImages);
     }
     catch (const xpcf::Exception& e)
     {
@@ -125,7 +144,7 @@ LOG_ADD_LOG_TO_CONSOLE();
     return 0;
 }
 
-SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile)
+SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& configFile, uint8_t displayImages)
 {
     auto componentMgr = xpcf::getComponentManagerInstance();
 
@@ -135,10 +154,16 @@ SRef<pipeline::IAsyncRelocalizationPipeline> resolvePipeline(const string& confi
         return nullptr;
     }
 
+    if (displayImages != 0) {
+         gImageViewer_left = componentMgr->resolve<api::display::IImageViewer>("Left");
+         gImageViewer_right = componentMgr->resolve<api::display::IImageViewer>("Right");
+     }
+
     return componentMgr->resolve<pipeline::IAsyncRelocalizationPipeline>();
 }
 
-void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress, string saveFolder)
+void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serverAddress,
+                  string saveFolder, uint8_t displayImages)
 {
     grpc::EnableDefaultHealthCheckService(true);
     // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
@@ -146,16 +171,31 @@ void startService(pipeline::IAsyncRelocalizationPipeline* pipeline, string serve
 
     builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());  
 
-    RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, saveFolder);
+    if (displayImages != 0) {
+        RelocalizationAndMappingGrpcServiceImpl grpcServices(
+                    pipeline, saveFolder, displayImages, gImageViewer_left, gImageViewer_right);
 
-    builder.RegisterService(&grpcServices);
+        builder.RegisterService(&grpcServices);
 
-    LOG_INFO("Starting proxy gRPC service");
-    unique_ptr<grpc::Server> grpcServer = builder.BuildAndStart();
+        LOG_INFO("Starting proxy gRPC service with Display option");
+        unique_ptr<grpc::Server> grpcServer = builder.BuildAndStart();
 
-    cout << "SolARDeviceGrpcService listening on " << serverAddress << std::endl;
+        cout << "SolARDeviceGrpcService listening on " << serverAddress << std::endl;
 
-    grpcServer->Wait();
+        grpcServer->Wait();
+    }
+    else {
+        RelocalizationAndMappingGrpcServiceImpl grpcServices(pipeline, saveFolder);
+
+        builder.RegisterService(&grpcServices);
+
+        LOG_INFO("Starting proxy gRPC service");
+        unique_ptr<grpc::Server> grpcServer = builder.BuildAndStart();
+
+        cout << "SolARDeviceGrpcService listening on " << serverAddress << std::endl;
+
+        grpcServer->Wait();
+    }
 }
 
 void print_help(const cxxopts::Options& options)

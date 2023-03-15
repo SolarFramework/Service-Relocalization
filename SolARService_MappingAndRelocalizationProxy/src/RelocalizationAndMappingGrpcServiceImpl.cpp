@@ -58,9 +58,40 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl
     }
 }
 
+RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
+        SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
+        std::string saveFolder,
+        uint8_t display_images,
+        SRef<SolAR::api::display::IImageViewer> image_viewer_left,
+        SRef<SolAR::api::display::IImageViewer> image_viewer_right):
+            m_pipeline{ pipeline }, m_file_path { saveFolder }, m_display_images { display_images },
+            m_image_viewer_left {image_viewer_left}, m_image_viewer_right{image_viewer_right}
+{
+    // Display images processing function
+    if (display_images != 0) {
+        auto fnDisplayImagesProcessing = [&]() {
+            displayImages();
+        };
+
+        m_displayImagesTask = new xpcf::DelegateTask(fnDisplayImagesProcessing, true);
+    }
+
+    // Save images and poses processing function
+    if (saveFolder != "") {
+        auto fnSaveImagesProcessing = [&]() {
+            saveImages();
+        };
+
+        m_saveImagesTask = new xpcf::DelegateTask(fnSaveImagesProcessing, true);
+    }
+}
+
 RelocalizationAndMappingGrpcServiceImpl::~RelocalizationAndMappingGrpcServiceImpl()
 {
     LOG_DEBUG("RelocalizationAndMappingGrpcServiceImpl destructor");
+
+    if (m_displayImagesTask != nullptr)
+        delete m_displayImagesTask;
 
     if (m_saveImagesTask != nullptr)
         delete m_saveImagesTask;
@@ -179,6 +210,9 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
         m_timestampFile.open(m_file_path + "/timestamps.txt");
     }
 
+    if (m_displayImagesTask != nullptr)
+        m_displayImagesTask->start();
+
     if (m_saveImagesTask != nullptr)
         m_saveImagesTask->start();
 
@@ -218,6 +252,9 @@ RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
         m_poseFile2.close();
         m_timestampFile.close();
     }
+
+    if (m_displayImagesTask != nullptr)
+        m_displayImagesTask->stop();
 
     if (m_saveImagesTask != nullptr)
         m_saveImagesTask->stop();
@@ -496,6 +533,28 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
         return gRpcError("Error: proxy is not started");
     }
 
+    // Display images if specified
+    if ((m_display_images == 1) && (m_displayImagesTask != nullptr)) {
+        std::vector<SRef<SolARImage>> imagesToDisplay;
+        SRef<SolARImage> image1, image2;
+        if (request->frames_size() >= 1) {
+            auto status  = buildSolARImage(request->frames(0), toSolAR(request->frames(0).pose()), image1);
+            if (status.ok())
+            {
+                imagesToDisplay.push_back(image1);
+            }
+        }
+        if (request->frames_size() == 2) {
+            auto status  = buildSolARImage(request->frames(0), toSolAR(request->frames(0).pose()), image2);
+            if (status.ok())
+            {
+                imagesToDisplay.push_back(image2);
+            }
+        }
+        if (imagesToDisplay.size() > 0)
+            m_sharedBufferImageToDisplay.push(imagesToDisplay);
+    }
+
     clientContext->m_images_vector_mutex.lock();
 
     if ((request->frames_size() == 1) && (clientContext->m_cameraMode != CAMERA_MONO)) {
@@ -650,6 +709,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
                                  + std::string(e.what()));
             }
 
+            // Display images if specified
+            if ((m_display_images == 2) && (m_displayImagesTask != nullptr)) {
+                m_sharedBufferImageToDisplay.push(imagesToSend);
+            }
+
             RelocalizationPoseStatus gRpcPoseStatus;
             auto status = toGrpc(transform3DStatus, gRpcPoseStatus);
             if (!status.ok())
@@ -691,9 +755,14 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
                                                                    clientContext->m_last_image_timestamp));
             }
 
+            // Display images if specified
+            if (m_displayImagesTask != nullptr) {
+                m_sharedBufferImageToDisplay.push(imagesToSend);
+            }
+
             return Status::OK;
         }
-      }
+    }
     else {
         LOG_INFO("Not enough images to process");
 
@@ -1152,6 +1221,24 @@ RelocalizationAndMappingGrpcServiceImpl::gRpcError(std::string message,
 {
     LOG_ERROR("{}", message);
     return Status(gRpcStatus, message);
+}
+
+void RelocalizationAndMappingGrpcServiceImpl::displayImages()
+{
+    std::vector<SRef<SolAR::datastructure::Image>> images;
+
+    // Try to get next images to display
+    if (!m_sharedBufferImageToDisplay.tryPop(images)) {
+        xpcf::DelegateTask::yield();
+        return;
+    }
+
+    // Display images if specified
+    if ((images.size() >= 1) && (m_image_viewer_left))
+        m_image_viewer_left->display(images[0]);
+    if ((images.size() == 2) && (m_image_viewer_right))
+        m_image_viewer_right->display(images[1]);
+
 }
 
 void RelocalizationAndMappingGrpcServiceImpl::saveImages()

@@ -186,11 +186,11 @@ int main(int argc, char* argv[])
 
                 LOG_INFO("==> Display current global map: press ESC on the map display window to end test");
 
-                std::vector<datastructure::Transform3Df> poseClient2 = {};
-                std::vector<datastructure::Transform3Df> poseClient3 = {};
-                std::vector<datastructure::Transform3Df> poseClient4 = {};
-
-                bool found_solAR_pose = false;
+                datastructure::Transform3Df poseNotUsed, transform3D;
+                std::vector<datastructure::Transform3Df> poseReloc = {};
+                std::vector<datastructure::Transform3Df> poseNoReloc = {};
+                api::pipeline::TransformStatus transform3DStatus;
+                float_t confidence;
 
                 while (true)
                 {
@@ -201,42 +201,36 @@ int main(int argc, char* argv[])
                     // If delay is reached
                     if (elapsed_time.count() > FRONT_END_REQUEST_DELAY) {
 
-                        datastructure::Transform3Df poseClient1;
                         datastructure::Transform3Df poseClient;
-                        poseClient2.clear();
-                        poseClient3.clear();
-                        poseClient4.clear();
+                        poseReloc.clear();
+                        poseNoReloc.clear();
 
                         // Get clients UUID from Front End
                         std::vector<std::string> clients_UUID;
+
                         if (frontEndService->getAllClientsUUID(clients_UUID) != FrameworkReturnCode::_SUCCESS) {
                             LOG_ERROR("Failed to get all clients UUID");
                         }
                         else {
 
-                            if (clients_UUID.size() > 0) {
+                            for (auto const & uuid : clients_UUID) {
+                                if (frontEndService->getLastPose(uuid, poseClient) == FrameworkReturnCode::_SUCCESS) {
 
-                                if (frontEndService->getLastPose(clients_UUID.at(0), poseClient1) == FrameworkReturnCode::_SUCCESS) {
-
-                                    if ((clients_UUID.size() > 1)
-                                     && (frontEndService->getLastPose(clients_UUID.at(1), poseClient) == FrameworkReturnCode::_SUCCESS)) {
-                                        poseClient2.push_back(poseClient);
-                                    }
-
-                                    if ((clients_UUID.size() > 2)
-                                     && (frontEndService->getLastPose(clients_UUID.at(2), poseClient) == FrameworkReturnCode::_SUCCESS)) {
-                                        poseClient3.push_back(poseClient);
-                                    }
-
-                                    if ((clients_UUID.size() > 3)
-                                     && (frontEndService->getLastPose(clients_UUID.at(3), poseClient) == FrameworkReturnCode::_SUCCESS)) {
-                                        poseClient4.push_back(poseClient);
+                                    // Check if a new transformation matrix has been found
+                                    if (frontEndService->get3DTransformRequest(uuid, transform3DStatus, transform3D, confidence)
+                                            == FrameworkReturnCode::_SUCCESS) {
+                                        if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
+                                            poseReloc.push_back(poseClient);
+                                        }
+                                        else {
+                                            poseNoReloc.push_back(poseClient);
+                                        }
                                     }
                                 }
                             }
                         }
 
-                        if (gViewer3D->display(globalPointCloud, poseClient1, poseClient2, poseClient3, {}, poseClient4) == FrameworkReturnCode::_STOP)
+                        if (gViewer3D->display(globalPointCloud, poseNotUsed, poseNoReloc, {}, {}, poseReloc) == FrameworkReturnCode::_STOP)
                             break;
 
                         last_request = std::chrono::high_resolution_clock::now();

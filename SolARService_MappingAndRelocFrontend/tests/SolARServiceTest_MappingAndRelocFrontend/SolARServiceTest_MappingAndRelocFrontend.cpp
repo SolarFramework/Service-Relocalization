@@ -113,14 +113,11 @@ static void SigInt(int signo) {
 
     if (gRelocalizationAndMappingFrontendService != 0) {
         gRelocalizationAndMappingFrontendService->stop(gClient_UUID);
+        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
     }
 
     if (gDisplayPointCloud)
         displayPointCloud();
-
-    if (gRelocalizationAndMappingFrontendService != 0) {
-        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
-    }
 
     LOG_INFO("End of test");
 
@@ -459,14 +456,11 @@ int main(int argc, char* argv[])
 
                     if (gRelocalizationAndMappingFrontendService != 0) {
                         gRelocalizationAndMappingFrontendService->stop(gClient_UUID);
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
                     }
 
                     if (gDisplayPointCloud)
                         displayPointCloud();
-
-                    if (gRelocalizationAndMappingFrontendService != 0) {
-                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
-                    }
 
                     LOG_INFO("End of test");
 

@@ -58,6 +58,11 @@
                 <value>0</value>
             </property>
             <property name="fixedPointsColor" type="uint" value="0"/>
+            <property name="cameraColor" type="uint">
+                <value>0</value>
+                <value>0</value>
+                <value>0</value>
+            </property>
             <property name="drawCameraAxis" type="uint" value="0"/>
             <property name="drawSceneAxis" type="uint" value="0"/>
             <property name="drawWorldAxis" type="uint" value="1"/>

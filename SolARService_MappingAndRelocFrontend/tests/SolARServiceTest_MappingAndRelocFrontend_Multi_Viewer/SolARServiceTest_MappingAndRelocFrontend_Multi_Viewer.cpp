@@ -186,7 +186,7 @@ int main(int argc, char* argv[])
 
                 LOG_INFO("==> Display current global map: press ESC on the map display window to end test");
 
-                datastructure::Transform3Df poseNotUsed = Transform3Df::Identity();
+                datastructure::Transform3Df poseNotUsed;
                 std::vector<datastructure::Transform3Df> poseReloc = {};
                 std::vector<datastructure::Transform3Df> poseNoReloc = {};
                 api::pipeline::TransformStatus transform3DStatus;

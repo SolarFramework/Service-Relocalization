@@ -18,10 +18,9 @@
 #include "solar_mapping_and_relocalization_proxy.pb.h"
 
 #include <functional>
-#include <grpc/impl/codegen/port_platform.h>
-#include <grpcpp/impl/codegen/async_generic_service.h>
-#include <grpcpp/impl/codegen/async_stream.h>
-#include <grpcpp/impl/codegen/async_unary_call.h>
+#include <grpcpp/generic/async_generic_service.h>
+#include <grpcpp/support/async_stream.h>
+#include <grpcpp/support/async_unary_call.h>
 #include <grpcpp/impl/codegen/client_callback.h>
 #include <grpcpp/impl/codegen/client_context.h>
 #include <grpcpp/impl/codegen/completion_queue.h>
@@ -130,84 +129,36 @@ class SolARMappingAndRelocalizationProxy final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>> PrepareAsyncSendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncSendMessageRaw(context, request, cq));
     }
-    class experimental_async_interface {
+    class async_interface {
      public:
-      virtual ~experimental_async_interface() {}
+      virtual ~async_interface() {}
       virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void Stop(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void Stop(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void Stop(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void setRectificationParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void setRectificationParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void setRectificationParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void Reset(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void Reset(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void Reset(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
       virtual void SendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       virtual void SendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void SendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
     };
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    typedef class experimental_async_interface async_interface;
-    #endif
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    async_interface* async() { return experimental_async(); }
-    #endif
-    virtual class experimental_async_interface* experimental_async() { return nullptr; }
-  private:
+    typedef class async_interface experimental_async_interface;
+    virtual class async_interface* async() { return nullptr; }
+    class async_interface* experimental_async() { return async(); }
+   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::com::bcom::solar::gprc::Empty>* AsyncStartRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) = 0;
@@ -233,7 +184,7 @@ class SolARMappingAndRelocalizationProxy final {
   };
   class Stub final : public StubInterface {
    public:
-    Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
+    Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
     ::grpc::Status Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::com::bcom::solar::gprc::Empty* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> AsyncInit(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>>(AsyncInitRaw(context, request, cq));
@@ -311,86 +262,42 @@ class SolARMappingAndRelocalizationProxy final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>> PrepareAsyncSendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>>(PrepareAsyncSendMessageRaw(context, request, cq));
     }
-    class experimental_async final :
-      public StubInterface::experimental_async_interface {
+    class async final :
+      public StubInterface::async_interface {
      public:
       void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void Init(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void Start(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void Stop(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void Stop(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void Stop(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void SetCameraParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void SetCameraParametersStereo(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void setRectificationParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void setRectificationParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void setRectificationParameters(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void RelocalizeAndMap(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void RelocalizeAndMapGroundTruth(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void Get3DTransform(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void Reset(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void Reset(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void Reset(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
       void SendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       void SendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void SendMessage(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
      private:
       friend class Stub;
-      explicit experimental_async(Stub* stub): stub_(stub) { }
+      explicit async(Stub* stub): stub_(stub) { }
       Stub* stub() { return stub_; }
       Stub* stub_;
     };
-    class experimental_async_interface* experimental_async() override { return &async_stub_; }
+    class async* async() override { return &async_stub_; }
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
-    class experimental_async async_stub_{this};
+    class async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::PipelineModeValue& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::com::bcom::solar::gprc::Empty>* AsyncStartRaw(::grpc::ClientContext* context, const ::com::bcom::solar::gprc::Empty& request, ::grpc::CompletionQueue* cq) override;
@@ -665,36 +572,22 @@ class SolARMappingAndRelocalizationProxy final {
   };
   typedef WithAsyncMethod_Init<WithAsyncMethod_Start<WithAsyncMethod_Stop<WithAsyncMethod_SetCameraParameters<WithAsyncMethod_SetCameraParametersStereo<WithAsyncMethod_setRectificationParameters<WithAsyncMethod_RelocalizeAndMap<WithAsyncMethod_RelocalizeAndMapGroundTruth<WithAsyncMethod_Get3DTransform<WithAsyncMethod_Reset<WithAsyncMethod_SendMessage<Service > > > > > > > > > > > AsyncService;
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_Init : public BaseClass {
+  class WithCallbackMethod_Init : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_Init() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(0,
+    WithCallbackMethod_Init() {
+      ::grpc::Service::MarkMethodCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response) { return this->Init(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::PipelineModeValue* request, ::com::bcom::solar::gprc::Empty* response) { return this->Init(context, request, response); }));}
     void SetMessageAllocatorFor_Init(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::PipelineModeValue, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_Init() override {
+    ~WithCallbackMethod_Init() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -702,46 +595,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Init(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Init(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::PipelineModeValue* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_Start : public BaseClass {
+  class WithCallbackMethod_Start : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_Start() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(1,
+    WithCallbackMethod_Start() {
+      ::grpc::Service::MarkMethodCallback(1,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) { return this->Start(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) { return this->Start(context, request, response); }));}
     void SetMessageAllocatorFor_Start(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_Start() override {
+    ~WithCallbackMethod_Start() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -749,46 +622,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Start(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Start(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_Stop : public BaseClass {
+  class WithCallbackMethod_Stop : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_Stop() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(2,
+    WithCallbackMethod_Stop() {
+      ::grpc::Service::MarkMethodCallback(2,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) { return this->Stop(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) { return this->Stop(context, request, response); }));}
     void SetMessageAllocatorFor_Stop(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(2);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_Stop() override {
+    ~WithCallbackMethod_Stop() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -796,46 +649,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Stop(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Stop(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_SetCameraParameters : public BaseClass {
+  class WithCallbackMethod_SetCameraParameters : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_SetCameraParameters() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(3,
+    WithCallbackMethod_SetCameraParameters() {
+      ::grpc::Service::MarkMethodCallback(3,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::CameraParameters, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response) { return this->SetCameraParameters(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::CameraParameters* request, ::com::bcom::solar::gprc::Empty* response) { return this->SetCameraParameters(context, request, response); }));}
     void SetMessageAllocatorFor_SetCameraParameters(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::CameraParameters, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::CameraParameters, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(3);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::CameraParameters, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_SetCameraParameters() override {
+    ~WithCallbackMethod_SetCameraParameters() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -843,46 +676,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* SetCameraParameters(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* SetCameraParameters(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_SetCameraParametersStereo : public BaseClass {
+  class WithCallbackMethod_SetCameraParametersStereo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_SetCameraParametersStereo() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(4,
+    WithCallbackMethod_SetCameraParametersStereo() {
+      ::grpc::Service::MarkMethodCallback(4,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::CameraParametersStereo, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response) { return this->SetCameraParametersStereo(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::CameraParametersStereo* request, ::com::bcom::solar::gprc::Empty* response) { return this->SetCameraParametersStereo(context, request, response); }));}
     void SetMessageAllocatorFor_SetCameraParametersStereo(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::CameraParametersStereo, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::CameraParametersStereo, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(4);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::CameraParametersStereo, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_SetCameraParametersStereo() override {
+    ~WithCallbackMethod_SetCameraParametersStereo() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -890,46 +703,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* SetCameraParametersStereo(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraParametersStereo* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* SetCameraParametersStereo(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraParametersStereo* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::CameraParametersStereo* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_setRectificationParameters : public BaseClass {
+  class WithCallbackMethod_setRectificationParameters : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_setRectificationParameters() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(5,
+    WithCallbackMethod_setRectificationParameters() {
+      ::grpc::Service::MarkMethodCallback(5,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::RectificationParameters, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response) { return this->setRectificationParameters(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::RectificationParameters* request, ::com::bcom::solar::gprc::Empty* response) { return this->setRectificationParameters(context, request, response); }));}
     void SetMessageAllocatorFor_setRectificationParameters(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::RectificationParameters, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::RectificationParameters, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::RectificationParameters, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_setRectificationParameters() override {
+    ~WithCallbackMethod_setRectificationParameters() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -937,46 +730,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* setRectificationParameters(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::RectificationParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* setRectificationParameters(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::RectificationParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::RectificationParameters* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_RelocalizeAndMap : public BaseClass {
+  class WithCallbackMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_RelocalizeAndMap() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(6,
+    WithCallbackMethod_RelocalizeAndMap() {
+      ::grpc::Service::MarkMethodCallback(6,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response) { return this->RelocalizeAndMap(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::Frames* request, ::com::bcom::solar::gprc::RelocalizationResult* response) { return this->RelocalizeAndMap(context, request, response); }));}
     void SetMessageAllocatorFor_RelocalizeAndMap(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Frames, ::com::bcom::solar::gprc::RelocalizationResult>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_RelocalizeAndMap() override {
+    ~WithCallbackMethod_RelocalizeAndMap() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -984,46 +757,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* RelocalizeAndMap(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* RelocalizeAndMap(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Frames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_RelocalizeAndMapGroundTruth : public BaseClass {
+  class WithCallbackMethod_RelocalizeAndMapGroundTruth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_RelocalizeAndMapGroundTruth() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(7,
+    WithCallbackMethod_RelocalizeAndMapGroundTruth() {
+      ::grpc::Service::MarkMethodCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::GroundTruthFrames, ::com::bcom::solar::gprc::RelocalizationResult>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response) { return this->RelocalizeAndMapGroundTruth(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::GroundTruthFrames* request, ::com::bcom::solar::gprc::RelocalizationResult* response) { return this->RelocalizeAndMapGroundTruth(context, request, response); }));}
     void SetMessageAllocatorFor_RelocalizeAndMapGroundTruth(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::GroundTruthFrames, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::GroundTruthFrames, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::GroundTruthFrames, ::com::bcom::solar::gprc::RelocalizationResult>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_RelocalizeAndMapGroundTruth() override {
+    ~WithCallbackMethod_RelocalizeAndMapGroundTruth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1031,46 +784,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* RelocalizeAndMapGroundTruth(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::GroundTruthFrames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* RelocalizeAndMapGroundTruth(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::GroundTruthFrames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::GroundTruthFrames* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_Get3DTransform : public BaseClass {
+  class WithCallbackMethod_Get3DTransform : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_Get3DTransform() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(8,
+    WithCallbackMethod_Get3DTransform() {
+      ::grpc::Service::MarkMethodCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response) { return this->Get3DTransform(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::RelocalizationResult* response) { return this->Get3DTransform(context, request, response); }));}
     void SetMessageAllocatorFor_Get3DTransform(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(8);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::RelocalizationResult>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_Get3DTransform() override {
+    ~WithCallbackMethod_Get3DTransform() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1078,46 +811,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Get3DTransform(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Get3DTransform(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::RelocalizationResult* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_Reset : public BaseClass {
+  class WithCallbackMethod_Reset : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_Reset() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(9,
+    WithCallbackMethod_Reset() {
+      ::grpc::Service::MarkMethodCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) { return this->Reset(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::Empty* request, ::com::bcom::solar::gprc::Empty* response) { return this->Reset(context, request, response); }));}
     void SetMessageAllocatorFor_Reset(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(9);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Empty, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_Reset() override {
+    ~WithCallbackMethod_Reset() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1125,46 +838,26 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Reset(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Reset(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Empty* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_SendMessage : public BaseClass {
+  class WithCallbackMethod_SendMessage : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithCallbackMethod_SendMessage() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(10,
+    WithCallbackMethod_SendMessage() {
+      ::grpc::Service::MarkMethodCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response) { return this->SendMessage(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::com::bcom::solar::gprc::Message* request, ::com::bcom::solar::gprc::Empty* response) { return this->SendMessage(context, request, response); }));}
     void SetMessageAllocatorFor_SendMessage(
-        ::grpc::experimental::MessageAllocator< ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+        ::grpc::MessageAllocator< ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(10);
-    #endif
       static_cast<::grpc::internal::CallbackUnaryHandler< ::com::bcom::solar::gprc::Message, ::com::bcom::solar::gprc::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_SendMessage() override {
+    ~WithCallbackMethod_SendMessage() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1172,20 +865,11 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* SendMessage(
-      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Message* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* SendMessage(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Message* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::com::bcom::solar::gprc::Message* /*request*/, ::com::bcom::solar::gprc::Empty* /*response*/)  { return nullptr; }
   };
-  #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_Init<ExperimentalWithCallbackMethod_Start<ExperimentalWithCallbackMethod_Stop<ExperimentalWithCallbackMethod_SetCameraParameters<ExperimentalWithCallbackMethod_SetCameraParametersStereo<ExperimentalWithCallbackMethod_setRectificationParameters<ExperimentalWithCallbackMethod_RelocalizeAndMap<ExperimentalWithCallbackMethod_RelocalizeAndMapGroundTruth<ExperimentalWithCallbackMethod_Get3DTransform<ExperimentalWithCallbackMethod_Reset<ExperimentalWithCallbackMethod_SendMessage<Service > > > > > > > > > > > CallbackService;
-  #endif
-
-  typedef ExperimentalWithCallbackMethod_Init<ExperimentalWithCallbackMethod_Start<ExperimentalWithCallbackMethod_Stop<ExperimentalWithCallbackMethod_SetCameraParameters<ExperimentalWithCallbackMethod_SetCameraParametersStereo<ExperimentalWithCallbackMethod_setRectificationParameters<ExperimentalWithCallbackMethod_RelocalizeAndMap<ExperimentalWithCallbackMethod_RelocalizeAndMapGroundTruth<ExperimentalWithCallbackMethod_Get3DTransform<ExperimentalWithCallbackMethod_Reset<ExperimentalWithCallbackMethod_SendMessage<Service > > > > > > > > > > > ExperimentalCallbackService;
+  typedef WithCallbackMethod_Init<WithCallbackMethod_Start<WithCallbackMethod_Stop<WithCallbackMethod_SetCameraParameters<WithCallbackMethod_SetCameraParametersStereo<WithCallbackMethod_setRectificationParameters<WithCallbackMethod_RelocalizeAndMap<WithCallbackMethod_RelocalizeAndMapGroundTruth<WithCallbackMethod_Get3DTransform<WithCallbackMethod_Reset<WithCallbackMethod_SendMessage<Service > > > > > > > > > > > CallbackService;
+  typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_Init : public BaseClass {
    private:
@@ -1594,27 +1278,17 @@ class SolARMappingAndRelocalizationProxy final {
     }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_Init : public BaseClass {
+  class WithRawCallbackMethod_Init : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_Init() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(0,
+    WithRawCallbackMethod_Init() {
+      ::grpc::Service::MarkMethodRawCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Init(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Init(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_Init() override {
+    ~WithRawCallbackMethod_Init() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1622,37 +1296,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Init(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Init(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_Start : public BaseClass {
+  class WithRawCallbackMethod_Start : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_Start() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(1,
+    WithRawCallbackMethod_Start() {
+      ::grpc::Service::MarkMethodRawCallback(1,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Start(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Start(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_Start() override {
+    ~WithRawCallbackMethod_Start() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1660,37 +1318,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Start(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Start(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_Stop : public BaseClass {
+  class WithRawCallbackMethod_Stop : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_Stop() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(2,
+    WithRawCallbackMethod_Stop() {
+      ::grpc::Service::MarkMethodRawCallback(2,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Stop(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Stop(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_Stop() override {
+    ~WithRawCallbackMethod_Stop() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1698,37 +1340,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Stop(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Stop(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_SetCameraParameters : public BaseClass {
+  class WithRawCallbackMethod_SetCameraParameters : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_SetCameraParameters() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(3,
+    WithRawCallbackMethod_SetCameraParameters() {
+      ::grpc::Service::MarkMethodRawCallback(3,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetCameraParameters(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetCameraParameters(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_SetCameraParameters() override {
+    ~WithRawCallbackMethod_SetCameraParameters() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1736,37 +1362,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* SetCameraParameters(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* SetCameraParameters(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_SetCameraParametersStereo : public BaseClass {
+  class WithRawCallbackMethod_SetCameraParametersStereo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_SetCameraParametersStereo() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(4,
+    WithRawCallbackMethod_SetCameraParametersStereo() {
+      ::grpc::Service::MarkMethodRawCallback(4,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetCameraParametersStereo(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetCameraParametersStereo(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_SetCameraParametersStereo() override {
+    ~WithRawCallbackMethod_SetCameraParametersStereo() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1774,37 +1384,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* SetCameraParametersStereo(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* SetCameraParametersStereo(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_setRectificationParameters : public BaseClass {
+  class WithRawCallbackMethod_setRectificationParameters : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_setRectificationParameters() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(5,
+    WithRawCallbackMethod_setRectificationParameters() {
+      ::grpc::Service::MarkMethodRawCallback(5,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->setRectificationParameters(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->setRectificationParameters(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_setRectificationParameters() override {
+    ~WithRawCallbackMethod_setRectificationParameters() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1812,37 +1406,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* setRectificationParameters(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* setRectificationParameters(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_RelocalizeAndMap : public BaseClass {
+  class WithRawCallbackMethod_RelocalizeAndMap : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_RelocalizeAndMap() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(6,
+    WithRawCallbackMethod_RelocalizeAndMap() {
+      ::grpc::Service::MarkMethodRawCallback(6,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RelocalizeAndMap(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RelocalizeAndMap(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_RelocalizeAndMap() override {
+    ~WithRawCallbackMethod_RelocalizeAndMap() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1850,37 +1428,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* RelocalizeAndMap(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* RelocalizeAndMap(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_RelocalizeAndMapGroundTruth : public BaseClass {
+  class WithRawCallbackMethod_RelocalizeAndMapGroundTruth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_RelocalizeAndMapGroundTruth() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(7,
+    WithRawCallbackMethod_RelocalizeAndMapGroundTruth() {
+      ::grpc::Service::MarkMethodRawCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RelocalizeAndMapGroundTruth(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RelocalizeAndMapGroundTruth(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_RelocalizeAndMapGroundTruth() override {
+    ~WithRawCallbackMethod_RelocalizeAndMapGroundTruth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1888,37 +1450,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* RelocalizeAndMapGroundTruth(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* RelocalizeAndMapGroundTruth(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_Get3DTransform : public BaseClass {
+  class WithRawCallbackMethod_Get3DTransform : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_Get3DTransform() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(8,
+    WithRawCallbackMethod_Get3DTransform() {
+      ::grpc::Service::MarkMethodRawCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Get3DTransform(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Get3DTransform(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_Get3DTransform() override {
+    ~WithRawCallbackMethod_Get3DTransform() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1926,37 +1472,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Get3DTransform(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Get3DTransform(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_Reset : public BaseClass {
+  class WithRawCallbackMethod_Reset : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_Reset() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(9,
+    WithRawCallbackMethod_Reset() {
+      ::grpc::Service::MarkMethodRawCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Reset(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Reset(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_Reset() override {
+    ~WithRawCallbackMethod_Reset() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -1964,37 +1494,21 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* Reset(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* Reset(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_SendMessage : public BaseClass {
+  class WithRawCallbackMethod_SendMessage : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_SendMessage() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(10,
+    WithRawCallbackMethod_SendMessage() {
+      ::grpc::Service::MarkMethodRawCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SendMessage(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SendMessage(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_SendMessage() override {
+    ~WithRawCallbackMethod_SendMessage() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
@@ -2002,14 +1516,8 @@ class SolARMappingAndRelocalizationProxy final {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* SendMessage(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* SendMessage(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_Init : public BaseClass {

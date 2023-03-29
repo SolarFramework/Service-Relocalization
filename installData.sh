@@ -5,7 +5,7 @@ unzip -o fbow_voc.zip -d ./data/fbow_voc
 rm fbow_voc.zip
 curl https://repository.solarframework.org/generic/FbowVoc/popsift_uint8.fbow -L -o ./data/fbow_voc/popsift_uint8.fbow
 
-curl https://repository.solarframework.org/generic/FbowVoc/popsift_uint8.fbow -L -o data/fbow_voc/popsift_uint8.fbow
+curl https://repository.solarframework.org/generic/FbowVoc/popsift_uint8_indoor.fbow -L -o data/fbow_voc/popsift_uint8_indoor.fbow
 
 # Download TUM camera calibration
 curl https://repository.solarframework.org/generic/captures/singleRGB/TUM/tum_camera_calibration.json -L -o data/tum_camera_calibration.json

@@ -88,6 +88,7 @@
             <property name="decreaseRotationYKey" type="int" value="115"/>  <!-- 's' -->
             <property name="increaseRotationZKey" type="int" value="101"/>  <!-- 'e' -->
             <property name="decreaseRotationZKey" type="int" value="100"/>  <!-- 'd' -->
+            <property name="resetRotationKey" type="int" value="114"/>  <!-- 'r' -->
             <!--property name="rotationStep" type="float" value="0.02"/-->
         </configure>
     </properties>

@@ -46,7 +46,7 @@
     </configure>
     <configure component="SolARGeometricMatchesFilterOpencv">
             <property name="confidence" type="float" value="0.99"/>
-            <property name="outlierDistanceRatio" type="float" value="0.005"/>
+            <property name="outlierDistanceRatio" type="float" value="0.015"/>
             <property name="epilinesDistance" type="float" value="50.0"/>
     </configure>
     <configure component="SolARPoseEstimationSACPnpOpencv">

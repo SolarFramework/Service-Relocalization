@@ -71,9 +71,9 @@
             <property name="cameraScale" type="float" value="1"/>
             <property name="keyframeAsCamera" type="uint" value="1"/>
             <property name="keyframesColor" type="uint">
-                <value>0</value>
-                <value>0</value>
                 <value>255</value>
+                <value>119</value>
+                <value>0</value>
             </property>
             <property name="keyframes2Color" type="uint">
                 <value>0</value>

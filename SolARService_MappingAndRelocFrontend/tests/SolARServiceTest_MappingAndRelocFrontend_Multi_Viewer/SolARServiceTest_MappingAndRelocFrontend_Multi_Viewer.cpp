@@ -193,6 +193,8 @@ int main(int argc, char* argv[])
                 datastructure::Transform3Df transform3D;
                 float_t confidence;
 
+                uint16_t nb_clients_registered = 1;
+
                 while (true)
                 {
                     // Calculate duration between two requests
@@ -214,19 +216,31 @@ int main(int argc, char* argv[])
                         }
                         else {
 
-                            for (auto const & uuid : clients_UUID) {
-                                if (frontEndService->getLastPose(uuid, poseClient) == FrameworkReturnCode::_SUCCESS) {
+                            if (clients_UUID.size() > 0) {
+                                if (nb_clients_registered < clients_UUID.size()) {
+                                    LOG_INFO("New client(s) registered: display poses...");
+                                    nb_clients_registered = clients_UUID.size();
+                                }
+                                for (auto const & uuid : clients_UUID) {
+                                    if (frontEndService->getLastPose(uuid, poseClient) == FrameworkReturnCode::_SUCCESS) {
 
-                                    // Check if a new transformation matrix has been found
-                                    if (frontEndService->get3DTransformRequest(uuid, transform3DStatus, transform3D, confidence)
-                                            == FrameworkReturnCode::_SUCCESS) {
-                                        if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
-                                            poseReloc.push_back(poseClient);
-                                        }
-                                        else {
-                                            poseNoReloc.push_back(poseClient);
+                                        // Check if a new transformation matrix has been found
+                                        if (frontEndService->get3DTransformRequest(uuid, transform3DStatus, transform3D, confidence)
+                                                == FrameworkReturnCode::_SUCCESS) {
+                                            if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
+                                                poseReloc.push_back(poseClient);
+                                            }
+                                            else {
+                                                poseNoReloc.push_back(poseClient);
+                                            }
                                         }
                                     }
+                                }
+                            }
+                            else {
+                                if (nb_clients_registered > 0) {
+                                    LOG_INFO("No clients currently registered: waiting for client connections...");
+                                    nb_clients_registered = 0;
                                 }
                             }
                         }

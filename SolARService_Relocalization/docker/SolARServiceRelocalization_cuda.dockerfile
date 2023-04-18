@@ -29,6 +29,8 @@ RUN chmod +x start_server_cuda.sh
 
 ## Set application gRPC server url
 ENV XPCF_GRPC_SERVER_URL=0.0.0.0:8080
+## Set service external URL
+ENV SERVER_EXTERNAL_URL=172.17.0.1:60052
 ## Set application gRPC max receive message size
 ENV XPCF_GRPC_MAX_RECV_MSG_SIZE=-1
 ## Set application gRPC max send message size

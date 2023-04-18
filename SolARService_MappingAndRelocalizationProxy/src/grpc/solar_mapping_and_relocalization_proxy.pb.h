@@ -47,7 +47,7 @@ struct TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[15]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[16]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -68,6 +68,9 @@ extern CameraParametersDefaultTypeInternal _CameraParameters_default_instance_;
 class CameraParametersStereo;
 struct CameraParametersStereoDefaultTypeInternal;
 extern CameraParametersStereoDefaultTypeInternal _CameraParametersStereo_default_instance_;
+class ClientUUID;
+struct ClientUUIDDefaultTypeInternal;
+extern ClientUUIDDefaultTypeInternal _ClientUUID_default_instance_;
 class Empty;
 struct EmptyDefaultTypeInternal;
 extern EmptyDefaultTypeInternal _Empty_default_instance_;
@@ -112,6 +115,7 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::com::bcom::solar::gprc::CameraDistortion* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraDistortion>(Arena*);
 template<> ::com::bcom::solar::gprc::CameraParameters* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraParameters>(Arena*);
 template<> ::com::bcom::solar::gprc::CameraParametersStereo* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::CameraParametersStereo>(Arena*);
+template<> ::com::bcom::solar::gprc::ClientUUID* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::ClientUUID>(Arena*);
 template<> ::com::bcom::solar::gprc::Empty* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Empty>(Arena*);
 template<> ::com::bcom::solar::gprc::Frame* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Frame>(Arena*);
 template<> ::com::bcom::solar::gprc::Frames* Arena::CreateMaybeMessage<::com::bcom::solar::gprc::Frames>(Arena*);
@@ -436,6 +440,150 @@ class Empty PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class ClientUUID PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.ClientUUID) */ {
+ public:
+  inline ClientUUID() : ClientUUID(nullptr) {}
+  virtual ~ClientUUID();
+  explicit constexpr ClientUUID(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ClientUUID(const ClientUUID& from);
+  ClientUUID(ClientUUID&& from) noexcept
+    : ClientUUID() {
+    *this = ::std::move(from);
+  }
+
+  inline ClientUUID& operator=(const ClientUUID& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ClientUUID& operator=(ClientUUID&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ClientUUID& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ClientUUID* internal_default_instance() {
+    return reinterpret_cast<const ClientUUID*>(
+               &_ClientUUID_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(ClientUUID& a, ClientUUID& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ClientUUID* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ClientUUID* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ClientUUID* New() const final {
+    return CreateMaybeMessage<ClientUUID>(nullptr);
+  }
+
+  ClientUUID* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ClientUUID>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ClientUUID& from);
+  void MergeFrom(const ClientUUID& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ClientUUID* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "com.bcom.solar.gprc.ClientUUID";
+  }
+  protected:
+  explicit ClientUUID(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    return ::descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_metadata_getter(kIndexInFileMessages);
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kClientUuidFieldNumber = 1,
+  };
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
+  // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.ClientUUID)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
+};
+// -------------------------------------------------------------------
+
 class PipelineModeValue PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.bcom.solar.gprc.PipelineModeValue) */ {
  public:
@@ -479,7 +627,7 @@ class PipelineModeValue PROTOBUF_FINAL :
                &_PipelineModeValue_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(PipelineModeValue& a, PipelineModeValue& b) {
     a.Swap(&b);
@@ -549,9 +697,26 @@ class PipelineModeValue PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPipelineModeFieldNumber = 1,
+    kClientUuidFieldNumber = 1,
+    kPipelineModeFieldNumber = 2,
   };
-  // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 1;
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
+  // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 2;
   void clear_pipeline_mode();
   ::com::bcom::solar::gprc::PipelineMode pipeline_mode() const;
   void set_pipeline_mode(::com::bcom::solar::gprc::PipelineMode value);
@@ -567,6 +732,7 @@ class PipelineModeValue PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
   int pipeline_mode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
@@ -616,7 +782,7 @@ class Message PROTOBUF_FINAL :
                &_Message_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(Message& a, Message& b) {
     a.Swap(&b);
@@ -686,9 +852,26 @@ class Message PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMessageFieldNumber = 1,
+    kClientUuidFieldNumber = 1,
+    kMessageFieldNumber = 2,
   };
-  // string message = 1;
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
+  // string message = 2;
   void clear_message();
   const std::string& message() const;
   void set_message(const std::string& value);
@@ -711,6 +894,7 @@ class Message PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
@@ -760,7 +944,7 @@ class CameraParameters PROTOBUF_FINAL :
                &_CameraParameters_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(CameraParameters& a, CameraParameters& b) {
     a.Swap(&b);
@@ -830,15 +1014,32 @@ class CameraParameters PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 1,
-    kIntrinsicsFieldNumber = 6,
-    kDistortionFieldNumber = 7,
-    kIdFieldNumber = 2,
-    kCameraTypeFieldNumber = 3,
-    kWidthFieldNumber = 4,
-    kHeightFieldNumber = 5,
+    kClientUuidFieldNumber = 1,
+    kNameFieldNumber = 2,
+    kIntrinsicsFieldNumber = 7,
+    kDistortionFieldNumber = 8,
+    kIdFieldNumber = 3,
+    kCameraTypeFieldNumber = 4,
+    kWidthFieldNumber = 5,
+    kHeightFieldNumber = 6,
   };
-  // string name = 1;
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
+  // string name = 2;
   void clear_name();
   const std::string& name() const;
   void set_name(const std::string& value);
@@ -854,7 +1055,7 @@ class CameraParameters PROTOBUF_FINAL :
   std::string* _internal_mutable_name();
   public:
 
-  // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 6;
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 7;
   bool has_intrinsics() const;
   private:
   bool _internal_has_intrinsics() const;
@@ -872,7 +1073,7 @@ class CameraParameters PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix3x3* intrinsics);
   ::com::bcom::solar::gprc::Matrix3x3* unsafe_arena_release_intrinsics();
 
-  // .com.bcom.solar.gprc.CameraDistortion distortion = 7;
+  // .com.bcom.solar.gprc.CameraDistortion distortion = 8;
   bool has_distortion() const;
   private:
   bool _internal_has_distortion() const;
@@ -890,7 +1091,7 @@ class CameraParameters PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::CameraDistortion* distortion);
   ::com::bcom::solar::gprc::CameraDistortion* unsafe_arena_release_distortion();
 
-  // uint32 id = 2;
+  // uint32 id = 3;
   void clear_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
   void set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -899,7 +1100,7 @@ class CameraParameters PROTOBUF_FINAL :
   void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // .com.bcom.solar.gprc.CameraType camera_type = 3;
+  // .com.bcom.solar.gprc.CameraType camera_type = 4;
   void clear_camera_type();
   ::com::bcom::solar::gprc::CameraType camera_type() const;
   void set_camera_type(::com::bcom::solar::gprc::CameraType value);
@@ -908,7 +1109,7 @@ class CameraParameters PROTOBUF_FINAL :
   void _internal_set_camera_type(::com::bcom::solar::gprc::CameraType value);
   public:
 
-  // uint32 width = 4;
+  // uint32 width = 5;
   void clear_width();
   ::PROTOBUF_NAMESPACE_ID::uint32 width() const;
   void set_width(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -917,7 +1118,7 @@ class CameraParameters PROTOBUF_FINAL :
   void _internal_set_width(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 height = 5;
+  // uint32 height = 6;
   void clear_height();
   ::PROTOBUF_NAMESPACE_ID::uint32 height() const;
   void set_height(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -933,6 +1134,7 @@ class CameraParameters PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::com::bcom::solar::gprc::Matrix3x3* intrinsics_;
   ::com::bcom::solar::gprc::CameraDistortion* distortion_;
@@ -988,7 +1190,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
                &_CameraParametersStereo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(CameraParametersStereo& a, CameraParametersStereo& b) {
     a.Swap(&b);
@@ -1058,22 +1260,39 @@ class CameraParametersStereo PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kName1FieldNumber = 1,
-    kName2FieldNumber = 8,
-    kIntrinsics1FieldNumber = 6,
-    kDistortion1FieldNumber = 7,
-    kIntrinsics2FieldNumber = 13,
-    kDistortion2FieldNumber = 14,
-    kId1FieldNumber = 2,
-    kCameraType1FieldNumber = 3,
-    kWidth1FieldNumber = 4,
-    kHeight1FieldNumber = 5,
-    kId2FieldNumber = 9,
-    kCameraType2FieldNumber = 10,
-    kWidth2FieldNumber = 11,
-    kHeight2FieldNumber = 12,
+    kClientUuidFieldNumber = 1,
+    kName1FieldNumber = 2,
+    kName2FieldNumber = 9,
+    kIntrinsics1FieldNumber = 7,
+    kDistortion1FieldNumber = 8,
+    kIntrinsics2FieldNumber = 14,
+    kDistortion2FieldNumber = 15,
+    kId1FieldNumber = 3,
+    kCameraType1FieldNumber = 4,
+    kWidth1FieldNumber = 5,
+    kHeight1FieldNumber = 6,
+    kId2FieldNumber = 10,
+    kCameraType2FieldNumber = 11,
+    kWidth2FieldNumber = 12,
+    kHeight2FieldNumber = 13,
   };
-  // string name1 = 1;
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
+  // string name1 = 2;
   void clear_name1();
   const std::string& name1() const;
   void set_name1(const std::string& value);
@@ -1089,7 +1308,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   std::string* _internal_mutable_name1();
   public:
 
-  // string name2 = 8;
+  // string name2 = 9;
   void clear_name2();
   const std::string& name2() const;
   void set_name2(const std::string& value);
@@ -1105,7 +1324,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   std::string* _internal_mutable_name2();
   public:
 
-  // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 6;
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 7;
   bool has_intrinsics1() const;
   private:
   bool _internal_has_intrinsics1() const;
@@ -1123,7 +1342,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix3x3* intrinsics1);
   ::com::bcom::solar::gprc::Matrix3x3* unsafe_arena_release_intrinsics1();
 
-  // .com.bcom.solar.gprc.CameraDistortion distortion1 = 7;
+  // .com.bcom.solar.gprc.CameraDistortion distortion1 = 8;
   bool has_distortion1() const;
   private:
   bool _internal_has_distortion1() const;
@@ -1141,7 +1360,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::CameraDistortion* distortion1);
   ::com::bcom::solar::gprc::CameraDistortion* unsafe_arena_release_distortion1();
 
-  // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 13;
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 14;
   bool has_intrinsics2() const;
   private:
   bool _internal_has_intrinsics2() const;
@@ -1159,7 +1378,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix3x3* intrinsics2);
   ::com::bcom::solar::gprc::Matrix3x3* unsafe_arena_release_intrinsics2();
 
-  // .com.bcom.solar.gprc.CameraDistortion distortion2 = 14;
+  // .com.bcom.solar.gprc.CameraDistortion distortion2 = 15;
   bool has_distortion2() const;
   private:
   bool _internal_has_distortion2() const;
@@ -1177,7 +1396,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::CameraDistortion* distortion2);
   ::com::bcom::solar::gprc::CameraDistortion* unsafe_arena_release_distortion2();
 
-  // uint32 id1 = 2;
+  // uint32 id1 = 3;
   void clear_id1();
   ::PROTOBUF_NAMESPACE_ID::uint32 id1() const;
   void set_id1(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1186,7 +1405,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   void _internal_set_id1(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // .com.bcom.solar.gprc.CameraType camera_type1 = 3;
+  // .com.bcom.solar.gprc.CameraType camera_type1 = 4;
   void clear_camera_type1();
   ::com::bcom::solar::gprc::CameraType camera_type1() const;
   void set_camera_type1(::com::bcom::solar::gprc::CameraType value);
@@ -1195,7 +1414,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   void _internal_set_camera_type1(::com::bcom::solar::gprc::CameraType value);
   public:
 
-  // uint32 width1 = 4;
+  // uint32 width1 = 5;
   void clear_width1();
   ::PROTOBUF_NAMESPACE_ID::uint32 width1() const;
   void set_width1(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1204,7 +1423,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   void _internal_set_width1(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 height1 = 5;
+  // uint32 height1 = 6;
   void clear_height1();
   ::PROTOBUF_NAMESPACE_ID::uint32 height1() const;
   void set_height1(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1213,7 +1432,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   void _internal_set_height1(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 id2 = 9;
+  // uint32 id2 = 10;
   void clear_id2();
   ::PROTOBUF_NAMESPACE_ID::uint32 id2() const;
   void set_id2(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1222,7 +1441,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   void _internal_set_id2(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // .com.bcom.solar.gprc.CameraType camera_type2 = 10;
+  // .com.bcom.solar.gprc.CameraType camera_type2 = 11;
   void clear_camera_type2();
   ::com::bcom::solar::gprc::CameraType camera_type2() const;
   void set_camera_type2(::com::bcom::solar::gprc::CameraType value);
@@ -1231,7 +1450,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   void _internal_set_camera_type2(::com::bcom::solar::gprc::CameraType value);
   public:
 
-  // uint32 width2 = 11;
+  // uint32 width2 = 12;
   void clear_width2();
   ::PROTOBUF_NAMESPACE_ID::uint32 width2() const;
   void set_width2(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1240,7 +1459,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   void _internal_set_width2(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 height2 = 12;
+  // uint32 height2 = 13;
   void clear_height2();
   ::PROTOBUF_NAMESPACE_ID::uint32 height2() const;
   void set_height2(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1256,6 +1475,7 @@ class CameraParametersStereo PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name1_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name2_;
   ::com::bcom::solar::gprc::Matrix3x3* intrinsics1_;
@@ -1318,7 +1538,7 @@ class CameraDistortion PROTOBUF_FINAL :
                &_CameraDistortion_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(CameraDistortion& a, CameraDistortion& b) {
     a.Swap(&b);
@@ -1499,7 +1719,7 @@ class RectificationParameters PROTOBUF_FINAL :
                &_RectificationParameters_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(RectificationParameters& a, RectificationParameters& b) {
     a.Swap(&b);
@@ -1569,16 +1789,33 @@ class RectificationParameters PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kCam1RotationFieldNumber = 1,
-    kCam1ProjectionFieldNumber = 2,
-    kCam2RotationFieldNumber = 5,
-    kCam2ProjectionFieldNumber = 6,
-    kCam1StereoTypeFieldNumber = 3,
-    kCam1BaselineFieldNumber = 4,
-    kCam2StereoTypeFieldNumber = 7,
-    kCam2BaselineFieldNumber = 8,
+    kClientUuidFieldNumber = 1,
+    kCam1RotationFieldNumber = 2,
+    kCam1ProjectionFieldNumber = 3,
+    kCam2RotationFieldNumber = 6,
+    kCam2ProjectionFieldNumber = 7,
+    kCam1StereoTypeFieldNumber = 4,
+    kCam1BaselineFieldNumber = 5,
+    kCam2StereoTypeFieldNumber = 8,
+    kCam2BaselineFieldNumber = 9,
   };
-  // .com.bcom.solar.gprc.Matrix3x3 cam1_rotation = 1;
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
+  // .com.bcom.solar.gprc.Matrix3x3 cam1_rotation = 2;
   bool has_cam1_rotation() const;
   private:
   bool _internal_has_cam1_rotation() const;
@@ -1596,7 +1833,7 @@ class RectificationParameters PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix3x3* cam1_rotation);
   ::com::bcom::solar::gprc::Matrix3x3* unsafe_arena_release_cam1_rotation();
 
-  // .com.bcom.solar.gprc.Matrix3x4 cam1_projection = 2;
+  // .com.bcom.solar.gprc.Matrix3x4 cam1_projection = 3;
   bool has_cam1_projection() const;
   private:
   bool _internal_has_cam1_projection() const;
@@ -1614,7 +1851,7 @@ class RectificationParameters PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix3x4* cam1_projection);
   ::com::bcom::solar::gprc::Matrix3x4* unsafe_arena_release_cam1_projection();
 
-  // .com.bcom.solar.gprc.Matrix3x3 cam2_rotation = 5;
+  // .com.bcom.solar.gprc.Matrix3x3 cam2_rotation = 6;
   bool has_cam2_rotation() const;
   private:
   bool _internal_has_cam2_rotation() const;
@@ -1632,7 +1869,7 @@ class RectificationParameters PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix3x3* cam2_rotation);
   ::com::bcom::solar::gprc::Matrix3x3* unsafe_arena_release_cam2_rotation();
 
-  // .com.bcom.solar.gprc.Matrix3x4 cam2_projection = 6;
+  // .com.bcom.solar.gprc.Matrix3x4 cam2_projection = 7;
   bool has_cam2_projection() const;
   private:
   bool _internal_has_cam2_projection() const;
@@ -1650,7 +1887,7 @@ class RectificationParameters PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix3x4* cam2_projection);
   ::com::bcom::solar::gprc::Matrix3x4* unsafe_arena_release_cam2_projection();
 
-  // .com.bcom.solar.gprc.StereoType cam1_stereo_type = 3;
+  // .com.bcom.solar.gprc.StereoType cam1_stereo_type = 4;
   void clear_cam1_stereo_type();
   ::com::bcom::solar::gprc::StereoType cam1_stereo_type() const;
   void set_cam1_stereo_type(::com::bcom::solar::gprc::StereoType value);
@@ -1659,7 +1896,7 @@ class RectificationParameters PROTOBUF_FINAL :
   void _internal_set_cam1_stereo_type(::com::bcom::solar::gprc::StereoType value);
   public:
 
-  // float cam1_baseline = 4;
+  // float cam1_baseline = 5;
   void clear_cam1_baseline();
   float cam1_baseline() const;
   void set_cam1_baseline(float value);
@@ -1668,7 +1905,7 @@ class RectificationParameters PROTOBUF_FINAL :
   void _internal_set_cam1_baseline(float value);
   public:
 
-  // .com.bcom.solar.gprc.StereoType cam2_stereo_type = 7;
+  // .com.bcom.solar.gprc.StereoType cam2_stereo_type = 8;
   void clear_cam2_stereo_type();
   ::com::bcom::solar::gprc::StereoType cam2_stereo_type() const;
   void set_cam2_stereo_type(::com::bcom::solar::gprc::StereoType value);
@@ -1677,7 +1914,7 @@ class RectificationParameters PROTOBUF_FINAL :
   void _internal_set_cam2_stereo_type(::com::bcom::solar::gprc::StereoType value);
   public:
 
-  // float cam2_baseline = 8;
+  // float cam2_baseline = 9;
   void clear_cam2_baseline();
   float cam2_baseline() const;
   void set_cam2_baseline(float value);
@@ -1693,6 +1930,7 @@ class RectificationParameters PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
   ::com::bcom::solar::gprc::Matrix3x3* cam1_rotation_;
   ::com::bcom::solar::gprc::Matrix3x4* cam1_projection_;
   ::com::bcom::solar::gprc::Matrix3x3* cam2_rotation_;
@@ -1749,7 +1987,7 @@ class RelocalizationResult PROTOBUF_FINAL :
                &_RelocalizationResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(RelocalizationResult& a, RelocalizationResult& b) {
     a.Swap(&b);
@@ -1928,7 +2166,7 @@ class Image PROTOBUF_FINAL :
                &_Image_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(Image& a, Image& b) {
     a.Swap(&b);
@@ -2116,7 +2354,7 @@ class Frames PROTOBUF_FINAL :
                &_Frames_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(Frames& a, Frames& b) {
     a.Swap(&b);
@@ -2186,9 +2424,10 @@ class Frames PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFramesFieldNumber = 1,
+    kFramesFieldNumber = 2,
+    kClientUuidFieldNumber = 1,
   };
-  // repeated .com.bcom.solar.gprc.Frame frames = 1;
+  // repeated .com.bcom.solar.gprc.Frame frames = 2;
   int frames_size() const;
   private:
   int _internal_frames_size() const;
@@ -2206,6 +2445,22 @@ class Frames PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::com::bcom::solar::gprc::Frame >&
       frames() const;
 
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
   // @@protoc_insertion_point(class_scope:com.bcom.solar.gprc.Frames)
  private:
   class _Internal;
@@ -2214,6 +2469,7 @@ class Frames PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::com::bcom::solar::gprc::Frame > frames_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto;
 };
@@ -2262,7 +2518,7 @@ class GroundTruthFrames PROTOBUF_FINAL :
                &_GroundTruthFrames_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(GroundTruthFrames& a, GroundTruthFrames& b) {
     a.Swap(&b);
@@ -2332,11 +2588,28 @@ class GroundTruthFrames PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFramesFieldNumber = 1,
-    kWorldTransormFieldNumber = 2,
-    kFixedPoseFieldNumber = 3,
+    kClientUuidFieldNumber = 1,
+    kFramesFieldNumber = 2,
+    kWorldTransormFieldNumber = 3,
+    kFixedPoseFieldNumber = 4,
   };
-  // .com.bcom.solar.gprc.Frames frames = 1;
+  // string client_uuid = 1;
+  void clear_client_uuid();
+  const std::string& client_uuid() const;
+  void set_client_uuid(const std::string& value);
+  void set_client_uuid(std::string&& value);
+  void set_client_uuid(const char* value);
+  void set_client_uuid(const char* value, size_t size);
+  std::string* mutable_client_uuid();
+  std::string* release_client_uuid();
+  void set_allocated_client_uuid(std::string* client_uuid);
+  private:
+  const std::string& _internal_client_uuid() const;
+  void _internal_set_client_uuid(const std::string& value);
+  std::string* _internal_mutable_client_uuid();
+  public:
+
+  // .com.bcom.solar.gprc.Frames frames = 2;
   bool has_frames() const;
   private:
   bool _internal_has_frames() const;
@@ -2354,7 +2627,7 @@ class GroundTruthFrames PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Frames* frames);
   ::com::bcom::solar::gprc::Frames* unsafe_arena_release_frames();
 
-  // .com.bcom.solar.gprc.Matrix4x4 world_transorm = 2;
+  // .com.bcom.solar.gprc.Matrix4x4 world_transorm = 3;
   bool has_world_transorm() const;
   private:
   bool _internal_has_world_transorm() const;
@@ -2372,7 +2645,7 @@ class GroundTruthFrames PROTOBUF_FINAL :
       ::com::bcom::solar::gprc::Matrix4x4* world_transorm);
   ::com::bcom::solar::gprc::Matrix4x4* unsafe_arena_release_world_transorm();
 
-  // bool fixed_pose = 3;
+  // bool fixed_pose = 4;
   void clear_fixed_pose();
   bool fixed_pose() const;
   void set_fixed_pose(bool value);
@@ -2388,6 +2661,7 @@ class GroundTruthFrames PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_uuid_;
   ::com::bcom::solar::gprc::Frames* frames_;
   ::com::bcom::solar::gprc::Matrix4x4* world_transorm_;
   bool fixed_pose_;
@@ -2439,7 +2713,7 @@ class Frame PROTOBUF_FINAL :
                &_Frame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    12;
 
   friend void swap(Frame& a, Frame& b) {
     a.Swap(&b);
@@ -2627,7 +2901,7 @@ class Matrix4x4 PROTOBUF_FINAL :
                &_Matrix4x4_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    13;
 
   friend void swap(Matrix4x4& a, Matrix4x4& b) {
     a.Swap(&b);
@@ -2929,7 +3203,7 @@ class Matrix3x3 PROTOBUF_FINAL :
                &_Matrix3x3_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    14;
 
   friend void swap(Matrix3x3& a, Matrix3x3& b) {
     a.Swap(&b);
@@ -3154,7 +3428,7 @@ class Matrix3x4 PROTOBUF_FINAL :
                &_Matrix3x4_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    15;
 
   friend void swap(Matrix3x4& a, Matrix3x4& b) {
     a.Swap(&b);
@@ -3380,9 +3654,135 @@ class Matrix3x4 PROTOBUF_FINAL :
 
 // -------------------------------------------------------------------
 
+// ClientUUID
+
+// string client_uuid = 1;
+inline void ClientUUID::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& ClientUUID::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.ClientUUID.client_uuid)
+  return _internal_client_uuid();
+}
+inline void ClientUUID::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.ClientUUID.client_uuid)
+}
+inline std::string* ClientUUID::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.ClientUUID.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& ClientUUID::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void ClientUUID::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void ClientUUID::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.ClientUUID.client_uuid)
+}
+inline void ClientUUID::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.ClientUUID.client_uuid)
+}
+inline void ClientUUID::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.ClientUUID.client_uuid)
+}
+inline std::string* ClientUUID::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* ClientUUID::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.ClientUUID.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void ClientUUID::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.ClientUUID.client_uuid)
+}
+
+// -------------------------------------------------------------------
+
 // PipelineModeValue
 
-// .com.bcom.solar.gprc.PipelineMode pipeline_mode = 1;
+// string client_uuid = 1;
+inline void PipelineModeValue::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& PipelineModeValue::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+  return _internal_client_uuid();
+}
+inline void PipelineModeValue::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+}
+inline std::string* PipelineModeValue::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& PipelineModeValue::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void PipelineModeValue::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void PipelineModeValue::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+}
+inline void PipelineModeValue::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+}
+inline void PipelineModeValue::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+}
+inline std::string* PipelineModeValue::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* PipelineModeValue::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PipelineModeValue::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.PipelineModeValue.client_uuid)
+}
+
+// .com.bcom.solar.gprc.PipelineMode pipeline_mode = 2;
 inline void PipelineModeValue::clear_pipeline_mode() {
   pipeline_mode_ = 0;
 }
@@ -3406,7 +3806,68 @@ inline void PipelineModeValue::set_pipeline_mode(::com::bcom::solar::gprc::Pipel
 
 // Message
 
-// string message = 1;
+// string client_uuid = 1;
+inline void Message::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& Message::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Message.client_uuid)
+  return _internal_client_uuid();
+}
+inline void Message::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Message.client_uuid)
+}
+inline std::string* Message::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.Message.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& Message::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void Message::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void Message::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.Message.client_uuid)
+}
+inline void Message::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.Message.client_uuid)
+}
+inline void Message::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.Message.client_uuid)
+}
+inline std::string* Message::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* Message::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.Message.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void Message::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.Message.client_uuid)
+}
+
+// string message = 2;
 inline void Message::clear_message() {
   message_.ClearToEmpty();
 }
@@ -3471,7 +3932,68 @@ inline void Message::set_allocated_message(std::string* message) {
 
 // CameraParameters
 
-// string name = 1;
+// string client_uuid = 1;
+inline void CameraParameters::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& CameraParameters::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.CameraParameters.client_uuid)
+  return _internal_client_uuid();
+}
+inline void CameraParameters::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParameters.client_uuid)
+}
+inline std::string* CameraParameters::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.CameraParameters.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& CameraParameters::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void CameraParameters::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void CameraParameters::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.CameraParameters.client_uuid)
+}
+inline void CameraParameters::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.CameraParameters.client_uuid)
+}
+inline void CameraParameters::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.CameraParameters.client_uuid)
+}
+inline std::string* CameraParameters::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* CameraParameters::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.CameraParameters.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void CameraParameters::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParameters.client_uuid)
+}
+
+// string name = 2;
 inline void CameraParameters::clear_name() {
   name_.ClearToEmpty();
 }
@@ -3532,7 +4054,7 @@ inline void CameraParameters::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParameters.name)
 }
 
-// uint32 id = 2;
+// uint32 id = 3;
 inline void CameraParameters::clear_id() {
   id_ = 0u;
 }
@@ -3552,7 +4074,7 @@ inline void CameraParameters::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParameters.id)
 }
 
-// .com.bcom.solar.gprc.CameraType camera_type = 3;
+// .com.bcom.solar.gprc.CameraType camera_type = 4;
 inline void CameraParameters::clear_camera_type() {
   camera_type_ = 0;
 }
@@ -3572,7 +4094,7 @@ inline void CameraParameters::set_camera_type(::com::bcom::solar::gprc::CameraTy
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParameters.camera_type)
 }
 
-// uint32 width = 4;
+// uint32 width = 5;
 inline void CameraParameters::clear_width() {
   width_ = 0u;
 }
@@ -3592,7 +4114,7 @@ inline void CameraParameters::set_width(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParameters.width)
 }
 
-// uint32 height = 5;
+// uint32 height = 6;
 inline void CameraParameters::clear_height() {
   height_ = 0u;
 }
@@ -3612,7 +4134,7 @@ inline void CameraParameters::set_height(::PROTOBUF_NAMESPACE_ID::uint32 value) 
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParameters.height)
 }
 
-// .com.bcom.solar.gprc.Matrix3x3 intrinsics = 6;
+// .com.bcom.solar.gprc.Matrix3x3 intrinsics = 7;
 inline bool CameraParameters::_internal_has_intrinsics() const {
   return this != internal_default_instance() && intrinsics_ != nullptr;
 }
@@ -3695,7 +4217,7 @@ inline void CameraParameters::set_allocated_intrinsics(::com::bcom::solar::gprc:
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParameters.intrinsics)
 }
 
-// .com.bcom.solar.gprc.CameraDistortion distortion = 7;
+// .com.bcom.solar.gprc.CameraDistortion distortion = 8;
 inline bool CameraParameters::_internal_has_distortion() const {
   return this != internal_default_instance() && distortion_ != nullptr;
 }
@@ -3782,7 +4304,68 @@ inline void CameraParameters::set_allocated_distortion(::com::bcom::solar::gprc:
 
 // CameraParametersStereo
 
-// string name1 = 1;
+// string client_uuid = 1;
+inline void CameraParametersStereo::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& CameraParametersStereo::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+  return _internal_client_uuid();
+}
+inline void CameraParametersStereo::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+}
+inline std::string* CameraParametersStereo::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& CameraParametersStereo::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void CameraParametersStereo::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void CameraParametersStereo::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+}
+inline void CameraParametersStereo::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+}
+inline void CameraParametersStereo::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+}
+inline std::string* CameraParametersStereo::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* CameraParametersStereo::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void CameraParametersStereo::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParametersStereo.client_uuid)
+}
+
+// string name1 = 2;
 inline void CameraParametersStereo::clear_name1() {
   name1_.ClearToEmpty();
 }
@@ -3843,7 +4426,7 @@ inline void CameraParametersStereo::set_allocated_name1(std::string* name1) {
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParametersStereo.name1)
 }
 
-// uint32 id1 = 2;
+// uint32 id1 = 3;
 inline void CameraParametersStereo::clear_id1() {
   id1_ = 0u;
 }
@@ -3863,7 +4446,7 @@ inline void CameraParametersStereo::set_id1(::PROTOBUF_NAMESPACE_ID::uint32 valu
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.id1)
 }
 
-// .com.bcom.solar.gprc.CameraType camera_type1 = 3;
+// .com.bcom.solar.gprc.CameraType camera_type1 = 4;
 inline void CameraParametersStereo::clear_camera_type1() {
   camera_type1_ = 0;
 }
@@ -3883,7 +4466,7 @@ inline void CameraParametersStereo::set_camera_type1(::com::bcom::solar::gprc::C
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.camera_type1)
 }
 
-// uint32 width1 = 4;
+// uint32 width1 = 5;
 inline void CameraParametersStereo::clear_width1() {
   width1_ = 0u;
 }
@@ -3903,7 +4486,7 @@ inline void CameraParametersStereo::set_width1(::PROTOBUF_NAMESPACE_ID::uint32 v
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.width1)
 }
 
-// uint32 height1 = 5;
+// uint32 height1 = 6;
 inline void CameraParametersStereo::clear_height1() {
   height1_ = 0u;
 }
@@ -3923,7 +4506,7 @@ inline void CameraParametersStereo::set_height1(::PROTOBUF_NAMESPACE_ID::uint32 
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.height1)
 }
 
-// .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 6;
+// .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 7;
 inline bool CameraParametersStereo::_internal_has_intrinsics1() const {
   return this != internal_default_instance() && intrinsics1_ != nullptr;
 }
@@ -4006,7 +4589,7 @@ inline void CameraParametersStereo::set_allocated_intrinsics1(::com::bcom::solar
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParametersStereo.intrinsics1)
 }
 
-// .com.bcom.solar.gprc.CameraDistortion distortion1 = 7;
+// .com.bcom.solar.gprc.CameraDistortion distortion1 = 8;
 inline bool CameraParametersStereo::_internal_has_distortion1() const {
   return this != internal_default_instance() && distortion1_ != nullptr;
 }
@@ -4089,7 +4672,7 @@ inline void CameraParametersStereo::set_allocated_distortion1(::com::bcom::solar
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParametersStereo.distortion1)
 }
 
-// string name2 = 8;
+// string name2 = 9;
 inline void CameraParametersStereo::clear_name2() {
   name2_.ClearToEmpty();
 }
@@ -4150,7 +4733,7 @@ inline void CameraParametersStereo::set_allocated_name2(std::string* name2) {
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParametersStereo.name2)
 }
 
-// uint32 id2 = 9;
+// uint32 id2 = 10;
 inline void CameraParametersStereo::clear_id2() {
   id2_ = 0u;
 }
@@ -4170,7 +4753,7 @@ inline void CameraParametersStereo::set_id2(::PROTOBUF_NAMESPACE_ID::uint32 valu
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.id2)
 }
 
-// .com.bcom.solar.gprc.CameraType camera_type2 = 10;
+// .com.bcom.solar.gprc.CameraType camera_type2 = 11;
 inline void CameraParametersStereo::clear_camera_type2() {
   camera_type2_ = 0;
 }
@@ -4190,7 +4773,7 @@ inline void CameraParametersStereo::set_camera_type2(::com::bcom::solar::gprc::C
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.camera_type2)
 }
 
-// uint32 width2 = 11;
+// uint32 width2 = 12;
 inline void CameraParametersStereo::clear_width2() {
   width2_ = 0u;
 }
@@ -4210,7 +4793,7 @@ inline void CameraParametersStereo::set_width2(::PROTOBUF_NAMESPACE_ID::uint32 v
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.width2)
 }
 
-// uint32 height2 = 12;
+// uint32 height2 = 13;
 inline void CameraParametersStereo::clear_height2() {
   height2_ = 0u;
 }
@@ -4230,7 +4813,7 @@ inline void CameraParametersStereo::set_height2(::PROTOBUF_NAMESPACE_ID::uint32 
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.CameraParametersStereo.height2)
 }
 
-// .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 13;
+// .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 14;
 inline bool CameraParametersStereo::_internal_has_intrinsics2() const {
   return this != internal_default_instance() && intrinsics2_ != nullptr;
 }
@@ -4313,7 +4896,7 @@ inline void CameraParametersStereo::set_allocated_intrinsics2(::com::bcom::solar
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.CameraParametersStereo.intrinsics2)
 }
 
-// .com.bcom.solar.gprc.CameraDistortion distortion2 = 14;
+// .com.bcom.solar.gprc.CameraDistortion distortion2 = 15;
 inline bool CameraParametersStereo::_internal_has_distortion2() const {
   return this != internal_default_instance() && distortion2_ != nullptr;
 }
@@ -4504,7 +5087,68 @@ inline void CameraDistortion::set_k_3(float value) {
 
 // RectificationParameters
 
-// .com.bcom.solar.gprc.Matrix3x3 cam1_rotation = 1;
+// string client_uuid = 1;
+inline void RectificationParameters::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& RectificationParameters::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+  return _internal_client_uuid();
+}
+inline void RectificationParameters::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+}
+inline std::string* RectificationParameters::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& RectificationParameters::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void RectificationParameters::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void RectificationParameters::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+}
+inline void RectificationParameters::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+}
+inline void RectificationParameters::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+}
+inline std::string* RectificationParameters::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* RectificationParameters::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void RectificationParameters::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParameters.client_uuid)
+}
+
+// .com.bcom.solar.gprc.Matrix3x3 cam1_rotation = 2;
 inline bool RectificationParameters::_internal_has_cam1_rotation() const {
   return this != internal_default_instance() && cam1_rotation_ != nullptr;
 }
@@ -4587,7 +5231,7 @@ inline void RectificationParameters::set_allocated_cam1_rotation(::com::bcom::so
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParameters.cam1_rotation)
 }
 
-// .com.bcom.solar.gprc.Matrix3x4 cam1_projection = 2;
+// .com.bcom.solar.gprc.Matrix3x4 cam1_projection = 3;
 inline bool RectificationParameters::_internal_has_cam1_projection() const {
   return this != internal_default_instance() && cam1_projection_ != nullptr;
 }
@@ -4670,7 +5314,7 @@ inline void RectificationParameters::set_allocated_cam1_projection(::com::bcom::
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParameters.cam1_projection)
 }
 
-// .com.bcom.solar.gprc.StereoType cam1_stereo_type = 3;
+// .com.bcom.solar.gprc.StereoType cam1_stereo_type = 4;
 inline void RectificationParameters::clear_cam1_stereo_type() {
   cam1_stereo_type_ = 0;
 }
@@ -4690,7 +5334,7 @@ inline void RectificationParameters::set_cam1_stereo_type(::com::bcom::solar::gp
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RectificationParameters.cam1_stereo_type)
 }
 
-// float cam1_baseline = 4;
+// float cam1_baseline = 5;
 inline void RectificationParameters::clear_cam1_baseline() {
   cam1_baseline_ = 0;
 }
@@ -4710,7 +5354,7 @@ inline void RectificationParameters::set_cam1_baseline(float value) {
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RectificationParameters.cam1_baseline)
 }
 
-// .com.bcom.solar.gprc.Matrix3x3 cam2_rotation = 5;
+// .com.bcom.solar.gprc.Matrix3x3 cam2_rotation = 6;
 inline bool RectificationParameters::_internal_has_cam2_rotation() const {
   return this != internal_default_instance() && cam2_rotation_ != nullptr;
 }
@@ -4793,7 +5437,7 @@ inline void RectificationParameters::set_allocated_cam2_rotation(::com::bcom::so
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParameters.cam2_rotation)
 }
 
-// .com.bcom.solar.gprc.Matrix3x4 cam2_projection = 6;
+// .com.bcom.solar.gprc.Matrix3x4 cam2_projection = 7;
 inline bool RectificationParameters::_internal_has_cam2_projection() const {
   return this != internal_default_instance() && cam2_projection_ != nullptr;
 }
@@ -4876,7 +5520,7 @@ inline void RectificationParameters::set_allocated_cam2_projection(::com::bcom::
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.RectificationParameters.cam2_projection)
 }
 
-// .com.bcom.solar.gprc.StereoType cam2_stereo_type = 7;
+// .com.bcom.solar.gprc.StereoType cam2_stereo_type = 8;
 inline void RectificationParameters::clear_cam2_stereo_type() {
   cam2_stereo_type_ = 0;
 }
@@ -4896,7 +5540,7 @@ inline void RectificationParameters::set_cam2_stereo_type(::com::bcom::solar::gp
   // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.RectificationParameters.cam2_stereo_type)
 }
 
-// float cam2_baseline = 8;
+// float cam2_baseline = 9;
 inline void RectificationParameters::clear_cam2_baseline() {
   cam2_baseline_ = 0;
 }
@@ -5212,7 +5856,68 @@ inline void Image::set_imagecompression(::com::bcom::solar::gprc::ImageCompressi
 
 // Frames
 
-// repeated .com.bcom.solar.gprc.Frame frames = 1;
+// string client_uuid = 1;
+inline void Frames::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& Frames::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.Frames.client_uuid)
+  return _internal_client_uuid();
+}
+inline void Frames::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.Frames.client_uuid)
+}
+inline std::string* Frames::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.Frames.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& Frames::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void Frames::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void Frames::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.Frames.client_uuid)
+}
+inline void Frames::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.Frames.client_uuid)
+}
+inline void Frames::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.Frames.client_uuid)
+}
+inline std::string* Frames::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* Frames::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.Frames.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void Frames::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.Frames.client_uuid)
+}
+
+// repeated .com.bcom.solar.gprc.Frame frames = 2;
 inline int Frames::_internal_frames_size() const {
   return frames_.size();
 }
@@ -5255,7 +5960,68 @@ Frames::frames() const {
 
 // GroundTruthFrames
 
-// .com.bcom.solar.gprc.Frames frames = 1;
+// string client_uuid = 1;
+inline void GroundTruthFrames::clear_client_uuid() {
+  client_uuid_.ClearToEmpty();
+}
+inline const std::string& GroundTruthFrames::client_uuid() const {
+  // @@protoc_insertion_point(field_get:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+  return _internal_client_uuid();
+}
+inline void GroundTruthFrames::set_client_uuid(const std::string& value) {
+  _internal_set_client_uuid(value);
+  // @@protoc_insertion_point(field_set:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+}
+inline std::string* GroundTruthFrames::mutable_client_uuid() {
+  // @@protoc_insertion_point(field_mutable:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+  return _internal_mutable_client_uuid();
+}
+inline const std::string& GroundTruthFrames::_internal_client_uuid() const {
+  return client_uuid_.Get();
+}
+inline void GroundTruthFrames::_internal_set_client_uuid(const std::string& value) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void GroundTruthFrames::set_client_uuid(std::string&& value) {
+  
+  client_uuid_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+}
+inline void GroundTruthFrames::set_client_uuid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+}
+inline void GroundTruthFrames::set_client_uuid(const char* value,
+    size_t size) {
+  
+  client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+}
+inline std::string* GroundTruthFrames::_internal_mutable_client_uuid() {
+  
+  return client_uuid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* GroundTruthFrames::release_client_uuid() {
+  // @@protoc_insertion_point(field_release:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+  return client_uuid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void GroundTruthFrames::set_allocated_client_uuid(std::string* client_uuid) {
+  if (client_uuid != nullptr) {
+    
+  } else {
+    
+  }
+  client_uuid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), client_uuid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.GroundTruthFrames.client_uuid)
+}
+
+// .com.bcom.solar.gprc.Frames frames = 2;
 inline bool GroundTruthFrames::_internal_has_frames() const {
   return this != internal_default_instance() && frames_ != nullptr;
 }
@@ -5338,7 +6104,7 @@ inline void GroundTruthFrames::set_allocated_frames(::com::bcom::solar::gprc::Fr
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.GroundTruthFrames.frames)
 }
 
-// .com.bcom.solar.gprc.Matrix4x4 world_transorm = 2;
+// .com.bcom.solar.gprc.Matrix4x4 world_transorm = 3;
 inline bool GroundTruthFrames::_internal_has_world_transorm() const {
   return this != internal_default_instance() && world_transorm_ != nullptr;
 }
@@ -5421,7 +6187,7 @@ inline void GroundTruthFrames::set_allocated_world_transorm(::com::bcom::solar::
   // @@protoc_insertion_point(field_set_allocated:com.bcom.solar.gprc.GroundTruthFrames.world_transorm)
 }
 
-// bool fixed_pose = 3;
+// bool fixed_pose = 4;
 inline void GroundTruthFrames::clear_fixed_pose() {
   fixed_pose_ = false;
 }
@@ -6406,6 +7172,8 @@ inline void Matrix3x4::set_m34(float value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

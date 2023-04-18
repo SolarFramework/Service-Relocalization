@@ -5,8 +5,11 @@ export XPCF_MODULE_ROOT=$HOME/.remaken/packages/linux-gcc
 export PKG_CONFIG_PATH=/home/linuxbrew/.linuxbrew/opt/openssl/lib/pkgconfig:/home/linuxbrew/.linuxbrew/lib/pkgconfig/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/linuxbrew/.linuxbrew/lib:.
 
+## Set external IP and port for client access (same as gRPC server for local use)
+export SERVER_EXTERNAL_URL=0.0.0.0:50050
+
 ## Set application gRPC server url
-export XPCF_GRPC_SERVER_URL=0.0.0.0:50050
+export XPCF_GRPC_SERVER_URL=$SERVER_EXTERNAL_URL
 ## Set application gRPC max receive message size (-1 for max value)
 export XPCF_GRPC_MAX_RECV_MSG_SIZE=7000000
 ## Set application gRPC max send message size (-1 for max value)

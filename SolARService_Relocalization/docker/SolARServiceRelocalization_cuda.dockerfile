@@ -11,7 +11,7 @@ RUN apt-get install -y libvdpau-dev
 RUN mkdir SolARServiceRelocalization
 RUN mkdir SolARServiceRelocalization/data
 RUN mkdir SolARServiceRelocalization/data/fbow_voc
-ADD data/fbow_voc/popsift_uint8.fbow /SolARServiceRelocalization/data/fbow_voc/
+ADD data/fbow_voc/popsift_uint8_indoor.fbow /SolARServiceRelocalization/data/fbow_voc/
 
 ## Libraries and modules
 RUN mkdir SolARServiceRelocalization/modules

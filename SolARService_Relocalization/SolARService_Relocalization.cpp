@@ -32,6 +32,12 @@
 #include <iostream>
 #include <fstream>
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif // _WIN32
+
 const std::string MAP_UPDATE_CONF_FILE = "./SolARService_Relocalization_MapUpdate_conf.xml";
 
 using namespace SolAR;
@@ -224,12 +230,20 @@ int main(int argc, char* argv[])
             if (serviceManager->getService(api::pipeline::ServiceType::MAP_UPDATE_SERVICE, mapUpdateURL)
                    != FrameworkReturnCode::_SUCCESS) {
                 LOG_WARNING("Wait for an available Map Update service...");
+#ifdef _WIN32
+                Sleep(1);
+#else
                 sleep(1);
+#endif
             }
         }
         catch (const std::exception &e) {
             LOG_WARNING("Waiting for the Service Manager...");
+#ifdef _WIN32
+            Sleep(1);
+#else
             sleep(1);
+#endif
         }
     }
 

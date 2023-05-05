@@ -29,6 +29,12 @@
 
 #include "api/pipeline/IServiceManagerPipeline.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif // _WIN32
+
 using namespace SolAR;
 
 namespace fs = boost::filesystem;
@@ -193,7 +199,11 @@ int main(int argc, char* argv[])
         }
         catch (const std::exception &e) {
             LOG_WARNING("Waiting for the Service Manager...");
+#ifdef _WIN32
+            Sleep(1);
+#else
             sleep(1);
+#endif
         }
     }
 

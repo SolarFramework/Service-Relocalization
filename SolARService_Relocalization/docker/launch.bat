@@ -1,21 +1,32 @@
 ECHO off
 
-REM Get Map Update Service URL from parameters
+REM Get service port from parameters
 IF "%1"=="" (
-    ECHO You need to give Map Update URL as first parameter!
+    ECHO You need to give Relocalization service port as first parameter!
     GOTO end
 ) ELSE (
-    ECHO Map Update Service URL = %1
+    ECHO Relocalization service port = %1
 )
 
-REM Set Map Update Service URL
-SET MAPUPDATE_SERVICE_URL=%1
+REM Set Relocalization service external URL
+SET SERVER_EXTERNAL_URL=172.17.0.1:%1
+
+REM Get Service Manager URL from parameters
+IF "%2"=="" (
+    ECHO You need to give Service Manager URL as second parameter!
+    GOTO end
+) ELSE (
+    ECHO Service Manager Service URL = %2
+)
+
+REM Set Service Manager URL
+SET SERVICE_MANAGER_URL=%2
 
 REM Set application log level
 REM Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 SET SOLAR_LOG_LEVEL=INFO
 
 docker rm -f solarservicerelocalization
-docker run -d -p 50052:8080 -e SOLAR_LOG_LEVEL -e MAPUPDATE_SERVICE_URL -e "SERVICE_NAME=SolARServiceRelocalization" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicerelocalization artwin/solar/services/relocalization-service:latest
+docker run -d -p %1:8080 -e SERVER_EXTERNAL_URL -e SERVICE_MANAGER_URL -e SOLAR_LOG_LEVEL -e "SERVICE_NAME=SolARServiceRelocalization" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicerelocalization artwin/solar/services/relocalization-service:latest
 
 :end

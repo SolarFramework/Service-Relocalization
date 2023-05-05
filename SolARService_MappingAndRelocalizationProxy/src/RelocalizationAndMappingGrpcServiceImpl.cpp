@@ -33,59 +33,16 @@ using SolAR::Log;
 
 using SolARImage = SolAR::datastructure::Image;
 
+using namespace std;
+
 namespace com::bcom::solar::gprc
 {
 
-class Fps
-{
-    typedef std::chrono::system_clock Time;
-    typedef std::chrono::milliseconds ms;
-
-public:
-
-    Fps(){}
-    Fps(unsigned int computePeriodMs, unsigned int windowSize)
-        :m_computePeriodMs{computePeriodMs},
-          m_windowSize{windowSize}
-    {}
-
-  float update()
-  {
-    auto now = Time::now();
-    auto timeElapsed = now - m_lastTime;
-    m_lastTime = now;
-
-    m_lastTenDeltas.push_back(std::chrono::duration_cast<ms>(timeElapsed).count());
-
-    if (m_lastTenDeltas.size() > m_windowSize)
-    {
-      m_lastTenDeltas.erase(m_lastTenDeltas.begin());
-    }
-
-    if (now - m_lastTimeComputed > m_computePeriodMs)
-    {
-        m_currentFps = 1000.f / (std::accumulate(m_lastTenDeltas.begin(), m_lastTenDeltas.end(), 0.f) / m_lastTenDeltas.size());
-        m_lastTimeComputed = now;
-    }
-
-    return m_currentFps;
-  }
-
-private:
-  std::chrono::milliseconds m_computePeriodMs{1000};
-  unsigned int m_windowSize{10};
-  float m_currentFps{0};
-
-  std::vector<float> m_lastTenDeltas;
-  std::chrono::time_point<std::chrono::system_clock> m_lastTime;
-  std::chrono::time_point<std::chrono::system_clock> m_lastTimeComputed;
-};
-
-Fps relocAndMapFps;
-
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
         SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline): m_pipeline{ pipeline }
-{}
+{
+    LOG_DEBUG("RelocalizationAndMappingGrpcServiceImpl constructor");
+}
 
 RelocalizationAndMappingGrpcServiceImpl::RelocalizationAndMappingGrpcServiceImpl(
         SolAR::api::pipeline::IAsyncRelocalizationPipeline* pipeline,
@@ -141,18 +98,69 @@ RelocalizationAndMappingGrpcServiceImpl::~RelocalizationAndMappingGrpcServiceImp
 }
 
 grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::RegisterClient(grpc::ServerContext* context,
+                                                        const Empty* request,
+                                                        ClientUUID* response)
+{
+    std::string clientUUID = "";
+
+    if (m_pipeline->registerClient(clientUUID) != SolAR::FrameworkReturnCode::_SUCCESS) {
+        LOG_ERROR("Error while registering the client to the mapping and relocalization front end service");
+        return gRpcError("Error while registering the client to the mapping and relocalization front end service");
+    }
+
+    response->set_client_uuid(clientUUID);
+
+    LOG_INFO("Client registered with UUID = {}", clientUUID);
+
+    // Add the new client to the map
+    SRef<ProxyClientContext> clientContext = xpcf::utils::make_shared<ProxyClientContext>();
+    unique_lock<mutex> lock(m_mutexClientMap);
+    m_clientsMap.insert(pair<string, SRef<ProxyClientContext>>(clientUUID, clientContext));
+
+    return Status::OK;
+}
+
+grpc::Status
+RelocalizationAndMappingGrpcServiceImpl::UnregisterClient(grpc::ServerContext* context,
+                                                          const ClientUUID* request,
+                                                          Empty* response)
+{
+    LOG_INFO("Unregister the client with UUID = {}", request->client_uuid());
+
+    if (m_pipeline->unregisterClient(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS) {
+        LOG_ERROR("Error while unregistering the client to the mapping and relocalization front end service");
+    }
+
+    // Remove the client and its services from the map
+    unique_lock<mutex> lock(m_mutexClientMap);
+    auto it = m_clientsMap.find(request->client_uuid());
+    if (it != m_clientsMap.end())
+        m_clientsMap.erase(it);
+
+    return Status::OK;
+}
+
+grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
                                               const PipelineModeValue* request,
                                               Empty* response)
 {
     LOG_INFO("Init mapping and relocalization service");
 
-    if (m_pipeline->init(toSolAR(request->pipeline_mode())) != SolAR::FrameworkReturnCode::_SUCCESS) {
+    // Get context for current client
+    SRef<ProxyClientContext> clientContext = getClientContext(request->client_uuid());
+    if (clientContext == nullptr) {
+        LOG_ERROR("Unknown client with UUID: {}", request->client_uuid());
+        return gRpcError("Unknown client UUID");
+    }
+
+    if (m_pipeline->init(request->client_uuid(), toSolAR(request->pipeline_mode())) != SolAR::FrameworkReturnCode::_SUCCESS) {
         LOG_ERROR("Error while initializing the mapping and relocalization front end service");
         return gRpcError("Error while initializing the mapping and relocalization front end service");
     }
 
-    m_started = false;
+    clientContext->m_started = false;
 
     LOG_DEBUG("Init mapping and relocalization service OK");
 
@@ -161,24 +169,35 @@ RelocalizationAndMappingGrpcServiceImpl::Init(grpc::ServerContext* context,
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
-                                               const Empty* request,
+                                               const ClientUUID* request,
                                                Empty* response)
 {
-    if (m_started) {
+    // Get context for current client
+    SRef<ProxyClientContext> clientContext = getClientContext(request->client_uuid());
+    if (clientContext == nullptr) {
+        LOG_ERROR("Unknown client with UUID: {}", request->client_uuid());
+        return gRpcError("Unknown client UUID");
+    }
+
+    if (clientContext->m_started) {
         LOG_INFO("Proxy is already started");
         return Status::OK;
     }
 
     LOG_INFO("Start mapping and relocalization service");
 
-    if (m_pipeline->start() != SolAR::FrameworkReturnCode::_SUCCESS) {
+    if (m_pipeline->start(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS) {
         LOG_ERROR("Error while starting the mapping and relocalization front end service");
         return gRpcError("Error while starting the mapping and relocalization front end service");
     }
 
-    m_cameraMode = UNKNOWN_CAMERA_MODE;
-    m_ordered_images.clear();
-    m_last_image_timestamp = 0;
+    clientContext->m_cameraMode = UNKNOWN_CAMERA_MODE;
+    clientContext->m_ordered_images.clear();
+    clientContext->m_last_image_timestamp = 0;
+
+    clientContext->m_started = true;
+
+    LOG_DEBUG("Start mapping and relocalization service OK");
 
     m_index_image = 0;
     if (m_file_path != "") {
@@ -197,28 +216,31 @@ RelocalizationAndMappingGrpcServiceImpl::Start(grpc::ServerContext* context,
     if (m_saveImagesTask != nullptr)
         m_saveImagesTask->start();
 
-    m_started = true;
-
-    LOG_DEBUG("Start mapping and relocalization service OK");
-
     return Status::OK;
 }
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Stop(grpc::ServerContext* context,
-                                              const Empty* request,
+                                              const ClientUUID* request,
                                               Empty* response)
 {
-    if (!m_started) {
+    // Get context for current client
+    SRef<ProxyClientContext> clientContext = getClientContext(request->client_uuid());
+    if (clientContext == nullptr) {
+        LOG_ERROR("Unknown client with UUID: {}", request->client_uuid());
+        return gRpcError("Unknown client UUID");
+    }
+
+    if (!clientContext->m_started) {
         LOG_INFO("Proxy is not started");
         return Status::OK;
     }
 
-    m_started = false;
+    clientContext->m_started = false;
 
     LOG_INFO("Stop mapping and relocalization service");
 
-    if (m_pipeline->stop() != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->stop(request->client_uuid()) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while stopping the mapping and relocalization front end service");
     }
@@ -284,7 +306,7 @@ RelocalizationAndMappingGrpcServiceImpl::SetCameraParameters(grpc::ServerContext
     solarCamParams.distortion(3,0) = request->distortion().p_1();
     solarCamParams.distortion(4,0) = request->distortion().k_3();
 
-    if (m_pipeline->setCameraParameters(solarCamParams) != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->setCameraParameters(request->client_uuid(), solarCamParams) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while setting camera parameters for the mapping and relocalization front end service");
     }
@@ -373,7 +395,7 @@ RelocalizationAndMappingGrpcServiceImpl::SetCameraParametersStereo(grpc::ServerC
     solarCamParams2.distortion(3,0) = request->distortion2().p_1();
     solarCamParams2.distortion(4,0) = request->distortion2().k_3();
 
-    if (m_pipeline->setCameraParameters(solarCamParams1, solarCamParams2) != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->setCameraParameters(request->client_uuid(), solarCamParams1, solarCamParams2) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while setting camera parameters for the stereo mapping and relocalization front end service");
     }
@@ -453,7 +475,7 @@ RelocalizationAndMappingGrpcServiceImpl::setRectificationParameters(grpc::Server
     solarCam2RectParams.type = toSolAR(request->cam2_stereo_type());
     solarCam2RectParams.baseline = request->cam2_baseline();
 
-    if (m_pipeline->setRectificationParameters(solarCam1RectParams, solarCam2RectParams) != SolAR::FrameworkReturnCode::_SUCCESS)
+    if (m_pipeline->setRectificationParameters(request->client_uuid(), solarCam1RectParams, solarCam2RectParams) != SolAR::FrameworkReturnCode::_SUCCESS)
     {
         return gRpcError("Error while setting camera rectification parameters for the mapping and relocalization front end service");
     }
@@ -477,7 +499,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMap(grpc::ServerContext* c
                                                           const Frames* request,
                                                           RelocalizationResult* response)
 {
-    return RelocalizeAndMapInternal( context, request, {}, /* fixedpose = */ false, response );
+    return RelocalizeAndMapInternal(context, request, {}, /* fixedpose = */ false, response);
 }
 
 grpc::Status
@@ -485,7 +507,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapGroundTruth(grpc::Serve
                                                                      const GroundTruthFrames* request,
                                                                      RelocalizationResult* response)
 {
-    return RelocalizeAndMapInternal( context, &request->frames(), request->world_transorm(), request->fixed_pose(), response );
+    return RelocalizeAndMapInternal(context, &request->frames(), request->world_transorm(), request->fixed_pose(), response);
 }
 
 grpc::Status
@@ -495,11 +517,18 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
                                                                   bool fixedPose,
                                                                   RelocalizationResult* response)
 {
+    // Get context for current client
+    SRef<ProxyClientContext> clientContext = getClientContext(request->client_uuid());
+    if (clientContext == nullptr) {
+        LOG_ERROR("Unknown client with UUID: {}", request->client_uuid());
+        return gRpcError("Unknown client UUID");
+    }
+
     response->set_confidence(0);
     response->set_mapping_status(MappingStatus::BOOTSTRAP);
     response->set_pose_status(RelocalizationPoseStatus::NO_POSE);
 
-    if (!m_started) {
+    if (!clientContext->m_started) {
         LOG_INFO("Proxy is not started");
         return gRpcError("Error: proxy is not started");
     }
@@ -526,45 +555,45 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
             m_sharedBufferImageToDisplay.push(imagesToDisplay);
     }
 
-    m_images_vector_mutex.lock();
+    clientContext->m_images_vector_mutex.lock();
 
-    if ((request->frames_size() == 1) && (m_cameraMode != CAMERA_MONO)) {
-        if (m_cameraMode == UNKNOWN_CAMERA_MODE) {
-            m_cameraMode = CAMERA_MONO;
+    if ((request->frames_size() == 1) && (clientContext->m_cameraMode != CAMERA_MONO)) {
+        if (clientContext->m_cameraMode == UNKNOWN_CAMERA_MODE) {
+            clientContext->m_cameraMode = CAMERA_MONO;
             LOG_INFO("Camera mode = MONO");
         }
         else {
             LOG_WARNING("Only 1 image received in stereo mode: drop image");
-            m_images_vector_mutex.unlock();
+            clientContext->m_images_vector_mutex.unlock();
             return gRpcError("Only 1 image received in stereo mode: drop image", grpc::StatusCode::OK);
         }
     }
-    else if ((request->frames_size() == 2) && (m_cameraMode != CAMERA_STEREO)) {
-        if (m_cameraMode == UNKNOWN_CAMERA_MODE) {
-            m_cameraMode = CAMERA_STEREO;
+    else if ((request->frames_size() == 2) && (clientContext->m_cameraMode != CAMERA_STEREO)) {
+        if (clientContext->m_cameraMode == UNKNOWN_CAMERA_MODE) {
+            clientContext->m_cameraMode = CAMERA_STEREO;
             LOG_INFO("Camera mode = STEREO");
         }
         else {
             LOG_WARNING("2 images received in mono mode: switch to stereo mode");
-            m_cameraMode = CAMERA_STEREO;
+            clientContext->m_cameraMode = CAMERA_STEREO;
         }
     }
     else if ((request->frames_size() == 0) || (request->frames_size() > 2)) {
         LOG_ERROR("Unexpected number of images: {}", request->frames_size());
-        m_images_vector_mutex.unlock();
+        clientContext->m_images_vector_mutex.unlock();
         return gRpcError("Unexpected number of images", grpc::StatusCode::CANCELLED);
     }
 
-    m_images_vector_mutex.unlock();
+    clientContext->m_images_vector_mutex.unlock();
 
-    auto fps = relocAndMapFps.update();
+    auto fps = clientContext->m_relocAndMapFps.update();
 
-    LOG_INFO("{:03.2f} FPS", fps);
+    LOG_INFO("[{}]{:03.2f} FPS", request->client_uuid(), fps);
 
     long timestamp = request->frames(0).timestamp();
 
     // Drop image if too old (older than last processed image)
-    if (timestamp < m_last_image_timestamp) {
+    if (timestamp < clientContext->m_last_image_timestamp) {
         LOG_INFO("Image too old: drop it!");
         return gRpcError("Image too old: drop it!", grpc::StatusCode::OK);
     }
@@ -572,7 +601,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
     // Get data from request
     SRef<SolARImage> image1 = nullptr, image2 = nullptr;
 
-    if (m_cameraMode == CAMERA_MONO) {
+    if (clientContext->m_cameraMode == CAMERA_MONO) {
         LOG_DEBUG("Get image 1 from request");
         auto status  = buildSolARImage(request->frames(0), toSolAR(request->frames(0).pose()), image1);
         if (!status.ok())
@@ -581,7 +610,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
             return gRpcError("Error while converting received image 1 to SolAR datastructure", status.error_code());
         }
     }
-    else if (m_cameraMode == CAMERA_STEREO) {
+    else if (clientContext->m_cameraMode == CAMERA_STEREO) {
         LOG_DEBUG("Get images from request");
 
         for (uint8_t i = 0; i < 2; i++) {
@@ -615,7 +644,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
 
     SolAR::datastructure::Transform3Df pose1, pose2;
     pose1 = toSolAR(request->frames(0).pose());
-    if (m_cameraMode == CAMERA_STEREO)
+    if (clientContext->m_cameraMode == CAMERA_STEREO)
         pose2 = toSolAR(request->frames(1).pose());
 
     SolAR::api::pipeline::TransformStatus transform3DStatus;
@@ -630,29 +659,29 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
     images.push_back(image1);
     poses.push_back(pose1);
 
-    if (m_cameraMode == CAMERA_STEREO) {
+    if (clientContext->m_cameraMode == CAMERA_STEREO) {
         images.push_back(image2);
         poses.push_back(pose2);
     }
 
-    m_images_vector_mutex.lock();
+    clientContext->m_images_vector_mutex.lock();
 
-    m_ordered_images.push_back(std::make_tuple(images, poses, timestamp));
+    clientContext->m_ordered_images.push_back(std::make_tuple(images, poses, timestamp));
 
     // If enough tuples, send the older one to Front End
-    if (m_ordered_images.size() >= 5) {
+    if (clientContext->m_ordered_images.size() >= 5) {
 
         // Sort vector based on timestamps
-        std::sort(m_ordered_images.begin(), m_ordered_images.end(), sortbythird);
+        std::sort(clientContext->m_ordered_images.begin(), clientContext->m_ordered_images.end(), sortbythird);
 
-        std::vector<SRef<SolARImage>> imagesToSend = std::get<0>(m_ordered_images[0]);
-        std::vector<SolAR::datastructure::Transform3Df> posesToSend = std::get<1>(m_ordered_images[0]);
-        m_last_image_timestamp = std::get<2>(m_ordered_images[0]);
+        std::vector<SRef<SolARImage>> imagesToSend = std::get<0>(clientContext->m_ordered_images[0]);
+        std::vector<SolAR::datastructure::Transform3Df> posesToSend = std::get<1>(clientContext->m_ordered_images[0]);
+        clientContext->m_last_image_timestamp = std::get<2>(clientContext->m_ordered_images[0]);
 
         // Remove the older tuple from vector
-        m_ordered_images.erase(m_ordered_images.begin());
+        clientContext->m_ordered_images.erase(clientContext->m_ordered_images.begin());
 
-        m_images_vector_mutex.unlock();
+        clientContext->m_images_vector_mutex.unlock();
 
         if (m_file_path == "") {
 
@@ -660,12 +689,13 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
 
             try {
                 m_pipeline->relocalizeProcessRequest(
+                            request->client_uuid(),
                             imagesToSend,
                             posesToSend,
                             fixedPose,
                             toSolAR(worldTransform),
                             std::chrono::time_point<std::chrono::system_clock>(
-                                std::chrono::milliseconds(m_last_image_timestamp)),
+                                std::chrono::milliseconds(clientContext->m_last_image_timestamp)),
                             transform3DStatus,
                             transform3D,
                             confidence,
@@ -718,10 +748,11 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
         }
         else {
 
-            LOG_DEBUG("Save images and poses on file");
+            LOG_DEBUG("Save images, poses and timestamps on file");
 
             if (m_saveImagesTask != nullptr) {
-                m_sharedBufferImagePoseToSave.push(std::make_pair(imagesToSend, posesToSend));
+                m_sharedBufferImagePoseToSave.push(std::make_tuple(imagesToSend, posesToSend,
+                                                                   clientContext->m_last_image_timestamp));
             }
 
             // Display images if specified
@@ -735,7 +766,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
     else {
         LOG_INFO("Not enough images to process");
 
-        m_images_vector_mutex.unlock();
+        clientContext->m_images_vector_mutex.unlock();
 
         return Status::OK;
     }
@@ -743,7 +774,7 @@ RelocalizationAndMappingGrpcServiceImpl::RelocalizeAndMapInternal(grpc::ServerCo
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* context,
-                                                        const Empty* request,
+                                                        const ClientUUID* request,
                                                         RelocalizationResult* response)
 {
     LOG_INFO("Get3DTransform");
@@ -755,7 +786,7 @@ RelocalizationAndMappingGrpcServiceImpl::Get3DTransform(grpc::ServerContext* con
 
 grpc::Status
 RelocalizationAndMappingGrpcServiceImpl::Reset(grpc::ServerContext *context,
-                                               const Empty *request,
+                                               const Empty* request,
                                                Empty *response)
 {
     LOG_INFO("Reset");
@@ -776,8 +807,28 @@ RelocalizationAndMappingGrpcServiceImpl::SendMessage(grpc::ServerContext* contex
                                                      const Message* request,
                                                      Empty* response)
 {
-    LOG_INFO("[RelocAndMapping] message: '{}'", request->message());
+    LOG_INFO("[RelocAndMapping] Client UUID : {} / message: '{}'", request->client_uuid(), request->message());
     return Status::OK;
+}
+
+// Private
+
+SRef<ProxyClientContext> RelocalizationAndMappingGrpcServiceImpl::getClientContext(const string & clientUUID) const
+{
+    SRef<ProxyClientContext> clientContext = nullptr;
+
+    unique_lock<mutex> lock(m_mutexClientMap);
+
+    auto it = m_clientsMap.find(clientUUID);
+
+    if (it != m_clientsMap.end()) {
+        clientContext = it->second;
+    }
+    else {
+        LOG_DEBUG("No context found for client: {}", clientUUID);
+    }
+
+    return clientContext;
 }
 
 std::string
@@ -1177,7 +1228,7 @@ void RelocalizationAndMappingGrpcServiceImpl::displayImages()
     std::vector<SRef<SolAR::datastructure::Image>> images;
 
     // Try to get next images to display
-    if (!m_started || !m_sharedBufferImageToDisplay.tryPop(images)) {
+    if (!m_sharedBufferImageToDisplay.tryPop(images)) {
         xpcf::DelegateTask::yield();
         return;
     }
@@ -1192,14 +1243,16 @@ void RelocalizationAndMappingGrpcServiceImpl::displayImages()
 
 void RelocalizationAndMappingGrpcServiceImpl::saveImages()
 {
-    std::pair<std::vector<SRef<SolARImage>>, std::vector<SolAR::datastructure::Transform3Df>> imagesPoses;
+    std::tuple<std::vector<SRef<SolARImage>>, std::vector<SolAR::datastructure::Transform3Df>,
+               long> imagesPoses;
+
     if (!m_sharedBufferImagePoseToSave.tryPop(imagesPoses)) {
         xpcf::DelegateTask::yield();
         return;
     }
 
-    std::vector<SRef<SolARImage>> images = imagesPoses.first;
-    std::vector<SolAR::datastructure::Transform3Df> poses  = imagesPoses.second;
+    std::vector<SRef<SolARImage>> images = std::get<0>(imagesPoses);
+    std::vector<SolAR::datastructure::Transform3Df> poses  = std::get<1>(imagesPoses);
 
     char imageName[9];
     sprintf(imageName, "%0.8d", m_index_image);
@@ -1222,7 +1275,7 @@ void RelocalizationAndMappingGrpcServiceImpl::saveImages()
                     m_poseFile2 << "\n";
                 }
             }
-            m_timestampFile << m_last_image_timestamp << "\n";
+            m_timestampFile << std::get<2>(imagesPoses) << "\n";
             m_index_image++;
         }
     }

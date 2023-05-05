@@ -37,14 +37,33 @@ using namespace SolAR::api;
 using namespace SolAR::datastructure;
 namespace xpcf=org::bcom::xpcf;
 
+/* IS_GT_SEQ if defined the input sequence should contain GT poses
+    gt_0.txt, gt_1.txt ... each file containing 17 lines (timestamp and 16 elements of 4x4 matrix)
+    gt pose is defined in solar coordinate system
+    solar_to_world transform is provided in solar_to_world.txt, otherwise will be set to identity matrix
+    An example of this groundtruth pose sequence can be found at https://repository.solarframework.org/generic/captures/hololens/bcomLab/
+       gtpose_fid_desktop_A.zip
+*/
+//#define IS_GT_SEQ
+//#define NBR_GT 2
+
+#ifdef IS_GT_SEQ
+std::vector<Transform3Df> g_GT_Transforms;  // GT camera pose in solar
+std::vector<std::chrono::system_clock::time_point> g_GT_Times; // corresponding timestamp
+Transform3Df g_solar2world;  // transform from solar to world coordinate systems
+#endif
+
 // index of using cameras
 // 1 camera for mono mode
 // 2 cameras for stereo mode
-const std::vector<int> INDEX_USE_CAMERA{1, 2};
+const std::vector<int> INDEX_USE_CAMERA{0};
 
 // Global relocalization and mapping front end Service instance
 SRef<pipeline::IAsyncRelocalizationPipeline> gRelocalizationAndMappingFrontendService = 0;
 SRef<display::I3DPointsViewer> gViewer3D = 0;
+
+// Client UUID
+std::string gClient_UUID = "";
 
 bool gDisplayPointCloud = false;
 
@@ -92,8 +111,10 @@ static void SigInt(int signo) {
 
     LOG_INFO("Stop mapping and relocalization front end service");
 
-    if (gRelocalizationAndMappingFrontendService != 0)
-        gRelocalizationAndMappingFrontendService->stop();
+    if (gRelocalizationAndMappingFrontendService != 0) {
+        gRelocalizationAndMappingFrontendService->stop(gClient_UUID);
+        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+    }
 
     if (gDisplayPointCloud)
         displayPointCloud();
@@ -110,7 +131,7 @@ int main(int argc, char* argv[])
     #endif
 
     LOG_ADD_LOG_TO_CONSOLE();
-//    LOG_SET_DEBUG_LEVEL();
+    //LOG_SET_DEBUG_LEVEL();
 
 
     bool relocOnly = false; // Indicate if only relocalization has to be done
@@ -180,17 +201,32 @@ int main(int argc, char* argv[])
 
         LOG_INFO("Initialize the service");
 
+        LOG_INFO("Register the client");
+
+        if (gRelocalizationAndMappingFrontendService->registerClient(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
+                    LOG_ERROR("Error while registering the client to the mapping and relocalization front end service");
+                    return -1;
+        }
+
+        LOG_INFO("Client UUID = {}", gClient_UUID);
+
         if (relocOnly) {
             LOG_INFO("Set \'Relocalization only\' mode");
 
-            if (gRelocalizationAndMappingFrontendService->init(api::pipeline::RELOCALIZATION_ONLY)
+            if (gRelocalizationAndMappingFrontendService->init(gClient_UUID, api::pipeline::RELOCALIZATION_ONLY)
                     != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while initializing the mode for mapping and relocalization front end service");
+                if (gRelocalizationAndMappingFrontendService != 0) {
+                    gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                }
                 return -1;
             }
         }
-        else if (gRelocalizationAndMappingFrontendService->init() != FrameworkReturnCode::_SUCCESS) {
+        else if (gRelocalizationAndMappingFrontendService->init(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
             LOG_ERROR("Error while initializing the mapping and relocalization front end service");
+            if (gRelocalizationAndMappingFrontendService != 0) {
+                gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+            }
             return -1;
         }
 
@@ -200,6 +236,45 @@ int main(int argc, char* argv[])
         imageViewer = componentMgr->resolve<SolAR::api::display::IImageViewer>();
         auto overlay3D = componentMgr->resolve<display::I3DOverlay>();
         LOG_INFO("Remote producer client: AR device component created");
+
+#ifdef IS_GT_SEQ
+        // load GT pose data
+        std::string pathToData = arDevice->bindTo<xpcf::IConfigurable>()->getProperty("pathToData")->getStringValue();
+        std::ifstream infile(pathToData + "/solar_to_world.txt");
+        std::string line;
+        if (!infile.is_open()) {
+            g_solar2world = Transform3Df::Identity();
+        }
+        else {
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 4; c++) {
+                    std::getline(infile, line);
+                    g_solar2world(r, c) = std::stof(line);
+                }
+            }
+            infile.close();
+        }
+
+        for (int i = 0; i < NBR_GT; i++) {
+            infile.open(pathToData + "/gt_" + std::to_string(i) + ".txt");
+            if (!infile.is_open()) {
+                LOG_ERROR("Failed to open the groundtruth file");
+                return -1;
+            }
+            std::getline(infile, line);
+            std::chrono::milliseconds dur(std::stoll(line));
+            g_GT_Times.push_back(std::chrono::time_point<std::chrono::system_clock>(dur));
+            Transform3Df trf;
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 4; c++) {
+                    std::getline(infile, line);
+                    trf(r, c) = std::stof(line);
+                }
+            }
+            g_GT_Transforms.push_back(trf);
+            infile.close();
+        }
+#endif
 
         if (gDisplayPointCloud)
             gViewer3D = componentMgr->resolve<display::I3DPointsViewer>();
@@ -214,51 +289,86 @@ int main(int argc, char* argv[])
 
             if (INDEX_USE_CAMERA.size() == 1) {
                 // Mono camera mode
-                if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams) != FrameworkReturnCode::_SUCCESS) {
+                // reset camera id to 0 since only 1 camera in the collection
+                camParams.id = 0;
+                if (gRelocalizationAndMappingFrontendService->setCameraParameters(gClient_UUID, camParams) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
                     return -1;
                 }
             }
             else if (INDEX_USE_CAMERA.size() == 2) {
                 // Stereo camera mode
                 CameraParameters camParams2 = camRigParams.cameraParams[INDEX_USE_CAMERA[1]];
-                if (gRelocalizationAndMappingFrontendService->setCameraParameters(camParams, camParams2) != FrameworkReturnCode::_SUCCESS) {
+                if (gRelocalizationAndMappingFrontendService->setCameraParameters(gClient_UUID, camParams, camParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting camera parameters for the mapping and relocalization front end service");
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
                     return -1;
                 }
                 RectificationParameters rectParams1 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].first;
                 RectificationParameters rectParams2 = camRigParams.rectificationParams[std::make_pair(INDEX_USE_CAMERA[0], INDEX_USE_CAMERA[1])].second;
-                if (gRelocalizationAndMappingFrontendService->setRectificationParameters(rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
+                if (gRelocalizationAndMappingFrontendService->setRectificationParameters(gClient_UUID, rectParams1, rectParams2) != FrameworkReturnCode::_SUCCESS) {
                     LOG_ERROR("Error while setting rectification parameters for the mapping and relocalization front end service");
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
                     return -1;
                 }
             }
-
+/*
             if (!relocOnly) {
                 LOG_INFO("Reset the global map stored in the Map Update service");
                 if (gRelocalizationAndMappingFrontendService->resetMap() == FrameworkReturnCode::_SUCCESS) {
                     LOG_INFO("Global map reset!");
                 }
             }
-
+*/
             LOG_INFO("Start the service");
 
-            if (gRelocalizationAndMappingFrontendService->start() != FrameworkReturnCode::_SUCCESS) {
+            if (gRelocalizationAndMappingFrontendService->start(gClient_UUID) != FrameworkReturnCode::_SUCCESS) {
                 LOG_ERROR("Error while initializing the mapping and relocalization front end service");
+                if (gRelocalizationAndMappingFrontendService != 0) {
+                    gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                }
                 return -1;
             }
 
             LOG_INFO("Read images and poses from hololens files");
             LOG_INFO("\n\n***** Control+C to stop *****\n");          
 
+            // Previous image timestamp
+            std::chrono::time_point<std::chrono::system_clock> previous_timestamp;
+
+            bool first_image = true;
+
             // Wait for interruption or and of images
             while (true) {
                 std::vector<SRef<Image>> images;
                 std::vector<Transform3Df> poses;
-                std::chrono::system_clock::time_point timestamp;
+                std::chrono::time_point<std::chrono::system_clock> timestamp;
 
                 // Read next image and pose
                 if (arDevice->getData(images, poses, timestamp) == FrameworkReturnCode::_SUCCESS) {
+
+                    // Send images/poses according to timestamps
+                    if (!first_image) {
+                        // Calculate delay between current and previous images
+                        std::chrono::duration delay =
+                                std::chrono::duration_cast<std::chrono::milliseconds>(timestamp - previous_timestamp);
+
+                        std::this_thread::sleep_for(delay);
+
+                        LOG_DEBUG("Delay between current and previous images = {} ms", delay.count());
+                    }
+                    else
+                        first_image = false;
+
+                    previous_timestamp = timestamp;
+
                     std::vector<SRef<Image>> imagesToProcess;
                     std::vector<Transform3Df> posesToProcess;
                     for (const auto & i : INDEX_USE_CAMERA){
@@ -271,19 +381,35 @@ int main(int argc, char* argv[])
                     api::pipeline::TransformStatus transform3DStatus;
                     Transform3Df transform3D;
                     float_t confidence;
+                    bool isFixedPose = false;
+                    Transform3Df tr_ar_world = Transform3Df::Identity();
                     api::pipeline::MappingStatus mappingStatus;
 
-                    LOG_INFO("Send image and pose to service");                    
+                    LOG_INFO("Send image and pose to service");
+
+#ifdef IS_GT_SEQ
+                    for (int i = 0; i < NBR_GT; i++) {
+                        if (timestamp == g_GT_Times[i]) {
+                            LOG_INFO("Receiving GT pose {}", i);
+                            isFixedPose = true;
+                            tr_ar_world = g_solar2world*g_GT_Transforms[i]*poses[0].inverse();
+                        }
+                    }
+#endif
 
                     // Send data to mapping and relocalization front end service
                     gRelocalizationAndMappingFrontendService->relocalizeProcessRequest(
-                                imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence, mappingStatus);
+                                gClient_UUID, imagesToProcess, posesToProcess, timestamp, transform3DStatus, transform3D, confidence, mappingStatus);
 
                     if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
                         LOG_DEBUG("New 3D transformation = {}", transform3D.matrix());
                         // draw cube
                         if (!relocOnly)
                             overlay3D->draw(transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#ifdef IS_GT_SEQ
+                        if (!relocOnly)
+                            overlay3D->draw(g_solar2world.inverse()*transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#endif
                     }
                     else if (transform3DStatus == api::pipeline::PREVIOUS_3DTRANSFORM) {
                         LOG_DEBUG("Previous 3D transformation = {}", transform3D.matrix());
@@ -291,6 +417,10 @@ int main(int argc, char* argv[])
                         // draw cube
                         if (!relocOnly)
                             overlay3D->draw(transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#ifdef IS_GT_SEQ
+                        if (!relocOnly)
+                            overlay3D->draw(g_solar2world.inverse()*transform3D * posesToProcess[0], camParams, imagesToProcess[0]);
+#endif
                     }
                     else if (transform3DStatus == api::pipeline::NO_3DTRANSFORM) {
                         LOG_DEBUG("No 3D transformation");
@@ -324,8 +454,10 @@ int main(int argc, char* argv[])
 
                     LOG_INFO("Stop relocalization and mapping front end service");
 
-                    if (gRelocalizationAndMappingFrontendService != 0)
-                        gRelocalizationAndMappingFrontendService->stop();
+                    if (gRelocalizationAndMappingFrontendService != 0) {
+                        gRelocalizationAndMappingFrontendService->stop(gClient_UUID);
+                        gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+                    }
 
                     if (gDisplayPointCloud)
                         displayPointCloud();
@@ -338,11 +470,17 @@ int main(int argc, char* argv[])
         }
         else {
             LOG_INFO("Cannot start AR device loader");
+            if (gRelocalizationAndMappingFrontendService != 0) {
+                gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+            }
             return -1;
         }
     }
     catch (xpcf::Exception & e) {
         LOG_INFO("The following exception has been caught: {}", e.what());
+        if (gRelocalizationAndMappingFrontendService != 0) {
+            gRelocalizationAndMappingFrontendService->unregisterClient(gClient_UUID);
+        }
         return -1;
     }
 

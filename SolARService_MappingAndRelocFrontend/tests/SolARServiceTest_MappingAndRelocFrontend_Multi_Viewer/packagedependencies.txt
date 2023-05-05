@@ -1,0 +1,2 @@
+SolARFramework|1.0.0|SolARFramework|SolARBuild@github|https://github.com/SolarFramework/SolarFramework/releases/download
+cxxopts|3.0.0|cxxopts|conan|conan-center|na|

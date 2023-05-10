@@ -108,11 +108,15 @@ DISTFILES += \
     start_relocalizationmarkers_service_debug.sh \
     start_relocalizationmarkers_service_release.sh
 
+marker_file.path = $${TARGETDEPLOYDIR}
+marker_file.files = $${PWD}/markers.json
+
 xml_files.path = $${TARGETDEPLOYDIR}
 xml_files.files =  $$files($${PWD}/SolARService_RelocalizationMarkers_modules.xml) \
                    $$files($${PWD}/SolARService_RelocalizationMarkers_properties.xml)
 
 INSTALLS += xml_files
+INSTALLS += marker_file
 
 #NOTE : Must be placed at the end of the .pro
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/remaken_install_target.pri)))) # Shell_quote & shell_path required for visual on windows

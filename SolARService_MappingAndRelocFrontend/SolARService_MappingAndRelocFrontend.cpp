@@ -27,6 +27,19 @@
 #include <boost/filesystem/detail/utf8_codecvt_facet.hpp>
 #include "core/Log.h"
 
+#include "api/pipeline/IServiceManagerPipeline.h"
+
+#include <iostream>
+#include <fstream>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif // _WIN32
+
+const std::string MAP_UPDATE_CONF_FILE = "./SolARService_MappingAndRelocFrontend_MapUpdate_conf.xml";
+
 using namespace SolAR;
 
 namespace fs = boost::filesystem;
@@ -67,6 +80,35 @@ void tryConfigureServer(SRef<xpcf::IGrpcServerManager> server, const std::string
             LOG_DEBUG("GrpcServerManager Property type not handled");
             break;
         }
+    }
+}
+
+void createMapUpdateConfigurationFile(std::string mapUpdateURL)
+{
+    LOG_DEBUG("Create Map Update service configuration file with URL: {}", mapUpdateURL);
+
+    // Open/create configuration file
+    std::ofstream confFile(MAP_UPDATE_CONF_FILE, std::ofstream::out);
+
+    // Check if file was successfully opened for writing
+    if (confFile.is_open())
+    {
+        confFile << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>" << std::endl;
+        confFile << "<xpcf-registry autoAlias=\"true\">" << std::endl << std::endl;
+        confFile << "<properties>" << std::endl;
+        confFile << "    <!-- gRPC proxy configuration-->" << std::endl;
+        confFile << "    <configure component=\"IMapUpdatePipeline_grpcProxy\">" << std::endl;
+        confFile << "        <property name=\"channelUrl\" access=\"rw\" type=\"string\" value=\""
+                 << mapUpdateURL << "\"/>" << std::endl;
+        confFile << "        <property name=\"channelCredentials\" access=\"rw\" type=\"uint\" value=\"0\"/>" << std::endl;
+        confFile << "    </configure>" << std::endl << std::endl;
+        confFile << "</properties>" << std::endl << std::endl;
+        confFile << "</xpcf-registry>" << std::endl;
+
+        confFile.close();
+    }
+    else {
+        LOG_ERROR("Error when creating the Map Update service configuration file");
     }
 }
 
@@ -159,6 +201,44 @@ int main(int argc, char* argv[])
 
     if (cmpMgr->load(configSrc.c_str()) != org::bcom::xpcf::_SUCCESS) {
         LOG_ERROR("Failed to load properties configuration file: {}", configSrc);
+        return -1;
+    }
+
+    // Get Service Manager proxy
+    auto serviceManager = cmpMgr->resolve<api::pipeline::IServiceManagerPipeline>();
+
+    std::string mapUpdateURL = "";
+
+    while (mapUpdateURL == "") {
+        try {
+            if (serviceManager->getService(api::pipeline::ServiceType::MAP_UPDATE_SERVICE, mapUpdateURL)
+                   != FrameworkReturnCode::_SUCCESS) {
+                LOG_WARNING("Wait for an available Map Update service...");
+#ifdef _WIN32
+                Sleep(1);
+#else
+                sleep(1);
+#endif
+            }
+        }
+        catch (const std::exception &e) {
+            LOG_WARNING("Waiting for the Service Manager...");
+#ifdef _WIN32
+            Sleep(1);
+#else
+            sleep(1);
+#endif
+        }
+    }
+
+    LOG_DEBUG("Map Update URL given by the Service Manager:{}", mapUpdateURL);
+
+    createMapUpdateConfigurationFile(mapUpdateURL);
+
+    LOG_INFO("Load the new Map Update properties configuration file: {}", MAP_UPDATE_CONF_FILE);
+
+    if (cmpMgr->load(MAP_UPDATE_CONF_FILE.c_str()) != org::bcom::xpcf::_SUCCESS) {
+        LOG_ERROR("Failed to load properties configuration file: {}", MAP_UPDATE_CONF_FILE);
         return -1;
     }
 

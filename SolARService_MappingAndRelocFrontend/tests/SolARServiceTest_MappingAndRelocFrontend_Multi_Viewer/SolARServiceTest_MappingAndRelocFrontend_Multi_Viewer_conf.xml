@@ -49,7 +49,7 @@
 
         <!-- Remote client configuration-->
         <configure component="SolAR3DPointsViewerOpengl">
-            <property name="title" type="string" value="Global Map"/>
+            <property name="title" type="string" value="Client poses on Global Map"/>
             <property name="width" type="uint" value="1280"/>
             <property name="height" type="uint" value="960"/>
             <property name="backgroundColor" type="uint">
@@ -58,19 +58,9 @@
                 <value>0</value>
             </property>
             <property name="fixedPointsColor" type="uint" value="0"/>
-            <property name="pointsColor" type="uint">
-                <value>0</value>
-                <value>255</value>
-                <value>0</value>
-            </property>
-            <property name="points2Color" type="uint">
-                <value>255</value>
-                <value>0</value>
-                <value>0</value>
-            </property>
             <property name="cameraColor" type="uint">
                 <value>0</value>
-                <value>255</value>
+                <value>0</value>
                 <value>0</value>
             </property>
             <property name="drawCameraAxis" type="uint" value="0"/>
@@ -78,22 +68,17 @@
             <property name="drawWorldAxis" type="uint" value="1"/>
             <property name="axisScale" type="float" value="0.2"/>
             <property name="pointSize" type="float" value="1"/>
-            <property name="cameraScale" type="float" value="0.5"/>
+            <property name="cameraScale" type="float" value="1"/>
             <property name="keyframeAsCamera" type="uint" value="1"/>
-            <property name="framesColor" type="uint">
-                <value>255</value>
-                <value>255</value>
-                <value>255</value>
-            </property>
             <property name="keyframesColor" type="uint">
                 <value>255</value>
-                <value>0</value>
+                <value>119</value>
                 <value>0</value>
             </property>
             <property name="keyframes2Color" type="uint">
                 <value>0</value>
-                <value>0</value>
                 <value>255</value>
+                <value>0</value>
             </property>
             <property name="zoomSensitivity" type="float" value="10.0"/>
             <property name="exitKey" type="int" value="27"/>
@@ -103,6 +88,7 @@
             <property name="decreaseRotationYKey" type="int" value="115"/>  <!-- 's' -->
             <property name="increaseRotationZKey" type="int" value="101"/>  <!-- 'e' -->
             <property name="decreaseRotationZKey" type="int" value="100"/>  <!-- 'd' -->
+            <property name="resetRotationKey" type="int" value="114"/>      <!-- 'r' -->
             <!--property name="rotationStep" type="float" value="0.02"/-->
         </configure>
     </properties>

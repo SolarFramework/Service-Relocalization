@@ -119,7 +119,6 @@ DISTFILES += \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/relocalization-service-manifest.yaml \
     docker/SolARServiceRelocalization.dockerfile \
     docker/start_server.sh \
     start_relocalization_service_debug.sh \

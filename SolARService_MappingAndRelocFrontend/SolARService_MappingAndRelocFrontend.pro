@@ -116,7 +116,6 @@ DISTFILES += \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/mappingandrelocfrontend-service-manifest.yaml \
     docker/SolARServiceMappingAndRelocFrontend.dockerfile \
     docker/start_server.sh \
     start_mappingandrelocfrontend_service_debug.sh \

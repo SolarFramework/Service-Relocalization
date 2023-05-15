@@ -98,7 +98,6 @@ DISTFILES += \
     SolARService_RelocalizationMarkers_properties.xml \
     docker/SolARServiceRelocalizationMarkers.dockerfile \
     docker/launch.bat \
-    docker/relocalization-markers-service-manifest.yaml \
     markers.json \
     packagedependencies.txt \
     docker/build.sh \

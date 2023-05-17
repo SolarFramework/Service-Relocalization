@@ -1,18 +1,16 @@
 ## remove Qt dependencies
-QT       -= core gui
+QT     -= core gui
 CONFIG -= qt
 
 QMAKE_PROJECT_DEPTH = 0
 
 ## global defintions : target lib name, version
-TARGET = SolARService_RelocalizationMarkers
+TARGET = SolARServiceTest_MappingAndRelocFrontend_Multi_Viewer
 VERSION=1.0.0
-PROJECTDEPLOYDIR = $${PWD}/../deploy
+PROJECTDEPLOYDIR = $${PWD}/../../../deploy
 
-## remove Qt dependencies
 CONFIG += c++1z
 CONFIG += console
-CONFIG += verbose
 
 DEFINES += MYVERSION=\"\\\"$${VERSION}\\\"\"
 DEFINES += WITHREMOTING
@@ -31,20 +29,17 @@ CONFIG(release,debug|release) {
 
 win32:CONFIG -= static
 win32:CONFIG += shared
+
 QMAKE_TARGET.arch = x86_64 #must be defined prior to include
+
 DEPENDENCIESCONFIG = shared install_recurse
 PROJECTCONFIG = QTVS
 
-#NOTE : CONFIG as staticlib or sharedlib,  DEPENDENCIESCONFIG as staticlib or sharedlib, QMAKE_TARGET.arch and PROJECTDEPLOYDIR MUST BE DEFINED BEFORE templatelibconfig.pri inclusion
+#NOTE : CONFIG as staticlib or sharedlib, DEPENDENCIESCONFIG as staticlib or sharedlib, QMAKE_TARGET.arch and PROJECTDEPLOYDIR MUST BE DEFINED BEFORE templatelibconfig.pri inclusion
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/templateappconfig.pri)))  # Shell_quote & shell_path required for visual on windows
 
-HEADERS += \
-    GrpcServerManager.h
-
-
 SOURCES += \
-    GrpcServerManager.cpp\
-    SolARService_RelocalizationMarkers.cpp
+    SolARServiceTest_MappingAndRelocFrontend_Multi_Viewer.cpp
 
 unix {
     LIBS += -ldl
@@ -56,9 +51,7 @@ unix {
 
 linux {
     LIBS += -ldl
-    LIBS += -L/home/linuxbrew/.linuxbrew/lib # temporary fix caused by grpc with -lre2 ... without -L in grpc.pc
 }
-
 
 macx {
     DEFINES += _MACOS_TARGET_
@@ -66,9 +59,9 @@ macx {
     QMAKE_CFLAGS += -mmacosx-version-min=10.7 #-x objective-c++
     QMAKE_CXXFLAGS += -mmacosx-version-min=10.7  -std=c++17 -fPIC#-x objective-c++
     QMAKE_LFLAGS += -mmacosx-version-min=10.7 -v -lstdc++
-    INCLUDEPATH += ../../libs/cppast/external/cxxopts/include
     LIBS += -lstdc++ -lc -lpthread
     LIBS += -L/usr/local/lib
+    INCLUDEPATH += $${REMAKENDEPSFOLDER}/$${BCOM_TARGET_PLATFORM}/xpcfSampleComponent/$$VERSION/interfaces
 }
 
 win32 {
@@ -82,41 +75,32 @@ win32 {
 }
 
 linux {
-    run_install.path = $${TARGETDEPLOYDIR}
-    run_install.files = $${PWD}/start_relocalizationmarkers_service.sh
-    CONFIG(release,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_relocalizationmarkers_service_release.sh) $${PWD}/start_relocalizationmarkers_service.sh
-    }
-    CONFIG(debug,debug|release) {
-        run_install.extra = cp $$files($${PWD}/start_relocalizationmarkers_service_debug.sh) $${PWD}/start_relocalizationmarkers_service.sh
-    }
-    run_install.CONFIG += nostrip
-    INSTALLS += run_install    
+  run_install.path = $${TARGETDEPLOYDIR}
+  run_install.files = $${PWD}/../../../run.sh
+  CONFIG(release,debug|release) {
+    run_install.extra = cp $$files($${PWD}/../../../runRelease.sh) $${PWD}/../../../run.sh
+  }
+  CONFIG(debug,debug|release) {
+    run_install.extra = cp $$files($${PWD}/../../../runDebug.sh) $${PWD}/../../../run.sh
+  }
+  run_install.CONFIG += nostrip
+  INSTALLS += run_install
 }
 
 DISTFILES += \
-    SolARService_RelocalizationMarkers_modules.xml \
-    SolARService_RelocalizationMarkers_properties.xml \
-    docker/SolARServiceRelocalizationMarkers.dockerfile \
-    docker/launch.bat \
-    markers.json \
+    SolARServiceTest_MappingAndRelocFrontend_Multi_Viewer_conf.xml \
     packagedependencies.txt \
     docker/build.sh \
     docker/launch.bat \
     docker/launch.sh \
-    docker/start_server.sh \
-    start_relocalizationmarkers_service_debug.sh \
-    start_relocalizationmarkers_service_release.sh
-
-marker_file.path = $${TARGETDEPLOYDIR}
-marker_file.files = $${PWD}/markers.json
+    docker/launch_vm.sh \
+    docker/SolARServiceFrontEndRelocMultiViewer.dockerfile \
+    docker/start_client.sh
 
 xml_files.path = $${TARGETDEPLOYDIR}
-xml_files.files =  $$files($${PWD}/SolARService_RelocalizationMarkers_modules.xml) \
-                   $$files($${PWD}/SolARService_RelocalizationMarkers_properties.xml)
+xml_files.files =  $$files($${PWD}/SolARServiceTest_MappingAndRelocFrontend_Multi_Viewer_conf.xml)
 
 INSTALLS += xml_files
-INSTALLS += marker_file
 
 #NOTE : Must be placed at the end of the .pro
 include ($$shell_quote($$shell_path($${QMAKE_REMAKEN_RULES_ROOT}/remaken_install_target.pri)))) # Shell_quote & shell_path required for visual on windows

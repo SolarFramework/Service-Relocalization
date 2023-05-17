@@ -47,8 +47,8 @@
 
                 <!-- Remote client configuration-->
                 <configure component="SolARDeviceDataLoader">
-                        <property name="calibrationFile" type="string" value="../../../../../data/data_hololens/hololens_calibration.json"/>
-                        <property name="pathToData" type="string" value="../../../../../data/data_hololens/loop_desktop_A"/>
+                        <property name="calibrationFile" type="string" value="../../../../../data/data_hololens/hololens_calibration_siemens.json"/>
+                        <property name="pathToData" type="string" value="../../../../../data/data_hololens/HoloLensRecording__2021_08_02__11_23_59_MUCLab_1"/>
                         <property name="delayTime" type="int" value="0"/>
                 </configure>
                 <configure component="SolARImageViewerOpencv">

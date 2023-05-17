@@ -12,8 +12,8 @@
     </configure>
     -->
     <!-- gRPC proxy configuration-->
-    <configure component="IMapUpdatePipeline_grpcProxy">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50053"/>
+    <configure component="IServiceManagerPipeline_grpcProxy">
+        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50059"/>
         <property name="channelCredentials" access="rw" type="uint" value="0"/>
     </configure>
 
@@ -27,7 +27,7 @@
             <property name="cameraParametersManagerFileName" type="string" value="cameraParameters.bin"/>
             <property name="covisibilityGraphFileName" type="string" value="covisibility_graph.bin"/>
             <property name="keyframeRetrieverFileName" type="string" value="keyframe_retriever.bin"/>
-            <property name="reprojErrorThreshold" type="float" value="10.0"/>
+            <property name="reprojErrorThreshold" type="float" value="5.0"/>
             <property name="thresConfidence" type="float" value="0.03"/>
     </configure>
     <configure component="SolARKeypointDetectorOpencv">
@@ -46,7 +46,7 @@
     </configure>
     <configure component="SolARGeometricMatchesFilterOpencv">
             <property name="confidence" type="float" value="0.99"/>
-            <property name="outlierDistanceRatio" type="float" value="0.005"/>
+            <property name="outlierDistanceRatio" type="float" value="0.015"/>
             <property name="epilinesDistance" type="float" value="50.0"/>
     </configure>
     <configure component="SolARPoseEstimationSACPnpOpencv">
@@ -58,7 +58,7 @@
     </configure>
     <configure component="SolARKeyframeRetrieverFBOW">
             <property name="VOCpath" type="string" value="../../../../../data/fbow_voc/akaze.fbow"/>
-            <property name="threshold" type="float" value="0.015"/>
+            <property name="threshold" type="float" value="0.005"/>
             <property name="level" type="int" value="3"/>
             <property name="distanceMetricId" type="int" value="0" description="0:L2; 1:L1; 2:ChiSquare; 3:BHATTACHARYYA; 4:DotProduct; 5:KLS"/>
             <property name="matchingDistanceRatio" type="float" value="0.8"/>

@@ -99,6 +99,7 @@ void GrpcServerManager::runServer()
         LOG_DEBUG("Registering IGrpcService #  {}", service->getServiceName());
         registerService(service);
     }
+
     std::unique_ptr<grpc::Server> server(m_builder.BuildAndStart());
     LOG_DEBUG("Server listening on  {}", m_serverAddress);
     server->Wait();

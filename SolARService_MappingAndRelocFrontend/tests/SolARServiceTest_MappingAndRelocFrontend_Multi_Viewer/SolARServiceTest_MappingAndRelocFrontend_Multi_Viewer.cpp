@@ -59,18 +59,12 @@ int main(int argc, char* argv[])
     LOG_ADD_LOG_TO_CONSOLE();
     LOG_SET_DEBUG_LEVEL();
 
-    bool display_keyframe_poses = false;
-    bool display_device_poses = false;
-
-    cxxopts::Options option_list("SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer",
-                                 "SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer - The commandline interface to the xpcf grpc client test application.\n");
+    cxxopts::Options option_list("SolARServiceTest_MappingAndRelocalizationFrontend_Multi_Viewer",
+                                 "SolARServiceTest_MappingAndRelocalizationFrontend_Multi_Viewer - The commandline interface to the xpcf grpc client test application.\n");
     option_list.add_options()
             ("h,help", "display this help and exit")
             ("v,version", "display version information and exit")
-            ("f,file", "xpcf grpc client configuration file", cxxopts::value<string>())
-            ("client-uuid", "set the client UUID", cxxopts::value<string>())
-            ("display-keyframe-poses", "display keyframe poses from Map Update global map")
-            ("display-device-poses", "display poses sent by the device");
+            ("f,file", "xpcf grpc client configuration file", cxxopts::value<string>());
 
     auto options = option_list.parse(argc, argv);
     if (options.count("help")) {
@@ -79,7 +73,7 @@ int main(int argc, char* argv[])
     }
     else if (options.count("version"))
     {
-        std::cout << "SolARServiceTest_MappingAndRelocalizationFrontend_RelocViewer version " << MYVERSION << std::endl << std::endl;
+        std::cout << "SolARServiceTest_MappingAndRelocalizationFrontend_Multi_Viewer version " << MYVERSION << std::endl << std::endl;
         return 0;
     }
     else {
@@ -87,20 +81,6 @@ int main(int argc, char* argv[])
             print_error("missing configuration file argument");
             return -1;
         }
-
-        if (!options.count("client-uuid") || options["client-uuid"].as<string>().empty()) {
-            print_error("missing client UUID");
-            return 1;
-        }
-                if (options.count("display-keyframe-poses") && options.count("display-device-poses")) {
-            print_error("\'--display-keyframe-poses\' and \'--display-device-poses\' are exclusive options");
-            return -1;
-        }
-
-        if (options.count("display-keyframe-poses"))
-            display_keyframe_poses = true;
-        else if (options.count("display-device-poses"))
-            display_device_poses = true;
     }
 
     try {
@@ -150,9 +130,6 @@ int main(int argc, char* argv[])
             return -1;
         }
 
-        std::string clientUUID = options["client-uuid"].as<string>();
-        LOG_INFO("Get the Client UUID: {}", clientUUID);
-
         LOG_INFO("Resolve IMapUpdatePipeline interface");
         SRef<pipeline::IMapUpdatePipeline> mapUpdateService =
                 componentManager->resolve<SolAR::api::pipeline::IMapUpdatePipeline>();
@@ -187,7 +164,6 @@ int main(int argc, char* argv[])
         SRef<Map> globalMap;
         std::vector<SRef<Keyframe>> globalKeyframes;
         std::vector<SRef<CloudPoint>> globalPointCloud;
-        std::vector<Transform3Df> deviceOrKeyframePoses, solARPoses, newTransfPoses;
 
         auto last_request = std::chrono::high_resolution_clock::now();
 
@@ -210,21 +186,14 @@ int main(int argc, char* argv[])
 
                 LOG_INFO("==> Display current global map: press ESC on the map display window to end test");
 
-                if (display_keyframe_poses) {
-                    globalMap->getConstKeyframeCollection()->getAllKeyframes(globalKeyframes);
-                    LOG_INFO("Number of keyframes: {}", globalKeyframes.size());
-
-                    // Retrieve key frames poses
-                    if (globalKeyframes.size() > 0) {
-                        for (const auto &it : globalKeyframes)
-                            deviceOrKeyframePoses.push_back(it->getPose());
-                    }
-                }
-
-                datastructure::Transform3Df device_pose, solAR_pose, transform3D;
-                bool found_solAR_pose = false;
+                datastructure::Transform3Df poseNotUsed;
+                std::vector<datastructure::Transform3Df> poseReloc = {};
+                std::vector<datastructure::Transform3Df> poseNoReloc = {};
                 api::pipeline::TransformStatus transform3DStatus;
+                datastructure::Transform3Df transform3D;
                 float_t confidence;
+
+                uint16_t nb_clients_registered = 1;
 
                 while (true)
                 {
@@ -234,44 +203,52 @@ int main(int argc, char* argv[])
 
                     // If delay is reached
                     if (elapsed_time.count() > FRONT_END_REQUEST_DELAY) {
-                        // Try to get the Device pose from Front End
-                        if ((display_device_poses)
-                                && (frontEndService->getLastPose(clientUUID, device_pose, api::pipeline::DEVICE_POSE))
-                                == FrameworkReturnCode::_SUCCESS) {
-                            deviceOrKeyframePoses.push_back(device_pose);
+
+                        datastructure::Transform3Df poseClient;
+                        poseReloc.clear();
+                        poseNoReloc.clear();
+
+                        // Get clients UUID from Front End
+                        std::vector<std::string> clients_UUID;
+
+                        if (frontEndService->getAllClientsUUID(clients_UUID) != FrameworkReturnCode::_SUCCESS) {
+                            LOG_ERROR("Failed to get all clients UUID");
                         }
-                        // Try to get the SolAR pose from Front End
-                        if (frontEndService->getLastPose(clientUUID, solAR_pose) == FrameworkReturnCode::_SUCCESS) {
+                        else {
 
-                            found_solAR_pose = true;
-
-                            // Check if a new transformation matrix has been found
-                            if (frontEndService->get3DTransformRequest(clientUUID, transform3DStatus, transform3D, confidence)
-                                    == FrameworkReturnCode::_SUCCESS) {
-                                if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
-                                    newTransfPoses.push_back(solAR_pose);
+                            if (clients_UUID.size() > 0) {
+                                if (nb_clients_registered < clients_UUID.size()) {
+                                    LOG_INFO("New client(s) registered: display poses...");
+                                    nb_clients_registered = clients_UUID.size();
                                 }
-                                else {
-                                    solARPoses.push_back(solAR_pose);
+                                for (auto const & uuid : clients_UUID) {
+                                    if (frontEndService->getLastPose(uuid, poseClient) == FrameworkReturnCode::_SUCCESS) {
+
+                                        // Check if a new transformation matrix has been found
+                                        if (frontEndService->get3DTransformRequest(uuid, transform3DStatus, transform3D, confidence)
+                                                == FrameworkReturnCode::_SUCCESS) {
+                                            if (transform3DStatus == api::pipeline::NEW_3DTRANSFORM) {
+                                                poseReloc.push_back(poseClient);
+                                            }
+                                            else {
+                                                poseNoReloc.push_back(poseClient);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                if (nb_clients_registered > 0) {
+                                    LOG_INFO("No clients currently registered: waiting for client connections...");
+                                    nb_clients_registered = 0;
                                 }
                             }
                         }
-                        else {
-                            found_solAR_pose = false;
-                        }
+
+                        if (gViewer3D->display(globalPointCloud, poseNotUsed, poseNoReloc, {}, {}, poseReloc) == FrameworkReturnCode::_STOP)
+                            break;
 
                         last_request = std::chrono::high_resolution_clock::now();
-                    }
-
-                    if (found_solAR_pose) {
-                        if (gViewer3D->display(globalPointCloud, solAR_pose, solARPoses, deviceOrKeyframePoses, {},
-                                               newTransfPoses) == FrameworkReturnCode::_STOP)
-                            break;
-                    }
-                    else {
-                        if (gViewer3D->display(globalPointCloud, {}, solARPoses, deviceOrKeyframePoses, {},
-                                               newTransfPoses) == FrameworkReturnCode::_STOP)
-                            break;
                     }
                 }
             }

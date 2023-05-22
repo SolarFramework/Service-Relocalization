@@ -38,5 +38,30 @@ fi
 # Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 export SOLAR_LOG_LEVEL=INFO
 
+docker volume create --driver local \
+  --opt type=none \
+  --opt device=/etc/arcad/config_files/config_files_frontend \
+  --opt o=bind config_files_frontend
+
 docker rm -f solarservicemappingandrelocalizationfrontend
-docker run -d -p $1:8080 -p 5000:5000 -p 5001:5001 -p 5002:5002 -p 5003:5003 -p 5004:5004 -p 5005:5005 -p 5006:5006 -p 5007:5007 -p 5008:5008 -p 5009:5009 -e SOLAR_LOG_LEVEL -e SERVICE_MANAGER_URL -e DISPLAY_LOG -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
+
+docker run -d \
+-v config_files_frontend:/.xpcf \
+-p $1:8080 \
+-p 5000:5000 \
+-p 5001:5001 \
+-p 5002:5002 \
+-p 5003:5003 \
+-p 5004:5004 \
+-p 5005:5005 \
+-p 5006:5006 \
+-p 5007:5007 \
+-p 5008:5008 \
+-p 5009:5009 \
+-e SOLAR_LOG_LEVEL \
+-e SERVICE_MANAGER_URL \
+-e DISPLAY_LOG \
+-e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" \
+--log-opt max-size=50m \
+-e "SERVICE_TAGS=SolAR" \
+--name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest

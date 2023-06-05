@@ -13,6 +13,9 @@ RUN mkdir SolARServiceRelocalization/data
 RUN mkdir SolARServiceRelocalization/data/fbow_voc
 ADD data/fbow_voc/akaze.fbow /SolARServiceRelocalization/data/fbow_voc/
 
+## Persistent volume for configuration files
+VOLUME .xpcf
+
 ## Libraries and modules
 RUN mkdir SolARServiceRelocalization/modules
 ADD modules/* /SolARServiceRelocalization/modules/

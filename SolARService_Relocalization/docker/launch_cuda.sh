@@ -28,5 +28,19 @@ export SERVICE_MANAGER_URL=$2
 # Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 export SOLAR_LOG_LEVEL=INFO
 
+docker volume create --driver local \
+  --opt type=none \
+  --opt device=/etc/arcad/config_files/config_files_relocalization \
+  --opt o=bind config_files_relocalization
+
 docker rm -f solarservicerelocalizationcuda
-docker run --gpus all -d -p $1:8080 -e SERVER_EXTERNAL_URL -e SERVICE_MANAGER_URL -e SOLAR_LOG_LEVEL -e "SERVICE_NAME=SolARServiceRelocalizationCuda" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicerelocalizationcuda artwin/solar/services/relocalization-cuda-service:latest
+
+docker run --gpus all -d -p $1:8080 \
+-v config_files_relocalization:/.xpcf \
+-e SERVER_EXTERNAL_URL \
+-e SERVICE_MANAGER_URL \
+-e SOLAR_LOG_LEVEL \
+-e "SERVICE_NAME=SolARServiceRelocalizationCuda" \
+--log-opt max-size=50m \
+-e "SERVICE_TAGS=SolAR" \
+--name solarservicerelocalizationcuda artwin/solar/services/relocalization-cuda-service:latest

@@ -41,18 +41,19 @@
             <property name="downsampling" type="float" value="-1.0"/>
             <property name="initialBlur" type="float" value="-1.0"/>
             <property name="maxTotalKeypoints" type="uint" value="2000"/>
-        </configure>
-        <configure component="SolARDescriptorMatcherKNNOpencv">
-            <property name="distanceRatio" type="float" value="0.9"/>
-        </configure>
-        <configure component="SolARGeometricMatchesFilterOpencv">
+	</configure>
+    <configure component="SolARDescriptorMatcherKNNOpencv">
+            <property name="distanceRatio" type="float" value="0.8"/>
+            <property name="type" type="string" value="BruteForce" description="BruteForce or Flann"/>
+    </configure>
+    <configure component="SolARGeometricMatchesFilterOpencv">
             <property name="confidence" type="float" value="0.99"/>
-            <property name="outlierDistanceRatio" type="float" value="0.015"/>
-            <property name="epilinesDistance" type="float" value="50.0"/>
-        </configure>
-        <configure component="SolARPoseEstimationSACPnpOpencv">
+            <property name="outlierDistanceRatio" type="float" value="0.01"/>
+            <property name="epilinesDistance" type="float" value="8.0"/>
+    </configure>
+    <configure component="SolARPoseEstimationSACPnpOpencv">
             <property name="iterationsCount" type="int" value="500"/>
-            <property name="reprojError" type="float" value="3.0"/>
+            <property name="reprojError" type="float" value="8.0"/>
             <property name="confidence" type="float" value="0.96"/>
             <property name="minNbInliers" type="int" value="15"/>
             <property name="method" type="string" value="USAC_MAGSAC"/>

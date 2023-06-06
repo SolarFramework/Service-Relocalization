@@ -35,10 +35,11 @@ REM Set application log level
 REM Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 SET SOLAR_LOG_LEVEL=INFO
 
-docker volume create --driver local \
-  --opt type=none \
-  --opt device=/etc/arcad/config_files/config_files_frontend \
-  --opt o=bind config_files_frontend
+docker volume create \
+  --driver local \
+  --opt type="none" \
+  --opt device="$HOME/.arcad/config_files/config_files_frontend" \
+  --opt o="bind" config_files_frontend
 
 docker rm -f solarservicemappingandrelocalizationfrontend
 

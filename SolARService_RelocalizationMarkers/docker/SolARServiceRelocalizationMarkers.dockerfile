@@ -15,9 +15,6 @@ RUN mkdir SolARServiceRelocalizationMarkers/data
 RUN mkdir SolARServiceRelocalizationMarkers/data/marker
 ADD data/marker/* /SolARServiceRelocalizationMarkers/data/marker/
 
-## Persistent volume for configuration files
-VOLUME .xpcf
-
 ## Libraries and modules
 RUN mkdir SolARServiceRelocalizationMarkers/modules
 ADD modules/* /SolARServiceRelocalizationMarkers/modules/

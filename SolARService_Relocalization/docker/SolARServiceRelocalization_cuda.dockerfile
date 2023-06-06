@@ -13,10 +13,7 @@ RUN mkdir SolARServiceRelocalization/data
 RUN mkdir SolARServiceRelocalization/data/fbow_voc
 ADD data/fbow_voc/popsift_uint8_indoor.fbow /SolARServiceRelocalization/data/fbow_voc/
 
-### Persistent volume for configuration files
-VOLUME .xpcf
-
-# Libraries and modules
+## Libraries and modules
 RUN mkdir SolARServiceRelocalization/modules
 ADD modules/* /SolARServiceRelocalization/modules/
 ADD modules_common/* /SolARServiceRelocalization/modules/

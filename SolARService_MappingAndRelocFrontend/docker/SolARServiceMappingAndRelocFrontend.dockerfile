@@ -21,9 +21,6 @@ RUN apt-get install -y getenvoy-envoy
 ## Copy SolARServiceMappingAndRelocFrontend app files
 RUN mkdir SolARServiceMappingAndRelocFrontend
 
-## Persistent volume for configuration files
-VOLUME .xpcf
-
 ## Libraries and modules
 RUN mkdir SolARServiceMappingAndRelocFrontend/modules
 ADD modules/* /SolARServiceMappingAndRelocFrontend/modules/

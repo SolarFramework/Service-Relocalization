@@ -38,10 +38,11 @@ fi
 # Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 export SOLAR_LOG_LEVEL=INFO
 
-docker volume create --driver local \
-  --opt type=none \
-  --opt device=/etc/arcad/config_files/config_files_frontend \
-  --opt o=bind config_files_frontend
+docker volume create \
+  --driver local \
+  --opt type="none" \
+  --opt device="$HOME/.arcad/config_files/config_files_frontend" \
+  --opt o="bind" config_files_frontend
 
 docker rm -f solarservicemappingandrelocalizationfrontendcuda
 

@@ -28,20 +28,25 @@ export SERVICE_MANAGER_URL=$2
 # Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 export SOLAR_LOG_LEVEL=INFO
 
+# Define path for local configuration files
+export CONFIG_FILE_PATH=$HOME/.arcad/config_files/config_files_reloc_markers
+
+mkdir -p $CONFIG_FILE_PATH
+
 docker volume create \
   --driver local \
   --opt type="none" \
-  --opt device="$HOME/.arcad/config_files/config_files_reloc_markers" \
+  --opt device=$CONFIG_FILE_PATH \
   --opt o="bind" config_files_reloc_markers
 
 docker rm -f solarservicerelocalizationmarkers
 
 docker run -d -p $1:8080 \
--v config_files_reloc_markers:/.xpcf \
--e SERVER_EXTERNAL_URL \
--e SERVICE_MANAGER_URL \
--e SOLAR_LOG_LEVEL \
--e "SERVICE_NAME=SolARServiceRelocalizationMarkers" \
---log-opt max-size=50m \
--e "SERVICE_TAGS=SolAR" \
---name solarservicerelocalizationmarkers artwin/solar/services/relocalization-markers-service:latest
+  -v config_files_reloc_markers:/.xpcf \
+  -e SERVER_EXTERNAL_URL \
+  -e SERVICE_MANAGER_URL \
+  -e SOLAR_LOG_LEVEL \
+  -e "SERVICE_NAME=SolARServiceRelocalizationMarkers" \
+  --log-opt max-size=50m \
+  -e "SERVICE_TAGS=SolAR" \
+  --name solarservicerelocalizationmarkers artwin/solar/services/relocalization-markers-service:latest

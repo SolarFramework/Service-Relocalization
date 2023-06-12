@@ -81,7 +81,6 @@ DISTFILES += \
     grpc/solar_mapping_and_relocalization_proxy.proto \
     packagedependencies-linux.txt \
     packagedependencies-win.txt \
-    packagedependencies-android.txt \
     packagedependencies.txt \
     extra-packages.txt \
     extra-packages-linux.txt

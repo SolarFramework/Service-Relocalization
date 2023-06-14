@@ -12,7 +12,6 @@ node("master") {
          SolARService_MappingAndRelocalizationProxy,\
          SolARService_MappingAndRelocalizationFrontend,\
          SolARService_MappingAndRelocalizationFrontend/tests/SolARServiceTest_MappingAndRelocalizationFrontend"
-        android=false
 	win=false
         packageScripts="bundleServices"
     }

@@ -372,8 +372,6 @@ int main(int argc, char* argv[])
                     std::vector<SRef<Image>> imagesToProcess;
                     std::vector<Transform3Df> posesToProcess;
                     for (const auto & i : INDEX_USE_CAMERA){
-                        images[i]->setImageEncoding(Image::ENCODING_JPEG);
-                        images[i]->setImageEncodingQuality(80);
                         imagesToProcess.push_back(images[i]);
                         posesToProcess.push_back(poses[i]);
                     }

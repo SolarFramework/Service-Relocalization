@@ -39,7 +39,7 @@ fi
 export SOLAR_LOG_LEVEL=INFO
 
 # Define path for local configuration files
-export CONFIG_FILE_PATH=$HOME/.arcad/config_files/config_files_frontend
+export CONFIG_FILE_PATH=$HOME/.arcad/config_files/config_files_mappingandrelocalizationfrontend
 
 mkdir -p $CONFIG_FILE_PATH
 
@@ -47,12 +47,12 @@ docker volume create \
   --driver local \
   --opt type="none" \
   --opt device=$CONFIG_FILE_PATH \
-  --opt o="bind" config_files_frontend
+  --opt o="bind" config_files_mappingandrelocalizationfrontend
 
 docker rm -f solarservicemappingandrelocalizationfrontendcuda
 
 docker run -d \
-  -v config_files_frontend:/.xpcf \
+  -v config_files_mappingandrelocalizationfrontend:/.xpcf \
   -p $1:8080 \
   -p 5100:5000 \
   -p 5101:5001 \

@@ -36,14 +36,14 @@ REM Log level expected: DEBUG, CRITICAL, ERROR, INFO, TRACE, WARNING
 SET SOLAR_LOG_LEVEL=INFO
 
 REM Define path for local configuration files
-SET CONFIG_FILE_PATH=%USERPROFILE%\.arcad\config_files\config_files_frontend
+SET CONFIG_FILE_PATH=%USERPROFILE%\.arcad\config_files\config_files_mappingandrelocalizationfrontend
 
 mkdir %CONFIG_FILE_PATH%
 
-docker volume create --driver local --opt type="none" --opt device=%CONFIG_FILE_PATH% --opt o="bind" config_files_frontend
+docker volume create --driver local --opt type="none" --opt device=%CONFIG_FILE_PATH% --opt o="bind" config_files_mappingandrelocalizationfrontend
 
 docker rm -f solarservicemappingandrelocalizationfrontend
 
-docker run -d -v config_files_frontend:/.xpcf -p %1:8080 -p 5000:5000 -p 5001:5001 -p 5002:5002 -p 5003:5003 -p 5004:5004 -p 5005:5005 -p 5006:5006 -p 5007:5007 -p 5008:5008 -p 5009:5009 -e SOLAR_LOG_LEVEL -e SERVICE_MANAGER_URL -e DISPLAY_LOG -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
+docker run -d -v config_files_mappingandrelocalizationfrontend:/.xpcf -p %1:8080 -p 5000:5000 -p 5001:5001 -p 5002:5002 -p 5003:5003 -p 5004:5004 -p 5005:5005 -p 5006:5006 -p 5007:5007 -p 5008:5008 -p 5009:5009 -e SOLAR_LOG_LEVEL -e SERVICE_MANAGER_URL -e DISPLAY_LOG -e "SERVICE_NAME=SolARServiceMappingAndRelocalizationFrontend" --log-opt max-size=50m -e "SERVICE_TAGS=SolAR" --name solarservicemappingandrelocalizationfrontend artwin/solar/services/mappingandrelocalizationfrontend-service:latest
 
 :end

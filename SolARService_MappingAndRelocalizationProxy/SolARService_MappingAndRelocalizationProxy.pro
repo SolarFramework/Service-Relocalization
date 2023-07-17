@@ -6,7 +6,7 @@ QMAKE_PROJECT_DEPTH = 0
 
 ## global defintions : target lib name, version
 TARGET = SolARService_MappingAndRelocalizationProxy
-VERSION=0.11.0
+VERSION=1.0.0
 PROJECTDEPLOYDIR = $${PWD}/../deploy
 
 CONFIG += c++1z
@@ -49,17 +49,6 @@ unix {
     QMAKE_POST_LINK += "make install install_deps"
 }
 
-macx {
-    DEFINES += _MACOS_TARGET_
-    QMAKE_MAC_SDK= macosx
-    QMAKE_CFLAGS += -mmacosx-version-min=10.7 #-x objective-c++
-    QMAKE_CXXFLAGS += -mmacosx-version-min=10.7  -std=c++17 -fPIC#-x objective-c++
-    QMAKE_LFLAGS += -mmacosx-version-min=10.7 -v -lstdc++
-    LIBS += -lstdc++ -lc -lpthread
-    LIBS += -L/usr/local/lib
-    INCLUDEPATH += $${REMAKENDEPSFOLDER}/$${BCOM_TARGET_PLATFORM}/xpcfSampleComponent/$$VERSION/interfaces
-}
-
 win32 {
     QMAKE_LFLAGS += /MACHINE:X64
     DEFINES += WIN64 UNICODE _UNICODE
@@ -86,10 +75,12 @@ linux {
 DISTFILES += \
     SolARService_MappingAndRelocalizationProxy_conf.xml \
     SolARService_MappingAndRelocalizationProxy_conf_cuda.xml \
+    grpc/envoy_config.yaml \
+    grpc/generate.sh \
+    grpc/sensor_data_sender.proto \
+    grpc/solar_mapping_and_relocalization_proxy.proto \
     packagedependencies-linux.txt \
     packagedependencies-win.txt \
-    packagedependencies-android.txt \
-    packagedependencies-mac.txt \
     packagedependencies.txt \
     extra-packages.txt \
     extra-packages-linux.txt

@@ -1,69 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <xpcf-registry autoAlias="true">
 
-<properties>
-    <!-- server configuration -->
-    <!--
-    <configure component="GrpcServerManager">
-        <property name="server_address" access="rw" type="string" value="0.0.0.0:8080"/>
-        <property name="server_credentials" access="rw" type="uint" value="0"/>
-        <property name="max_receive_message_size" access="rw" type="uint" value="7000000"/>
-        <property name="max_send_message_size" access="rw" type="uint" value="2000000"/>
-    </configure>
-    -->
-    <!-- gRPC proxy configuration-->
-    <configure component="IMapUpdatePipeline_grpcProxy">
-        <property name="channelUrl" access="rw" type="string" value="0.0.0.0:60053"/>
-        <property name="channelCredentials" access="rw" type="uint" value="0"/>
-    </configure>
+    <properties>
+        <!-- server configuration -->
+<!--
+        <configure component="GrpcServerManager">
+            <property name="server_address" access="rw" type="string" value="0.0.0.0:8080"/>
+            <property name="server_credentials" access="rw" type="uint" value="0"/>
+            <property name="max_receive_message_size" access="rw" type="uint" value="7000000"/>
+            <property name="max_send_message_size" access="rw" type="uint" value="2000000"/>
+        </configure>
+-->
+        <!-- gRPC proxy configuration-->
+        <configure component="IServiceManagerPipeline_grpcProxy">
+            <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50059"/>
+            <property name="channelCredentials" access="rw" type="uint" value="0"/>
+        </configure>
 
-    <!-- relocalization pipeline configuration -->
-    <configure component="SolARMapManager">
-            <property name="directory" type="string" value="../../../../data/map_hololens/mapA"/>
+        <!-- relocalization pipeline configuration -->
+        <configure component="SolARMapManager">
+            <property name="directory" type="string" value="../../../../../data/map_hololens/mapA"/>
             <property name="identificationFileName" type="string" value="identification.bin"/>
             <property name="coordinateFileName" type="string" value="coordinate.bin"/>
             <property name="pointCloudManagerFileName" type="string" value="pointcloud.bin"/>
             <property name="keyframesManagerFileName" type="string" value="keyframes.bin"/>
+            <property name="cameraParametersManagerFileName" type="string" value="cameraParameters.bin"/>
             <property name="covisibilityGraphFileName" type="string" value="covisibility_graph.bin"/>
             <property name="keyframeRetrieverFileName" type="string" value="keyframe_retriever.bin"/>
-            <property name="reprojErrorThreshold" type="float" value="10.0"/>
+            <property name="reprojErrorThreshold" type="float" value="5.0"/>
             <property name="thresConfidence" type="float" value="0.03"/>
-    </configure>
-    <configure component="SolARDescritorsExtractorFromImagePopSift">
-			<property name="mode" type="string" value="PopSift"/>
-			<property name="imageMode" type="string" value="Unsigned Char"/>
-			<property name="nbOctaves" type="integer" value="3"/>
-			<property name="nbLevelPerOctave" type="integer" value="3"/>
-			<property name="sigma" type="float" value="1.6"/>
-			<property name="threshold" type="float" value="0.04"/>
-			<property name="edgeLimit" type="float" value="10.0"/>
-			<property name="downsampling" type="float" value="-1.0"/>
-			<property name="initialBlur" type="float" value="-1.0"/>
-			<property name="maxTotalKeypoints" type="uint" value="1000"/>
+        </configure>
+        <configure component="SolARDescritorsExtractorFromImagePopSift">
+            <property name="mode" type="string" value="PopSift"/>
+            <property name="imageMode" type="string" value="Unsigned Char"/>
+            <property name="nbOctaves" type="integer" value="3"/>
+            <property name="nbLevelPerOctave" type="integer" value="3"/>
+            <property name="sigma" type="float" value="1.6"/>
+            <property name="threshold" type="float" value="0.01"/>
+            <property name="edgeLimit" type="float" value="10.0"/>
+            <property name="downsampling" type="float" value="-1.0"/>
+            <property name="initialBlur" type="float" value="-1.0"/>
+            <property name="maxTotalKeypoints" type="uint" value="2000"/>
 	</configure>
     <configure component="SolARDescriptorMatcherKNNOpencv">
             <property name="distanceRatio" type="float" value="0.8"/>
+            <property name="type" type="string" value="BruteForce" description="BruteForce or Flann"/>
     </configure>
     <configure component="SolARGeometricMatchesFilterOpencv">
             <property name="confidence" type="float" value="0.99"/>
-            <property name="outlierDistanceRatio" type="float" value="0.005"/>
-            <property name="epilinesDistance" type="float" value="3.0"/>
+            <property name="outlierDistanceRatio" type="float" value="0.01"/>
+            <property name="epilinesDistance" type="float" value="8.0"/>
     </configure>
     <configure component="SolARPoseEstimationSACPnpOpencv">
             <property name="iterationsCount" type="int" value="500"/>
-            <property name="reprojError" type="float" value="3.0"/>
-            <property name="confidence" type="float" value="0.99"/>
-            <property name="minNbInliers" type="int" value="40"/>
-            <property name="method" type="string" value="EPNP"/>
-    </configure>
-    <configure component="SolARKeyframeRetrieverFBOW">
-            <property name="VOCpath" type="string" value="../../../../data/fbow_voc/popsift_uint8.fbow"/>
-            <property name="threshold" type="float" value="0.01"/>
+            <property name="reprojError" type="float" value="8.0"/>
+            <property name="confidence" type="float" value="0.96"/>
+            <property name="minNbInliers" type="int" value="15"/>
+            <property name="method" type="string" value="USAC_MAGSAC"/>
+        </configure>
+        <configure component="SolARKeyframeRetrieverFBOW">
+            <property name="VOCpath" type="string" value="../../../../../data/fbow_voc/popsift_uint8_indoor.fbow"/>
+            <property name="threshold" type="float" value="0.005"/>
             <property name="level" type="int" value="3"/>
+            <property name="distanceMetricId" type="int" value="0" description="0:L2; 1:L1; 2:ChiSquare; 3:BHATTACHARYYA; 4:DotProduct; 5:KLS"/>
             <property name="matchingDistanceRatio" type="float" value="0.8"/>
             <property name="matchingDistanceMax" type="float" value="500"/>
-    </configure>
+        </configure>
 
-</properties>
+    </properties>
 
 </xpcf-registry>

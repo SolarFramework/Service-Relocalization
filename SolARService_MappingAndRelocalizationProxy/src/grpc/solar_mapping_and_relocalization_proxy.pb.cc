@@ -31,9 +31,22 @@ struct EmptyDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT EmptyDefaultTypeInternal _Empty_default_instance_;
+constexpr ClientUUID::ClientUUID(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string){}
+struct ClientUUIDDefaultTypeInternal {
+  constexpr ClientUUIDDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~ClientUUIDDefaultTypeInternal() {}
+  union {
+    ClientUUID _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ClientUUIDDefaultTypeInternal _ClientUUID_default_instance_;
 constexpr PipelineModeValue::PipelineModeValue(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : pipeline_mode_(0)
+  : client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , pipeline_mode_(0)
 {}
 struct PipelineModeValueDefaultTypeInternal {
   constexpr PipelineModeValueDefaultTypeInternal()
@@ -46,7 +59,8 @@ struct PipelineModeValueDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PipelineModeValueDefaultTypeInternal _PipelineModeValue_default_instance_;
 constexpr Message::Message(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : message_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string){}
+  : client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , message_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string){}
 struct MessageDefaultTypeInternal {
   constexpr MessageDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -58,7 +72,8 @@ struct MessageDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MessageDefaultTypeInternal _Message_default_instance_;
 constexpr CameraParameters::CameraParameters(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : name_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  : client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , name_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
   , intrinsics_(nullptr)
   , distortion_(nullptr)
   , id_(0u)
@@ -75,6 +90,34 @@ struct CameraParametersDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CameraParametersDefaultTypeInternal _CameraParameters_default_instance_;
+constexpr CameraParametersStereo::CameraParametersStereo(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , name1_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , name2_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , intrinsics1_(nullptr)
+  , distortion1_(nullptr)
+  , intrinsics2_(nullptr)
+  , distortion2_(nullptr)
+  , id1_(0u)
+  , camera_type1_(0)
+
+  , width1_(0u)
+  , height1_(0u)
+  , id2_(0u)
+  , camera_type2_(0)
+
+  , width2_(0u)
+  , height2_(0u){}
+struct CameraParametersStereoDefaultTypeInternal {
+  constexpr CameraParametersStereoDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~CameraParametersStereoDefaultTypeInternal() {}
+  union {
+    CameraParametersStereo _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CameraParametersStereoDefaultTypeInternal _CameraParametersStereo_default_instance_;
 constexpr CameraDistortion::CameraDistortion(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : k_1_(0)
@@ -91,12 +134,36 @@ struct CameraDistortionDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CameraDistortionDefaultTypeInternal _CameraDistortion_default_instance_;
+constexpr RectificationParameters::RectificationParameters(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , cam1_rotation_(nullptr)
+  , cam1_projection_(nullptr)
+  , cam2_rotation_(nullptr)
+  , cam2_projection_(nullptr)
+  , cam1_stereo_type_(0)
+
+  , cam1_baseline_(0)
+  , cam2_stereo_type_(0)
+
+  , cam2_baseline_(0){}
+struct RectificationParametersDefaultTypeInternal {
+  constexpr RectificationParametersDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~RectificationParametersDefaultTypeInternal() {}
+  union {
+    RectificationParameters _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT RectificationParametersDefaultTypeInternal _RectificationParameters_default_instance_;
 constexpr RelocalizationResult::RelocalizationResult(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : pose_(nullptr)
   , pose_status_(0)
 
-  , confidence_(0){}
+  , confidence_(0)
+  , mapping_status_(0)
+{}
 struct RelocalizationResultDefaultTypeInternal {
   constexpr RelocalizationResultDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -124,6 +191,34 @@ struct ImageDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ImageDefaultTypeInternal _Image_default_instance_;
+constexpr Frames::Frames(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : frames_()
+  , client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string){}
+struct FramesDefaultTypeInternal {
+  constexpr FramesDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~FramesDefaultTypeInternal() {}
+  union {
+    Frames _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT FramesDefaultTypeInternal _Frames_default_instance_;
+constexpr GroundTruthFrames::GroundTruthFrames(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : client_uuid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , frames_(nullptr)
+  , world_transorm_(nullptr)
+  , fixed_pose_(false){}
+struct GroundTruthFramesDefaultTypeInternal {
+  constexpr GroundTruthFramesDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~GroundTruthFramesDefaultTypeInternal() {}
+  union {
+    GroundTruthFrames _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GroundTruthFramesDefaultTypeInternal _GroundTruthFrames_default_instance_;
 constexpr Frame::Frame(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : image_(nullptr)
@@ -186,12 +281,35 @@ struct Matrix3x3DefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Matrix3x3DefaultTypeInternal _Matrix3x3_default_instance_;
+constexpr Matrix3x4::Matrix3x4(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : m11_(0)
+  , m12_(0)
+  , m13_(0)
+  , m14_(0)
+  , m21_(0)
+  , m22_(0)
+  , m23_(0)
+  , m24_(0)
+  , m31_(0)
+  , m32_(0)
+  , m33_(0)
+  , m34_(0){}
+struct Matrix3x4DefaultTypeInternal {
+  constexpr Matrix3x4DefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~Matrix3x4DefaultTypeInternal() {}
+  union {
+    Matrix3x4 _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Matrix3x4DefaultTypeInternal _Matrix3x4_default_instance_;
 }  // namespace gprc
 }  // namespace solar
 }  // namespace bcom
 }  // namespace com
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[10];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[5];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[16];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[7];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -201,22 +319,31 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::ClientUUID, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::ClientUUID, client_uuid_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::PipelineModeValue, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::PipelineModeValue, client_uuid_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::PipelineModeValue, pipeline_mode_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Message, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Message, client_uuid_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Message, message_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, client_uuid_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, name_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, id_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, camera_type_),
@@ -224,6 +351,26 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, height_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, intrinsics_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParameters, distortion_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, client_uuid_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, name1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, id1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, camera_type1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, width1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, height1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, intrinsics1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, distortion1_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, name2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, id2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, camera_type2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, width2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, height2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, intrinsics2_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraParametersStereo, distortion2_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraDistortion, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -235,6 +382,20 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraDistortion, p_2_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::CameraDistortion, k_3_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, client_uuid_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam1_rotation_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam1_projection_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam1_stereo_type_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam1_baseline_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam2_rotation_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam2_projection_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam2_stereo_type_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RectificationParameters, cam2_baseline_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RelocalizationResult, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -242,6 +403,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RelocalizationResult, pose_status_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RelocalizationResult, pose_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RelocalizationResult, confidence_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::RelocalizationResult, mapping_status_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Image, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -252,6 +414,22 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Image, data_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Image, layout_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Image, imagecompression_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frames, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frames, client_uuid_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frames, frames_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::GroundTruthFrames, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::GroundTruthFrames, client_uuid_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::GroundTruthFrames, frames_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::GroundTruthFrames, world_transorm_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::GroundTruthFrames, fixed_pose_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Frame, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -296,96 +474,178 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_solar_5fmapping_5fand_5freloca
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x3, m31_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x3, m32_),
   PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x3, m33_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m11_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m12_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m13_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m14_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m21_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m22_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m23_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m24_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m31_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m32_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m33_),
+  PROTOBUF_FIELD_OFFSET(::com::bcom::solar::gprc::Matrix3x4, m34_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::com::bcom::solar::gprc::Empty)},
-  { 5, -1, sizeof(::com::bcom::solar::gprc::PipelineModeValue)},
-  { 11, -1, sizeof(::com::bcom::solar::gprc::Message)},
-  { 17, -1, sizeof(::com::bcom::solar::gprc::CameraParameters)},
-  { 29, -1, sizeof(::com::bcom::solar::gprc::CameraDistortion)},
-  { 39, -1, sizeof(::com::bcom::solar::gprc::RelocalizationResult)},
-  { 47, -1, sizeof(::com::bcom::solar::gprc::Image)},
-  { 57, -1, sizeof(::com::bcom::solar::gprc::Frame)},
-  { 66, -1, sizeof(::com::bcom::solar::gprc::Matrix4x4)},
-  { 87, -1, sizeof(::com::bcom::solar::gprc::Matrix3x3)},
+  { 5, -1, sizeof(::com::bcom::solar::gprc::ClientUUID)},
+  { 11, -1, sizeof(::com::bcom::solar::gprc::PipelineModeValue)},
+  { 18, -1, sizeof(::com::bcom::solar::gprc::Message)},
+  { 25, -1, sizeof(::com::bcom::solar::gprc::CameraParameters)},
+  { 38, -1, sizeof(::com::bcom::solar::gprc::CameraParametersStereo)},
+  { 58, -1, sizeof(::com::bcom::solar::gprc::CameraDistortion)},
+  { 68, -1, sizeof(::com::bcom::solar::gprc::RectificationParameters)},
+  { 82, -1, sizeof(::com::bcom::solar::gprc::RelocalizationResult)},
+  { 91, -1, sizeof(::com::bcom::solar::gprc::Image)},
+  { 101, -1, sizeof(::com::bcom::solar::gprc::Frames)},
+  { 108, -1, sizeof(::com::bcom::solar::gprc::GroundTruthFrames)},
+  { 117, -1, sizeof(::com::bcom::solar::gprc::Frame)},
+  { 126, -1, sizeof(::com::bcom::solar::gprc::Matrix4x4)},
+  { 147, -1, sizeof(::com::bcom::solar::gprc::Matrix3x3)},
+  { 161, -1, sizeof(::com::bcom::solar::gprc::Matrix3x4)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Empty_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_ClientUUID_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_PipelineModeValue_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Message_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraParameters_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraParametersStereo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_CameraDistortion_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_RectificationParameters_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_RelocalizationResult_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Image_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Frames_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_GroundTruthFrames_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Frame_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Matrix4x4_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Matrix3x3_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::com::bcom::solar::gprc::_Matrix3x4_default_instance_),
 };
 
 const char descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n,solar_mapping_and_relocalization_proxy"
-  ".proto\022\023com.bcom.solar.gprc\"\007\n\005Empty\"M\n\021"
-  "PipelineModeValue\0228\n\rpipeline_mode\030\001 \001(\016"
-  "2!.com.bcom.solar.gprc.PipelineMode\"\032\n\007M"
-  "essage\022\017\n\007message\030\001 \001(\t\"\360\001\n\020CameraParame"
-  "ters\022\014\n\004name\030\001 \001(\t\022\n\n\002id\030\002 \001(\r\0224\n\013camera"
-  "_type\030\003 \001(\0162\037.com.bcom.solar.gprc.Camera"
-  "Type\022\r\n\005width\030\004 \001(\r\022\016\n\006height\030\005 \001(\r\0222\n\ni"
-  "ntrinsics\030\006 \001(\0132\036.com.bcom.solar.gprc.Ma"
-  "trix3x3\0229\n\ndistortion\030\007 \001(\0132%.com.bcom.s"
-  "olar.gprc.CameraDistortion\"S\n\020CameraDist"
-  "ortion\022\013\n\003K_1\030\001 \001(\002\022\013\n\003K_2\030\002 \001(\002\022\013\n\003P_1\030"
-  "\003 \001(\002\022\013\n\003P_2\030\004 \001(\002\022\013\n\003K_3\030\005 \001(\002\"\234\001\n\024Relo"
-  "calizationResult\022B\n\013pose_status\030\001 \001(\0162-."
-  "com.bcom.solar.gprc.RelocalizationPoseSt"
-  "atus\022,\n\004pose\030\002 \001(\0132\036.com.bcom.solar.gprc"
-  ".Matrix4x4\022\022\n\nconfidence\030\003 \001(\002\"\247\001\n\005Image"
-  "\022\r\n\005width\030\001 \001(\r\022\016\n\006height\030\002 \001(\r\022\014\n\004data\030"
-  "\003 \001(\014\0220\n\006layout\030\004 \001(\0162 .com.bcom.solar.g"
-  "prc.ImageLayout\022\?\n\020imageCompression\030\005 \001("
-  "\0162%.com.bcom.solar.gprc.ImageCompression"
-  "\"\206\001\n\005Frame\022\021\n\tsensor_id\030\001 \001(\005\022)\n\005image\030\002"
-  " \001(\0132\032.com.bcom.solar.gprc.Image\022\021\n\ttime"
-  "stamp\030\003 \001(\004\022,\n\004pose\030\004 \001(\0132\036.com.bcom.sol"
-  "ar.gprc.Matrix4x4\"\333\001\n\tMatrix4x4\022\013\n\003m11\030\001"
-  " \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m14\030\004 "
-  "\001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006 \001(\002\022\013\n\003m23\030\007 \001"
-  "(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m31\030\t \001(\002\022\013\n\003m32\030\n \001("
-  "\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m34\030\014 \001(\002\022\013\n\003m41\030\r \001(\002"
-  "\022\013\n\003m42\030\016 \001(\002\022\013\n\003m43\030\017 \001(\002\022\013\n\003m44\030\020 \001(\002\""
-  "\200\001\n\tMatrix3x3\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022"
-  "\013\n\003m13\030\003 \001(\002\022\013\n\003m21\030\004 \001(\002\022\013\n\003m22\030\005 \001(\002\022\013"
-  "\n\003m23\030\006 \001(\002\022\013\n\003m31\030\007 \001(\002\022\013\n\003m32\030\010 \001(\002\022\013\n"
-  "\003m33\030\t \001(\002*G\n\014PipelineMode\022\036\n\032RELOCALIZA"
-  "TION_AND_MAPPING\020\000\022\027\n\023RELOCALIZATION_ONL"
-  "Y\020\001*\037\n\nCameraType\022\007\n\003RGB\020\000\022\010\n\004GRAY\020\001*F\n\030"
-  "RelocalizationPoseStatus\022\013\n\007NO_POSE\020\000\022\014\n"
-  "\010NEW_POSE\020\001\022\017\n\013LATEST_POSE\020\002*2\n\013ImageLay"
-  "out\022\n\n\006RGB_24\020\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\002"
-  "*.\n\020ImageCompression\022\010\n\004NONE\020\000\022\007\n\003PNG\020\001\022"
-  "\007\n\003JPG\020\0022\211\005\n\"SolARMappingAndRelocalizati"
-  "onProxy\022J\n\004Init\022&.com.bcom.solar.gprc.Pi"
-  "pelineModeValue\032\032.com.bcom.solar.gprc.Em"
-  "pty\022\?\n\005Start\022\032.com.bcom.solar.gprc.Empty"
-  "\032\032.com.bcom.solar.gprc.Empty\022>\n\004Stop\022\032.c"
-  "om.bcom.solar.gprc.Empty\032\032.com.bcom.sola"
-  "r.gprc.Empty\022X\n\023SetCameraParameters\022%.co"
-  "m.bcom.solar.gprc.CameraParameters\032\032.com"
-  ".bcom.solar.gprc.Empty\022Y\n\020RelocalizeAndM"
-  "ap\022\032.com.bcom.solar.gprc.Frame\032).com.bco"
-  "m.solar.gprc.RelocalizationResult\022W\n\016Get"
-  "3DTransform\022\032.com.bcom.solar.gprc.Empty\032"
-  ").com.bcom.solar.gprc.RelocalizationResu"
-  "lt\022\?\n\005Reset\022\032.com.bcom.solar.gprc.Empty\032"
-  "\032.com.bcom.solar.gprc.Empty\022G\n\013SendMessa"
-  "ge\022\034.com.bcom.solar.gprc.Message\032\032.com.b"
-  "com.solar.gprc.Emptyb\006proto3"
+  ".proto\022\023com.bcom.solar.gprc\"\007\n\005Empty\"!\n\n"
+  "ClientUUID\022\023\n\013client_uuid\030\001 \001(\t\"b\n\021Pipel"
+  "ineModeValue\022\023\n\013client_uuid\030\001 \001(\t\0228\n\rpip"
+  "eline_mode\030\002 \001(\0162!.com.bcom.solar.gprc.P"
+  "ipelineMode\"/\n\007Message\022\023\n\013client_uuid\030\001 "
+  "\001(\t\022\017\n\007message\030\002 \001(\t\"\205\002\n\020CameraParameter"
+  "s\022\023\n\013client_uuid\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\n\n\002"
+  "id\030\003 \001(\r\0224\n\013camera_type\030\004 \001(\0162\037.com.bcom"
+  ".solar.gprc.CameraType\022\r\n\005width\030\005 \001(\r\022\016\n"
+  "\006height\030\006 \001(\r\0222\n\nintrinsics\030\007 \001(\0132\036.com."
+  "bcom.solar.gprc.Matrix3x3\0229\n\ndistortion\030"
+  "\010 \001(\0132%.com.bcom.solar.gprc.CameraDistor"
+  "tion\"\367\003\n\026CameraParametersStereo\022\023\n\013clien"
+  "t_uuid\030\001 \001(\t\022\r\n\005name1\030\002 \001(\t\022\013\n\003id1\030\003 \001(\r"
+  "\0225\n\014camera_type1\030\004 \001(\0162\037.com.bcom.solar."
+  "gprc.CameraType\022\016\n\006width1\030\005 \001(\r\022\017\n\007heigh"
+  "t1\030\006 \001(\r\0223\n\013intrinsics1\030\007 \001(\0132\036.com.bcom"
+  ".solar.gprc.Matrix3x3\022:\n\013distortion1\030\010 \001"
+  "(\0132%.com.bcom.solar.gprc.CameraDistortio"
+  "n\022\r\n\005name2\030\t \001(\t\022\013\n\003id2\030\n \001(\r\0225\n\014camera_"
+  "type2\030\013 \001(\0162\037.com.bcom.solar.gprc.Camera"
+  "Type\022\016\n\006width2\030\014 \001(\r\022\017\n\007height2\030\r \001(\r\0223\n"
+  "\013intrinsics2\030\016 \001(\0132\036.com.bcom.solar.gprc"
+  ".Matrix3x3\022:\n\013distortion2\030\017 \001(\0132%.com.bc"
+  "om.solar.gprc.CameraDistortion\"S\n\020Camera"
+  "Distortion\022\013\n\003K_1\030\001 \001(\002\022\013\n\003K_2\030\002 \001(\002\022\013\n\003"
+  "P_1\030\003 \001(\002\022\013\n\003P_2\030\004 \001(\002\022\013\n\003K_3\030\005 \001(\002\"\262\003\n\027"
+  "RectificationParameters\022\023\n\013client_uuid\030\001"
+  " \001(\t\0225\n\rcam1_rotation\030\002 \001(\0132\036.com.bcom.s"
+  "olar.gprc.Matrix3x3\0227\n\017cam1_projection\030\003"
+  " \001(\0132\036.com.bcom.solar.gprc.Matrix3x4\0229\n\020"
+  "cam1_stereo_type\030\004 \001(\0162\037.com.bcom.solar."
+  "gprc.StereoType\022\025\n\rcam1_baseline\030\005 \001(\002\0225"
+  "\n\rcam2_rotation\030\006 \001(\0132\036.com.bcom.solar.g"
+  "prc.Matrix3x3\0227\n\017cam2_projection\030\007 \001(\0132\036"
+  ".com.bcom.solar.gprc.Matrix3x4\0229\n\020cam2_s"
+  "tereo_type\030\010 \001(\0162\037.com.bcom.solar.gprc.S"
+  "tereoType\022\025\n\rcam2_baseline\030\t \001(\002\"\330\001\n\024Rel"
+  "ocalizationResult\022B\n\013pose_status\030\001 \001(\0162-"
+  ".com.bcom.solar.gprc.RelocalizationPoseS"
+  "tatus\022,\n\004pose\030\002 \001(\0132\036.com.bcom.solar.gpr"
+  "c.Matrix4x4\022\022\n\nconfidence\030\003 \001(\002\022:\n\016mappi"
+  "ng_status\030\004 \001(\0162\".com.bcom.solar.gprc.Ma"
+  "ppingStatus\"\247\001\n\005Image\022\r\n\005width\030\001 \001(\r\022\016\n\006"
+  "height\030\002 \001(\r\022\014\n\004data\030\003 \001(\014\0220\n\006layout\030\004 \001"
+  "(\0162 .com.bcom.solar.gprc.ImageLayout\022\?\n\020"
+  "imageCompression\030\005 \001(\0162%.com.bcom.solar."
+  "gprc.ImageCompression\"I\n\006Frames\022\023\n\013clien"
+  "t_uuid\030\001 \001(\t\022*\n\006frames\030\002 \003(\0132\032.com.bcom."
+  "solar.gprc.Frame\"\241\001\n\021GroundTruthFrames\022\023"
+  "\n\013client_uuid\030\001 \001(\t\022+\n\006frames\030\002 \001(\0132\033.co"
+  "m.bcom.solar.gprc.Frames\0226\n\016world_transo"
+  "rm\030\003 \001(\0132\036.com.bcom.solar.gprc.Matrix4x4"
+  "\022\022\n\nfixed_pose\030\004 \001(\010\"\206\001\n\005Frame\022\021\n\tsensor"
+  "_id\030\001 \001(\005\022)\n\005image\030\002 \001(\0132\032.com.bcom.sola"
+  "r.gprc.Image\022\021\n\ttimestamp\030\003 \001(\004\022,\n\004pose\030"
+  "\004 \001(\0132\036.com.bcom.solar.gprc.Matrix4x4\"\333\001"
+  "\n\tMatrix4x4\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n"
+  "\003m13\030\003 \001(\002\022\013\n\003m14\030\004 \001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003"
+  "m22\030\006 \001(\002\022\013\n\003m23\030\007 \001(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m"
+  "31\030\t \001(\002\022\013\n\003m32\030\n \001(\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m3"
+  "4\030\014 \001(\002\022\013\n\003m41\030\r \001(\002\022\013\n\003m42\030\016 \001(\002\022\013\n\003m43"
+  "\030\017 \001(\002\022\013\n\003m44\030\020 \001(\002\"\200\001\n\tMatrix3x3\022\013\n\003m11"
+  "\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 \001(\002\022\013\n\003m21\030"
+  "\004 \001(\002\022\013\n\003m22\030\005 \001(\002\022\013\n\003m23\030\006 \001(\002\022\013\n\003m31\030\007"
+  " \001(\002\022\013\n\003m32\030\010 \001(\002\022\013\n\003m33\030\t \001(\002\"\247\001\n\tMatri"
+  "x3x4\022\013\n\003m11\030\001 \001(\002\022\013\n\003m12\030\002 \001(\002\022\013\n\003m13\030\003 "
+  "\001(\002\022\013\n\003m14\030\004 \001(\002\022\013\n\003m21\030\005 \001(\002\022\013\n\003m22\030\006 \001"
+  "(\002\022\013\n\003m23\030\007 \001(\002\022\013\n\003m24\030\010 \001(\002\022\013\n\003m31\030\t \001("
+  "\002\022\013\n\003m32\030\n \001(\002\022\013\n\003m33\030\013 \001(\002\022\013\n\003m34\030\014 \001(\002"
+  "*G\n\014PipelineMode\022\036\n\032RELOCALIZATION_AND_M"
+  "APPING\020\000\022\027\n\023RELOCALIZATION_ONLY\020\001*\037\n\nCam"
+  "eraType\022\007\n\003RGB\020\000\022\010\n\004GRAY\020\001**\n\nStereoType"
+  "\022\016\n\nHorizontal\020\000\022\014\n\010Vertical\020\001*F\n\030Reloca"
+  "lizationPoseStatus\022\013\n\007NO_POSE\020\000\022\014\n\010NEW_P"
+  "OSE\020\001\022\017\n\013LATEST_POSE\020\002*P\n\rMappingStatus\022"
+  "\r\n\tBOOTSTRAP\020\000\022\013\n\007MAPPING\020\001\022\021\n\rTRACKING_"
+  "LOST\020\002\022\020\n\014LOOP_CLOSURE\020\003*2\n\013ImageLayout\022"
+  "\n\n\006RGB_24\020\000\022\n\n\006GREY_8\020\001\022\013\n\007GREY_16\020\002*.\n\020"
+  "ImageCompression\022\010\n\004NONE\020\000\022\007\n\003PNG\020\001\022\007\n\003J"
+  "PG\020\0022\371\010\n\"SolARMappingAndRelocalizationPr"
+  "oxy\022M\n\016RegisterClient\022\032.com.bcom.solar.g"
+  "prc.Empty\032\037.com.bcom.solar.gprc.ClientUU"
+  "ID\022O\n\020UnregisterClient\022\037.com.bcom.solar."
+  "gprc.ClientUUID\032\032.com.bcom.solar.gprc.Em"
+  "pty\022J\n\004Init\022&.com.bcom.solar.gprc.Pipeli"
+  "neModeValue\032\032.com.bcom.solar.gprc.Empty\022"
+  "D\n\005Start\022\037.com.bcom.solar.gprc.ClientUUI"
+  "D\032\032.com.bcom.solar.gprc.Empty\022C\n\004Stop\022\037."
+  "com.bcom.solar.gprc.ClientUUID\032\032.com.bco"
+  "m.solar.gprc.Empty\022X\n\023SetCameraParameter"
+  "s\022%.com.bcom.solar.gprc.CameraParameters"
+  "\032\032.com.bcom.solar.gprc.Empty\022d\n\031SetCamer"
+  "aParametersStereo\022+.com.bcom.solar.gprc."
+  "CameraParametersStereo\032\032.com.bcom.solar."
+  "gprc.Empty\022f\n\032setRectificationParameters"
+  "\022,.com.bcom.solar.gprc.RectificationPara"
+  "meters\032\032.com.bcom.solar.gprc.Empty\022Z\n\020Re"
+  "localizeAndMap\022\033.com.bcom.solar.gprc.Fra"
+  "mes\032).com.bcom.solar.gprc.Relocalization"
+  "Result\022p\n\033RelocalizeAndMapGroundTruth\022&."
+  "com.bcom.solar.gprc.GroundTruthFrames\032)."
+  "com.bcom.solar.gprc.RelocalizationResult"
+  "\022\\\n\016Get3DTransform\022\037.com.bcom.solar.gprc"
+  ".ClientUUID\032).com.bcom.solar.gprc.Reloca"
+  "lizationResult\022\?\n\005Reset\022\032.com.bcom.solar"
+  ".gprc.Empty\032\032.com.bcom.solar.gprc.Empty\022"
+  "G\n\013SendMessage\022\034.com.bcom.solar.gprc.Mes"
+  "sage\032\032.com.bcom.solar.gprc.Emptyb\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto = {
-  false, false, 2268, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
-  &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 10,
+  false, false, 4400, descriptor_table_protodef_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, "solar_mapping_and_relocalization_proxy.proto", 
+  &descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto_once, nullptr, 0, 16,
   schemas, file_default_instances, TableStruct_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto::offsets,
   file_level_metadata_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto, file_level_service_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto,
 };
@@ -429,9 +689,23 @@ bool CameraType_IsValid(int value) {
   }
 }
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RelocalizationPoseStatus_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* StereoType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
   return file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[2];
+}
+bool StereoType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RelocalizationPoseStatus_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
+  return file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[3];
 }
 bool RelocalizationPoseStatus_IsValid(int value) {
   switch (value) {
@@ -444,9 +718,25 @@ bool RelocalizationPoseStatus_IsValid(int value) {
   }
 }
 
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MappingStatus_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
+  return file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[4];
+}
+bool MappingStatus_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ImageLayout_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
-  return file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[3];
+  return file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[5];
 }
 bool ImageLayout_IsValid(int value) {
   switch (value) {
@@ -461,7 +751,7 @@ bool ImageLayout_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ImageCompression_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto);
-  return file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[4];
+  return file_level_enum_descriptors_solar_5fmapping_5fand_5frelocalization_5fproxy_2eproto[6];
 }
 bool ImageCompression_IsValid(int value) {
   switch (value) {
@@ -634,6 +924,206 @@ void Empty::InternalSwap(Empty* other) {
 
 // ===================================================================
 
+class ClientUUID::_Internal {
+ public:
+};
+
+ClientUUID::ClientUUID(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.ClientUUID)
+}
+ClientUUID::ClientUUID(const ClientUUID& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.ClientUUID)
+}
+
+void ClientUUID::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+ClientUUID::~ClientUUID() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.ClientUUID)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void ClientUUID::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void ClientUUID::ArenaDtor(void* object) {
+  ClientUUID* _this = reinterpret_cast< ClientUUID* >(object);
+  (void)_this;
+}
+void ClientUUID::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void ClientUUID::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void ClientUUID::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.ClientUUID)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  client_uuid_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ClientUUID::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string client_uuid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.ClientUUID.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* ClientUUID::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.ClientUUID)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.ClientUUID.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.ClientUUID)
+  return target;
+}
+
+size_t ClientUUID::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.ClientUUID)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ClientUUID::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.ClientUUID)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ClientUUID* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ClientUUID>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.ClientUUID)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.ClientUUID)
+    MergeFrom(*source);
+  }
+}
+
+void ClientUUID::MergeFrom(const ClientUUID& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.ClientUUID)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
+}
+
+void ClientUUID::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.ClientUUID)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ClientUUID::CopyFrom(const ClientUUID& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.ClientUUID)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ClientUUID::IsInitialized() const {
+  return true;
+}
+
+void ClientUUID::InternalSwap(ClientUUID* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ClientUUID::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
 class PipelineModeValue::_Internal {
  public:
 };
@@ -647,11 +1137,17 @@ PipelineModeValue::PipelineModeValue(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 PipelineModeValue::PipelineModeValue(const PipelineModeValue& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
   pipeline_mode_ = from.pipeline_mode_;
   // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.PipelineModeValue)
 }
 
 void PipelineModeValue::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 pipeline_mode_ = 0;
 }
 
@@ -663,6 +1159,7 @@ PipelineModeValue::~PipelineModeValue() {
 
 void PipelineModeValue::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void PipelineModeValue::ArenaDtor(void* object) {
@@ -681,6 +1178,7 @@ void PipelineModeValue::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  client_uuid_.ClearToEmpty();
   pipeline_mode_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -692,9 +1190,18 @@ const char* PipelineModeValue::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 1;
+      // string client_uuid = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.PipelineModeValue.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_pipeline_mode(static_cast<::com::bcom::solar::gprc::PipelineMode>(val));
@@ -728,11 +1235,21 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 1;
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.PipelineModeValue.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 2;
   if (this->pipeline_mode() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_pipeline_mode(), target);
+      2, this->_internal_pipeline_mode(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -751,7 +1268,14 @@ size_t PipelineModeValue::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 1;
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  // .com.bcom.solar.gprc.PipelineMode pipeline_mode = 2;
   if (this->pipeline_mode() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_pipeline_mode());
@@ -788,6 +1312,9 @@ void PipelineModeValue::MergeFrom(const PipelineModeValue& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
   if (from.pipeline_mode() != 0) {
     _internal_set_pipeline_mode(from._internal_pipeline_mode());
   }
@@ -814,6 +1341,7 @@ bool PipelineModeValue::IsInitialized() const {
 void PipelineModeValue::InternalSwap(PipelineModeValue* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   swap(pipeline_mode_, other->pipeline_mode_);
 }
 
@@ -837,6 +1365,11 @@ Message::Message(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 Message::Message(const Message& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
   message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_message().empty()) {
     message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_message(), 
@@ -846,6 +1379,7 @@ Message::Message(const Message& from)
 }
 
 void Message::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -857,6 +1391,7 @@ Message::~Message() {
 
 void Message::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   message_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -876,6 +1411,7 @@ void Message::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  client_uuid_.ClearToEmpty();
   message_.ClearToEmpty();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -887,9 +1423,18 @@ const char* Message::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string message = 1;
+      // string client_uuid = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.Message.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string message = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_message();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.Message.message"));
@@ -924,14 +1469,24 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string message = 1;
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.Message.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  // string message = 2;
   if (this->message().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "com.bcom.solar.gprc.Message.message");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_message(), target);
+        2, this->_internal_message(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -950,7 +1505,14 @@ size_t Message::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string message = 1;
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  // string message = 2;
   if (this->message().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -988,6 +1550,9 @@ void Message::MergeFrom(const Message& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
   if (from.message().size() > 0) {
     _internal_set_message(from._internal_message());
   }
@@ -1014,6 +1579,7 @@ bool Message::IsInitialized() const {
 void Message::InternalSwap(Message* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 
@@ -1047,6 +1613,11 @@ CameraParameters::CameraParameters(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 CameraParameters::CameraParameters(const CameraParameters& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_name().empty()) {
     name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_name(), 
@@ -1069,6 +1640,7 @@ CameraParameters::CameraParameters(const CameraParameters& from)
 }
 
 void CameraParameters::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&intrinsics_) - reinterpret_cast<char*>(this)),
@@ -1084,6 +1656,7 @@ CameraParameters::~CameraParameters() {
 
 void CameraParameters::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (this != internal_default_instance()) delete intrinsics_;
   if (this != internal_default_instance()) delete distortion_;
@@ -1105,6 +1678,7 @@ void CameraParameters::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  client_uuid_.ClearToEmpty();
   name_.ClearToEmpty();
   if (GetArena() == nullptr && intrinsics_ != nullptr) {
     delete intrinsics_;
@@ -1127,54 +1701,63 @@ const char* CameraParameters::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string name = 1;
+      // string client_uuid = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.CameraParameters.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_name();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.CameraParameters.name"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 id = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+      // uint32 id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .com.bcom.solar.gprc.CameraType camera_type = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+      // .com.bcom.solar.gprc.CameraType camera_type = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_camera_type(static_cast<::com::bcom::solar::gprc::CameraType>(val));
         } else goto handle_unusual;
         continue;
-      // uint32 width = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+      // uint32 width = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           width_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 height = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+      // uint32 height = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           height_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+      // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
           ptr = ctx->ParseMessage(_internal_mutable_intrinsics(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .com.bcom.solar.gprc.CameraDistortion distortion = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+      // .com.bcom.solar.gprc.CameraDistortion distortion = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
           ptr = ctx->ParseMessage(_internal_mutable_distortion(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
@@ -1207,55 +1790,65 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string name = 1;
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.CameraParameters.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  // string name = 2;
   if (this->name().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "com.bcom.solar.gprc.CameraParameters.name");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_name(), target);
+        2, this->_internal_name(), target);
   }
 
-  // uint32 id = 2;
+  // uint32 id = 3;
   if (this->id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_id(), target);
   }
 
-  // .com.bcom.solar.gprc.CameraType camera_type = 3;
+  // .com.bcom.solar.gprc.CameraType camera_type = 4;
   if (this->camera_type() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      3, this->_internal_camera_type(), target);
+      4, this->_internal_camera_type(), target);
   }
 
-  // uint32 width = 4;
+  // uint32 width = 5;
   if (this->width() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_width(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_width(), target);
   }
 
-  // uint32 height = 5;
+  // uint32 height = 6;
   if (this->height() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_height(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_height(), target);
   }
 
-  // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 6;
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 7;
   if (this->has_intrinsics()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        6, _Internal::intrinsics(this), target, stream);
+        7, _Internal::intrinsics(this), target, stream);
   }
 
-  // .com.bcom.solar.gprc.CameraDistortion distortion = 7;
+  // .com.bcom.solar.gprc.CameraDistortion distortion = 8;
   if (this->has_distortion()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        7, _Internal::distortion(this), target, stream);
+        8, _Internal::distortion(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1274,48 +1867,55 @@ size_t CameraParameters::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string name = 1;
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  // string name = 2;
   if (this->name().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_name());
   }
 
-  // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 6;
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics = 7;
   if (this->has_intrinsics()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *intrinsics_);
   }
 
-  // .com.bcom.solar.gprc.CameraDistortion distortion = 7;
+  // .com.bcom.solar.gprc.CameraDistortion distortion = 8;
   if (this->has_distortion()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *distortion_);
   }
 
-  // uint32 id = 2;
+  // uint32 id = 3;
   if (this->id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_id());
   }
 
-  // .com.bcom.solar.gprc.CameraType camera_type = 3;
+  // .com.bcom.solar.gprc.CameraType camera_type = 4;
   if (this->camera_type() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_camera_type());
   }
 
-  // uint32 width = 4;
+  // uint32 width = 5;
   if (this->width() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_width());
   }
 
-  // uint32 height = 5;
+  // uint32 height = 6;
   if (this->height() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
@@ -1353,6 +1953,9 @@ void CameraParameters::MergeFrom(const CameraParameters& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
   if (from.name().size() > 0) {
     _internal_set_name(from._internal_name());
   }
@@ -1397,6 +2000,7 @@ bool CameraParameters::IsInitialized() const {
 void CameraParameters::InternalSwap(CameraParameters* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(CameraParameters, height_)
@@ -1407,6 +2011,644 @@ void CameraParameters::InternalSwap(CameraParameters* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata CameraParameters::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class CameraParametersStereo::_Internal {
+ public:
+  static const ::com::bcom::solar::gprc::Matrix3x3& intrinsics1(const CameraParametersStereo* msg);
+  static const ::com::bcom::solar::gprc::CameraDistortion& distortion1(const CameraParametersStereo* msg);
+  static const ::com::bcom::solar::gprc::Matrix3x3& intrinsics2(const CameraParametersStereo* msg);
+  static const ::com::bcom::solar::gprc::CameraDistortion& distortion2(const CameraParametersStereo* msg);
+};
+
+const ::com::bcom::solar::gprc::Matrix3x3&
+CameraParametersStereo::_Internal::intrinsics1(const CameraParametersStereo* msg) {
+  return *msg->intrinsics1_;
+}
+const ::com::bcom::solar::gprc::CameraDistortion&
+CameraParametersStereo::_Internal::distortion1(const CameraParametersStereo* msg) {
+  return *msg->distortion1_;
+}
+const ::com::bcom::solar::gprc::Matrix3x3&
+CameraParametersStereo::_Internal::intrinsics2(const CameraParametersStereo* msg) {
+  return *msg->intrinsics2_;
+}
+const ::com::bcom::solar::gprc::CameraDistortion&
+CameraParametersStereo::_Internal::distortion2(const CameraParametersStereo* msg) {
+  return *msg->distortion2_;
+}
+CameraParametersStereo::CameraParametersStereo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.CameraParametersStereo)
+}
+CameraParametersStereo::CameraParametersStereo(const CameraParametersStereo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
+  name1_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name1().empty()) {
+    name1_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_name1(), 
+      GetArena());
+  }
+  name2_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name2().empty()) {
+    name2_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_name2(), 
+      GetArena());
+  }
+  if (from._internal_has_intrinsics1()) {
+    intrinsics1_ = new ::com::bcom::solar::gprc::Matrix3x3(*from.intrinsics1_);
+  } else {
+    intrinsics1_ = nullptr;
+  }
+  if (from._internal_has_distortion1()) {
+    distortion1_ = new ::com::bcom::solar::gprc::CameraDistortion(*from.distortion1_);
+  } else {
+    distortion1_ = nullptr;
+  }
+  if (from._internal_has_intrinsics2()) {
+    intrinsics2_ = new ::com::bcom::solar::gprc::Matrix3x3(*from.intrinsics2_);
+  } else {
+    intrinsics2_ = nullptr;
+  }
+  if (from._internal_has_distortion2()) {
+    distortion2_ = new ::com::bcom::solar::gprc::CameraDistortion(*from.distortion2_);
+  } else {
+    distortion2_ = nullptr;
+  }
+  ::memcpy(&id1_, &from.id1_,
+    static_cast<size_t>(reinterpret_cast<char*>(&height2_) -
+    reinterpret_cast<char*>(&id1_)) + sizeof(height2_));
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.CameraParametersStereo)
+}
+
+void CameraParametersStereo::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+name1_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+name2_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&intrinsics1_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&height2_) -
+    reinterpret_cast<char*>(&intrinsics1_)) + sizeof(height2_));
+}
+
+CameraParametersStereo::~CameraParametersStereo() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.CameraParametersStereo)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void CameraParametersStereo::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  name1_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  name2_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete intrinsics1_;
+  if (this != internal_default_instance()) delete distortion1_;
+  if (this != internal_default_instance()) delete intrinsics2_;
+  if (this != internal_default_instance()) delete distortion2_;
+}
+
+void CameraParametersStereo::ArenaDtor(void* object) {
+  CameraParametersStereo* _this = reinterpret_cast< CameraParametersStereo* >(object);
+  (void)_this;
+}
+void CameraParametersStereo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void CameraParametersStereo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void CameraParametersStereo::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.CameraParametersStereo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  client_uuid_.ClearToEmpty();
+  name1_.ClearToEmpty();
+  name2_.ClearToEmpty();
+  if (GetArena() == nullptr && intrinsics1_ != nullptr) {
+    delete intrinsics1_;
+  }
+  intrinsics1_ = nullptr;
+  if (GetArena() == nullptr && distortion1_ != nullptr) {
+    delete distortion1_;
+  }
+  distortion1_ = nullptr;
+  if (GetArena() == nullptr && intrinsics2_ != nullptr) {
+    delete intrinsics2_;
+  }
+  intrinsics2_ = nullptr;
+  if (GetArena() == nullptr && distortion2_ != nullptr) {
+    delete distortion2_;
+  }
+  distortion2_ = nullptr;
+  ::memset(&id1_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&height2_) -
+      reinterpret_cast<char*>(&id1_)) + sizeof(height2_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CameraParametersStereo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string client_uuid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.CameraParametersStereo.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string name1 = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_name1();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.CameraParametersStereo.name1"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 id1 = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          id1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraType camera_type1 = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_camera_type1(static_cast<::com::bcom::solar::gprc::CameraType>(val));
+        } else goto handle_unusual;
+        continue;
+      // uint32 width1 = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          width1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 height1 = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          height1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_intrinsics1(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraDistortion distortion1 = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
+          ptr = ctx->ParseMessage(_internal_mutable_distortion1(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string name2 = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
+          auto str = _internal_mutable_name2();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.CameraParametersStereo.name2"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 id2 = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
+          id2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraType camera_type2 = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_camera_type2(static_cast<::com::bcom::solar::gprc::CameraType>(val));
+        } else goto handle_unusual;
+        continue;
+      // uint32 width2 = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 96)) {
+          width2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 height2 = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 104)) {
+          height2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 114)) {
+          ptr = ctx->ParseMessage(_internal_mutable_intrinsics2(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.CameraDistortion distortion2 = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 122)) {
+          ptr = ctx->ParseMessage(_internal_mutable_distortion2(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* CameraParametersStereo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.CameraParametersStereo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.CameraParametersStereo.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  // string name1 = 2;
+  if (this->name1().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name1().data(), static_cast<int>(this->_internal_name1().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.CameraParametersStereo.name1");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_name1(), target);
+  }
+
+  // uint32 id1 = 3;
+  if (this->id1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_id1(), target);
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type1 = 4;
+  if (this->camera_type1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_camera_type1(), target);
+  }
+
+  // uint32 width1 = 5;
+  if (this->width1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_width1(), target);
+  }
+
+  // uint32 height1 = 6;
+  if (this->height1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_height1(), target);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 7;
+  if (this->has_intrinsics1()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        7, _Internal::intrinsics1(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion1 = 8;
+  if (this->has_distortion1()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        8, _Internal::distortion1(this), target, stream);
+  }
+
+  // string name2 = 9;
+  if (this->name2().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name2().data(), static_cast<int>(this->_internal_name2().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.CameraParametersStereo.name2");
+    target = stream->WriteStringMaybeAliased(
+        9, this->_internal_name2(), target);
+  }
+
+  // uint32 id2 = 10;
+  if (this->id2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(10, this->_internal_id2(), target);
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type2 = 11;
+  if (this->camera_type2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      11, this->_internal_camera_type2(), target);
+  }
+
+  // uint32 width2 = 12;
+  if (this->width2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(12, this->_internal_width2(), target);
+  }
+
+  // uint32 height2 = 13;
+  if (this->height2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(13, this->_internal_height2(), target);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 14;
+  if (this->has_intrinsics2()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        14, _Internal::intrinsics2(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion2 = 15;
+  if (this->has_distortion2()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        15, _Internal::distortion2(this), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.CameraParametersStereo)
+  return target;
+}
+
+size_t CameraParametersStereo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.CameraParametersStereo)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  // string name1 = 2;
+  if (this->name1().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name1());
+  }
+
+  // string name2 = 9;
+  if (this->name2().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name2());
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics1 = 7;
+  if (this->has_intrinsics1()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *intrinsics1_);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion1 = 8;
+  if (this->has_distortion1()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *distortion1_);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 intrinsics2 = 14;
+  if (this->has_intrinsics2()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *intrinsics2_);
+  }
+
+  // .com.bcom.solar.gprc.CameraDistortion distortion2 = 15;
+  if (this->has_distortion2()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *distortion2_);
+  }
+
+  // uint32 id1 = 3;
+  if (this->id1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_id1());
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type1 = 4;
+  if (this->camera_type1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_camera_type1());
+  }
+
+  // uint32 width1 = 5;
+  if (this->width1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_width1());
+  }
+
+  // uint32 height1 = 6;
+  if (this->height1() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_height1());
+  }
+
+  // uint32 id2 = 10;
+  if (this->id2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_id2());
+  }
+
+  // .com.bcom.solar.gprc.CameraType camera_type2 = 11;
+  if (this->camera_type2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_camera_type2());
+  }
+
+  // uint32 width2 = 12;
+  if (this->width2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_width2());
+  }
+
+  // uint32 height2 = 13;
+  if (this->height2() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_height2());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void CameraParametersStereo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const CameraParametersStereo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<CameraParametersStereo>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.CameraParametersStereo)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.CameraParametersStereo)
+    MergeFrom(*source);
+  }
+}
+
+void CameraParametersStereo::MergeFrom(const CameraParametersStereo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
+  if (from.name1().size() > 0) {
+    _internal_set_name1(from._internal_name1());
+  }
+  if (from.name2().size() > 0) {
+    _internal_set_name2(from._internal_name2());
+  }
+  if (from.has_intrinsics1()) {
+    _internal_mutable_intrinsics1()->::com::bcom::solar::gprc::Matrix3x3::MergeFrom(from._internal_intrinsics1());
+  }
+  if (from.has_distortion1()) {
+    _internal_mutable_distortion1()->::com::bcom::solar::gprc::CameraDistortion::MergeFrom(from._internal_distortion1());
+  }
+  if (from.has_intrinsics2()) {
+    _internal_mutable_intrinsics2()->::com::bcom::solar::gprc::Matrix3x3::MergeFrom(from._internal_intrinsics2());
+  }
+  if (from.has_distortion2()) {
+    _internal_mutable_distortion2()->::com::bcom::solar::gprc::CameraDistortion::MergeFrom(from._internal_distortion2());
+  }
+  if (from.id1() != 0) {
+    _internal_set_id1(from._internal_id1());
+  }
+  if (from.camera_type1() != 0) {
+    _internal_set_camera_type1(from._internal_camera_type1());
+  }
+  if (from.width1() != 0) {
+    _internal_set_width1(from._internal_width1());
+  }
+  if (from.height1() != 0) {
+    _internal_set_height1(from._internal_height1());
+  }
+  if (from.id2() != 0) {
+    _internal_set_id2(from._internal_id2());
+  }
+  if (from.camera_type2() != 0) {
+    _internal_set_camera_type2(from._internal_camera_type2());
+  }
+  if (from.width2() != 0) {
+    _internal_set_width2(from._internal_width2());
+  }
+  if (from.height2() != 0) {
+    _internal_set_height2(from._internal_height2());
+  }
+}
+
+void CameraParametersStereo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CameraParametersStereo::CopyFrom(const CameraParametersStereo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.CameraParametersStereo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CameraParametersStereo::IsInitialized() const {
+  return true;
+}
+
+void CameraParametersStereo::InternalSwap(CameraParametersStereo* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  name1_.Swap(&other->name1_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  name2_.Swap(&other->name2_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CameraParametersStereo, height2_)
+      + sizeof(CameraParametersStereo::height2_)
+      - PROTOBUF_FIELD_OFFSET(CameraParametersStereo, intrinsics1_)>(
+          reinterpret_cast<char*>(&intrinsics1_),
+          reinterpret_cast<char*>(&other->intrinsics1_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CameraParametersStereo::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -1696,6 +2938,472 @@ void CameraDistortion::InternalSwap(CameraDistortion* other) {
 
 // ===================================================================
 
+class RectificationParameters::_Internal {
+ public:
+  static const ::com::bcom::solar::gprc::Matrix3x3& cam1_rotation(const RectificationParameters* msg);
+  static const ::com::bcom::solar::gprc::Matrix3x4& cam1_projection(const RectificationParameters* msg);
+  static const ::com::bcom::solar::gprc::Matrix3x3& cam2_rotation(const RectificationParameters* msg);
+  static const ::com::bcom::solar::gprc::Matrix3x4& cam2_projection(const RectificationParameters* msg);
+};
+
+const ::com::bcom::solar::gprc::Matrix3x3&
+RectificationParameters::_Internal::cam1_rotation(const RectificationParameters* msg) {
+  return *msg->cam1_rotation_;
+}
+const ::com::bcom::solar::gprc::Matrix3x4&
+RectificationParameters::_Internal::cam1_projection(const RectificationParameters* msg) {
+  return *msg->cam1_projection_;
+}
+const ::com::bcom::solar::gprc::Matrix3x3&
+RectificationParameters::_Internal::cam2_rotation(const RectificationParameters* msg) {
+  return *msg->cam2_rotation_;
+}
+const ::com::bcom::solar::gprc::Matrix3x4&
+RectificationParameters::_Internal::cam2_projection(const RectificationParameters* msg) {
+  return *msg->cam2_projection_;
+}
+RectificationParameters::RectificationParameters(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.RectificationParameters)
+}
+RectificationParameters::RectificationParameters(const RectificationParameters& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
+  if (from._internal_has_cam1_rotation()) {
+    cam1_rotation_ = new ::com::bcom::solar::gprc::Matrix3x3(*from.cam1_rotation_);
+  } else {
+    cam1_rotation_ = nullptr;
+  }
+  if (from._internal_has_cam1_projection()) {
+    cam1_projection_ = new ::com::bcom::solar::gprc::Matrix3x4(*from.cam1_projection_);
+  } else {
+    cam1_projection_ = nullptr;
+  }
+  if (from._internal_has_cam2_rotation()) {
+    cam2_rotation_ = new ::com::bcom::solar::gprc::Matrix3x3(*from.cam2_rotation_);
+  } else {
+    cam2_rotation_ = nullptr;
+  }
+  if (from._internal_has_cam2_projection()) {
+    cam2_projection_ = new ::com::bcom::solar::gprc::Matrix3x4(*from.cam2_projection_);
+  } else {
+    cam2_projection_ = nullptr;
+  }
+  ::memcpy(&cam1_stereo_type_, &from.cam1_stereo_type_,
+    static_cast<size_t>(reinterpret_cast<char*>(&cam2_baseline_) -
+    reinterpret_cast<char*>(&cam1_stereo_type_)) + sizeof(cam2_baseline_));
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.RectificationParameters)
+}
+
+void RectificationParameters::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&cam1_rotation_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&cam2_baseline_) -
+    reinterpret_cast<char*>(&cam1_rotation_)) + sizeof(cam2_baseline_));
+}
+
+RectificationParameters::~RectificationParameters() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.RectificationParameters)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void RectificationParameters::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete cam1_rotation_;
+  if (this != internal_default_instance()) delete cam1_projection_;
+  if (this != internal_default_instance()) delete cam2_rotation_;
+  if (this != internal_default_instance()) delete cam2_projection_;
+}
+
+void RectificationParameters::ArenaDtor(void* object) {
+  RectificationParameters* _this = reinterpret_cast< RectificationParameters* >(object);
+  (void)_this;
+}
+void RectificationParameters::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void RectificationParameters::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void RectificationParameters::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.RectificationParameters)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  client_uuid_.ClearToEmpty();
+  if (GetArena() == nullptr && cam1_rotation_ != nullptr) {
+    delete cam1_rotation_;
+  }
+  cam1_rotation_ = nullptr;
+  if (GetArena() == nullptr && cam1_projection_ != nullptr) {
+    delete cam1_projection_;
+  }
+  cam1_projection_ = nullptr;
+  if (GetArena() == nullptr && cam2_rotation_ != nullptr) {
+    delete cam2_rotation_;
+  }
+  cam2_rotation_ = nullptr;
+  if (GetArena() == nullptr && cam2_projection_ != nullptr) {
+    delete cam2_projection_;
+  }
+  cam2_projection_ = nullptr;
+  ::memset(&cam1_stereo_type_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&cam2_baseline_) -
+      reinterpret_cast<char*>(&cam1_stereo_type_)) + sizeof(cam2_baseline_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* RectificationParameters::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string client_uuid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.RectificationParameters.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x3 cam1_rotation = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_cam1_rotation(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x4 cam1_projection = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_cam1_projection(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.StereoType cam1_stereo_type = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_cam1_stereo_type(static_cast<::com::bcom::solar::gprc::StereoType>(val));
+        } else goto handle_unusual;
+        continue;
+      // float cam1_baseline = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
+          cam1_baseline_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x3 cam2_rotation = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+          ptr = ctx->ParseMessage(_internal_mutable_cam2_rotation(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix3x4 cam2_projection = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_cam2_projection(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.StereoType cam2_stereo_type = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_cam2_stereo_type(static_cast<::com::bcom::solar::gprc::StereoType>(val));
+        } else goto handle_unusual;
+        continue;
+      // float cam2_baseline = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 77)) {
+          cam2_baseline_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* RectificationParameters::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.RectificationParameters)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.RectificationParameters.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 cam1_rotation = 2;
+  if (this->has_cam1_rotation()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        2, _Internal::cam1_rotation(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x4 cam1_projection = 3;
+  if (this->has_cam1_projection()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        3, _Internal::cam1_projection(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.StereoType cam1_stereo_type = 4;
+  if (this->cam1_stereo_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_cam1_stereo_type(), target);
+  }
+
+  // float cam1_baseline = 5;
+  if (!(this->cam1_baseline() <= 0 && this->cam1_baseline() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_cam1_baseline(), target);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 cam2_rotation = 6;
+  if (this->has_cam2_rotation()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        6, _Internal::cam2_rotation(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x4 cam2_projection = 7;
+  if (this->has_cam2_projection()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        7, _Internal::cam2_projection(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.StereoType cam2_stereo_type = 8;
+  if (this->cam2_stereo_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      8, this->_internal_cam2_stereo_type(), target);
+  }
+
+  // float cam2_baseline = 9;
+  if (!(this->cam2_baseline() <= 0 && this->cam2_baseline() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(9, this->_internal_cam2_baseline(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.RectificationParameters)
+  return target;
+}
+
+size_t RectificationParameters::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.RectificationParameters)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 cam1_rotation = 2;
+  if (this->has_cam1_rotation()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *cam1_rotation_);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x4 cam1_projection = 3;
+  if (this->has_cam1_projection()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *cam1_projection_);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x3 cam2_rotation = 6;
+  if (this->has_cam2_rotation()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *cam2_rotation_);
+  }
+
+  // .com.bcom.solar.gprc.Matrix3x4 cam2_projection = 7;
+  if (this->has_cam2_projection()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *cam2_projection_);
+  }
+
+  // .com.bcom.solar.gprc.StereoType cam1_stereo_type = 4;
+  if (this->cam1_stereo_type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_cam1_stereo_type());
+  }
+
+  // float cam1_baseline = 5;
+  if (!(this->cam1_baseline() <= 0 && this->cam1_baseline() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // .com.bcom.solar.gprc.StereoType cam2_stereo_type = 8;
+  if (this->cam2_stereo_type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_cam2_stereo_type());
+  }
+
+  // float cam2_baseline = 9;
+  if (!(this->cam2_baseline() <= 0 && this->cam2_baseline() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void RectificationParameters::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.RectificationParameters)
+  GOOGLE_DCHECK_NE(&from, this);
+  const RectificationParameters* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<RectificationParameters>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.RectificationParameters)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.RectificationParameters)
+    MergeFrom(*source);
+  }
+}
+
+void RectificationParameters::MergeFrom(const RectificationParameters& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.RectificationParameters)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
+  if (from.has_cam1_rotation()) {
+    _internal_mutable_cam1_rotation()->::com::bcom::solar::gprc::Matrix3x3::MergeFrom(from._internal_cam1_rotation());
+  }
+  if (from.has_cam1_projection()) {
+    _internal_mutable_cam1_projection()->::com::bcom::solar::gprc::Matrix3x4::MergeFrom(from._internal_cam1_projection());
+  }
+  if (from.has_cam2_rotation()) {
+    _internal_mutable_cam2_rotation()->::com::bcom::solar::gprc::Matrix3x3::MergeFrom(from._internal_cam2_rotation());
+  }
+  if (from.has_cam2_projection()) {
+    _internal_mutable_cam2_projection()->::com::bcom::solar::gprc::Matrix3x4::MergeFrom(from._internal_cam2_projection());
+  }
+  if (from.cam1_stereo_type() != 0) {
+    _internal_set_cam1_stereo_type(from._internal_cam1_stereo_type());
+  }
+  if (!(from.cam1_baseline() <= 0 && from.cam1_baseline() >= 0)) {
+    _internal_set_cam1_baseline(from._internal_cam1_baseline());
+  }
+  if (from.cam2_stereo_type() != 0) {
+    _internal_set_cam2_stereo_type(from._internal_cam2_stereo_type());
+  }
+  if (!(from.cam2_baseline() <= 0 && from.cam2_baseline() >= 0)) {
+    _internal_set_cam2_baseline(from._internal_cam2_baseline());
+  }
+}
+
+void RectificationParameters::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.RectificationParameters)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void RectificationParameters::CopyFrom(const RectificationParameters& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.RectificationParameters)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RectificationParameters::IsInitialized() const {
+  return true;
+}
+
+void RectificationParameters::InternalSwap(RectificationParameters* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(RectificationParameters, cam2_baseline_)
+      + sizeof(RectificationParameters::cam2_baseline_)
+      - PROTOBUF_FIELD_OFFSET(RectificationParameters, cam1_rotation_)>(
+          reinterpret_cast<char*>(&cam1_rotation_),
+          reinterpret_cast<char*>(&other->cam1_rotation_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata RectificationParameters::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
 class RelocalizationResult::_Internal {
  public:
   static const ::com::bcom::solar::gprc::Matrix4x4& pose(const RelocalizationResult* msg);
@@ -1720,16 +3428,16 @@ RelocalizationResult::RelocalizationResult(const RelocalizationResult& from)
     pose_ = nullptr;
   }
   ::memcpy(&pose_status_, &from.pose_status_,
-    static_cast<size_t>(reinterpret_cast<char*>(&confidence_) -
-    reinterpret_cast<char*>(&pose_status_)) + sizeof(confidence_));
+    static_cast<size_t>(reinterpret_cast<char*>(&mapping_status_) -
+    reinterpret_cast<char*>(&pose_status_)) + sizeof(mapping_status_));
   // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.RelocalizationResult)
 }
 
 void RelocalizationResult::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&pose_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&confidence_) -
-    reinterpret_cast<char*>(&pose_)) + sizeof(confidence_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&mapping_status_) -
+    reinterpret_cast<char*>(&pose_)) + sizeof(mapping_status_));
 }
 
 RelocalizationResult::~RelocalizationResult() {
@@ -1764,8 +3472,8 @@ void RelocalizationResult::Clear() {
   }
   pose_ = nullptr;
   ::memset(&pose_status_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&confidence_) -
-      reinterpret_cast<char*>(&pose_status_)) + sizeof(confidence_));
+      reinterpret_cast<char*>(&mapping_status_) -
+      reinterpret_cast<char*>(&pose_status_)) + sizeof(mapping_status_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1796,6 +3504,14 @@ const char* RelocalizationResult::_InternalParse(const char* ptr, ::PROTOBUF_NAM
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
           confidence_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.MappingStatus mapping_status = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_mapping_status(static_cast<::com::bcom::solar::gprc::MappingStatus>(val));
         } else goto handle_unusual;
         continue;
       default: {
@@ -1847,6 +3563,13 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_confidence(), target);
   }
 
+  // .com.bcom.solar.gprc.MappingStatus mapping_status = 4;
+  if (this->mapping_status() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_mapping_status(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1879,6 +3602,12 @@ size_t RelocalizationResult::ByteSizeLong() const {
   // float confidence = 3;
   if (!(this->confidence() <= 0 && this->confidence() >= 0)) {
     total_size += 1 + 4;
+  }
+
+  // .com.bcom.solar.gprc.MappingStatus mapping_status = 4;
+  if (this->mapping_status() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_mapping_status());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1921,6 +3650,9 @@ void RelocalizationResult::MergeFrom(const RelocalizationResult& from) {
   if (!(from.confidence() <= 0 && from.confidence() >= 0)) {
     _internal_set_confidence(from._internal_confidence());
   }
+  if (from.mapping_status() != 0) {
+    _internal_set_mapping_status(from._internal_mapping_status());
+  }
 }
 
 void RelocalizationResult::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -1945,8 +3677,8 @@ void RelocalizationResult::InternalSwap(RelocalizationResult* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(RelocalizationResult, confidence_)
-      + sizeof(RelocalizationResult::confidence_)
+      PROTOBUF_FIELD_OFFSET(RelocalizationResult, mapping_status_)
+      + sizeof(RelocalizationResult::mapping_status_)
       - PROTOBUF_FIELD_OFFSET(RelocalizationResult, pose_)>(
           reinterpret_cast<char*>(&pose_),
           reinterpret_cast<char*>(&other->pose_));
@@ -2258,6 +3990,551 @@ void Image::InternalSwap(Image* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Image::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class Frames::_Internal {
+ public:
+};
+
+Frames::Frames(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  frames_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.Frames)
+}
+Frames::Frames(const Frames& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      frames_(from.frames_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.Frames)
+}
+
+void Frames::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+Frames::~Frames() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.Frames)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void Frames::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void Frames::ArenaDtor(void* object) {
+  Frames* _this = reinterpret_cast< Frames* >(object);
+  (void)_this;
+}
+void Frames::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void Frames::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void Frames::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.Frames)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  frames_.Clear();
+  client_uuid_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Frames::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string client_uuid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.Frames.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .com.bcom.solar.gprc.Frame frames = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_frames(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* Frames::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.Frames)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.Frames.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  // repeated .com.bcom.solar.gprc.Frame frames = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_frames_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, this->_internal_frames(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.Frames)
+  return target;
+}
+
+size_t Frames::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.Frames)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .com.bcom.solar.gprc.Frame frames = 2;
+  total_size += 1UL * this->_internal_frames_size();
+  for (const auto& msg : this->frames_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void Frames::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.Frames)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Frames* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Frames>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.Frames)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.Frames)
+    MergeFrom(*source);
+  }
+}
+
+void Frames::MergeFrom(const Frames& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.Frames)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  frames_.MergeFrom(from.frames_);
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
+}
+
+void Frames::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.Frames)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Frames::CopyFrom(const Frames& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.Frames)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Frames::IsInitialized() const {
+  return true;
+}
+
+void Frames::InternalSwap(Frames* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  frames_.InternalSwap(&other->frames_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Frames::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class GroundTruthFrames::_Internal {
+ public:
+  static const ::com::bcom::solar::gprc::Frames& frames(const GroundTruthFrames* msg);
+  static const ::com::bcom::solar::gprc::Matrix4x4& world_transorm(const GroundTruthFrames* msg);
+};
+
+const ::com::bcom::solar::gprc::Frames&
+GroundTruthFrames::_Internal::frames(const GroundTruthFrames* msg) {
+  return *msg->frames_;
+}
+const ::com::bcom::solar::gprc::Matrix4x4&
+GroundTruthFrames::_Internal::world_transorm(const GroundTruthFrames* msg) {
+  return *msg->world_transorm_;
+}
+GroundTruthFrames::GroundTruthFrames(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.GroundTruthFrames)
+}
+GroundTruthFrames::GroundTruthFrames(const GroundTruthFrames& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_client_uuid().empty()) {
+    client_uuid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_client_uuid(), 
+      GetArena());
+  }
+  if (from._internal_has_frames()) {
+    frames_ = new ::com::bcom::solar::gprc::Frames(*from.frames_);
+  } else {
+    frames_ = nullptr;
+  }
+  if (from._internal_has_world_transorm()) {
+    world_transorm_ = new ::com::bcom::solar::gprc::Matrix4x4(*from.world_transorm_);
+  } else {
+    world_transorm_ = nullptr;
+  }
+  fixed_pose_ = from.fixed_pose_;
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.GroundTruthFrames)
+}
+
+void GroundTruthFrames::SharedCtor() {
+client_uuid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&frames_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&fixed_pose_) -
+    reinterpret_cast<char*>(&frames_)) + sizeof(fixed_pose_));
+}
+
+GroundTruthFrames::~GroundTruthFrames() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.GroundTruthFrames)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void GroundTruthFrames::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  client_uuid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete frames_;
+  if (this != internal_default_instance()) delete world_transorm_;
+}
+
+void GroundTruthFrames::ArenaDtor(void* object) {
+  GroundTruthFrames* _this = reinterpret_cast< GroundTruthFrames* >(object);
+  (void)_this;
+}
+void GroundTruthFrames::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GroundTruthFrames::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void GroundTruthFrames::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.GroundTruthFrames)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  client_uuid_.ClearToEmpty();
+  if (GetArena() == nullptr && frames_ != nullptr) {
+    delete frames_;
+  }
+  frames_ = nullptr;
+  if (GetArena() == nullptr && world_transorm_ != nullptr) {
+    delete world_transorm_;
+  }
+  world_transorm_ = nullptr;
+  fixed_pose_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GroundTruthFrames::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string client_uuid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_client_uuid();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "com.bcom.solar.gprc.GroundTruthFrames.client_uuid"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Frames frames = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_frames(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .com.bcom.solar.gprc.Matrix4x4 world_transorm = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_world_transorm(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool fixed_pose = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          fixed_pose_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GroundTruthFrames::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.GroundTruthFrames)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_client_uuid().data(), static_cast<int>(this->_internal_client_uuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "com.bcom.solar.gprc.GroundTruthFrames.client_uuid");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_client_uuid(), target);
+  }
+
+  // .com.bcom.solar.gprc.Frames frames = 2;
+  if (this->has_frames()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        2, _Internal::frames(this), target, stream);
+  }
+
+  // .com.bcom.solar.gprc.Matrix4x4 world_transorm = 3;
+  if (this->has_world_transorm()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        3, _Internal::world_transorm(this), target, stream);
+  }
+
+  // bool fixed_pose = 4;
+  if (this->fixed_pose() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(4, this->_internal_fixed_pose(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.GroundTruthFrames)
+  return target;
+}
+
+size_t GroundTruthFrames::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.GroundTruthFrames)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string client_uuid = 1;
+  if (this->client_uuid().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_client_uuid());
+  }
+
+  // .com.bcom.solar.gprc.Frames frames = 2;
+  if (this->has_frames()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *frames_);
+  }
+
+  // .com.bcom.solar.gprc.Matrix4x4 world_transorm = 3;
+  if (this->has_world_transorm()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *world_transorm_);
+  }
+
+  // bool fixed_pose = 4;
+  if (this->fixed_pose() != 0) {
+    total_size += 1 + 1;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GroundTruthFrames::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.GroundTruthFrames)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GroundTruthFrames* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GroundTruthFrames>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.GroundTruthFrames)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.GroundTruthFrames)
+    MergeFrom(*source);
+  }
+}
+
+void GroundTruthFrames::MergeFrom(const GroundTruthFrames& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.GroundTruthFrames)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.client_uuid().size() > 0) {
+    _internal_set_client_uuid(from._internal_client_uuid());
+  }
+  if (from.has_frames()) {
+    _internal_mutable_frames()->::com::bcom::solar::gprc::Frames::MergeFrom(from._internal_frames());
+  }
+  if (from.has_world_transorm()) {
+    _internal_mutable_world_transorm()->::com::bcom::solar::gprc::Matrix4x4::MergeFrom(from._internal_world_transorm());
+  }
+  if (from.fixed_pose() != 0) {
+    _internal_set_fixed_pose(from._internal_fixed_pose());
+  }
+}
+
+void GroundTruthFrames::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.GroundTruthFrames)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GroundTruthFrames::CopyFrom(const GroundTruthFrames& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.GroundTruthFrames)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GroundTruthFrames::IsInitialized() const {
+  return true;
+}
+
+void GroundTruthFrames::InternalSwap(GroundTruthFrames* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  client_uuid_.Swap(&other->client_uuid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(GroundTruthFrames, fixed_pose_)
+      + sizeof(GroundTruthFrames::fixed_pose_)
+      - PROTOBUF_FIELD_OFFSET(GroundTruthFrames, frames_)>(
+          reinterpret_cast<char*>(&frames_),
+          reinterpret_cast<char*>(&other->frames_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GroundTruthFrames::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -3447,6 +5724,436 @@ void Matrix3x3::InternalSwap(Matrix3x3* other) {
 }
 
 
+// ===================================================================
+
+class Matrix3x4::_Internal {
+ public:
+};
+
+Matrix3x4::Matrix3x4(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:com.bcom.solar.gprc.Matrix3x4)
+}
+Matrix3x4::Matrix3x4(const Matrix3x4& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&m11_, &from.m11_,
+    static_cast<size_t>(reinterpret_cast<char*>(&m34_) -
+    reinterpret_cast<char*>(&m11_)) + sizeof(m34_));
+  // @@protoc_insertion_point(copy_constructor:com.bcom.solar.gprc.Matrix3x4)
+}
+
+void Matrix3x4::SharedCtor() {
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&m11_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&m34_) -
+    reinterpret_cast<char*>(&m11_)) + sizeof(m34_));
+}
+
+Matrix3x4::~Matrix3x4() {
+  // @@protoc_insertion_point(destructor:com.bcom.solar.gprc.Matrix3x4)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void Matrix3x4::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void Matrix3x4::ArenaDtor(void* object) {
+  Matrix3x4* _this = reinterpret_cast< Matrix3x4* >(object);
+  (void)_this;
+}
+void Matrix3x4::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void Matrix3x4::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void Matrix3x4::Clear() {
+// @@protoc_insertion_point(message_clear_start:com.bcom.solar.gprc.Matrix3x4)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&m11_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&m34_) -
+      reinterpret_cast<char*>(&m11_)) + sizeof(m34_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Matrix3x4::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // float m11 = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 13)) {
+          m11_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m12 = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
+          m12_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m13 = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
+          m13_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m14 = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 37)) {
+          m14_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m21 = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
+          m21_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m22 = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53)) {
+          m22_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m23 = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 61)) {
+          m23_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m24 = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 69)) {
+          m24_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m31 = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 77)) {
+          m31_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m32 = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 85)) {
+          m32_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m33 = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 93)) {
+          m33_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float m34 = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 101)) {
+          m34_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* Matrix3x4::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.bcom.solar.gprc.Matrix3x4)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // float m11 = 1;
+  if (!(this->m11() <= 0 && this->m11() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(1, this->_internal_m11(), target);
+  }
+
+  // float m12 = 2;
+  if (!(this->m12() <= 0 && this->m12() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_m12(), target);
+  }
+
+  // float m13 = 3;
+  if (!(this->m13() <= 0 && this->m13() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_m13(), target);
+  }
+
+  // float m14 = 4;
+  if (!(this->m14() <= 0 && this->m14() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(4, this->_internal_m14(), target);
+  }
+
+  // float m21 = 5;
+  if (!(this->m21() <= 0 && this->m21() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_m21(), target);
+  }
+
+  // float m22 = 6;
+  if (!(this->m22() <= 0 && this->m22() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(6, this->_internal_m22(), target);
+  }
+
+  // float m23 = 7;
+  if (!(this->m23() <= 0 && this->m23() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(7, this->_internal_m23(), target);
+  }
+
+  // float m24 = 8;
+  if (!(this->m24() <= 0 && this->m24() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(8, this->_internal_m24(), target);
+  }
+
+  // float m31 = 9;
+  if (!(this->m31() <= 0 && this->m31() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(9, this->_internal_m31(), target);
+  }
+
+  // float m32 = 10;
+  if (!(this->m32() <= 0 && this->m32() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(10, this->_internal_m32(), target);
+  }
+
+  // float m33 = 11;
+  if (!(this->m33() <= 0 && this->m33() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(11, this->_internal_m33(), target);
+  }
+
+  // float m34 = 12;
+  if (!(this->m34() <= 0 && this->m34() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(12, this->_internal_m34(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.bcom.solar.gprc.Matrix3x4)
+  return target;
+}
+
+size_t Matrix3x4::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:com.bcom.solar.gprc.Matrix3x4)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // float m11 = 1;
+  if (!(this->m11() <= 0 && this->m11() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m12 = 2;
+  if (!(this->m12() <= 0 && this->m12() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m13 = 3;
+  if (!(this->m13() <= 0 && this->m13() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m14 = 4;
+  if (!(this->m14() <= 0 && this->m14() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m21 = 5;
+  if (!(this->m21() <= 0 && this->m21() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m22 = 6;
+  if (!(this->m22() <= 0 && this->m22() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m23 = 7;
+  if (!(this->m23() <= 0 && this->m23() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m24 = 8;
+  if (!(this->m24() <= 0 && this->m24() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m31 = 9;
+  if (!(this->m31() <= 0 && this->m31() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m32 = 10;
+  if (!(this->m32() <= 0 && this->m32() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m33 = 11;
+  if (!(this->m33() <= 0 && this->m33() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float m34 = 12;
+  if (!(this->m34() <= 0 && this->m34() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void Matrix3x4::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:com.bcom.solar.gprc.Matrix3x4)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Matrix3x4* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Matrix3x4>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:com.bcom.solar.gprc.Matrix3x4)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:com.bcom.solar.gprc.Matrix3x4)
+    MergeFrom(*source);
+  }
+}
+
+void Matrix3x4::MergeFrom(const Matrix3x4& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:com.bcom.solar.gprc.Matrix3x4)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!(from.m11() <= 0 && from.m11() >= 0)) {
+    _internal_set_m11(from._internal_m11());
+  }
+  if (!(from.m12() <= 0 && from.m12() >= 0)) {
+    _internal_set_m12(from._internal_m12());
+  }
+  if (!(from.m13() <= 0 && from.m13() >= 0)) {
+    _internal_set_m13(from._internal_m13());
+  }
+  if (!(from.m14() <= 0 && from.m14() >= 0)) {
+    _internal_set_m14(from._internal_m14());
+  }
+  if (!(from.m21() <= 0 && from.m21() >= 0)) {
+    _internal_set_m21(from._internal_m21());
+  }
+  if (!(from.m22() <= 0 && from.m22() >= 0)) {
+    _internal_set_m22(from._internal_m22());
+  }
+  if (!(from.m23() <= 0 && from.m23() >= 0)) {
+    _internal_set_m23(from._internal_m23());
+  }
+  if (!(from.m24() <= 0 && from.m24() >= 0)) {
+    _internal_set_m24(from._internal_m24());
+  }
+  if (!(from.m31() <= 0 && from.m31() >= 0)) {
+    _internal_set_m31(from._internal_m31());
+  }
+  if (!(from.m32() <= 0 && from.m32() >= 0)) {
+    _internal_set_m32(from._internal_m32());
+  }
+  if (!(from.m33() <= 0 && from.m33() >= 0)) {
+    _internal_set_m33(from._internal_m33());
+  }
+  if (!(from.m34() <= 0 && from.m34() >= 0)) {
+    _internal_set_m34(from._internal_m34());
+  }
+}
+
+void Matrix3x4::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:com.bcom.solar.gprc.Matrix3x4)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Matrix3x4::CopyFrom(const Matrix3x4& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:com.bcom.solar.gprc.Matrix3x4)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Matrix3x4::IsInitialized() const {
+  return true;
+}
+
+void Matrix3x4::InternalSwap(Matrix3x4* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Matrix3x4, m34_)
+      + sizeof(Matrix3x4::m34_)
+      - PROTOBUF_FIELD_OFFSET(Matrix3x4, m11_)>(
+          reinterpret_cast<char*>(&m11_),
+          reinterpret_cast<char*>(&other->m11_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Matrix3x4::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace gprc
 }  // namespace solar
@@ -3455,6 +6162,9 @@ void Matrix3x3::InternalSwap(Matrix3x3* other) {
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Empty* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Empty >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Empty >(arena);
+}
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::ClientUUID* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::ClientUUID >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::ClientUUID >(arena);
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::PipelineModeValue* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::PipelineModeValue >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::PipelineModeValue >(arena);
@@ -3465,14 +6175,26 @@ template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Message* Arena::CreateMay
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::CameraParameters* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::CameraParameters >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::CameraParameters >(arena);
 }
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::CameraParametersStereo* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::CameraParametersStereo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::CameraParametersStereo >(arena);
+}
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::CameraDistortion* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::CameraDistortion >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::CameraDistortion >(arena);
+}
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::RectificationParameters* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::RectificationParameters >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::RectificationParameters >(arena);
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::RelocalizationResult* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::RelocalizationResult >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::RelocalizationResult >(arena);
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Image* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Image >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Image >(arena);
+}
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Frames* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Frames >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Frames >(arena);
+}
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::GroundTruthFrames* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::GroundTruthFrames >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::GroundTruthFrames >(arena);
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Frame* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Frame >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Frame >(arena);
@@ -3482,6 +6204,9 @@ template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Matrix4x4* Arena::CreateM
 }
 template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Matrix3x3* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Matrix3x3 >(Arena* arena) {
   return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Matrix3x3 >(arena);
+}
+template<> PROTOBUF_NOINLINE ::com::bcom::solar::gprc::Matrix3x4* Arena::CreateMaybeMessage< ::com::bcom::solar::gprc::Matrix3x4 >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::com::bcom::solar::gprc::Matrix3x4 >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

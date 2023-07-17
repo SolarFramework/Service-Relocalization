@@ -11,11 +11,12 @@ RUN apt-get install -y libvdpau-dev
 RUN mkdir SolARServiceRelocalization
 RUN mkdir SolARServiceRelocalization/data
 RUN mkdir SolARServiceRelocalization/data/fbow_voc
-ADD data/fbow_voc/popsift_uint8.fbow /SolARServiceRelocalization/data/fbow_voc/
+ADD data/fbow_voc/popsift_uint8_indoor.fbow /SolARServiceRelocalization/data/fbow_voc/
 
 ## Libraries and modules
 RUN mkdir SolARServiceRelocalization/modules
 ADD modules/* /SolARServiceRelocalization/modules/
+ADD modules_common/* /SolARServiceRelocalization/modules/
 ADD modules_cuda/* /SolARServiceRelocalization/modules/
 
 ## Project files
@@ -28,6 +29,8 @@ RUN chmod +x start_server_cuda.sh
 
 ## Set application gRPC server url
 ENV XPCF_GRPC_SERVER_URL=0.0.0.0:8080
+## Set service external URL
+ENV SERVER_EXTERNAL_URL=172.17.0.1:60052
 ## Set application gRPC max receive message size
 ENV XPCF_GRPC_MAX_RECV_MSG_SIZE=-1
 ## Set application gRPC max send message size

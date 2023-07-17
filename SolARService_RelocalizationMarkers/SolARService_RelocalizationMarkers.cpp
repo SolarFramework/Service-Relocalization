@@ -27,6 +27,8 @@
 #include <boost/filesystem/detail/utf8_codecvt_facet.hpp>
 #include "core/Log.h"
 
+#include "api/pipeline/IServiceManagerPipeline.h"
+
 using namespace SolAR;
 
 namespace fs = boost::filesystem;
@@ -162,6 +164,39 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    // Get the external URL of the service
+    char * externalURL = getenv("SERVER_EXTERNAL_URL");
+    if (externalURL == nullptr) {
+     LOG_ERROR("The external URL of the service must be defined using the SERVER_EXTERNAL_URL env var!");
+     return -1;
+    }
+
+    LOG_DEBUG("Environment variable SERVER_EXTERNAL_URL: {}", externalURL);
+
+    // Get Service Manager proxy
+    auto serviceManager = cmpMgr->resolve<api::pipeline::IServiceManagerPipeline>();
+
+    LOG_DEBUG("Register the new service to the Service Manager with URL: {}", externalURL);
+
+    bool isRegistered = false;
+
+    while(!isRegistered) {
+        try {
+            if (serviceManager->registerService(api::pipeline::ServiceType::RELOCALIZATION_MARKERS_SERVICE,
+                                                std::string(externalURL)) == FrameworkReturnCode::_SUCCESS) {
+                isRegistered = true;
+            }
+            else {
+                LOG_ERROR("Fail to register the service to the Service Manager!");
+                return -1;
+            }
+        }
+        catch (const std::exception &e) {
+            LOG_WARNING("Waiting for the Service Manager...");
+            sleep(1);
+        }
+    }
+
     auto serverMgr = cmpMgr->resolve<xpcf::IGrpcServerManager>();
 
     // Check environment variables
@@ -194,6 +229,11 @@ int main(int argc, char* argv[])
               serverMgr->bindTo<xpcf::IConfigurable>()->getProperty("server_address")->getStringValue())
 
     serverMgr->runServer();
+
+    LOG_DEBUG("Unregister the service to the Service Manager");
+
+    serviceManager->unregisterService(api::pipeline::ServiceType::RELOCALIZATION_MARKERS_SERVICE,
+                                      std::string(externalURL));
 
     return 0;
 }

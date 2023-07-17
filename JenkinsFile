@@ -10,9 +10,10 @@ node("master") {
         "SolARService_Relocalization,\
          SolARService_Relocalization/tests/SolARServiceTest_Relocalization,\
          SolARService_MappingAndRelocalizationProxy,\
-         SolARService_MappingAndRelocalizationFrontend,\
-         SolARService_MappingAndRelocalizationFrontend/tests/SolARServiceTest_MappingAndRelocalizationFrontend"
-        android=false
+         SolARService_MappingAndRelocFrontend,\
+         SolARService_MappingAndRelocFrontend/tests/SolARServiceTest_MappingAndRelocFrontend,\
+         SolARService_MappingAndRelocFrontend/tests/SolARServiceTest_MappingAndRelocFrontend_Multi_Viewer,\
+         SolARService_MappingAndRelocFrontend/tests/SolARServiceTest_MappingAndRelocFrontend_Viewer"
 	win=false
         packageScripts="bundleServices"
     }

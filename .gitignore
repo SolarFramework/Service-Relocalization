@@ -1,4 +1,4 @@
-build/
+*build*
 bin/
 deploy
 
@@ -112,3 +112,15 @@ SolARService_Relocalization/start_relocalization_service.sh
 
 
 SolARService_RelocalizationMarkers/start_relocalizationmarkers_service.sh
+
+SolARService_MappingAndRelocalizationProxy/grpc/solar_mapping_and_relocalization_proxy.proto-gen/csharp/SolarMappingAndRelocalizationProxyGrpc.cs
+
+SolARService_MappingAndRelocalizationProxy/grpc/solar_mapping_and_relocalization_proxy.proto-gen/cpp/solar_mapping_and_relocalization_proxy.grpc.pb.cc
+
+SolARService_MappingAndRelocalizationProxy/grpc/solar_mapping_and_relocalization_proxy.proto-gen/cpp/solar_mapping_and_relocalization_proxy.grpc.pb.h
+
+SolARService_MappingAndRelocalizationProxy/grpc/solar_mapping_and_relocalization_proxy.proto-gen/cpp/solar_mapping_and_relocalization_proxy.pb.cc
+
+SolARService_MappingAndRelocalizationProxy/grpc/solar_mapping_and_relocalization_proxy.proto-gen/cpp/solar_mapping_and_relocalization_proxy.pb.h
+
+SolARService_MappingAndRelocalizationProxy/grpc/solar_mapping_and_relocalization_proxy.proto-gen/csharp/SolarMappingAndRelocalizationProxy.cs

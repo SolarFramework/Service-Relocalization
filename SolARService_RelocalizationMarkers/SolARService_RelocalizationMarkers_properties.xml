@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <xpcf-registry autoAlias="true">
 
-<properties>
-    <!-- server configuration -->
-    <!--
-    <configure component="GrpcServerManager">
-        <property name="server_address" access="rw" type="string" value="0.0.0.0:8080"/>
-        <property name="server_credentials" access="rw" type="uint" value="0"/>
-        <property name="max_receive_message_size" access="rw" type="uint" value="7000000"/>
-        <property name="max_send_message_size" access="rw" type="uint" value="2000000"/>
-    </configure>
-    -->
+    <properties>
+        <!-- server configuration -->
+<!--
+        <configure component="GrpcServerManager">
+            <property name="server_address" access="rw" type="string" value="0.0.0.0:8080"/>
+            <property name="server_credentials" access="rw" type="uint" value="0"/>
+            <property name="max_receive_message_size" access="rw" type="uint" value="7000000"/>
+            <property name="max_send_message_size" access="rw" type="uint" value="2000000"/>
+        </configure>
+-->
 
-    <!-- relocalization markers pipeline configuration -->
-    <configure component="SolARRelocalizationMarkerPipeline">
-		<property name="maxReprojError" type="float" value="2.0"/>
-	</configure>
-	<configure component="SolARWorldGraphLoader">
-		<property name="filePath" type="string" value="../../../../data/marker/markers.json"/>
-	</configure>
-	<configure component="SolARFiducialMarkersDetector" name="FiducialProperties">
-		<property name="nbThreshold" type="int" value="4"/>
-		<property name="minThreshold" type="int" value="-1"/>
-		<property name="maxThreshold" type="int" value="220"/>
-	</configure>        
-	<configure component="SolARImageFilterBinaryOpencv">
-		<property name="min" type="int" value="-1" description="minimum threshold (-1 to automatically compute it on the global image"/>
-		<property name="max" type="int" value="255" description="maximum threshold"/>
-	</configure>
-	<configure component="SolARContoursExtractorOpencv">
-		<property name="minContourEdges" type="int" value="4" description="Minimum number of edge to validate a contour (default = 4)"/>
-	</configure>
-	<configure component="SolARContoursFilterBinaryMarkerOpencv">
-		<property name="epsilon" type="float" value="0.05" description="The maximum distance between the original curve and its approximation (default = 0.05)"/>
-		<property name="minContourLength" type="float" value="20.0" description="The minimum length of an edge of the contour in pixels to be considered as valid (default = 20)."/>
-		<property name="minDistanceBetweenContourCorners" type="float" value="10.0" description="The minimum average distance in pixels between corners of a contour and the same corners of another contour to consider the contour as valid (default = 10)"/>
-	</configure>
-	<configure component="SolARPerspectiveControllerOpencv">
-		<property name="outputImageWidth" type="int" value="640" description="The width in pixels of the corrected image."/>
-		<property name="outputImageHeight" type="int" value="480" description="The width in pixels of the corrected image."/>
-	</configure>
+        <!-- gRPC proxy configuration-->
+        <configure component="IServiceManagerPipeline_grpcProxy">
+            <property name="channelUrl" access="rw" type="string" value="0.0.0.0:50059"/>
+            <property name="channelCredentials" access="rw" type="uint" value="0"/>
+        </configure>
 
-</properties>
+        <!-- relocalization markers pipeline configuration -->
+        <configure component="SolARRelocalizationMarkerPipeline">
+            <property name="maxReprojError" type="float" value="2.0"/>
+        </configure>
+        <configure component="SolARWorldGraphLoader">
+            <property name="filePath" type="string" value="../../../../../data/marker/markers.json"/>
+        </configure>
+        <configure component="SolARFiducialMarkersDetector" name="FiducialProperties">
+            <property name="nbThreshold" type="int" value="4"/>
+            <property name="minThreshold" type="int" value="-1"/>
+            <property name="maxThreshold" type="int" value="220"/>
+        </configure>
+        <configure component="SolARImageFilterBinaryOpencv">
+            <property name="min" type="int" value="-1" description="minimum threshold (-1 to automatically compute it on the global image"/>
+            <property name="max" type="int" value="255" description="maximum threshold"/>
+        </configure>
+        <configure component="SolARContoursExtractorOpencv">
+            <property name="minContourEdges" type="int" value="4" description="Minimum number of edge to validate a contour (default = 4)"/>
+        </configure>
+        <configure component="SolARContoursFilterBinaryMarkerOpencv">
+            <property name="epsilon" type="float" value="0.05" description="The maximum distance between the original curve and its approximation (default = 0.05)"/>
+            <property name="minContourLength" type="float" value="20.0" description="The minimum length of an edge of the contour in pixels to be considered as valid (default = 20)."/>
+            <property name="minDistanceBetweenContourCorners" type="float" value="10.0" description="The minimum average distance in pixels between corners of a contour and the same corners of another contour to consider the contour as valid (default = 10)"/>
+        </configure>
+        <configure component="SolARPerspectiveControllerOpencv">
+            <property name="outputImageWidth" type="int" value="640" description="The width in pixels of the corrected image."/>
+            <property name="outputImageHeight" type="int" value="480" description="The width in pixels of the corrected image."/>
+        </configure>
+
+    </properties>
 
 </xpcf-registry>
